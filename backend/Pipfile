@@ -10,6 +10,8 @@ pylint = "*"
 django = "*"
 mysql-connector-python = "*"
 django-cors-headers = "*"
+djangorestframework = "*"
+djangorestframework-jwt = "*"
 
 [requires]
 python_version = "3.7"
