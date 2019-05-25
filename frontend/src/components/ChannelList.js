@@ -1,36 +1,50 @@
-import React from 'react';
+import React from "react";
+import API from "../utils/API";
 
 class ChannelList extends React.Component {
     state = {
-        channels: []
+        channels: [],
+        isLoaded: false,
+        error: null
     };
 
-    async componentDidMount() {
-        try {
-          const res = await fetch('http://127.0.0.1:8000/api/channels/');
-          const channels = await res.json();
-          this.setState({
-            channels
-          });
-        } catch (e) {
-          console.log(e);
-        }
+    componentDidMount() {
+        API.get("channels/").then(
+            (result) => {
+                this.setState({
+                    isLoaded: true,
+                    channels: result.data
+                });
+            },
+
+            (error) => {
+                this.setState({
+                    isLoaded: true,
+                    error
+                });
+            }
+        );
     }
-    
+
     render() {
-      return (
-        <div>
-          {this.state.channels.map((channel) => (
-            <div key={channel.channel_id}>
-              <h1>{channel.channel_name}</h1>
-              <span>{channel.creation_date}</span>
-            </div>
-          ))}
-        </div>
-      );
+        const { error, isLoaded, items } = this.state;
+        if (error) {
+            return <div>Error: {error.message}</div>;
+        } else if (!isLoaded) {
+            return <div>Loading...</div>;
+        } else {
+            return (
+                <div>
+                    {this.state.channels.map((channel) => (
+                        <div key={channel.channel_id}>
+                            <h1>{channel.channel_name}</h1>
+                            <span>{channel.creation_date}</span>
+                        </div>
+                    ))}
+                </div>
+            );
+        }
     }
 }
 
-export default ChannelList; 
-
-    
+export default ChannelList;
