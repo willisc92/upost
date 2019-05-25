@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from upost.views import Interest, Channels_Posts_Events
+from upost.views import Interest, Channels_Posts_Events, User_Account
 
 router = routers.DefaultRouter()
 # naming scheme: register('link_name', viewSet, 'base_name')
 router.register('interests', Interest.InterestView, 'interest')
 router.register('channels', Channels_Posts_Events.Channel_Post_Events_View, 'channel')
+router.register('accounts', User_Account.UserAccountView, 'account')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
