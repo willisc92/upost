@@ -7,6 +7,7 @@ import createHistory from "history/createBrowserHistory";
 // import PrivateRoute from "./PrivateRoute";
 // import PublicRoute from "./PublicRoute";
 import ChannelList from "../components/ChannelList";
+import SignUpPage from "../components/SignUpPage";
 import { connect } from "react-redux";
 import { authCheckState } from "../actions/auth";
 import CustomLayout from "../containers/CustomLayout";
@@ -25,6 +26,7 @@ class AppRouter extends React.Component {
                     <Switch>
                         <CustomLayout {...this.props}>
                             <Route path="/" component={ChannelList} exact={true} />
+                            <Route path="/signup" component={SignUpPage} />
                         </CustomLayout>
                     </Switch>
                 </div>
