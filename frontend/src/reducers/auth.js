@@ -1,11 +1,33 @@
-export default (state = {}, action) => {
+import { AUTH_FAIL, AUTH_LOGOUT, AUTH_START, AUTH_SUCCESS } from "../actions/auth_action_types";
+
+const authDefaultState = {
+    token: null,
+    error: null,
+    loading: false,
+};
+
+export default (state = authDefaultState, action) => {
     switch (action.type) {
-        case "LOGIN":
+        case AUTH_START:
             return {
-                uid: action.uid
+                error: null,
+                loading: true
             };
-        case "LOGOUT":
-            return {};
+        case AUTH_SUCCESS:
+            return {
+                error: null,
+                loading: false,
+                token: action.token
+            };
+        case AUTH_FAIL:
+            return {
+                error: action.error,
+                loading: false
+            };
+        case AUTH_LOGOUT:
+            return {
+                token: null
+            };
         default:
             return state;
     }
