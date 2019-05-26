@@ -16,7 +16,8 @@ class SignUpPage extends React.Component {
             isLoaded: false,
             interests: [],
             error: undefined,
-            selectedInterests: []
+            selectedInterests: [],
+            minPasswordLength: 8
         };
     }
 
@@ -52,23 +53,67 @@ class SignUpPage extends React.Component {
     };
 
     onInterestChange = (selectedOption) => {
-        console.log(selectedOption);
         this.setState({ selectedInterests: selectedOption });
+    };
+
+    isEmpty = (obj) => {
+        for (let key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                return false;
+            }
+        }
+        return true;
     };
 
     onSubmit = (e) => {
         e.preventDefault();
         const input = e.target;
+        let error = {};
 
         // validate email
         if (!emailValidator.validate(input.email.value)) {
-            this.setState({ error: { email: "Invalid email entered" } });
-            return;
+            error.email = ["Invalid email entered"];
         }
 
         // check password
         if (input.password.value !== input.passwordConfirmation.value) {
-            this.setState({ error: { password: "Passwords do not match" } });
+            error.password = ["Passwords do not match"];
+        } else if (input.password.value.length < this.state.minPasswordLength) {
+            error.password = ["Password does not meet minimum length"];
+        }
+
+        // check for blanks
+        if (input.username.value.length === 0) {
+            error.username = ["Field cannot be blank."];
+        }
+        if (input.firstName.value.length === 0) {
+            error.first_name = ["Field cannot be blank."];
+        }
+        if (input.lastName.value.length === 0) {
+            error.last_name = ["Field cannot be blank."];
+        }
+        if (input.country.value.length === 0) {
+            error.country = ["Field cannot be blank."];
+        }
+        if (input.state.value.length === 0) {
+            error.state = ["Field cannot be blank."];
+        }
+        if (input.streetName.value.length === 0) {
+            error.street_name = ["Field cannot be blank."];
+        }
+        if (input.postalCode.value.length === 0) {
+            error.postal_code = ["Field cannot be blank."];
+        }
+        if (input.city.value.length === 0) {
+            error.city = ["Field cannot be blank."];
+        }
+        if (input.interests.value.length === 0) {
+            error.interests = ["Field must contain atleast 1 selected choice"];
+        }
+
+        if (!this.isEmpty(error)) {
+            this.setState({ error: error });
+            return;
         }
 
         const user = {
@@ -97,6 +142,7 @@ class SignUpPage extends React.Component {
             })
             .catch((error) => {
                 console.log("error in account creation", error);
+                console.log(error.response.request.response);
                 this.setState({ error: error.response.request.response });
             });
 
@@ -115,7 +161,11 @@ class SignUpPage extends React.Component {
                 <input type="text" name="username" />
                 <p>150 characters of fewer. Letters, digits and @/./+/-/) only.</p>
                 <p>Email Address</p>
-                {!!this.state.error && !!this.state.error.email && <p>{this.state.error.email}</p>}
+                {!!this.state.error &&
+                    !!this.state.error.email &&
+                    this.state.error.email.map((error) => {
+                        return <p key={error}>{error}</p>;
+                    })}
                 <input type="text" name="email" />
                 <p>First Name*</p>
                 {!!this.state.error &&
@@ -185,6 +235,11 @@ class SignUpPage extends React.Component {
                 <p>Phone Number</p>
                 <input type="text" name="phoneNumber" />
                 <p>Interests*</p>
+                {!!this.state.error &&
+                    !!this.state.error.interests &&
+                    this.state.error.interests.map((error) => {
+                        return <p key={error}>{error}</p>;
+                    })}
                 <Select
                     value={this.state.selectedInterests}
                     onChange={this.onInterestChange}
@@ -193,6 +248,7 @@ class SignUpPage extends React.Component {
                     name="interests"
                 />
                 <p>Password</p>
+                <p>Your password contain at least {this.state.minPasswordLength} characters.</p>
                 {!!this.state.error &&
                     !!this.state.error.password &&
                     this.state.error.password.map((error) => {
