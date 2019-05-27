@@ -1,9 +1,8 @@
 import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import createHistory from "history/createBrowserHistory";
-// import DashboardPage from "../components/DashboardPage";
+import DashboardPage from "../components/DashboardPage";
 // import NotFoundPage from "../components/NotFoundPage";
-// import LoginPage from "../components/LoginPage";
 // import PrivateRoute from "./PrivateRoute";
 // import PublicRoute from "./PublicRoute";
 import ChannelList from "../components/ChannelList";
@@ -11,6 +10,8 @@ import SignUpPage from "../components/SignUpPage";
 import { connect } from "react-redux";
 import { authCheckState } from "../actions/auth";
 import CustomLayout from "../containers/CustomLayout";
+import LoginPage from "../components/LoginPage";
+import Header from "../components/Header";
 
 export const history = createHistory();
 
@@ -25,7 +26,8 @@ class AppRouter extends React.Component {
                 <div>
                     <Switch>
                         <CustomLayout {...this.props}>
-                            <Route path="/" component={ChannelList} exact={true} />
+                            <Route path="/" component={DashboardPage} exact={true} />
+                            <Route path="/login" component={LoginPage} exact={true} />
                             <Route path="/signup" component={SignUpPage} />
                         </CustomLayout>
                     </Switch>
@@ -49,7 +51,7 @@ class AppRouter extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        isAuthenticated: state.auth.token !== null
+        isAuthenticated: !!state.auth.token
     };
 };
 

@@ -42,9 +42,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_auth',
+    'rest_framework.authtoken',
     'corsheaders',
     'upost.apps.UpostConfig',
+    # 'django.contrib.sites',
+    # 'allauth',
+    # 'allauth.account',
+    # 'rest_auth.registration',
 ]
+
+SITE_ID = 1
+
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [

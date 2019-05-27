@@ -2,7 +2,6 @@ from rest_framework import serializers
 from ..models.User_Account import CustomUser
 from django.contrib.auth.hashers import make_password
 
-
 class UserAccountSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('password', 'username', 'email', 'first_name', 'middle_name',

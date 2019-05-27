@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from upost.views import Interest, Channels_Posts_Events, User_Account
+from upost.views import Interest, Channels_Posts_Events, User_Account, ListContentChannel
 
 router = routers.DefaultRouter()
 # naming scheme: register('link_name', viewSet, 'base_name')
@@ -28,5 +28,7 @@ router.register('accounts', User_Account.UserAccountView, 'account')
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('api/', include('upost.urls')),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api/rest-auth/' ,include('rest_auth.urls')),
+    # path('api/rest-auth/registration/', include('rest_auth.registration.urls'))
 ]
