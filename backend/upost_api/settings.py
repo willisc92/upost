@@ -46,10 +46,6 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'upost.apps.UpostConfig',
-    # 'django.contrib.sites',
-    # 'allauth',
-    # 'allauth.account',
-    # 'rest_auth.registration',
 ]
 
 SITE_ID = 1
@@ -111,13 +107,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': DB_NAME,
-		'USER': 'root',
+        'USER': 'root',
 
 
-		'PASSWORD': DB_PASSWORD,
+                'PASSWORD': DB_PASSWORD,
 
-		'HOST': '127.0.0.1',
-		'PORT': '3306',
+                'HOST': '127.0.0.1',
+                'PORT': '3306',
         'OPTIONS': {
             'use_pure': 'true'
         }

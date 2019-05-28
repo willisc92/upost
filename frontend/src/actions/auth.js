@@ -34,7 +34,7 @@ export const logout = () => {
 export const authLogin = (username, password) => {
     return (dispatch) => {
         dispatch(authStart());
-        API.post("token-auth/", {
+        API.post("login/", {
             username,
             password
         })

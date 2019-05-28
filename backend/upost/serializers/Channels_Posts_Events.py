@@ -13,3 +13,5 @@ class ContentChannelSerializer(serializers.ModelSerializer):
             'deletion_date'
         )
         model = ContentChannel
+
+    user = serializers.ReadOnlyField(source='user.username')
