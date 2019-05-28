@@ -8,11 +8,11 @@ export const Header = ({ logout, token }) => (
         <div className="content-container">
             <div className="header__content">
                 <Link to="/">
-                    <img className="header__logo" src="images/logo.png" />
+                    <img className="header__logo" src="/images/logo.png" />
                 </Link>
                 {!!token ? (
                     <div>
-                        <Link className="button button--link" to="/myContent">
+                        <Link className="button button--link" to="/myChannels">
                             My Content
                         </Link>
                         <button className="button button--link" onClick={logout}>

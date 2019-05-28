@@ -27,28 +27,17 @@ class AppRouter extends React.Component {
                     <SideBar />
                     <Header />
                     <Switch>
-                        <PublicRoute path="/" component={DashboardPage} exact={true} />
+                        <Route path="/" component={DashboardPage} exact={true} />
                         <PublicRoute path="/login" component={LoginPage} exact={true} />
                         <PublicRoute path="/signup" component={SignUpPage} exact={true} />
-                        <PublicRoute component={NotFoundPage} />
+                        <PrivateRoute path="/myChannels" component={ChannelList} exact={true} />
+                        <Route component={NotFoundPage} />
                     </Switch>
                 </div>
             </Router>
         );
     }
 }
-
-// const AppRouter = () => (
-//     <Router history={history}>
-//         <div>
-//             <Switch>
-//                 <PublicRoute path="/" component={LoginPage} exact={true} />
-//                 <PrivateRoute path="/dashboard" component={DashboardPage} />
-//                 <Route component={NotFoundPage} />
-//             </Switch>
-//         </div>
-//     </Router>
-// );
 
 const mapStateToProps = (state) => {
     return {

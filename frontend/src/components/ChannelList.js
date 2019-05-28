@@ -1,5 +1,6 @@
 import React from "react";
 import API from "../utils/API";
+import { getMyChannels } from "../selectors/myChannels";
 
 class ChannelList extends React.Component {
     state = {
@@ -13,7 +14,7 @@ class ChannelList extends React.Component {
             (result) => {
                 this.setState({
                     isLoaded: true,
-                    channels: result.data
+                    channels: getMyChannels(result.data)
                 });
             },
 
@@ -27,7 +28,7 @@ class ChannelList extends React.Component {
     }
 
     render() {
-        const { error, isLoaded, items } = this.state;
+        const { error, isLoaded, channels } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -35,7 +36,7 @@ class ChannelList extends React.Component {
         } else {
             return (
                 <div>
-                    {this.state.channels.map((channel) => (
+                    {channels.map((channel) => (
                         <div key={channel.channel_id}>
                             <h1>{channel.channel_name}</h1>
                             <span>{channel.creation_date}</span>
