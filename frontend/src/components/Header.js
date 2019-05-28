@@ -11,9 +11,14 @@ export const Header = ({ logout, token }) => (
                     <img className="header__logo" src="images/logo.png" />
                 </Link>
                 {!!token ? (
-                    <button className="button button--link" onClick={logout}>
-                        Logout
-                    </button>
+                    <div>
+                        <Link className="button button--link" to="/myContent">
+                            My Content
+                        </Link>
+                        <button className="button button--link" onClick={logout}>
+                            Logout
+                        </button>
+                    </div>
                 ) : (
                     <div>
                         <Link className="button button--link" to="/login">
