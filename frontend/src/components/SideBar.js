@@ -15,7 +15,7 @@ class SideBar extends React.Component {
                     Food Mood
                 </a>
                 <a id="around_me" className="menu-item" href="/around_me">
-                    Food Mood
+                    Around Me
                 </a>
                 <a id="my_list" className="menu-item" href="/my_list">
                     My List

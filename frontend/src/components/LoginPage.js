@@ -13,6 +13,10 @@ class LoginPage extends React.Component {
         }
     }
 
+    createAccount = () => {
+        this.props.history.push("/signup");
+    };
+
     render() {
         return (
             <div>
@@ -23,6 +27,9 @@ class LoginPage extends React.Component {
                 </div>
                 <div className="content-container">
                     <LoginForm />
+                    <button className="button" onClick={this.createAccount}>
+                        Create Account
+                    </button>
                 </div>
             </div>
         );

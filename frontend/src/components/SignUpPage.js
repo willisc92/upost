@@ -170,7 +170,7 @@ class SignUpPage extends React.Component {
                                     </p>
                                 );
                             })}
-                        <input type="text" name="username" />
+                        <input type="text" className="text-input" name="username" />
                         <p>150 characters of fewer. Letters, digits and @/./+/-/) only.</p>
                         <p>Email Address</p>
                         {!!this.state.error &&
@@ -182,7 +182,7 @@ class SignUpPage extends React.Component {
                                     </p>
                                 );
                             })}
-                        <input type="text" name="email" />
+                        <input type="text" className="text-input" name="email" />
                         <p>First Name*</p>
                         {!!this.state.error &&
                             !!this.state.error.first_name &&
@@ -193,9 +193,9 @@ class SignUpPage extends React.Component {
                                     </p>
                                 );
                             })}
-                        <input type="text" name="firstName" />
+                        <input type="text" className="text-input" name="firstName" />
                         <p>Middle Name</p>
-                        <input type="text" name="middleName" />
+                        <input type="text" className="text-input" name="middleName" />
                         <p>Last Name*</p>
                         {!!this.state.error &&
                             !!this.state.error.last_name &&
@@ -206,7 +206,7 @@ class SignUpPage extends React.Component {
                                     </p>
                                 );
                             })}
-                        <input type="text" name="lastName" />
+                        <input type="text" className="text-input" name="lastName" />
                         <p>Birth date</p>
                         <SingleDatePicker
                             date={this.state.date}
@@ -226,7 +226,7 @@ class SignUpPage extends React.Component {
                                     </p>
                                 );
                             })}
-                        <input type="text" name="country" />
+                        <input type="text" className="text-input" name="country" />
                         <p>State*</p>
                         {!!this.state.state &&
                             !!this.state.error.state &&
@@ -237,7 +237,7 @@ class SignUpPage extends React.Component {
                                     </p>
                                 );
                             })}
-                        <input type="text" name="state" />
+                        <input type="text" className="text-input" name="state" />
                         <p>Steet Name*</p>
                         {!!this.state.error &&
                             !!this.state.error.street_name &&
@@ -248,7 +248,7 @@ class SignUpPage extends React.Component {
                                     </p>
                                 );
                             })}
-                        <input type="text" name="streetName" />
+                        <input type="text" className="text-input" name="streetName" />
                         <p>Postal Code*</p>
                         {!!this.state.error &&
                             !!this.state.error.postal_code &&
@@ -259,7 +259,7 @@ class SignUpPage extends React.Component {
                                     </p>
                                 );
                             })}
-                        <input type="text" name="postalCode" />
+                        <input type="text" className="text-input" name="postalCode" />
                         <p>City*</p>
                         {!!this.state.error &&
                             !!this.state.error.city &&
@@ -270,14 +270,14 @@ class SignUpPage extends React.Component {
                                     </p>
                                 );
                             })}
-                        <input type="text" name="city" />
+                        <input type="text" className="text-input" name="city" />
                         <p>Sex</p>
-                        <select name="sex">
+                        <select name="sex" className="select">
                             <option>Male</option>
                             <option>Female</option>
                         </select>
                         <p>Phone Number</p>
-                        <input type="text" name="phoneNumber" />
+                        <input type="text" className="text-input" name="phoneNumber" />
                         <p>Interests*</p>
                         {!!this.state.error &&
                             !!this.state.error.interests &&
@@ -306,7 +306,7 @@ class SignUpPage extends React.Component {
                                     </p>
                                 );
                             })}
-                        <input type="text" name="password" />
+                        <input type="text" className="text-input" name="password" />
                         <p>Password Confirmation*</p>
                         {!!this.state.error &&
                             !!this.state.error.password &&
@@ -317,7 +317,7 @@ class SignUpPage extends React.Component {
                                     </p>
                                 );
                             })}
-                        <input type="text" name="passwordConfirmation" />
+                        <input type="text" className="text-input" name="passwordConfirmation" />
                         <br />
                         <div>
                             <button className="button">Sign Up</button>
