@@ -24,8 +24,8 @@ export const checkAuthTimeout = (expirationTime) => {
 };
 
 export const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("expirationDate");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("expirationDate");
     return {
         type: AUTH_LOGOUT
     };
@@ -34,15 +34,22 @@ export const logout = () => {
 export const authLogin = (username, password) => {
     return (dispatch) => {
         dispatch(authStart());
-        API.post("rest-auth/login/", {
+        API.post("token-auth/", {
             username,
             password
         })
             .then((res) => {
-                const token = res.data.key;
-                const expirationTime = new Date(new Date().getTime() + 3600 * 1000);
+                console.log(res);
+                const token = res.data.token;
+                const first_name = res.data.first_name;
+                const last_name = res.data.last_name;
+                const user_id = res.data.user_id;
+                const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
                 localStorage.setItem("token", token);
-                localStorage.setItem("expirationTime", expirationTime);
+                localStorage.setItem("first_name", first_name);
+                localStorage.setItem("last_name", last_name);
+                localStorage.setItem("user_id", user_id);
+                localStorage.setItem("expirationDate", expirationDate);
                 dispatch(authSuccess(token));
                 dispatch(checkAuthTimeout(3600));
             })

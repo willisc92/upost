@@ -23,7 +23,7 @@ class LoginForm extends React.Component {
         this.setState(() => ({ password }));
     };
 
-    onSubmit = async (e) => {
+    onSubmit = (e) => {
         e.preventDefault();
         if (!this.state.username || !this.state.password) {
             this.setState(() => ({ error: "Please provide both username and password" }));
