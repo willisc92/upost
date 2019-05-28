@@ -3,19 +3,17 @@ import { connect } from "react-redux";
 
 class DashboardPage extends React.Component {
     render() {
-        if (!this.props.isAuthenticated) {
-            return (
-                <div>
-                    <h1>You must login.</h1>
+        return (
+            <div className="page-header">
+                <div className="content-container">
+                    {!this.props.isAuthenticated ? (
+                        <h1 className="page-header__title">You must login.</h1>
+                    ) : (
+                        <h1 className="page-header__title">Welcome, ${localStorage.getItem("first_name")}!</h1>
+                    )}
                 </div>
-            );
-        } else {
-            return (
-                <div>
-                    <h1>Welcome, ${localStorage.getItem("first_name")}!</h1>
-                </div>
-            );
-        }
+            </div>
+        );
     }
 }
 

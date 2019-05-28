@@ -7,17 +7,22 @@ export const Header = ({ logout, token }) => (
     <header className="header">
         <div className="content-container">
             <div className="header__content">
-                <Link className="header__title" to="/dashboard">
-                    <h1>UPOST</h1>
+                <Link to="/">
+                    <img className="header__logo" src="images/logo.png" />
                 </Link>
                 {!!token ? (
                     <button className="button button--link" onClick={logout}>
                         Logout
                     </button>
                 ) : (
-                    <Link className="button button--link" to="/login">
-                        Login
-                    </Link>
+                    <div>
+                        <Link className="button button--link" to="/login">
+                            Login
+                        </Link>
+                        <Link className="button button--link" to="/signup">
+                            Signup
+                        </Link>
+                    </div>
                 )}
             </div>
         </div>
@@ -25,7 +30,7 @@ export const Header = ({ logout, token }) => (
 );
 
 const mapStateToProps = (state) => ({
-    token: state.auth.token
+    token: !!state.auth.token
 });
 
 const mapDispatchToProps = (dispatch) => ({

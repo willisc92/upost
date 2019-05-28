@@ -9,9 +9,9 @@ import ChannelList from "../components/ChannelList";
 import SignUpPage from "../components/SignUpPage";
 import { connect } from "react-redux";
 import { authCheckState } from "../actions/auth";
-import CustomLayout from "../containers/CustomLayout";
 import LoginPage from "../components/LoginPage";
 import Header from "../components/Header";
+import NotFoundPage from "../components/NotFoundPage";
 
 export const history = createHistory();
 
@@ -24,12 +24,12 @@ class AppRouter extends React.Component {
         return (
             <Router history={history}>
                 <div>
+                    <Header />
                     <Switch>
-                        <CustomLayout {...this.props}>
-                            <Route path="/" component={DashboardPage} exact={true} />
-                            <Route path="/login" component={LoginPage} exact={true} />
-                            <Route path="/signup" component={SignUpPage} />
-                        </CustomLayout>
+                        <Route path="/" component={DashboardPage} exact={true} />
+                        <Route path="/login" component={LoginPage} exact={true} />
+                        <Route path="/signup" component={SignUpPage} exact={true} />
+                        <Route component={NotFoundPage} />
                     </Switch>
                 </div>
             </Router>

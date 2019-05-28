@@ -15,9 +15,13 @@ class LoginPage extends React.Component {
 
     render() {
         return (
-            <div className="box-layout">
-                <div className="box-layout__box">
-                    <h1 className="box-layout__title">Login</h1>
+            <div>
+                <div className="page-header">
+                    <div className="content-container">
+                        <h1 className="page-header__title">Login</h1>
+                    </div>
+                </div>
+                <div className="content-container">
                     <LoginForm />
                 </div>
             </div>
