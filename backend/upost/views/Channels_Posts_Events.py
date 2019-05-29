@@ -9,4 +9,10 @@ from ..permissions import IsOwnerOrReadOnly
 class Channel_Post_Events_View(viewsets.ModelViewSet):
     serializer_class = ContentChannelSerializer
     queryset = ContentChannel.objects.all()
-    permission_classes = (IsOwnerOrReadOnly,)
+    filterset_fields = ('user',)
+
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)

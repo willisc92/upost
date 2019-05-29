@@ -14,4 +14,4 @@ class ContentChannelSerializer(serializers.ModelSerializer):
         )
         model = ContentChannel
 
-    # user = serializers.ReadOnlyField(source='user.username')
+    user = serializers.ReadOnlyField(source='user.username')

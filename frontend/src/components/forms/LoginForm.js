@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { authLogin } from "../actions/auth";
+import { authLogin } from "../../actions/auth";
 
 class LoginForm extends React.Component {
     constructor(props) {

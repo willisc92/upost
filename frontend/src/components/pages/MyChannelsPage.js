@@ -1,16 +1,21 @@
 import React from "react";
-import API from "../utils/API";
+import API from "../../utils/API";
 
-class ChannelDetail extends React.Component {
+class MyChannelsPage extends React.Component {
     state = {
-        detail: {},
+        channels: [],
         isLoaded: false,
         error: null
     };
 
     componentDidMount() {
-        API.get("channels/").then(
+        API.get("channels/", {
+            params: {
+                user: localStorage.getItem("user_id")
+            }
+        }).then(
             (result) => {
+                console.log(result);
                 this.setState({
                     isLoaded: true,
                     channels: result.data
@@ -27,7 +32,7 @@ class ChannelDetail extends React.Component {
     }
 
     render() {
-        const { error, isLoaded, items } = this.state;
+        const { error, isLoaded, channels } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
@@ -35,7 +40,7 @@ class ChannelDetail extends React.Component {
         } else {
             return (
                 <div>
-                    {this.state.channels.map((channel) => (
+                    {channels.map((channel) => (
                         <div key={channel.channel_id}>
                             <h1>{channel.channel_name}</h1>
                             <span>{channel.creation_date}</span>
@@ -47,4 +52,4 @@ class ChannelDetail extends React.Component {
     }
 }
 
-export default ChannelList;
+export default MyChannelsPage;

@@ -2,7 +2,7 @@ import React from "react";
 import { SingleDatePicker } from "react-dates";
 import Select from "react-select";
 import moment from "moment";
-import API from "../utils/API";
+import API from "../../utils/API";
 import emailValidator from "email-validator";
 
 class SignUpPage extends React.Component {
