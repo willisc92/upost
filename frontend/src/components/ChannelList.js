@@ -1,6 +1,6 @@
 import React from "react";
 import API from "../utils/API";
-import { getMyChannels } from "../selectors/myChannels";
+// import { getMyChannels } from "../selectors/myChannels";
 
 class ChannelList extends React.Component {
     state = {
@@ -10,11 +10,15 @@ class ChannelList extends React.Component {
     };
 
     componentDidMount() {
-        API.get("channels/").then(
+        API.get("channels/", {
+            params: {
+                user: localStorage.getItem("user_id")
+            }
+        }).then(
             (result) => {
                 this.setState({
                     isLoaded: true,
-                    channels: getMyChannels(result.data)
+                    channels: result.data
                 });
             },
 

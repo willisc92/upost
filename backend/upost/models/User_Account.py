@@ -42,7 +42,7 @@ class CustomUser(AbstractUser):
                                          default=0)  # Field name made lowercase.
     last_payment_date = models.DateField(db_column='Last_Payment_Date', blank=True,
                                          null=True)  # Field name made lowercase.
-    interests = models.ManyToManyField("upost.Interest")
+    interests = models.ManyToManyField("upost.Interest", blank=True)
     subscriptions = models.ManyToManyField(
         "upost.ContentChannel", through="upost.Subscribe")
     attends = models.ManyToManyField(
