@@ -21,12 +21,14 @@ from upost.views import Interest, Channels_Posts_Events, User_Account
 router = routers.DefaultRouter()
 # naming scheme: register('link_name', viewSet, 'base_name')
 router.register('interests', Interest.InterestView, 'interest')
-router.register('channels', Channels_Posts_Events.Channel_Post_Events_View, 'channel')
+router.register(
+    'channels', Channels_Posts_Events.Channel_Post_Events_View, 'channel')
 router.register('accounts', User_Account.UserAccountView, 'account')
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('api/', include('upost.urls')),
-    path('api/', include(router.urls))
+    path('api/', include(router.urls)),
+    path('api/login/', User_Account.CustomAuthToken.as_view()),
+
 ]

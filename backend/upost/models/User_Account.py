@@ -6,7 +6,10 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.db.models import Avg
-
+from django.conf import settings
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
 
 
 class CustomUser(AbstractUser):
@@ -19,12 +22,18 @@ class CustomUser(AbstractUser):
                                    null=True)  # Field name made lowercase.
     last_name = models.CharField(db_column='Last_Name', max_length=25, null=False,
                                  blank=False)  # Field name made lowercase.
-    birth_date = models.DateField(db_column='Birth_Date', null=True)  # Field name made lowercase.
-    country = models.CharField(db_column='Country', max_length=30)  # Field name made lowercase.
-    state = models.CharField(db_column='State', max_length=30)  # Field name made lowercase.
-    street_name = models.CharField(db_column='Street_Name', max_length=100)  # Field name made lowercase.
-    postal_code = models.CharField(db_column='Postal_Code', max_length=6)  # Field name made lowercase.
-    city = models.CharField(db_column='City', max_length=30)  # Field name made lowercase.
+    # Field name made lowercase.
+    birth_date = models.DateField(db_column='Birth_Date', null=True)
+    # Field name made lowercase.
+    country = models.CharField(db_column='Country', max_length=30)
+    # Field name made lowercase.
+    state = models.CharField(db_column='State', max_length=30)
+    # Field name made lowercase.
+    street_name = models.CharField(db_column='Street_Name', max_length=100)
+    # Field name made lowercase.
+    postal_code = models.CharField(db_column='Postal_Code', max_length=6)
+    # Field name made lowercase.
+    city = models.CharField(db_column='City', max_length=30)
     sex = models.CharField(db_column='Sex', max_length=1, blank=True, null=True,
                            choices=SEX_CHOICES)  # Field name made lowercase.
     phone_number = models.CharField(db_column='Phone_Number', max_length=10, blank=True,
@@ -33,14 +42,18 @@ class CustomUser(AbstractUser):
                                          default=0)  # Field name made lowercase.
     last_payment_date = models.DateField(db_column='Last_Payment_Date', blank=True,
                                          null=True)  # Field name made lowercase.
-    interests = models.ManyToManyField("upost.Interest")
-    subscriptions = models.ManyToManyField("upost.ContentChannel", through="upost.Subscribe")
-    attends = models.ManyToManyField("upost.PostEvent", through="upost.Attend", related_name="attendee")
-    rates = models.ManyToManyField("upost.PostEvent", through="upost.Rate", related_name="rater")
+    interests = models.ManyToManyField("upost.Interest", blank=True)
+    subscriptions = models.ManyToManyField(
+        "upost.ContentChannel", through="upost.Subscribe")
+    attends = models.ManyToManyField(
+        "upost.PostEvent", through="upost.Attend", related_name="attendee")
+    rates = models.ManyToManyField(
+        "upost.PostEvent", through="upost.Rate", related_name="rater")
     attendance_strikes = models.ManyToManyField("upost.PostEvent", through="upost.AttendanceStrike",
                                                 related_name="attendee_to_strike")
     views = models.ManyToManyField("upost.Post", through="upost.View")
-    uses = models.ManyToManyField("upost.PostEvent", through="upost.UsedBy")#was incentive package before
+    # was incentive package before
+    uses = models.ManyToManyField("upost.PostEvent", through="upost.UsedBy")
 
     is_superuser = models.NullBooleanField(default=False)
     is_staff = models.NullBooleanField(default=False)
@@ -50,3 +63,8 @@ class CustomUser(AbstractUser):
 
     def calculate_avg_rating(self):
         return self.user_posts.post_event.ratings.all().aggregate(Avg('event_rating'))
+
+    @receiver(post_save, sender=settings.AUTH_USER_MODEL)
+    def create_auth_token(sender, instance=None, created=False, **kwargs):
+        if created:
+            Token.objects.create(user=instance)

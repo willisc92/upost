@@ -26,6 +26,10 @@ export const checkAuthTimeout = (expirationTime) => {
 export const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("expirationDate");
+    localStorage.removeItem("first_name");
+    localStorage.removeItem("last_name");
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("user_name");
     return {
         type: AUTH_LOGOUT
     };
@@ -34,7 +38,7 @@ export const logout = () => {
 export const authLogin = (username, password) => {
     return (dispatch) => {
         dispatch(authStart());
-        API.post("rest-auth/login", {
+        API.post("login/", {
             username,
             password
         })
@@ -58,12 +62,20 @@ export const authSignup = (user) => {
             API.post("accounts/", user)
                 .then((res) => {
                     /*
-                    const token = res.data.key;
+                    const token = res.data.token;
+                    const first_name = res.data.first_name;
+                    const last_name = res.data.last_name;
+                    const user_id = res.data.user_id;
+                    const username = res.data.username;
                     const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
                     localStorage.setItem("token", token);
+                    localStorage.setItem("first_name", first_name);
+                    localStorage.setItem("last_name", last_name);
+                    localStorage.setItem("user_id", user_id);
                     localStorage.setItem("expirationDate", expirationDate);
+                    localStorage.setItem("username", username);
                     dispatch(authSuccess(token));
-                    dispatch(checkAuthTimeout(expirationTime(3600)));
+                    dispatch(checkAuthTimeout(3600));
                     */
                     resolve(true);
                 })
@@ -81,7 +93,7 @@ export const authCheckState = () => {
         if (token === undefined) {
             dispatch(logout());
         } else {
-            const expirationDate = new Date(localStorage.getItem("expirationTime"));
+            const expirationDate = new Date(localStorage.getItem("expirationDate"));
             if (expirationDate <= new Date()) {
                 dispatch(logout());
             } else {

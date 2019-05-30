@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import AccountForm from "./AccountForm.js";
+import AccountForm from "../forms/AccountForm.js";
 import moment from "moment";
 import emailValidator from "email-validator";
-import { authFail, authSignup } from "../actions/auth";
+import { authFail, authSignup } from "../../actions/auth";
 
 class SignUpPage extends React.Component {
     constructor(props) {

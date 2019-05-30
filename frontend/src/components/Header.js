@@ -1,28 +1,48 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
-// import { connect } from "react-redux";
-// import { startLogout } from "../actions/auth";
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { logout } from "../actions/auth";
 
-// export const Header = ({ startLogout }) => (
-//     <header className="header">
-//         <div className="content-container">
-//             <div className="header__content">
-//                 <Link className="header__title" to="/dashboard">
-//                     <h1>Boilerplate</h1>
-//                 </Link>
-//                 <button className="button button--link" onClick={startLogout}>
-//                     Logout
-//                 </button>
-//             </div>
-//         </div>
-//     </header>
-// );
+export const Header = ({ logout, token }) => (
+    <header className="header">
+        <div className="content-container">
+            <div className="header__content">
+                <Link to="/">
+                    <img className="header__logo" src="/images/logo.png" />
+                </Link>
+                {!!token ? (
+                    <div>
+                        <Link className="button button--link" to="/myChannels">
+                            My Content
+                        </Link>
+                        <button className="button button--link" onClick={logout}>
+                            Logout
+                        </button>
+                    </div>
+                ) : (
+                    <div>
+                        <Link className="button button--link" to="/login">
+                            Login
+                        </Link>
+                        <Link className="button button--link" to="/signup">
+                            Signup
+                        </Link>
+                    </div>
+                )}
+            </div>
+        </div>
+    </header>
+);
 
-// const mapDispatchToProps = (dispatch) => ({
-//     startLogout: () => dispatch(startLogout())
-// });
+const mapStateToProps = (state) => ({
+    token: !!state.auth.token
+});
 
-// export default connect(
-//     undefined,
-//     mapDispatchToProps
-// )(Header);
+const mapDispatchToProps = (dispatch) => ({
+    logout: () => dispatch(logout())
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Header);

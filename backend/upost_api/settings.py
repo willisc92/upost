@@ -42,14 +42,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_auth',
+    'rest_framework.authtoken',
     'corsheaders',
     'upost.apps.UpostConfig',
 ]
 
+SITE_ID = 1
+
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
-    ]
+    ],
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
 MIDDLEWARE = [
@@ -102,13 +108,13 @@ DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django',
         'NAME': DB_NAME,
-		'USER': 'root',
+        'USER': 'root',
 
 
-		'PASSWORD': DB_PASSWORD,
+                'PASSWORD': DB_PASSWORD,
 
-		'HOST': '127.0.0.1',
-		'PORT': '3306',
+                'HOST': '127.0.0.1',
+                'PORT': '3306',
         'OPTIONS': {
             'use_pure': 'true'
         }
