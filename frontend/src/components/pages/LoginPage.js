@@ -37,7 +37,7 @@ class LoginPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    token: state.auth.token
+    token: !!state.auth.token
 });
 
 export default connect(mapStateToProps)(LoginPage);

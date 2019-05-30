@@ -28,6 +28,6 @@ class CustomAuthToken(ObtainAuthToken):
             'last_name': user.last_name
         })
 
-    @classmethod
-    def get_extra_actions(cls):
-        return []
+    # @classmethod
+    # def get_extra_actions(cls):
+    #     return []

@@ -1,55 +1,70 @@
 import React from "react";
-import API from "../../utils/API";
+import { getVisibleChannels } from "../../selectors/myChannels";
+import ChannelFilterSelector from "../filter_selectors/MyChannelsFilterSelector";
+import { connect } from "react-redux";
+import { startSetChannels } from "../../actions/channels";
+import moment from "moment";
 
 class MyChannelsPage extends React.Component {
-    state = {
-        channels: [],
-        isLoaded: false,
-        error: null
-    };
-
-    componentDidMount() {
-        API.get("channels/", {
-            params: {
-                user: localStorage.getItem("user_id")
-            }
-        }).then(
-            (result) => {
-                console.log(result);
-                this.setState({
-                    isLoaded: true,
-                    channels: result.data
-                });
-            },
-
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                });
-            }
-        );
+    constructor(props) {
+        super(props);
     }
 
+    componentDidMount() {
+        this.props.startSetChannels();
+    }
+
+    handleAddChannel = () => {
+        this.props.history.push("/addChannel");
+    };
+
     render() {
-        const { error, isLoaded, channels } = this.state;
-        if (error) {
-            return <div>Error: {error.message}</div>;
-        } else if (!isLoaded) {
-            return <div>Loading...</div>;
-        } else {
-            return (
-                <div>
-                    {channels.map((channel) => (
-                        <div key={channel.channel_id}>
-                            <h1>{channel.channel_name}</h1>
-                            <span>{channel.creation_date}</span>
+        return (
+            <div>
+                <div className="page-header">
+                    <div className="content-container">
+                        <h1 className="page-header__title">{localStorage.getItem("first_name")} - Channnel Pages</h1>
+                        <div className="page-header__actions">
+                            <ChannelFilterSelector />
+                            <button className="button button--secondary" onClick={this.handleAddChannel}>
+                                Add a channel
+                            </button>
                         </div>
-                    ))}
+                    </div>
                 </div>
-            );
-        }
+                <div className="content-container">
+                    {this.props.length == 0 ? (
+                        <p>No channels</p>
+                    ) : (
+                        <div>
+                            {this.props.channels.map((channel) => {
+                                return (
+                                    <div>
+                                        <h1>{channel.channel_name}</h1>
+                                        <p>{channel.channel_description}</p>
+                                        <p>Creation Date: {moment(channel.creation_date).format("MMMM Do YYYY")}</p>
+                                        {!!channel.deleted_flag && <p>Invisible: {channel.deleted_flag}</p>}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
     }
 }
 
-export default MyChannelsPage;
+const mapStateToProps = (state) => ({
+    channels: getVisibleChannels(state.channels.channels, state.channelFilters),
+    length: state.channels.length
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    startSetChannels: () => dispatch(startSetChannels())
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(MyChannelsPage);
