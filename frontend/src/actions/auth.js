@@ -61,7 +61,6 @@ export const authSignup = (user) => {
         return new Promise((resolve, reject) => {
             API.post("accounts/", user)
                 .then((res) => {
-                    /*
                     const token = res.data.token;
                     const first_name = res.data.first_name;
                     const last_name = res.data.last_name;
@@ -76,7 +75,6 @@ export const authSignup = (user) => {
                     localStorage.setItem("username", username);
                     dispatch(authSuccess(token));
                     dispatch(checkAuthTimeout(3600));
-                    */
                     resolve(true);
                 })
                 .catch((error) => {
