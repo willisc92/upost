@@ -69,38 +69,54 @@ class AccountForm extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit}>
+            <form className="form" onSubmit={this.onSubmit}>
                 <p>Username*</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.username &&
                     this.props.auth.error.username.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
-                <input type="text" name="username" />
+                <input type="text" className="text-input" name="username" />
                 <p>150 characters of fewer. Letters, digits and @/./+/-/) only.</p>
                 <p>Email Address</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.email &&
                     this.props.auth.error.email.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
-                <input type="text" name="email" />
+                <input type="text" className="text-input" name="email" />
                 <p>First Name*</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.first_name &&
                     this.props.auth.error.first_name.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
-                <input type="text" name="firstName" />
+                <input type="text" className="text-input" name="firstName" />
                 <p>Middle Name</p>
-                <input type="text" name="middleName" />
+                <input type="text" className="text-input" name="middleName" />
                 <p>Last Name*</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.last_name &&
                     this.props.auth.error.last_name.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
-                <input type="text" name="lastName" />
+                <input type="text" className="text-input" name="lastName" />
                 <p>Birth date</p>
                 <SingleDatePicker
                     date={this.state.date}
@@ -114,49 +130,73 @@ class AccountForm extends React.Component {
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.country &&
                     this.props.auth.error.country.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
-                <input type="text" name="country" />
+                <input type="text" className="text-input" name="country" />
                 <p>State*</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.state &&
                     this.props.auth.error.state.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
-                <input type="text" name="state" />
+                <input type="text" className="text-input" name="state" />
                 <p>Steet Name*</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.street_name &&
                     this.props.auth.error.street_name.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
-                <input type="text" name="streetName" />
+                <input type="text" className="text-input" name="streetName" />
                 <p>Postal Code*</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.postal_code &&
                     this.props.auth.error.postal_code.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
-                <input type="text" name="postalCode" />
+                <input type="text" className="text-input" name="postalCode" />
                 <p>City*</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.city &&
                     this.props.auth.error.city.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
-                <input type="text" name="city" />
+                <input type="text" className="text-input" name="city" />
                 <p>Sex</p>
-                <select name="sex">
+                <select className="select" name="sex">
                     <option>Male</option>
                     <option>Female</option>
                 </select>
                 <p>Phone Number</p>
-                <input type="text" name="phoneNumber" />
+                <input type="text" className="text-input" name="phoneNumber" />
                 <p>Interests*</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.interests &&
                     this.props.auth.error.interests.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
                 <Select
                     value={this.state.selectedInterests}
@@ -170,18 +210,26 @@ class AccountForm extends React.Component {
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.password &&
                     this.props.auth.error.password.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
-                <input type="text" name="password" />
+                <input type="text" className="text-input" name="password" />
                 <p>Password Confirmation*</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.password &&
                     this.props.auth.error.password.map((error) => {
-                        return <p key={error}>{error}</p>;
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
                     })}
-                <input type="text" name="passwordConfirmation" />
+                <input type="text" className="text-input" name="passwordConfirmation" />
                 <br />
-                <button>Sign Up</button>
+                <button className="button">Sign Up</button>
             </form>
         );
     }

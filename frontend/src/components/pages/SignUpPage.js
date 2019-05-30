@@ -125,7 +125,18 @@ class SignUpPage extends React.Component {
     };
 
     render() {
-        return <AccountForm onSubmit={this.onSubmit} minPasswordLength={this.state.minPasswordLength} />;
+        return (
+            <div>
+                <div className="page-header">
+                    <div className="content-container">
+                        <h1 className="page_header__title"> SignUp </h1>
+                    </div>
+                </div>
+                <div className="content-container">
+                    <AccountForm onSubmit={this.onSubmit} minPasswordLength={this.state.minPasswordLength} />
+                </div>
+            </div>
+        );
     }
 }
 
