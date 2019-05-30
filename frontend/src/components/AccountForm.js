@@ -166,7 +166,7 @@ class AccountForm extends React.Component {
                     name="interests"
                 />
                 <p>Password</p>
-                <p>Your password contain at least {this.state.minPasswordLength} characters.</p>
+                <p>Your password contain at least {this.props.minPasswordLength} characters.</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.password &&
                     this.props.auth.error.password.map((error) => {

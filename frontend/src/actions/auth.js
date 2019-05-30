@@ -52,26 +52,26 @@ export const authLogin = (username, password) => {
     };
 };
 
-export const authSignup = (username, email, password1, password2) => {
+export const authSignup = (user) => {
     return (dispatch) => {
-        dispatch(authStart());
-        API.post("rest-auth/registration", {
-            username,
-            email,
-            password1,
-            password2
-        })
-            .then((res) => {
-                const token = res.data.key;
-                const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-                localStorage.setItem("token", token);
-                localStorage.setItem("expirationDate", expirationDate);
-                dispatch(authSuccess(token));
-                dispatch(checkAuthTimeout(expirationTime(3600)));
-            })
-            .catch((err) => {
-                dispatch(authFail(err));
-            });
+        return new Promise((resolve, reject) => {
+            API.post("accounts/", user)
+                .then((res) => {
+                    /*
+                    const token = res.data.key;
+                    const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+                    localStorage.setItem("token", token);
+                    localStorage.setItem("expirationDate", expirationDate);
+                    dispatch(authSuccess(token));
+                    dispatch(checkAuthTimeout(expirationTime(3600)));
+                    */
+                    resolve(true);
+                })
+                .catch((error) => {
+                    dispatch(authFail(error.response.request.response));
+                    reject(error.response.request.response);
+                });
+        });
     };
 };
 

@@ -2,9 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import AccountForm from "./AccountForm.js";
 import moment from "moment";
-import API from "../utils/API";
 import emailValidator from "email-validator";
-import { authFail } from "../actions/auth";
+import { authFail, authSignup } from "../actions/auth";
 
 class SignUpPage extends React.Component {
     constructor(props) {
@@ -115,24 +114,25 @@ class SignUpPage extends React.Component {
             interests: input.interests
         };
 
-        API.post("accounts/", user)
+        this.props
+            .authSignup(user)
             .then(() => {
                 this.props.history.push("/");
             })
             .catch((error) => {
-                console.log("error in account creation", error);
-                this.props.authFail(error.response.request.response);
+                console.log("An error has occured with signup", error);
             });
     };
 
     render() {
-        return <AccountForm onSubmit={this.onSubmit} />;
+        return <AccountForm onSubmit={this.onSubmit} minPasswordLength={this.state.minPasswordLength} />;
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        authFail: (error) => dispatch(authFail(error))
+        authFail: (error) => dispatch(authFail(error)),
+        authSignup: (user) => dispatch(authSignup(user))
     };
 };
 
