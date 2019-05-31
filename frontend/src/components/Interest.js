@@ -24,7 +24,7 @@ class Interest extends React.Component {
                         className="interest-circle"
                         cx={0}
                         cy={0}
-                        r={25}
+                        r={22}
                         fill={this.state.selected ? "red" : "grey"}
                     />
                 </svg>

@@ -1,6 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import API from "../../utils/API";
 import Interest from "../Interest";
+import { startSetUserInterests } from "../../actions/interests";
 
 class InterestsPage extends React.Component {
     constructor(props) {
@@ -27,6 +29,8 @@ class InterestsPage extends React.Component {
                 });
             }
         );
+
+        this.props.startSetUserInterests();
     }
 
     render() {
@@ -51,4 +55,20 @@ class InterestsPage extends React.Component {
     }
 }
 
-export default InterestsPage;
+const mapStateToProps = (state) => {
+    console.log(state.userInterests.userInterests);
+    return {
+        userInterests: state.userInterests.userInterests
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        startSetUserInterests: () => dispatch(startSetUserInterests())
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(InterestsPage);
