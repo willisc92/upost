@@ -25,6 +25,8 @@ class ContentChannel(models.Model):
     # Field name made lowercase.
     deletion_date = models.DateField(
         db_column='Deletion_Date', blank=True, null=True)
+    channel_description = models.CharField(
+        db_column='Channel_Description', max_length=500, blank=True, null=True, default="")
 
     def publish(self):
         self.creation_date = timezone.now()

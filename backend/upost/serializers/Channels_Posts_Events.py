@@ -10,7 +10,8 @@ class ContentChannelSerializer(serializers.ModelSerializer):
             'channel_name',
             'deleted_flag',
             'creation_date',
-            'deletion_date'
+            'deletion_date',
+            'channel_description'
         )
         model = ContentChannel
 

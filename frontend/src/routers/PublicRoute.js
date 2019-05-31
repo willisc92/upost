@@ -5,7 +5,7 @@ import { Route, Redirect } from "react-router-dom";
 export const PublicRoute = ({ component: Component, ...rest }) => (
     <Route
         {...rest}
-        component={(props) => (localStorage.getItem("token") ? <Redirect to="/" /> : <Component {...props} />)}
+        component={(props) => (!!localStorage.getItem("token") ? <Redirect to="/" /> : <Component {...props} />)}
     />
 );
 
