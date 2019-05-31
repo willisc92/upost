@@ -13,15 +13,43 @@ class InterestsPage extends React.Component {
         };
     }
 
+    markSelectedInterests = () => {
+        let interestsWithSelected = this.state.interests.map((interest) => {
+            interest.isSelected = false;
+            return interest;
+        });
+
+        for (let i = 0; i < interestsWithSelected.length; i++) {
+            if (this.props.userInterests.includes(interestsWithSelected[i].interest_tag)) {
+                interestsWithSelected[i].isSelected = true;
+            }
+        }
+
+        console.log(interestsWithSelected);
+
+        this.setState(() => ({ interests: interestsWithSelected }));
+
+        console.log(this.state);
+    };
+
+    getUserInterests = () => {
+        this.props.startSetUserInterests().then(() => {
+            console.log(this.props.userInterests);
+            this.markSelectedInterests();
+        });
+    };
+
     componentDidMount() {
         API.get("interests/").then(
             (result) => {
-                this.setState({
-                    isLoaded: true,
-                    interests: result.data
-                });
+                this.setState(
+                    {
+                        isLoaded: true,
+                        interests: result.data
+                    },
+                    this.getUserInterests
+                );
             },
-
             (error) => {
                 this.setState({
                     isLoaded: true,
@@ -29,8 +57,6 @@ class InterestsPage extends React.Component {
                 });
             }
         );
-
-        this.props.startSetUserInterests();
     }
 
     render() {
@@ -56,7 +82,6 @@ class InterestsPage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state.userInterests.userInterests);
     return {
         userInterests: state.userInterests.userInterests
     };

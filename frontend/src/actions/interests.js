@@ -9,8 +9,15 @@ export const setInterests = (userInterests) => ({
 // START_SET_INTERESTS
 export const startSetUserInterests = () => {
     return (dispatch) => {
-        API.get(`user-interests/${localStorage.getItem("user_id")}`).then((result) => {
-            dispatch(setInterests(result.data.interests));
+        return new Promise((resolve, reject) => {
+            API.get(`user-interests/${localStorage.getItem("user_id")}`)
+                .then((result) => {
+                    dispatch(setInterests(result.data.interests));
+                    resolve(true);
+                })
+                .catch((error) => {
+                    console.log("error in getting user interests", error), reject(true);
+                });
         });
     };
 };
