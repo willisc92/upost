@@ -18,3 +18,18 @@ export const startSetChannels = () => {
         });
     };
 };
+
+export const addChannel = (channel) => {
+    return (dispatch) => {
+        API.post("channels/", {
+            ...channel,
+            user: localStorage.getItem("user_id")
+        })
+            .then((result) => {
+                dispatch(startSetChannels());
+            })
+            .catch((err) => {
+                alert(err);
+            });
+    };
+};

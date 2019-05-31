@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'upost.apps.UpostConfig',
+    'django_filters'
 ]
 
 SITE_ID = 1
