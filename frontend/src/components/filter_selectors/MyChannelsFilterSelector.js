@@ -34,8 +34,6 @@ export class ExpenseListFilters extends React.Component {
             this.props.sortByDate();
         } else if (e.target.value === "name") {
             this.props.sortByName();
-        } else if (e.target.value === "visible") {
-            this.props.sortByVisible();
         }
     };
 
@@ -64,7 +62,6 @@ export class ExpenseListFilters extends React.Component {
                         <select className="select" value={this.props.filters.sortBy} onChange={this.onSortChange}>
                             <option value="date">Date</option>
                             <option value="name">Name</option>
-                            <option value="visible">Visible</option>
                         </select>
                     </div>
                     <div className="input-group__item">

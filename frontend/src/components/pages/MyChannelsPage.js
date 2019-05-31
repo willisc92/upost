@@ -39,7 +39,7 @@ class MyChannelsPage extends React.Component {
                     ) : (
                         <div>
                             {this.props.channels.map((channel) => (
-                                <MyChannelListItem {...channel} />
+                                <MyChannelListItem key={channel.channel_id} {...channel} />
                             ))}
                         </div>
                     )}
