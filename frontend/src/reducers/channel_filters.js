@@ -29,11 +29,6 @@ export default (state = channelsFiltersReducerDefaultState, action) => {
                 ...state,
                 sortBy: "date"
             };
-        case "SORT_BY_VISIBLE":
-            return {
-                ...state,
-                sortBy: "visible"
-            };
         case "SET_START_DATE":
             return {
                 ...state,

@@ -20,11 +20,6 @@ export const sortByDate = () => ({
     type: "SORT_BY_DATE"
 });
 
-// SORT_BY_VISIBLE
-export const sortByVisible = () => ({
-    type: "SORT_BY_VISIBLE"
-});
-
 // SET_START_DATE
 export const setStartDate = (startDate) => ({
     type: "SET_START_DATE",

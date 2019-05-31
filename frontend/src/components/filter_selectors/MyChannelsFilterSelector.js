@@ -81,14 +81,16 @@ export class ExpenseListFilters extends React.Component {
                     </div>
                     <div className="input-group__item">
                         <p>
-                            Visible
-                            <input
-                                type="checkbox"
-                                name="prop1"
-                                id="string"
-                                checked={this.props.filters.visible}
-                                onChange={this.handleCheckbox}
-                            />
+                            Visible{" "}
+                            <span>
+                                <input
+                                    type="checkbox"
+                                    name="prop1"
+                                    id="string"
+                                    checked={this.props.filters.visible}
+                                    onChange={this.handleCheckbox}
+                                />
+                            </span>
                         </p>
                     </div>
                 </div>

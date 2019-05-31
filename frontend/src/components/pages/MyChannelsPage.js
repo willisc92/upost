@@ -4,6 +4,7 @@ import ChannelFilterSelector from "../filter_selectors/MyChannelsFilterSelector"
 import { connect } from "react-redux";
 import { startSetChannels } from "../../actions/channels";
 import moment from "moment";
+import MyChannelListItem from "../MyChannelListItem";
 
 class MyChannelsPage extends React.Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class MyChannelsPage extends React.Component {
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page-header__title">{localStorage.getItem("first_name")} - Channnel Pages</h1>
+                        <h1 className="page-header__title">{localStorage.getItem("first_name")} - Channel Pages</h1>
                         <div className="page-header__actions">
                             <ChannelFilterSelector />
                             <button className="button button--secondary" onClick={this.handleAddChannel}>
@@ -37,16 +38,9 @@ class MyChannelsPage extends React.Component {
                         <p>No channels</p>
                     ) : (
                         <div>
-                            {this.props.channels.map((channel) => {
-                                return (
-                                    <div>
-                                        <h1>{channel.channel_name}</h1>
-                                        <p>{channel.channel_description}</p>
-                                        <p>Creation Date: {moment(channel.creation_date).format("MMMM Do YYYY")}</p>
-                                        {!!channel.deleted_flag && <p>Invisible: {channel.deleted_flag}</p>}
-                                    </div>
-                                );
-                            })}
+                            {this.props.channels.map((channel) => (
+                                <MyChannelListItem {...channel} />
+                            ))}
                         </div>
                     )}
                 </div>

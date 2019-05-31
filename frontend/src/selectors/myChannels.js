@@ -16,8 +16,6 @@ export const getVisibleChannels = (channels, { text, visible, sortBy, startDate,
                     return a.creation_date < b.creation_date ? 1 : -1;
                 } else if (sortBy === "name") {
                     return a.channel_name < b.channel_name ? -1 : 1;
-                } else if (sortBy === "visible") {
-                    return a.deleted_flag > b.deleted_flag ? 1 : -1;
                 }
             });
     }
