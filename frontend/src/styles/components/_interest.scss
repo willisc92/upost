@@ -1,0 +1,33 @@
+.interest {
+    cursor: pointer;
+    background: $light-grey;
+    padding: $s-size;
+    margin: $m-size;
+    width: 35%;
+    color: $black;
+}
+
+.interest-title {
+    font-size: $font-size-medium;
+}
+
+.interest-description {
+    font-size: $font-size-small;
+}
+
+.interest-image {
+    height: 15rem;
+    font-size: $font-size-medium;
+    background: $dark-grey;
+}
+
+.interest-selector {
+    height: 5rem;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.interest-circle {
+    transform: translate(88%, 50%);
+}

@@ -120,7 +120,7 @@ class SignUpPage extends React.Component {
         this.props
             .authSignup(user)
             .then(() => {
-                this.props.history.push("/");
+                this.props.history.push("/interests");
             })
             .catch((error) => {
                 console.log("An error has occured with signup", error);

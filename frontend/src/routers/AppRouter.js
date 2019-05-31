@@ -12,6 +12,7 @@ import LoginPage from "../components/pages/LoginPage";
 import Header from "../components/Header";
 import NotFoundPage from "../components/pages/NotFoundPage";
 import SideBar from "../components/SideBar";
+import InterestsPage from "../components/pages/InterestsPage";
 
 export const history = createHistory();
 
@@ -31,6 +32,7 @@ class AppRouter extends React.Component {
                         <PublicRoute path="/login" component={LoginPage} exact={true} />
                         <PublicRoute path="/signup" component={SignUpPage} exact={true} />
                         <PrivateRoute path="/myChannels" component={MyChannelsPage} exact={true} />
+                        <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
                         <Route component={NotFoundPage} />
                     </Switch>
                 </div>
