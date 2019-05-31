@@ -12,5 +12,4 @@ class UserAccountSerializer(serializers.ModelSerializer):
 
     channels = serializers.PrimaryKeyRelatedField(many=True, queryset=ContentChannel.objects.all())
 
-
     validate_password = make_password  # performs password hashing during post, inprogress

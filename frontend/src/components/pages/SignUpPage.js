@@ -86,9 +86,11 @@ class SignUpPage extends React.Component {
         if (formInput.city.value.length === 0) {
             error.city = ["Field cannot be blank."];
         }
+        /*
         if (input.interests.length === 0) {
             error.interests = ["Field must contain atleast 1 selected choice"];
         }
+        */
 
         if (!this.isEmpty(error)) {
             console.log("client side error", error);
@@ -111,13 +113,14 @@ class SignUpPage extends React.Component {
             city: formInput.city.value,
             sex: formInput.sex.value === "Male" ? "M" : "F",
             phone_number: formInput.phoneNumber.value,
-            interests: input.interests
+            //interests: input.interests,
+            channels: [] // not ideal, ideally don't include fields we dont need have django handle
         };
 
         this.props
             .authSignup(user)
             .then(() => {
-                this.props.history.push("/");
+                this.props.history.push("/interests");
             })
             .catch((error) => {
                 console.log("An error has occured with signup", error);
