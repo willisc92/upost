@@ -49,35 +49,43 @@ export const startGetChannel = (id) => {
 
 export const addChannel = (channel) => {
     return (dispatch) => {
-        dispatch(channelStart());
-        API.post("channels/", {
-            ...channel,
-            user: localStorage.getItem("user_id")
-        })
-            .then((result) => {
-                dispatch(channelSuccess());
-                dispatch(startSetChannels());
+        return new Promise((resolve, reject) => {
+            dispatch(channelStart());
+            API.post(`channels/`, {
+                ...channel,
+                user: localStorage.getItem("user_id")
             })
-            .catch((err) => {
-                dispatch(channelFail(err));
-            });
+                .then((result) => {
+                    dispatch(channelSuccess());
+                    dispatch(startSetChannels());
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(channelFail(err));
+                    reject(err);
+                });
+        });
     };
 };
 
 export const editChannel = (id, updates) => {
     return (dispatch) => {
-        dispatch(channelStart());
-        API.put(`channels/${id}`, {
-            ...updates,
-            user: localStorage.getItem("user_id")
-        })
-            .then((result) => {
-                dispatch(channelSuccess());
-                dispatch(startSetChannels());
+        return new Promise((resolve, reject) => {
+            dispatch(channelStart());
+            API.put(`channels/${id}/`, {
+                ...updates,
+                user: localStorage.getItem("user_id")
             })
-            .catch((err) => {
-                dispatch(channelFail(err));
-            });
+                .then(() => {
+                    dispatch(channelSuccess());
+                    dispatch(startSetChannels());
+                    resolve(true);
+                })
+                .catch((err) => {
+                    dispatch(channelFail(err));
+                    reject(err);
+                });
+        });
     };
 };
 

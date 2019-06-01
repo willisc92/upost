@@ -13,10 +13,19 @@ class EditChannelPage extends React.Component {
         this.props.startGetChannel(channel_id);
     }
 
-    componentWillReceiveProps(newProps) {}
+    componentWillReceiveProps(newProps) {
+        if (newProps.length === 1 && newProps.loading === false) {
+            if (newProps.channel.user !== localStorage.getItem("user_name")) {
+                this.props.history.push("/myChannels");
+            }
+        }
+    }
 
-    onSubmit = (id, channel) => {
-        this.props.editChannel(id, channel);
+    onSubmit = (channel) => {
+        this.props
+            .editChannel(this.props.match.params.id, channel)
+            .then(() => this.props.history.push("/myChannels"))
+            .catch(() => {});
     };
 
     render() {
@@ -37,9 +46,10 @@ class EditChannelPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     token: !!state.auth.token,
-    channel: state.channels.channels,
+    channel: state.channels.channels[0],
     length: state.channels.channels.length,
-    loading: state.channels.loading
+    loading: state.channels.loading,
+    error: state.channels.error
 });
 
 const mapDispatchToProps = (dispatch) => ({

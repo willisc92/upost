@@ -6,24 +6,11 @@ class ChannelForm extends React.Component {
         super(props);
 
         this.state = {
-            channel_name: "",
-            deleted_flag: false,
-            channel_description: "",
+            channel_name: this.props.channel ? this.props.channel.channel_name : "",
+            deleted_flag: this.props.channel ? this.props.channel.deleted_flag : false,
+            channel_description: this.props.channel ? this.props.channel.channel_description : "",
             error: ""
         };
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (!!newProps.channel) {
-            let channel = newProps.channel[0];
-            console.log(channel);
-            this.setState({
-                channel_name: channel.channel_name,
-                deleted_flag: channel.deleted_flag,
-                channel_description: channel.channel_description,
-                error: ""
-            });
-        }
     }
 
     onNameChange = (e) => {
@@ -58,16 +45,22 @@ class ChannelForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit}>
-                {!!this.props.error && <p className="form__error">Request failed.</p>}
+                {!!this.props.error && (
+                    <p className="form__error">
+                        Request failed. Duplicate names not allowed and channel name must be provided.
+                    </p>
+                )}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
+                Channel Name:{" "}
                 <input
                     className="text-input"
                     type="text"
-                    placeholder="Channel Name"
+                    placeholder="Name"
                     autoFocus
                     value={this.state.channel_name}
                     onChange={this.onNameChange}
                 />
+                Channel Description:
                 <input
                     className="text-input"
                     type="text"
@@ -97,8 +90,8 @@ class ChannelForm extends React.Component {
 
 const mapStateToProps = (state) => ({
     token: state.auth.token,
-    error: state.channels.error,
-    channel: state.channels.channels
+    error: state.channels.error
+    // channel: state.channels.channels
 });
 
 export default connect(mapStateToProps)(ChannelForm);

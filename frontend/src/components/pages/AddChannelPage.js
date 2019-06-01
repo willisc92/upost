@@ -8,14 +8,11 @@ class AddChannelPage extends React.Component {
         super(props);
     }
 
-    componentWillReceiveProps(newProps) {
-        if (!!newProps.channels) {
-            this.props.history.push("/myChannels");
-        }
-    }
-
     onSubmit = (channel) => {
-        this.props.addChannel({ ...channel });
+        this.props
+            .addChannel({ ...channel })
+            .then(() => this.props.history.push("/myChannels"))
+            .catch(() => {});
     };
 
     render() {
