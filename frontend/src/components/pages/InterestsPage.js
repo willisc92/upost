@@ -1,6 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import API from "../../utils/API";
 import Interest from "../Interest";
+import { startSetUserInterests } from "../../actions/interests";
 
 class InterestsPage extends React.Component {
     constructor(props) {
@@ -11,15 +13,43 @@ class InterestsPage extends React.Component {
         };
     }
 
+    markSelectedInterests = () => {
+        let interestsWithSelected = this.state.interests.map((interest) => {
+            interest.isSelected = false;
+            return interest;
+        });
+
+        for (let i = 0; i < interestsWithSelected.length; i++) {
+            if (this.props.userInterests.includes(interestsWithSelected[i].interest_tag)) {
+                interestsWithSelected[i].isSelected = true;
+            }
+        }
+
+        console.log(interestsWithSelected);
+
+        this.setState(() => ({ interests: interestsWithSelected }));
+
+        console.log(this.state);
+    };
+
+    getUserInterests = () => {
+        this.props.startSetUserInterests().then(() => {
+            console.log(this.props.userInterests);
+            this.markSelectedInterests();
+        });
+    };
+
     componentDidMount() {
         API.get("interests/").then(
             (result) => {
-                this.setState({
-                    isLoaded: true,
-                    interests: result.data
-                });
+                this.setState(
+                    {
+                        isLoaded: true,
+                        interests: result.data
+                    },
+                    this.getUserInterests
+                );
             },
-
             (error) => {
                 this.setState({
                     isLoaded: true,
@@ -51,4 +81,19 @@ class InterestsPage extends React.Component {
     }
 }
 
-export default InterestsPage;
+const mapStateToProps = (state) => {
+    return {
+        userInterests: state.userInterests.userInterests
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        startSetUserInterests: () => dispatch(startSetUserInterests())
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(InterestsPage);

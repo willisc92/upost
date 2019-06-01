@@ -1,4 +1,5 @@
 .interest {
+    position: relative;
     cursor: pointer;
     background: $light-grey;
     padding: $s-size;
@@ -22,7 +23,8 @@
 }
 
 .interest-selector {
-    height: 5rem;
+    position: absolute;
+    height: 4.4rem;
     width: 100%;
     padding: 0;
     margin: 0;
