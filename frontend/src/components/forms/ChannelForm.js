@@ -13,6 +13,19 @@ class ChannelForm extends React.Component {
         };
     }
 
+    componentWillReceiveProps(newProps) {
+        if (!!newProps.channel) {
+            let channel = newProps.channel[0];
+            console.log(channel);
+            this.setState({
+                channel_name: channel.channel_name,
+                deleted_flag: channel.deleted_flag,
+                channel_description: channel.channel_description,
+                error: ""
+            });
+        }
+    }
+
     onNameChange = (e) => {
         const channel_name = e.target.value;
         this.setState(() => ({ channel_name }));
@@ -20,7 +33,6 @@ class ChannelForm extends React.Component {
 
     onDeletedFlagChange = (e) => {
         this.setState((prevState) => ({ deleted_flag: !prevState.deleted_flag }));
-        console.log(this.state.deleted_flag);
     };
 
     onDescriptionChange = (e) => {
@@ -37,7 +49,8 @@ class ChannelForm extends React.Component {
             this.props.onSubmit({
                 channel_name: this.state.channel_name,
                 deleted_flag: this.state.deleted_flag,
-                channel_description: this.state.channel_description
+                channel_description: this.state.channel_description,
+                user: localStorage.getItem("user_id")
             });
         }
     };
@@ -69,7 +82,7 @@ class ChannelForm extends React.Component {
                             type="checkbox"
                             name="prop1"
                             id="string"
-                            checked={this.state.deleted_flag}
+                            checked={!this.state.deleted_flag}
                             onChange={this.onDeletedFlagChange}
                         />
                     </span>
@@ -83,7 +96,9 @@ class ChannelForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    token: state.auth.token
+    token: state.auth.token,
+    error: state.channels.error,
+    channel: state.channels.channels
 });
 
 export default connect(mapStateToProps)(ChannelForm);

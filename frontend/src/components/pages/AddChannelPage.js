@@ -9,7 +9,7 @@ class AddChannelPage extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (!!newProps.token) {
+        if (!!newProps.channels) {
             this.props.history.push("/myChannels");
         }
     }
@@ -35,7 +35,8 @@ class AddChannelPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    token: !!state.auth.token
+    token: !!state.auth.token,
+    channels: state.channels.channels
 });
 
 const mapDispatchToProps = (dispatch) => ({

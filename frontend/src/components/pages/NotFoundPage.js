@@ -6,7 +6,7 @@ const NotFoundPage = () => (
         <h1>
             404! - <Link to="/">Go home</Link>
         </h1>
-    </div> // link works like an a-tag, but uses client-side routing.
+    </div>
 );
 
 export default NotFoundPage;

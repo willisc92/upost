@@ -1,8 +1,9 @@
 import axios from "axios";
 
-export default axios.create({
+const axiosInstance = axios.create({
     baseURL: "http://127.0.0.1:8000/api/",
-    responseType: "json"
+    responseType: "json",
+    headers: !!localStorage.getItem("token") ? { Authorization: `Token ${localStorage.getItem("token")}` } : null
 });
 
-axios.defaults.headers.common["Authorization"] = localStorage.getItem("token");
+export default axiosInstance;

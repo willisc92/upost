@@ -3,7 +3,6 @@ import { getVisibleChannels } from "../../selectors/myChannels";
 import ChannelFilterSelector from "../filter_selectors/MyChannelsFilterSelector";
 import { connect } from "react-redux";
 import { startSetChannels } from "../../actions/channels";
-import moment from "moment";
 import MyChannelListItem from "../MyChannelListItem";
 
 class MyChannelsPage extends React.Component {
@@ -34,8 +33,8 @@ class MyChannelsPage extends React.Component {
                     </div>
                 </div>
                 <div className="content-container">
-                    {this.props.length == 0 ? (
-                        <p>No channels</p>
+                    {this.props.loading === true ? (
+                        <p>Loading...</p>
                     ) : (
                         <div>
                             {this.props.channels.map((channel) => (
@@ -51,7 +50,8 @@ class MyChannelsPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     channels: getVisibleChannels(state.channels.channels, state.channelFilters),
-    length: state.channels.length
+    length: state.channels.length,
+    loading: state.channels.loading
 });
 
 const mapDispatchToProps = (dispatch) => ({
