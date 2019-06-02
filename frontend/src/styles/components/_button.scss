@@ -10,6 +10,12 @@
     text-decoration: none;
 }
 
+.button--centered {
+    @extend .button;
+    display: block;
+    margin: auto;
+}
+
 .button--link {
     background: none;
 }

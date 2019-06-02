@@ -1,10 +1,11 @@
 .interest {
+    float: left;
     position: relative;
     cursor: pointer;
     background: $light-grey;
     padding: $s-size;
-    margin: $m-size;
-    width: 35%;
+    margin: $s-size;
+    width: 30%;
     color: $black;
 }
 
@@ -32,4 +33,13 @@
 
 .interest-circle {
     transform: translate(88%, 50%);
+}
+
+// apply to remove the float property on interest elements
+.clearfix:after {
+    content: "";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
 }

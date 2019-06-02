@@ -107,7 +107,8 @@ class InterestsPage extends React.Component {
                             />
                         );
                     })}
-                    <button className="button" onClick={this.submitChanges}>
+                    <div className="clearfix" />
+                    <button className="button--centered" onClick={this.submitChanges}>
                         Submit
                     </button>
                 </div>
