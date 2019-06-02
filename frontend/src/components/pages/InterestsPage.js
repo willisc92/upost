@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import API from "../../utils/API";
 import Interest from "../Interest";
-import { startSetUserInterests } from "../../actions/interests";
+import { startSetUserInterests, startEditUserInterests } from "../../actions/interests";
 
 class InterestsPage extends React.Component {
     constructor(props) {
@@ -25,16 +25,11 @@ class InterestsPage extends React.Component {
             }
         }
 
-        console.log(interestsWithSelected);
-
         this.setState(() => ({ interests: interestsWithSelected }));
-
-        console.log(this.state);
     };
 
     getUserInterests = () => {
         this.props.startSetUserInterests().then(() => {
-            console.log(this.props.userInterests);
             this.markSelectedInterests();
         });
     };
@@ -59,6 +54,37 @@ class InterestsPage extends React.Component {
         );
     }
 
+    changeIsSelected = (interest_tag) => {
+        const selected = this.state.interests.map((interest) => {
+            if (interest.interest_tag === interest_tag) {
+                interest.isSelected = !interest.isSelected;
+                return interest;
+            }
+            return interest;
+        });
+
+        this.setState({ interests: selected });
+    };
+
+    submitChanges = () => {
+        const changes = this.state.interests
+            .filter((interest) => {
+                return interest.isSelected;
+            })
+            .map((interest) => {
+                return interest.interest_tag;
+            });
+
+        this.props
+            .startEditUserInterests(changes)
+            .then(() => {
+                this.props.history.push("/");
+            })
+            .catch((error) => {
+                console.log("An error has occured with updating interests", error);
+            });
+    };
+
     render() {
         return (
             <div>
@@ -73,8 +99,17 @@ class InterestsPage extends React.Component {
                 </div>
                 <div className="content-container">
                     {this.state.interests.map((interest) => {
-                        return <Interest interest={interest} key={interest.interest_tag} />;
+                        return (
+                            <Interest
+                                interest={interest}
+                                changeIsSelected={this.changeIsSelected}
+                                key={interest.interest_tag}
+                            />
+                        );
                     })}
+                    <button className="button" onClick={this.submitChanges}>
+                        Submit
+                    </button>
                 </div>
             </div>
         );
@@ -89,7 +124,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        startSetUserInterests: () => dispatch(startSetUserInterests())
+        startSetUserInterests: () => dispatch(startSetUserInterests()),
+        startEditUserInterests: (userInterests) => dispatch(startEditUserInterests(userInterests))
     };
 };
 

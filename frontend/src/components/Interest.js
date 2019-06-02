@@ -1,33 +1,20 @@
 import React from "react";
 
 class Interest extends React.Component {
-    constructor(props) {
-        super(props);
-
-        // why doesnt this work?
-        //console.log("isSelected", props.interest.isSelected);
-
-        this.state = {
-            selected: props.interest
-        };
-    }
-
-    changeSelection = () => {
-        this.setState(() => {
-            return { selected: { ...this.state.selected, isSelected: !this.state.selected.isSelected } };
-        });
+    onClick = () => {
+        this.props.changeIsSelected(this.props.interest.interest_tag);
     };
 
     render() {
         return (
-            <div className="interest" onClick={this.changeSelection}>
+            <div className="interest" onClick={this.onClick}>
                 <svg className="interest-selector">
                     <circle
                         className="interest-circle"
                         cx={0}
                         cy={0}
                         r={22}
-                        fill={this.state.selected.isSelected ? "red" : "grey"}
+                        fill={this.props.interest.isSelected ? "red" : "grey"}
                     />
                 </svg>
                 <p className="interest-image">Image</p>
