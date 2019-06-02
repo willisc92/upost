@@ -17,7 +17,7 @@ export const startSetUserInterests = () => {
                 })
                 .catch((error) => {
                     console.log("error in getting user interests", error);
-                    reject(true);
+                    reject(error);
                 });
         });
     };
@@ -42,7 +42,7 @@ export const startEditUserInterests = (userInterests) => {
                 })
                 .catch((error) => {
                     console.log("error in updating user interests", error);
-                    reject(true);
+                    reject(error);
                 });
         });
     };
