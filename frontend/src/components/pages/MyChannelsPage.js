@@ -1,9 +1,9 @@
 import React from "react";
 import { getVisibleChannels } from "../../selectors/myChannels";
-import ChannelFilterSelector from "../filter_selectors/MyChannelsFilterSelector";
 import { connect } from "react-redux";
 import { startSetChannels } from "../../actions/channels";
 import MyChannelListItem from "../MyChannelListItem";
+import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
 
 class MyChannelsPage extends React.Component {
     constructor(props) {
@@ -25,7 +25,7 @@ class MyChannelsPage extends React.Component {
                     <div className="content-container">
                         <h1 className="page-header__title">{localStorage.getItem("first_name")} - Channel Pages</h1>
                         <div className="page-header__actions">
-                            <ChannelFilterSelector />
+                            <MyChannelFilterSelector />
                             <button className="button button--secondary" onClick={this.handleAddChannel}>
                                 Add a channel
                             </button>

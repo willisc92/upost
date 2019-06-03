@@ -11,7 +11,7 @@ import {
     setEndDate
 } from "../../actions/channel_filters";
 
-export class ExpenseListFilters extends React.Component {
+export class ChannelFilters extends React.Component {
     state = {
         calenderFocused: null
     };
@@ -113,4 +113,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ExpenseListFilters);
+)(ChannelFilters);

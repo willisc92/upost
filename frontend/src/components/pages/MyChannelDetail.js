@@ -2,6 +2,9 @@ import React from "react";
 import { startGetChannel } from "../../actions/channels";
 import { connect } from "react-redux";
 import moment from "moment";
+import MyPostSummary from "../MyPostSummary";
+import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
+import { getVisiblePosts } from "../../selectors/myPosts";
 
 class MyChannelDetail extends React.Component {
     constructor(props) {
@@ -15,7 +18,7 @@ class MyChannelDetail extends React.Component {
 
     componentWillReceiveProps(newProps) {
         if (newProps.length === 1 && newProps.loading === false) {
-            if (newProps.channel[0].user !== localStorage.getItem("user_name")) {
+            if (newProps.channel.user !== localStorage.getItem("user_name")) {
                 this.props.history.push("/myChannels");
             }
         }
@@ -23,6 +26,7 @@ class MyChannelDetail extends React.Component {
 
     handleAddPost = () => {
         console.log("Handle add post called");
+        console.log(this.props.posts);
     };
 
     handleEditChannel = (e) => {
@@ -40,29 +44,39 @@ class MyChannelDetail extends React.Component {
                             <p>Loading...</p>
                         ) : (
                             <div>
-                                {this.props.channel.map((channel) => (
-                                    <div key={channel.channel_id}>
-                                        <h2>Name: {channel.channel_name}</h2>
-                                        <h3>Description: {channel.channel_description}</h3>
-                                        <h3>Creation Date: {moment(channel.creation_date).format("MMMM Do YYYY")}</h3>
+                                <h2>Name: {this.props.channel.channel_name}</h2>
+                                <h3>Description: {this.props.channel.channel_description}</h3>
+                                <h3>
+                                    Creation Date: {moment(this.props.channel.creation_date).format("MMMM Do YYYY")}
+                                </h3>
 
-                                        <button className="button button--secondary" onClick={this.handleAddPost}>
-                                            Add a new post
-                                        </button>
-                                        <span> </span>
-                                        <button
-                                            id={channel.channel_id}
-                                            className="button button--secondary"
-                                            onClick={this.handleEditChannel}
-                                        >
-                                            Edit this channel
-                                        </button>
-                                    </div>
-                                ))}
+                                <div>
+                                    <button className="button button--secondary" onClick={this.handleAddPost}>
+                                        Add a new post
+                                    </button>
+                                    <span> </span>
+                                    <button
+                                        id={this.props.channel.channel_id}
+                                        className="button button--secondary"
+                                        onClick={this.handleEditChannel}
+                                    >
+                                        Edit this channel
+                                    </button>
+                                </div>
+                                <div className="page-header__actions">
+                                    <MyChannelFilterSelector />
+                                </div>
                             </div>
                         )}
                     </div>
                 </div>
+                {this.props.posts !== [] && (
+                    <div className="content-container">
+                        {this.props.posts.map((post) => {
+                            return <MyPostSummary key={post.post_id} post={post} />;
+                        })}
+                    </div>
+                )}
             </div>
         );
     }
@@ -70,9 +84,14 @@ class MyChannelDetail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        channel: state.channels.channels,
+        filters: state.postFilters,
+        channel: state.channels.channels.length === 1 && state.channels.channels[0],
         length: state.channels.channels.length,
-        loading: state.channels.loading
+        loading: state.channels.loading,
+        posts:
+            state.channels.channels.length === 1
+                ? getVisiblePosts(state.channels.channels[0].channel_posts, state.channelFilters)
+                : []
     };
 };
 

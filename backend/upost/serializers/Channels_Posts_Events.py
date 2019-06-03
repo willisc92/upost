@@ -1,5 +1,26 @@
 from rest_framework import serializers
-from ..models import ContentChannel
+from ..models import ContentChannel, Post
+
+
+class PostSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'post_id',
+            'post_title',
+            'poster_name',
+            'phone_number',
+            'email',
+            'post_description',
+            'user',
+            'channel',
+            'post_timestamp',
+            'deleted_flag',
+            'tags'
+        )
+        model = Post
+
+    user = serializers.ReadOnlyField(source='user.username')
+    channel = serializers.ReadOnlyField(source="channel.channel_id")
 
 
 class ContentChannelSerializer(serializers.ModelSerializer):
@@ -11,8 +32,10 @@ class ContentChannelSerializer(serializers.ModelSerializer):
             'deleted_flag',
             'creation_date',
             'deletion_date',
-            'channel_description'
+            'channel_description',
+            'channel_posts'
         )
         model = ContentChannel
 
+    channel_posts = PostSerializer(many=True, read_only=True)
     user = serializers.ReadOnlyField(source='user.username')
