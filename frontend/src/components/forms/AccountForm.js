@@ -30,10 +30,6 @@ class AccountForm extends React.Component {
         this.setState(() => ({ calendarFocused: focused }));
     };
 
-    onInterestChange = (selectedOption) => {
-        this.setState({ selectedInterests: selectedOption });
-    };
-
     componentDidMount() {
         API.get("interests/").then(
             (result) => {
@@ -188,23 +184,6 @@ class AccountForm extends React.Component {
                 </select>
                 <p>Phone Number</p>
                 <input type="text" className="text-input" name="phoneNumber" />
-                <p>Interests*</p>
-                {!!this.props.auth.error &&
-                    !!this.props.auth.error.interests &&
-                    this.props.auth.error.interests.map((error) => {
-                        return (
-                            <p className="form__error" key={error}>
-                                {error}
-                            </p>
-                        );
-                    })}
-                <Select
-                    value={this.state.selectedInterests}
-                    onChange={this.onInterestChange}
-                    options={this.state.interests}
-                    isMulti
-                    name="interests"
-                />
                 <p>Password</p>
                 <p>Your password contain at least {this.props.minPasswordLength} characters.</p>
                 {!!this.props.auth.error &&

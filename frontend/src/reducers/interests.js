@@ -7,6 +7,10 @@ export default (state = interestsDefaultState, action) => {
             return {
                 userInterests: action.userInterests
             };
+        case "EDIT_USER_INTERESTS":
+            return {
+                userInterests: action.userInterests
+            };
         default:
             return state;
     }
