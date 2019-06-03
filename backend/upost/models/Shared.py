@@ -10,6 +10,7 @@ class Interest(models.Model):
     interest_tag = models.CharField(db_column='Interest_tag', primary_key=True,
                                     max_length=50)  # Field name made lowercase.
     description = models.CharField(max_length=50, default="description")
+    image = models.ImageField(upload_to='interests', null=True)
 
     def __str__(self):
         return self.interest_tag
