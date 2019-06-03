@@ -2,9 +2,6 @@ from rest_framework import serializers
 from ..models.User_Account import CustomUser
 from ..models.Channels_Posts_Events import ContentChannel
 from django.contrib.auth.hashers import make_password
-from rest_framework.authtoken.models import Token
-from rest_framework.response import Response
-from rest_framework import status
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
@@ -16,7 +13,7 @@ class UserAccountSerializer(serializers.ModelSerializer):
 
     channels = serializers.PrimaryKeyRelatedField(many=True, queryset=ContentChannel.objects.all())
 
-    def create(self, validated_data):  # overwrite the post method to hash passwords
+    def create(self, validated_data):  # for POST to hash passwords
         user = CustomUser.objects.create(
             password=make_password(validated_data['password']),  # hashes the password
             username=validated_data['username'],

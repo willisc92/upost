@@ -65,20 +65,14 @@ export const authSignup = (user) => {
         return new Promise((resolve, reject) => {
             API.post("accounts/", user)
                 .then((res) => {
-                    console.log(res);
-                    console.log(res);
                     const token = res.data.token;
-                    const first_name = res.data.first_name;
-                    const last_name = res.data.last_name;
-                    const user_id = res.data.user_id;
-                    const username = res.data.username;
                     const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
                     localStorage.setItem("token", token);
-                    localStorage.setItem("first_name", first_name);
-                    localStorage.setItem("last_name", last_name);
-                    localStorage.setItem("user_id", user_id);
+                    localStorage.setItem("first_name", res.data.first_name);
+                    localStorage.setItem("last_name", res.data.last_name);
+                    localStorage.setItem("user_id", res.data.user_id);
                     localStorage.setItem("expirationDate", expirationDate);
-                    localStorage.setItem("username", username);
+                    localStorage.setItem("username", res.data.username);
                     dispatch(authSuccess(token));
                     dispatch(checkAuthTimeout(3600));
                     resolve(true);
