@@ -65,6 +65,8 @@ export const authSignup = (user) => {
         return new Promise((resolve, reject) => {
             API.post("accounts/", user)
                 .then((res) => {
+                    console.log(res);
+                    console.log(res);
                     const token = res.data.token;
                     const first_name = res.data.first_name;
                     const last_name = res.data.last_name;
@@ -82,6 +84,7 @@ export const authSignup = (user) => {
                     resolve(true);
                 })
                 .catch((error) => {
+                    console.log(error);
                     dispatch(authFail(error.response.request.response));
                     reject(error.response.request.response);
                 });
