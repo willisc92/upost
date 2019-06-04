@@ -17,7 +17,7 @@ class Interest extends React.Component {
                         fill={this.props.interest.isSelected ? "red" : "grey"}
                     />
                 </svg>
-                <p className="interest-image">Image</p>
+                <img className="interest-image" src={this.props.interest.image} />
                 <p className="interest-title">{this.props.interest.interest_tag}</p>
                 <p className="interest-description">{this.props.interest.description}</p>
             </div>

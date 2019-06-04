@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
 from upost.views import Interest, Channels_Posts_Events, User_Account
+from django.conf import settings
+from django.conf.urls.static import static
 
 router = routers.DefaultRouter()
 # naming scheme: register('link_name', viewSet, 'base_name')
@@ -32,5 +34,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/login/', User_Account.CustomAuthToken.as_view()),
-
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

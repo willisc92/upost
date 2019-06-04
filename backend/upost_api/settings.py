@@ -163,3 +163,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Media fields
+# https://docs.djangoproject.com/en/2.2/ref/models/fields/#imagefield
+
+MEDIA_ROOT = 'upost/media/'
+MEDIA_URL = '/media/'
