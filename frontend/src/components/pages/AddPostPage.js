@@ -2,10 +2,23 @@ import React from "react";
 import PostForm from "../forms/PostForm";
 import { connect } from "react-redux";
 import { addPost } from "../../actions/posts";
+import { startGetChannel } from "../../actions/channels";
 
 class AddPostPage extends React.Component {
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
+        const channel_id = this.props.match.params.id;
+        this.props
+            .startGetChannel(channel_id)
+            .then(() => {
+                if (this.props.channel.user !== localStorage.getItem("user_name")) {
+                    this.props.history.push("/");
+                }
+            })
+            .catch((err) => console.log(err));
     }
 
     onSubmit = (post) => {
@@ -35,11 +48,16 @@ class AddPostPage extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => ({
+    channel: state.channels.channels[0]
+});
+
 const mapDispatchToProps = (dispatch) => ({
-    addPost: (post) => dispatch(addPost(post))
+    addPost: (post) => dispatch(addPost(post)),
+    startGetChannel: (channel_id) => dispatch(startGetChannel(channel_id))
 });
 
 export default connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(AddPostPage);

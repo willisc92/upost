@@ -7,7 +7,8 @@ const MyPostSummary = ({ post }) => {
         <Link
             className="list-item"
             to={{
-                pathname: `/myPosts/${post.post_id}`
+                pathname: `/myPosts/${post.post_id}/edit`,
+                state: { post }
             }}
         >
             <div>

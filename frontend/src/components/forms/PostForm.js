@@ -207,7 +207,7 @@ class PostForm extends React.Component {
                 </p>
                 {!!this.props.interests && (
                     <div>
-                        <p>Interest Tags (hold CTRL to select multiple)</p>
+                        <p>Interest Tags (Hold down "Control", or "Command" on a Mac, to select more than one.)</p>
                         <select multiple onChange={this.onTagsChange}>
                             {this.props.interests.map((interest) => {
                                 return (

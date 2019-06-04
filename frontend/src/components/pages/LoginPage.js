@@ -8,7 +8,7 @@ class LoginPage extends React.Component {
     }
 
     componentWillReceiveProps(newProps) {
-        if (!!newProps.token) {
+        if (newProps.token) {
             this.props.history.push("/");
         }
     }

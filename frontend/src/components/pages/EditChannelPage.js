@@ -10,15 +10,14 @@ class EditChannelPage extends React.Component {
 
     componentDidMount() {
         const channel_id = this.props.match.params.id;
-        this.props.startGetChannel(channel_id);
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (newProps.length === 1 && newProps.loading === false) {
-            if (newProps.channel.user !== localStorage.getItem("user_name")) {
-                this.props.history.push("/myChannels");
-            }
-        }
+        this.props
+            .startGetChannel(channel_id)
+            .then(() => {
+                if (this.props.channel.user !== localStorage.getItem("user_name")) {
+                    this.props.history.push("/myChannels");
+                }
+            })
+            .catch((err) => console.log(err));
     }
 
     onSubmit = (channel) => {
