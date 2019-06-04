@@ -28,6 +28,7 @@ router.register(
 router.register('accounts', User_Account.UserAccountView, 'account')
 router.register('user-interests', Interest.UserInterestView, 'user-interest')
 router.register('posts', Channels_Posts_Events.Post_View, 'post')
+router.register('events', Channels_Posts_Events.Event_View, 'event')
 
 
 urlpatterns = [

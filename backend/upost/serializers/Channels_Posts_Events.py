@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import ContentChannel, Post, Interest
+from ..models import ContentChannel, Post, Interest, PostEvent
 from rest_framework.validators import UniqueValidator
 
 
@@ -17,7 +17,8 @@ class PostSerializer(serializers.ModelSerializer):
             'channel',
             'post_timestamp',
             'deleted_flag',
-            'tags'
+            'tags',
+            'post_event'    # NEW
         )
         model = Post
 
@@ -26,6 +27,23 @@ class PostSerializer(serializers.ModelSerializer):
         read_only=False, many=False, queryset=ContentChannel.objects.all())
     tags = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Interest.objects.all())
+
+    post_event = serializers.PrimaryKeyRelatedField(read_only=False, many=False,
+                                                    queryset=PostEvent.objects.all())  # NEW
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'post',
+            'location',
+            'capacity',
+            'planned_start_date',
+            'planned_end_date',
+        )
+        model = PostEvent
+        post = serializers.PrimaryKeyRelatedField(
+            read_only=False, many=False, queryset=Post.objects.all())
 
 
 class ContentChannelSerializer(serializers.ModelSerializer):
