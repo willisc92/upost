@@ -25,7 +25,6 @@ class Post_View(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-        seraliizer.save(channel=self.request.channel)
 
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)

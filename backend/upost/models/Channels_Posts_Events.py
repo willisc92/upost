@@ -39,9 +39,6 @@ class ContentChannel(models.Model):
     def __str__(self):
         return self.channel_name
 
-    def get_absolute_url(self):
-        return reverse('channel-detail', kwargs={'pk': self.pk})
-
     class Meta:
         db_table = 'content_channel'
 
@@ -70,7 +67,8 @@ class Post(models.Model):
     post_description = models.CharField(
         db_column='Post_description', max_length=500)
     # Field name made lowercase.
-    cost = models.IntegerField(db_column='Cost', blank=True, null=True)
+    cost = models.IntegerField(
+        db_column='Cost', blank=True, null=True, default=0)
     user = models.ForeignKey('upost.CustomUser', models.DO_NOTHING,
                              db_column='User_ID', related_name="user_posts")  # Field name made lowercase.
     channel = models.ForeignKey(ContentChannel, models.DO_NOTHING, db_column='Channel_ID',

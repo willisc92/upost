@@ -25,8 +25,8 @@ class MyChannelDetail extends React.Component {
     }
 
     handleAddPost = () => {
-        console.log("Handle add post called");
-        console.log(this.props.posts);
+        const channel_id = this.props.match.params.id;
+        this.props.history.push(`/myChannels/${channel_id}/addPost`);
     };
 
     handleEditChannel = (e) => {
@@ -72,9 +72,21 @@ class MyChannelDetail extends React.Component {
                 </div>
                 {this.props.posts !== [] && (
                     <div className="content-container">
-                        {this.props.posts.map((post) => {
-                            return <MyPostSummary key={post.post_id} post={post} />;
-                        })}
+                        <div className="list-body">
+                            <div className="list-parent">
+                                {this.props.length > 0 ? (
+                                    this.props.posts.map((post) => {
+                                        return (
+                                            <div key={post.post_id} className="list-box">
+                                                <MyPostSummary post={post} />
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <p> No posts </p>
+                                )}
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
@@ -86,7 +98,10 @@ const mapStateToProps = (state) => {
     return {
         filters: state.postFilters,
         channel: state.channels.channels.length === 1 && state.channels.channels[0],
-        length: state.channels.channels.length,
+        length:
+            state.channels.channels.length === 1
+                ? getVisiblePosts(state.channels.channels[0].channel_posts, state.channelFilters).length
+                : 0,
         loading: state.channels.loading,
         posts:
             state.channels.channels.length === 1

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from ..models import ContentChannel, Post
+from ..models import ContentChannel, Post, Interest
+from rest_framework.validators import UniqueValidator
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -10,6 +11,7 @@ class PostSerializer(serializers.ModelSerializer):
             'poster_name',
             'phone_number',
             'email',
+            'cost',
             'post_description',
             'user',
             'channel',
@@ -20,7 +22,10 @@ class PostSerializer(serializers.ModelSerializer):
         model = Post
 
     user = serializers.ReadOnlyField(source='user.username')
-    channel = serializers.ReadOnlyField(source="channel.channel_id")
+    channel = serializers.PrimaryKeyRelatedField(
+        read_only=False, many=False, queryset=ContentChannel.objects.all())
+    tags = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Interest.objects.all())
 
 
 class ContentChannelSerializer(serializers.ModelSerializer):
@@ -39,3 +44,5 @@ class ContentChannelSerializer(serializers.ModelSerializer):
 
     channel_posts = PostSerializer(many=True, read_only=True)
     user = serializers.ReadOnlyField(source='user.username')
+    channel_name = serializers.CharField(max_length=50, validators=[
+        UniqueValidator(message="Channel name must be unique", queryset=ContentChannel.objects.all())])

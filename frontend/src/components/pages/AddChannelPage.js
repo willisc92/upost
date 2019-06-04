@@ -31,16 +31,11 @@ class AddChannelPage extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    token: !!state.auth.token,
-    channels: state.channels.channels
-});
-
 const mapDispatchToProps = (dispatch) => ({
     addChannel: (channel) => dispatch(addChannel(channel))
 });
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(AddChannelPage);

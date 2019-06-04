@@ -14,8 +14,9 @@ import NotFoundPage from "../components/pages/NotFoundPage";
 import SideBar from "../components/SideBar";
 import AddChannelPage from "../components/pages/AddChannelPage";
 import InterestsPage from "../components/pages/InterestsPage";
-import MyChannelDetail from "../components/pages/MyChannelDetail.js";
+import MyChannelDetail from "../components/pages/MyChannelDetail";
 import EditChannelPage from "../components/pages/EditChannelPage";
+import AddPostPage from "../components/pages/AddPostPage";
 
 export const history = createHistory();
 
@@ -36,6 +37,7 @@ class AppRouter extends React.Component {
                         <PublicRoute path="/signup" component={SignUpPage} exact={true} />
                         <PrivateRoute path="/myChannels" component={MyChannelsPage} exact={true} />
                         <PrivateRoute path="/myChannels/:id" component={MyChannelDetail} exact={true} />
+                        <PrivateRoute path="/myChannels/:id/addPost" component={AddPostPage} exact={true} />
                         <PrivateRoute path="/myChannels/edit/:id" component={EditChannelPage} exact={true} />
                         <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
                         <PrivateRoute path="/interests" component={InterestsPage} exact={true} />

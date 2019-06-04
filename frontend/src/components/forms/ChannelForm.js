@@ -15,7 +15,15 @@ class ChannelForm extends React.Component {
 
     onNameChange = (e) => {
         const channel_name = e.target.value;
-        this.setState(() => ({ channel_name }));
+        if (!!channel_name) {
+            if (channel_name.length > 50) {
+                this.setState({ error: "Must have a channel name 50 characters or less" });
+            } else {
+                this.setState(() => ({ channel_name }));
+            }
+        } else {
+            this.setState(() => ({ channel_name }));
+        }
     };
 
     onDeletedFlagChange = (e) => {
@@ -24,7 +32,15 @@ class ChannelForm extends React.Component {
 
     onDescriptionChange = (e) => {
         const channel_description = e.target.value;
-        this.setState(() => ({ channel_description }));
+        if (!!channel_description) {
+            if (channel_description.length > 500) {
+                this.setState({ error: "Must have a channel description 500 characters or less" });
+            } else {
+                this.setState(() => ({ channel_description }));
+            }
+        } else {
+            this.setState(() => ({ channel_description }));
+        }
     };
 
     onSubmit = (e) => {
@@ -45,11 +61,7 @@ class ChannelForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit}>
-                {!!this.props.error && (
-                    <p className="form__error">
-                        Request failed. Duplicate names not allowed and channel name must be provided.
-                    </p>
-                )}
+                {!!this.props.error && <p className="form_error"> {this.props.error.channel_name[0]}</p>}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
                 Channel Name:{" "}
                 <input
@@ -61,8 +73,8 @@ class ChannelForm extends React.Component {
                     onChange={this.onNameChange}
                 />
                 Channel Description:
-                <input
-                    className="text-input"
+                <textarea
+                    className="textarea"
                     type="text"
                     placeholder="Description"
                     value={this.state.channel_description}
@@ -89,9 +101,7 @@ class ChannelForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    token: state.auth.token,
-    error: state.channels.error
-    // channel: state.channels.channels
+    error: !!state.channels.error && state.channels.error.response.data
 });
 
 export default connect(mapStateToProps)(ChannelForm);

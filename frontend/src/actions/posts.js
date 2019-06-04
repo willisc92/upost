@@ -47,18 +47,17 @@ export const startGetPost = (id) => {
     };
 };
 
-export const addPost = (post, channel_id) => {
+export const addPost = (post) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(postStart());
             API.post(`posts/`, {
                 ...post,
-                user: localStorage.getItem("user_id"),
-                channel: channel_id
+                user: localStorage.getItem("user_id")
             })
                 .then((result) => {
                     dispatch(postSuccess());
-                    dispatch(startSetPosts());
+                    dispatch(startSetMyPosts());
                     resolve(result);
                 })
                 .catch((err) => {

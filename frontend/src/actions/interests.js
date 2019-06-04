@@ -47,3 +47,19 @@ export const startEditUserInterests = (userInterests) => {
         });
     };
 };
+
+export const getAllInterests = () => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            API.get(`interests/`)
+                .then((result) => {
+                    dispatch(setUserInterests(result.data));
+                    resolve(true);
+                })
+                .catch((error) => {
+                    console.log("error in getting Interests", error);
+                    reject(error);
+                });
+        });
+    };
+};

@@ -45,11 +45,8 @@ class EditChannelPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    token: !!state.auth.token,
     channel: state.channels.channels[0],
-    length: state.channels.channels.length,
-    loading: state.channels.loading,
-    error: state.channels.error
+    loading: state.channels.loading
 });
 
 const mapDispatchToProps = (dispatch) => ({
