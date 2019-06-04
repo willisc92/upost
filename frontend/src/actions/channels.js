@@ -80,10 +80,10 @@ export const editChannel = (id, updates) => {
                 ...updates,
                 user: localStorage.getItem("user_id")
             })
-                .then(() => {
+                .then((result) => {
                     dispatch(channelSuccess());
                     dispatch(startSetChannels());
-                    resolve(true);
+                    resolve(result);
                 })
                 .catch((err) => {
                     dispatch(channelFail(err));

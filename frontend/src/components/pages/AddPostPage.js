@@ -14,8 +14,10 @@ class AddPostPage extends React.Component {
         this.props
             .startGetChannel(channel_id)
             .then(() => {
-                if (this.props.channel.user !== localStorage.getItem("user_name")) {
-                    this.props.history.push("/");
+                if (!!this.props.post) {
+                    if (this.props.channel.user !== localStorage.getItem("user_name")) {
+                        this.props.history.push("/");
+                    }
                 }
             })
             .catch((err) => console.log(err));

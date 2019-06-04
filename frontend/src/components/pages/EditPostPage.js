@@ -1,7 +1,7 @@
 import React from "react";
-import { startGetPost } from "../../actions/posts";
+import { startGetPost, editPost } from "../../actions/posts";
 import { connect } from "react-redux";
-import { PostForm } from "../forms/PostForm";
+import PostForm from "../forms/PostForm";
 
 class EditPostPage extends React.Component {
     constructor(props) {
@@ -10,27 +10,33 @@ class EditPostPage extends React.Component {
 
     componentDidMount() {
         const post_id = this.props.match.params.id;
-        console.log(post_id, channel_id);
-        this.props.startGetPost(post_id);
-    }
-
-    componentWillReceiveProps(newProps) {
-        if (newProps.length === 1 && newProps.loading === false) {
-            if (newProps.post.user !== localStorage.getItem("user_name")) {
-                this.props.history.push("/myChannels");
-            }
-        }
+        this.props
+            .startGetPost(post_id)
+            .then((result) => {
+                if (!!this.props.post) {
+                    if (this.props.post.user !== localStorage.getItem("user_name")) {
+                        this.props.history.push("/myChannels");
+                    }
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     onSubmit = (post) => {
         console.log(post);
-        // const channel_id = this.props.match.params.id;
-        // this.props
-        //     .addPost({ ...post })
-        //     .then(() => this.props.history.push(`/myChannels/${channel_id}`))
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
+        const post_id = this.props.match.params.id;
+        console.log(post_id);
+        this.props
+            .editPost(post_id, post)
+            .then((result) => {
+                console.log(result);
+                this.props.history.push(`/myChannels/${post.channel}`);
+            })
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
     };
 
     render() {
@@ -42,7 +48,9 @@ class EditPostPage extends React.Component {
                     </div>
                 </div>
                 <div className="content-container">
-                    <PostForm onSubmit={this.onSubmit} channel={this.props.match.params.id} />
+                    {!!this.props.post && (
+                        <PostForm onSubmit={this.onSubmit} channel={this.props.post.channel} post={this.props.post} />
+                    )}
                 </div>
             </div>
         );
@@ -51,12 +59,12 @@ class EditPostPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     loading: state.posts.loading,
-    post: state.posts.posts[0],
-    error: state.posts.error
+    post: state.posts.posts[0]
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startGetPost: (id) => dispatch(startGetPost(id))
+    startGetPost: (id) => dispatch(startGetPost(id)),
+    editPost: (id, updates) => dispatch(editPost(id, updates))
 });
 
 export default connect(
