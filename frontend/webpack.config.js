@@ -19,7 +19,7 @@ module.exports = (env) => {
     return {
         entry: ["babel-polyfill", "./src/app.js"], // file to input
         output: {
-            path: path.join(__dirname, "public", "dist"), // concatenates current path with 'public' - requires absolute path
+            path: path.join(__dirname, "..", "backend", "frontendapp", "static", "frontend"), // concatenates current path with 'public' - requires absolute path
             filename: "bundle.js" // output file name
         }, // file to output
         module: {

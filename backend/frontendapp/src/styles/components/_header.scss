@@ -1,0 +1,23 @@
+.header {
+    background: $crimson-red;
+}
+
+.header__content {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: $s-size 0;
+}
+
+.header__title {
+    color: white;
+    text-decoration: none;
+    h1 {
+        margin: 0;
+    }
+}
+
+.header__logo {
+    height: 50px;
+    width: 100px;
+}

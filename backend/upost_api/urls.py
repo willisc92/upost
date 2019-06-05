@@ -19,6 +19,7 @@ from rest_framework import routers
 from upost.views import Interest, Channels_Posts_Events, User_Account
 from django.conf import settings
 from django.conf.urls.static import static
+from frontendapp import urls as frontendapp_urls
 
 router = routers.DefaultRouter()
 # naming scheme: register('link_name', viewSet, 'base_name')
@@ -31,6 +32,7 @@ router.register('posts', Channels_Posts_Events.Post_View, 'post')
 
 
 urlpatterns = [
+    path('', include(frontendapp_urls)),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/login/', User_Account.CustomAuthToken.as_view()),

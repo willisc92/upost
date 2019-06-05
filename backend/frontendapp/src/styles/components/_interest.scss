@@ -1,0 +1,45 @@
+.interest {
+    float: left;
+    position: relative;
+    cursor: pointer;
+    background: $light-grey;
+    padding: $s-size;
+    margin: $s-size;
+    width: 30%;
+    color: $black;
+}
+
+.interest-title {
+    font-size: $font-size-medium;
+}
+
+.interest-description {
+    font-size: $font-size-small;
+}
+
+.interest-image {
+    height: 16rem;
+    font-size: $font-size-medium;
+    background: $dark-grey;
+}
+
+.interest-selector {
+    position: absolute;
+    height: 4.4rem;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.interest-circle {
+    transform: translate(88%, 50%);
+}
+
+// apply to remove the float property on interest elements
+.clearfix:after {
+    content: "";
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+}
