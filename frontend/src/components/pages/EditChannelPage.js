@@ -17,7 +17,9 @@ class EditChannelPage extends React.Component {
                     this.props.history.push("/myChannels");
                 }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
     }
 
     onSubmit = (channel) => {

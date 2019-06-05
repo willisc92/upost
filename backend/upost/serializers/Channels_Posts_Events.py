@@ -27,9 +27,8 @@ class PostSerializer(serializers.ModelSerializer):
         read_only=False, many=False, queryset=ContentChannel.objects.all())
     tags = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Interest.objects.all())
-
     post_event = serializers.PrimaryKeyRelatedField(read_only=False, many=False,
-                                                    queryset=PostEvent.objects.all())  # NEW
+                                                    queryset=PostEvent.objects.all(), required=False)  # NEW
 
 
 class EventSerializer(serializers.ModelSerializer):

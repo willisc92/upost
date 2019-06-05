@@ -30,7 +30,7 @@ class AddPostPage extends React.Component {
             .addPost({ ...post })
             .then(() => this.props.history.push(`/myChannels/${channel_id}`))
             .catch((err) => {
-                console.log(err);
+                console.log(JSON.stringify(err, null, 2));
             });
     };
 
