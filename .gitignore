@@ -165,4 +165,7 @@ dmypy.json
 
 public/dist/
 frontend/.env.development
-frontend/.env.test    
+frontend/.env.test
+
+# remove static files in backend
+backend/static/
