@@ -55,7 +55,7 @@ module.exports = (env) => {
         devServer: {
             contentBase: path.join(__dirname, "..", "backend", "frontendapp", "templates", "frontend"), // enable dev server
             historyApiFallback: true, // Allows for client-side routing - should return index.html for all 404's.
-            publicPath: "/frontend/"
+            publicPath: "/dist/"
         }
     };
 };
