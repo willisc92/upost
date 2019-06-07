@@ -73,7 +73,7 @@ export const authSignup = (user) => {
                     localStorage.setItem("last_name", res.data.last_name);
                     localStorage.setItem("user_id", res.data.user_id);
                     localStorage.setItem("expirationDate", expirationDate);
-                    localStorage.setItem("username", res.data.username);
+                    localStorage.setItem("user_name", res.data.username);
                     dispatch(authSuccess(token));
                     dispatch(checkAuthTimeout(3600));
                     resolve(true);

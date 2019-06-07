@@ -130,6 +130,40 @@ test("Should checkAuthState when localstorage has a token, but is expired ", () 
     expect(actions[0]).toEqual({ type: AUTH_LOGOUT });
 });
 
+test("Should perform valid authSignup", async () => {
+    const store = createMockStore({
+        auth: {
+            token: null,
+            error: null,
+            loading: false
+        }
+    });
+
+    mockAxios.post.mockImplementationOnce(() =>
+        Promise.resolve({
+            data: {
+                token: 123,
+                first_name: "Willis",
+                last_name: "Cheung",
+                username: "willisc92",
+                user_id: 10056884
+            }
+        })
+    );
+
+    const expectedActions = [{ type: AUTH_SUCCESS, token: 123 }];
+    const user = {};
+
+    await store.dispatch(authSignup(user));
+    expect(store.getActions()).toEqual(expectedActions);
+    expect(localStorage.getItem("token")).toEqual("123");
+    expect(localStorage.getItem("expirationDate")).toEqual((moment() + 3600 * 1000).toString());
+    expect(localStorage.getItem("first_name")).toEqual("Willis");
+    expect(localStorage.getItem("last_name")).toEqual("Cheung");
+    expect(localStorage.getItem("user_name")).toEqual("willisc92");
+    expect(localStorage.getItem("user_id")).toEqual("10056884");
+});
+
 test("Should perform valid authlogin", async () => {
     const store = createMockStore({
         auth: {
