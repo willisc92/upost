@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import { LoginPage } from "../../components/LoginPage";
+import { LoginPage } from "../../components/pages/LoginPage";
 import React from "react";
 
 test("Should Render LoginPage", () => {
@@ -7,9 +7,12 @@ test("Should Render LoginPage", () => {
     expect(wrapper).toMatchSnapshot();
 });
 
-test("Should call startLogin on button click", () => {
-    const startLogin = jest.fn();
-    const wrapper = shallow(<LoginPage startLogin={startLogin} />);
+test("Should call createAccount on button click", () => {
+    let wrapper = shallow(<LoginPage />);
+    const instance = wrapper.instance();
+    instance.createAccount = jest.fn();
+    wrapper.instance().forceUpdate();
+    wrapper.update();
     wrapper.find("button").simulate("click");
-    expect(startLogin).toHaveBeenCalled();
+    expect(instance.createAccount).toHaveBeenCalled();
 });

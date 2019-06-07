@@ -1,5 +1,6 @@
 import { AUTH_FAIL, AUTH_LOGOUT, AUTH_START, AUTH_SUCCESS } from "./auth_action_types";
 import API from "../utils/API";
+import moment from "moment";
 
 export const authStart = () => ({
     type: AUTH_START
@@ -44,7 +45,7 @@ export const authLogin = (username, password) => {
         })
             .then((res) => {
                 const token = res.data.token;
-                const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+                const expirationDate = moment() + 3600 * 1000;
                 localStorage.setItem("token", token);
                 localStorage.setItem("expirationDate", expirationDate);
                 localStorage.setItem("first_name", res.data.first_name);
@@ -66,7 +67,7 @@ export const authSignup = (user) => {
             API.post("accounts/", user)
                 .then((res) => {
                     const token = res.data.token;
-                    const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+                    const expirationDate = moment() + 3600 * 1000;
                     localStorage.setItem("token", token);
                     localStorage.setItem("first_name", res.data.first_name);
                     localStorage.setItem("last_name", res.data.last_name);
@@ -89,16 +90,16 @@ export const authSignup = (user) => {
 export const authCheckState = () => {
     return (dispatch) => {
         const token = localStorage.getItem("token");
-        if (token === undefined) {
-            dispatch(logout());
-        } else {
-            const expirationDate = new Date(localStorage.getItem("expirationDate"));
-            if (expirationDate <= new Date()) {
+        if (!!token) {
+            const expirationDate = moment(parseInt(localStorage.getItem("expirationDate"), 10));
+            if (expirationDate <= moment()) {
                 dispatch(logout());
             } else {
                 dispatch(authSuccess(token));
-                dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
+                dispatch(checkAuthTimeout((expirationDate - moment) / 1000));
             }
+        } else {
+            dispatch(logout());
         }
     };
 };
