@@ -96,7 +96,7 @@ export const authCheckState = () => {
                 dispatch(logout());
             } else {
                 dispatch(authSuccess(token));
-                dispatch(checkAuthTimeout((expirationDate - moment) / 1000));
+                dispatch(checkAuthTimeout((expirationDate - moment()) / 1000));
             }
         } else {
             dispatch(logout());

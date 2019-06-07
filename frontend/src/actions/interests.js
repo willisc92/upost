@@ -13,7 +13,7 @@ export const startSetUserInterests = () => {
             API.get(`user-interests/${localStorage.getItem("user_id")}`)
                 .then((result) => {
                     dispatch(setUserInterests(result.data.interests));
-                    resolve(true);
+                    resolve(result);
                 })
                 .catch((error) => {
                     console.log("error in getting user interests", error);
