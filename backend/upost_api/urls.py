@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from rest_framework import routers
 from upost.views import Interest, Channels_Posts_Events, User_Account
 from django.conf import settings
@@ -32,8 +32,8 @@ router.register('posts', Channels_Posts_Events.Post_View, 'post')
 
 
 urlpatterns = [
-    path('', include(frontendapp_urls)),
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/login/', User_Account.CustomAuthToken.as_view()),
+    re_path(r'', include(frontendapp_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
