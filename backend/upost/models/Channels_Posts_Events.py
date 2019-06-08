@@ -39,9 +39,6 @@ class ContentChannel(models.Model):
     def __str__(self):
         return self.channel_name
 
-    def get_absolute_url(self):
-        return reverse('channel-detail', kwargs={'pk': self.pk})
-
     class Meta:
         db_table = 'content_channel'
 
@@ -70,7 +67,8 @@ class Post(models.Model):
     post_description = models.CharField(
         db_column='Post_description', max_length=500)
     # Field name made lowercase.
-    cost = models.IntegerField(db_column='Cost', blank=True, null=True)
+    cost = models.IntegerField(
+        db_column='Cost', blank=True, null=True, default=0)
     user = models.ForeignKey('upost.CustomUser', models.DO_NOTHING,
                              db_column='User_ID', related_name="user_posts")  # Field name made lowercase.
     channel = models.ForeignKey(ContentChannel, models.DO_NOTHING, db_column='Channel_ID',
@@ -91,17 +89,24 @@ class PostEvent(models.Model):
     post = models.OneToOneField(
         Post, on_delete=models.CASCADE, primary_key=True, related_name="post_event")
     # Field name made lowercase.
-    location = models.CharField(db_column='Location', max_length=50)
+    location = models.CharField(
+        db_column='Location', max_length=50, null=False, blank=False)
     # Field name made lowercase.
-    capacity = models.IntegerField(db_column='Capacity')
+    capacity = models.IntegerField(
+        db_column='Capacity', null=False, blank=False)
     # Field name made lowercase.
-    planned_start_date = models.DateField(db_column='Planned_start_date')
-    # Field name made lowercase.
-    planned_start_time = models.TimeField(db_column='Planned_start_time')
-    # Field name made lowercase.
-    planned_end_date = models.DateField(db_column='Planned_end_date')
-    # Field name made lowercase.
-    planned_end_time = models.TimeField(db_column='Planned_end_time')
+    planned_start_date = models.DateTimeField(
+        db_column='Planned_start_datetime', null=False, blank=False)
+    planned_end_date = models.DateTimeField(
+        db_column='Planned_end_datetime', null=False, blank=False)
+
+    # planned_start_date = models.DateField(db_column='Planned_start_date')
+    # # Field name made lowercase.
+    # planned_start_time = models.TimeField(db_column='Planned_start_time')
+    # # Field name made lowercase.
+    # planned_end_date = models.DateField(db_column='Planned_end_date')
+    # # Field name made lowercase.
+    # planned_end_time = models.TimeField(db_column='Planned_end_time')
 
     def has_post_event_content(self):
         return hasattr(self, 'content')

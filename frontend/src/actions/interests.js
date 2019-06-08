@@ -13,7 +13,7 @@ export const startSetUserInterests = () => {
             API.get(`user-interests/${localStorage.getItem("user_id")}`)
                 .then((result) => {
                     dispatch(setUserInterests(result.data.interests));
-                    resolve(true);
+                    resolve(result);
                 })
                 .catch((error) => {
                     console.log("error in getting user interests", error);
@@ -42,6 +42,22 @@ export const startEditUserInterests = (userInterests) => {
                 })
                 .catch((error) => {
                     console.log("error in updating user interests", error);
+                    reject(error);
+                });
+        });
+    };
+};
+
+export const getAllInterests = () => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            API.get(`interests/`)
+                .then((result) => {
+                    dispatch(setUserInterests(result.data));
+                    resolve(true);
+                })
+                .catch((error) => {
+                    console.log("error in getting Interests", error);
                     reject(error);
                 });
         });

@@ -36,10 +36,18 @@ class MyChannelsPage extends React.Component {
                     {this.props.loading === true ? (
                         <p>Loading...</p>
                     ) : (
-                        <div>
-                            {this.props.channels.map((channel) => (
-                                <MyChannelListItem key={channel.channel_id} {...channel} />
-                            ))}
+                        <div className="list-body">
+                            <div className="list-parent">
+                                {this.props.length > 0 ? (
+                                    this.props.channels.map((channel) => (
+                                        <div className="list-box" key={channel.channel_id}>
+                                            <MyChannelListItem {...channel} />
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>No channels to show</p>
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>
@@ -50,7 +58,7 @@ class MyChannelsPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     channels: getVisibleChannels(state.channels.channels, state.channelFilters),
-    length: state.channels.length,
+    length: getVisibleChannels(state.channels.channels, state.channelFilters).length,
     loading: state.channels.loading
 });
 

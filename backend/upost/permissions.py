@@ -1,4 +1,5 @@
 from rest_framework import permissions
+from .models import Post
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -14,3 +15,12 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
         # Write permissions are only allowed to the owner of the snippet.
         return obj.user == request.user
+
+
+class EventAccessPermission(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return request.user == Post.objects.get(pk=obj.post.pk).user

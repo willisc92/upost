@@ -31,19 +31,23 @@ export const startSetChannels = () => {
 
 export const startGetChannel = (id) => {
     return (dispatch) => {
-        dispatch(channelStart());
-        API.get("channels/", {
-            params: {
-                channel_id: id
-            }
-        })
-            .then((result) => {
-                dispatch(channelSuccess());
-                dispatch(setChannels(result.data));
+        return new Promise((resolve, reject) => {
+            dispatch(channelStart());
+            API.get("channels/", {
+                params: {
+                    channel_id: id
+                }
             })
-            .catch((err) => {
-                dispatch(channelFail(err));
-            });
+                .then((result) => {
+                    dispatch(channelSuccess());
+                    dispatch(setChannels(result.data));
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(channelFail(err));
+                    reject(err);
+                });
+        });
     };
 };
 
@@ -76,10 +80,10 @@ export const editChannel = (id, updates) => {
                 ...updates,
                 user: localStorage.getItem("user_id")
             })
-                .then(() => {
+                .then((result) => {
                     dispatch(channelSuccess());
                     dispatch(startSetChannels());
-                    resolve(true);
+                    resolve(result);
                 })
                 .catch((err) => {
                     dispatch(channelFail(err));

@@ -1,5 +1,5 @@
 import React from "react";
-import NotFoundPage from "../../components/NotFoundPage";
+import NotFoundPage from "../../components/pages/NotFoundPage";
 import { shallow } from "enzyme";
 
 test("Should render NotFoundPage component", () => {

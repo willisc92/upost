@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-class DashboardPage extends React.Component {
+export class DashboardPage extends React.Component {
     render() {
         return (
             <div className="page-header">

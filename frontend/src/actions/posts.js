@@ -31,34 +31,16 @@ export const startSetMyPosts = () => {
 
 export const startGetPost = (id) => {
     return (dispatch) => {
-        dispatch(postStart());
-        API.get("posts/", {
-            params: {
-                post_id: id
-            }
-        })
-            .then((result) => {
-                dispatch(postSuccess());
-                dispatch(setPosts(result.data));
-            })
-            .catch((err) => {
-                dispatch(postFail(err));
-            });
-    };
-};
-
-export const addPost = (post, channel_id) => {
-    return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(postStart());
-            API.post(`posts/`, {
-                ...post,
-                user: localStorage.getItem("user_id"),
-                channel: channel_id
+            API.get("posts/", {
+                params: {
+                    post_id: id
+                }
             })
                 .then((result) => {
                     dispatch(postSuccess());
-                    dispatch(startSetPosts());
+                    dispatch(setPosts(result.data));
                     resolve(result);
                 })
                 .catch((err) => {
@@ -69,19 +51,39 @@ export const addPost = (post, channel_id) => {
     };
 };
 
-export const editPost = (id, updates, channel_id) => {
+export const addPost = (post) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(postStart());
+            API.post(`posts/`, {
+                ...post,
+                user: localStorage.getItem("user_id")
+            })
+                .then((result) => {
+                    dispatch(postSuccess());
+                    dispatch(startSetMyPosts());
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(postFail(err));
+                    reject(err);
+                });
+        });
+    };
+};
+
+export const editPost = (id, updates) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(postStart());
             API.put(`posts/${id}/`, {
                 ...updates,
-                user: localStorage.getItem("user_id"),
-                channel: channel_id
+                user: localStorage.getItem("user_id")
             })
-                .then(() => {
+                .then((result) => {
                     dispatch(postSuccess());
-                    dispatch(startSetPosts());
-                    resolve(true);
+                    dispatch(startSetMyPosts());
+                    resolve(result);
                 })
                 .catch((err) => {
                     dispatch(postFail(err));

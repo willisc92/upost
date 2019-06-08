@@ -12,7 +12,9 @@ class AddChannelPage extends React.Component {
         this.props
             .addChannel({ ...channel })
             .then(() => this.props.history.push("/myChannels"))
-            .catch(() => {});
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
     };
 
     render() {
@@ -31,16 +33,11 @@ class AddChannelPage extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    token: !!state.auth.token,
-    channels: state.channels.channels
-});
-
 const mapDispatchToProps = (dispatch) => ({
     addChannel: (channel) => dispatch(addChannel(channel))
 });
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(AddChannelPage);
