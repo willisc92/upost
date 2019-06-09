@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 
-class ChannelForm extends React.Component {
+export class ChannelForm extends React.Component {
     constructor(props) {
         super(props);
 
