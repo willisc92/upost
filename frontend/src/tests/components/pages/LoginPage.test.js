@@ -1,5 +1,5 @@
 import { shallow } from "enzyme";
-import { LoginPage } from "../../components/pages/LoginPage";
+import { LoginPage } from "../../../components/pages/LoginPage";
 import React from "react";
 
 test("Should Render LoginPage", () => {

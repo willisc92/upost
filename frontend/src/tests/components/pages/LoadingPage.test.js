@@ -1,6 +1,6 @@
 import React from "react";
 import { shallow } from "enzyme";
-import LoadingPage from "../../components/pages/LoadingPage";
+import LoadingPage from "../../../components/pages/LoadingPage";
 
 test("Should render Loading Page", () => {
     const wrapper = shallow(<LoadingPage />);
