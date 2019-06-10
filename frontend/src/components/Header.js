@@ -9,7 +9,7 @@ export const Header = ({ logout, token }) => {
             <div className="content-container">
                 <div className="header__content">
                     <Link to="/">
-                        <img className="header__logo" src="/images/logo.png" />
+                        <img className="header__logo" src="dist/images/logo.png" />
                     </Link>
                     {!!token ? (
                         <div>

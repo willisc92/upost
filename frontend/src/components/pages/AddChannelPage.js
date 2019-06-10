@@ -12,7 +12,9 @@ class AddChannelPage extends React.Component {
         this.props
             .addChannel({ ...channel })
             .then(() => this.props.history.push("/myChannels"))
-            .catch(() => {});
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
     };
 
     render() {

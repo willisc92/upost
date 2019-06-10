@@ -5,7 +5,7 @@ import Select from "react-select";
 import moment from "moment";
 import API from "../../utils/API";
 
-class AccountForm extends React.Component {
+export class AccountForm extends React.Component {
     constructor(props) {
         super(props);
 
@@ -195,7 +195,7 @@ class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <input type="text" className="text-input" name="password" />
+                <input type="password" className="text-input" name="password" />
                 <p>Password Confirmation*</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.password &&
@@ -206,7 +206,7 @@ class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <input type="text" className="text-input" name="passwordConfirmation" />
+                <input type="password" className="text-input" name="passwordConfirmation" />
                 <br />
                 <button className="button">Sign Up</button>
             </form>

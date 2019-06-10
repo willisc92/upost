@@ -1,7 +1,7 @@
 import React from "react";
 import { slide as Menu } from "react-burger-menu";
 
-class SideBar extends React.Component {
+export class SideBar extends React.Component {
     render() {
         return (
             <Menu>

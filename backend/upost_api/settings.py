@@ -9,25 +9,30 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
 import os
-try:
-    from .local_settings import *
-except ImportError:
-    raise Exception("A local_settings.py file is required to run this project")
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = S_KEY
+if 'SECRET_KEY' in os.environ:
+    SECRET_KEY = os.environ['SECRET_KEY']
+else:
+    try:
+        from .local_settings import *
+    except ImportError:
+        raise Exception("A local_settings.py file is required to run this project")
+
+    SECRET_KEY = S_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if 'RDS_HOSTNAME' in os.environ:
+    DEUBG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -40,13 +45,15 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_auth',
     'rest_framework.authtoken',
     'corsheaders',
     'upost.apps.UpostConfig',
-    'django_filters'
+    'django_filters',
+    'frontendapp'
 ]
 
 SITE_ID = 1
@@ -69,6 +76,7 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -110,24 +118,39 @@ WSGI_APPLICATION = 'upost_api.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'mysql.connector.django',
-        'NAME': DB_NAME,
-        'USER': 'root',
-
-
-                'PASSWORD': DB_PASSWORD,
-
-                'HOST': '127.0.0.1',
-                'PORT': '3306',
-        'OPTIONS': {
-            'use_pure': 'true'
+if 'RDS_HOSTNAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
         }
     }
-}
+else:
+    try:
+        from .local_settings import *
+    except ImportError:
+        raise Exception("A local_settings.py file is required to run this project")
 
+    DATABASES = {
+        'default': {
+            'ENGINE': 'mysql.connector.django',
+            'NAME': DB_NAME,
+            'USER': 'root',
+
+
+                    'PASSWORD': DB_PASSWORD,
+
+                    'HOST': '127.0.0.1',
+                    'PORT': '3306',
+            'OPTIONS': {
+                'use_pure': 'true'
+            }
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -165,7 +188,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontendapp', 'static', 'frontend')]
+STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
+
+STATIC_URL = '/dist/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'dist')
+
+#WHITENOISE_ROOT = os.path.join(BASE_DIR, 'frontendapp', 'dist', 'root')  # serves assets at application root
 
 
 # Media fields
@@ -173,3 +202,5 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = 'upost/media/'
 MEDIA_URL = '/media/'
+
+CORS_ORIGIN_ALLOW_ALL = True

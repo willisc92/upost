@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { authLogin } from "../../actions/auth";
 
-class LoginForm extends React.Component {
+export class LoginForm extends React.Component {
     constructor(props) {
         super(props);
 
@@ -62,8 +62,7 @@ class LoginForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    error: state.auth.error,
-    loading: state.auth.loading
+    error: state.auth.error
 });
 
 const mapDispatchToProps = (dispatch) => ({

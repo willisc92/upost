@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import API from "../../utils/API";
 import Interest from "../Interest";
-import { startSetUserInterests, startEditUserInterests } from "../../actions/interests";
+import { startSetUserInterests, startEditUserInterests, getAllInterests } from "../../actions/interests";
 
 class InterestsPage extends React.Component {
     constructor(props) {
@@ -37,13 +37,11 @@ class InterestsPage extends React.Component {
     componentDidMount() {
         API.get("interests/").then(
             (result) => {
-                this.setState(
-                    {
-                        isLoaded: true,
-                        interests: result.data
-                    },
-                    this.getUserInterests
-                );
+                this.setState(() => ({
+                    isLoaded: true,
+                    interests: result.data
+                }));
+                this.getUserInterests();
             },
             (error) => {
                 this.setState({

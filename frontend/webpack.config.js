@@ -19,7 +19,7 @@ module.exports = (env) => {
     return {
         entry: ["babel-polyfill", "./src/app.js"], // file to input
         output: {
-            path: path.join(__dirname, "public", "dist"), // concatenates current path with 'public' - requires absolute path
+            path: path.join(__dirname, "..", "backend", "frontendapp", "static", "frontend"), // concatenates current path with 'public' - requires absolute path
             filename: "bundle.js" // output file name
         }, // file to output
         module: {
@@ -53,7 +53,10 @@ module.exports = (env) => {
         plugins: [CSSExtract],
         devtool: isProduction ? "source-map" : "inline-source-map", // enable source map in browser
         devServer: {
-            contentBase: path.join(__dirname, "public"), // enable dev server
+            contentBase: [
+                path.join(__dirname, "..", "backend", "frontendapp", "templates", "frontend"),
+                path.join(__dirname, "public")
+            ], // enable dev server
             historyApiFallback: true, // Allows for client-side routing - should return index.html for all 404's.
             publicPath: "/dist/"
         }

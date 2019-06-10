@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should Render LoginPage 1`] = `
+<div>
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page-header__title"
+      >
+        Login
+      </h1>
+    </div>
+  </div>
+  <div
+    className="content-container"
+  >
+    <Connect(LoginForm) />
+    <button
+      className="button"
+      onClick={[Function]}
+    >
+      Create Account
+    </button>
+  </div>
+</div>
+`;

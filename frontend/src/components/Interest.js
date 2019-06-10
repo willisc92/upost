@@ -1,6 +1,6 @@
 import React from "react";
 
-class Interest extends React.Component {
+export class Interest extends React.Component {
     onClick = () => {
         this.props.changeIsSelected(this.props.interest.interest_tag);
     };

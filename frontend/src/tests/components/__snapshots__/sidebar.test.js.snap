@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render sidebar 1`] = `
+<Menu
+  bodyClassName=""
+  burgerBarClassName=""
+  burgerButtonClassName=""
+  className=""
+  crossButtonClassName=""
+  crossClassName=""
+  disableAutoFocus={false}
+  disableCloseOnEsc={false}
+  htmlClassName=""
+  id=""
+  itemClassName=""
+  itemListClassName=""
+  menuClassName=""
+  morphShapeClassName=""
+  noOverlay={false}
+  onStateChange={[Function]}
+  outerContainerId=""
+  overlayClassName=""
+  pageWrapId=""
+  styles={Object {}}
+  width={300}
+>
+  <a
+    className="menu-item"
+    href="/"
+    id="home"
+  >
+    Home
+  </a>
+  <a
+    className="menu-item"
+    href="/inspire_me"
+    id="inspire_me"
+  >
+    Inspire Me
+  </a>
+  <a
+    className="menu-item"
+    href="/food_mood"
+    id="food_mood"
+  >
+    Food Mood
+  </a>
+  <a
+    className="menu-item"
+    href="/around_me"
+    id="around_me"
+  >
+    Around Me
+  </a>
+  <a
+    className="menu-item"
+    href="/my_list"
+    id="my_list"
+  >
+    My List
+  </a>
+</Menu>
+`;
