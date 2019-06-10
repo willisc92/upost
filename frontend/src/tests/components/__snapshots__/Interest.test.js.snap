@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render an interest component 1`] = `
+<div
+  className="interest"
+  onClick={[Function]}
+>
+  <svg
+    className="interest-selector"
+  >
+    <circle
+      className="interest-circle"
+      cx={0}
+      cy={0}
+      fill="grey"
+      r={22}
+    />
+  </svg>
+  <img
+    className="interest-image"
+    src="http://localhost:8000/media/interests/fa-image.png"
+  />
+  <p
+    className="interest-title"
+  >
+    Interest 1
+  </p>
+  <p
+    className="interest-description"
+  >
+    description
+  </p>
+</div>
+`;

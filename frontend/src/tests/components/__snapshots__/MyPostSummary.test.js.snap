@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render MyPostSummary 1`] = `
+<Link
+  className="list-item"
+  replace={false}
+  to={
+    Object {
+      "pathname": "/myPosts/1/edit",
+      "state": Object {
+        "post": Object {
+          "channel": 1,
+          "cost": 0,
+          "deleted_flag": false,
+          "email": "willisc92@hotmail.com",
+          "phone_number": "4034010115",
+          "post_description": "Test",
+          "post_event": null,
+          "post_id": 1,
+          "post_timestamp": "2019-06-04T23:23:53.199984-06:00",
+          "post_title": "Post 1",
+          "poster_name": "Willis",
+          "tags": Array [
+            "Interest 1",
+          ],
+          "user": "willisc92",
+        },
+      },
+    }
+  }
+>
+  <div>
+    <h3
+      className="list_item__title"
+    >
+      Post 1
+    </h3>
+    <p
+      className="list-item__sub-title"
+    >
+      Test
+    </p>
+    <p
+      className="list-item__sub-title"
+    >
+      Creation Date: 
+      June 4th 2019
+    </p>
+  </div>
+</Link>
+`;

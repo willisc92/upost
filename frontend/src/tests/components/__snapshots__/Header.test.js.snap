@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render Header with no token 1`] = `
+<header
+  className="header"
+>
+  <div
+    className="content-container"
+  >
+    <div
+      className="header__content"
+    >
+      <Link
+        replace={false}
+        to="/"
+      >
+        <img
+          className="header__logo"
+          src="dist/images/logo.png"
+        />
+      </Link>
+      <div>
+        <Link
+          className="button button--link"
+          replace={false}
+          to="/login"
+        >
+          Login
+        </Link>
+        <Link
+          className="button button--link"
+          replace={false}
+          to="/signup"
+        >
+          Signup
+        </Link>
+      </div>
+    </div>
+  </div>
+</header>
+`;
+
+exports[`Should render Header with valid token 1`] = `
+<header
+  className="header"
+>
+  <div
+    className="content-container"
+  >
+    <div
+      className="header__content"
+    >
+      <Link
+        replace={false}
+        to="/"
+      >
+        <img
+          className="header__logo"
+          src="dist/images/logo.png"
+        />
+      </Link>
+      <div>
+        <Link
+          className="button button--link"
+          replace={false}
+          to="/myChannels"
+        >
+          My Content
+        </Link>
+        <button
+          className="button button--link"
+          onClick={[Function]}
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+`;

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-const MyChannelListItem = ({ channel_id, channel_description, creation_date, channel_name }) => {
+export const MyChannelListItem = ({ channel_id, channel_description, creation_date, channel_name }) => {
     return (
         <Link
             className="list-item"

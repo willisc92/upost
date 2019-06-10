@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render MyChannelListItem 1`] = `
+<Link
+  className="list-item"
+  replace={false}
+  to={
+    Object {
+      "pathname": "/myChannels/1",
+      "state": Object {
+        "channel_description": "Test",
+        "channel_id": 1,
+        "channel_name": "Channel 1",
+        "creation_date": "2019-06-04",
+      },
+    }
+  }
+>
+  <div>
+    <h3
+      className="list-item__title"
+    >
+      Channel 1
+    </h3>
+    <p
+      className="list-item__sub-title"
+    >
+      Test
+    </p>
+    <p
+      className="list-item__sub-title"
+    >
+      Creation Date: 
+      June 4th 2019
+    </p>
+  </div>
+</Link>
+`;
