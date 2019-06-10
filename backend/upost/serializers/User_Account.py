@@ -7,15 +7,17 @@ from django.contrib.auth.hashers import make_password
 class UserAccountSerializer(serializers.ModelSerializer):
     class Meta:
         fields = ('password', 'username', 'email', 'first_name', 'middle_name',
-            'last_name', 'birth_date', 'country', 'state', 'street_name',
-            'postal_code', 'city', 'sex', 'phone_number', 'interests', 'channels')
+                  'last_name', 'birth_date', 'country', 'state', 'street_name',
+                  'postal_code', 'city', 'sex', 'phone_number', 'interests', 'channels')
         model = CustomUser
 
-    channels = serializers.PrimaryKeyRelatedField(many=True, queryset=ContentChannel.objects.all())
+    channels = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=ContentChannel.objects.all(), required=False)
 
     def create(self, validated_data):  # for POST to hash passwords
         user = CustomUser.objects.create(
-            password=make_password(validated_data['password']),  # hashes the password
+            # hashes the password
+            password=make_password(validated_data['password']),
             username=validated_data['username'],
             email=validated_data['email'],
             first_name=validated_data['first_name'],

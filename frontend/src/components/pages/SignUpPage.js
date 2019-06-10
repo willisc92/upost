@@ -91,8 +91,7 @@ export class SignUpPage extends React.Component {
             postal_code: formInput.postalCode.value,
             city: formInput.city.value,
             sex: formInput.sex.value === "Male" ? "M" : "F",
-            phone_number: formInput.phoneNumber.value,
-            channels: [] // not ideal, ideally don't include fields we dont need have django handle
+            phone_number: formInput.phoneNumber.value
         };
 
         this.props

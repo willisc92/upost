@@ -18,7 +18,7 @@ class PostSerializer(serializers.ModelSerializer):
             'post_timestamp',
             'deleted_flag',
             'tags',
-            'post_event'    # NEW
+            'post_event'
         )
         model = Post
 
@@ -28,7 +28,7 @@ class PostSerializer(serializers.ModelSerializer):
     tags = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Interest.objects.all())
     post_event = serializers.PrimaryKeyRelatedField(read_only=False, many=False,
-                                                    queryset=PostEvent.objects.all(), required=False)  # NEW
+                                                    queryset=PostEvent.objects.all(), required=False)
 
 
 class EventSerializer(serializers.ModelSerializer):
