@@ -5,7 +5,7 @@ import { startSetChannels } from "../../actions/channels";
 import MyChannelListItem from "../MyChannelListItem";
 import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
 
-class MyChannelsPage extends React.Component {
+export class MyChannelsPage extends React.Component {
     constructor(props) {
         super(props);
     }

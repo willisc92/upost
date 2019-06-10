@@ -3,7 +3,7 @@ import ChannelForm from "../forms/ChannelForm";
 import { connect } from "react-redux";
 import { editChannel, startGetChannel } from "../../actions/channels";
 
-class EditChannelPage extends React.Component {
+export class EditChannelPage extends React.Component {
     constructor(props) {
         super(props);
     }

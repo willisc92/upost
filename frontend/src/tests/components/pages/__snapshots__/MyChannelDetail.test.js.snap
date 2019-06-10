@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render page correctly 1`] = `
+<div>
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page-header__title"
+      >
+        Channel Page
+      </h1>
+      <div>
+        <h2>
+          Name: 
+          Channel 1
+        </h2>
+        <h3>
+          Description: 
+          Test
+        </h3>
+        <h3>
+          Creation Date: 
+          June 4th 2019
+        </h3>
+        <div>
+          <button
+            className="button button--secondary"
+            onClick={[Function]}
+          >
+            Add a new post
+          </button>
+          <span>
+             
+          </span>
+          <button
+            className="button button--secondary"
+            id={1}
+            onClick={[Function]}
+          >
+            Edit this channel
+          </button>
+        </div>
+        <div
+          className="page-header__actions"
+        >
+          <Connect(ChannelFilters) />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="content-container"
+  >
+    <div
+      className="list-body"
+    >
+      <div
+        className="list-parent"
+      >
+        <p>
+           No posts 
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

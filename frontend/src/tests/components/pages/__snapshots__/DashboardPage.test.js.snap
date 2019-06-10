@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render Dashboard page for logged in user 1`] = `
+<div
+  className="page-header"
+>
+  <div
+    className="content-container"
+  >
+    <h1
+      className="page-header__title"
+    >
+      Welcome, WILLIS!
+    </h1>
+  </div>
+</div>
+`;
+
+exports[`Should render Dashboard page for non logged in user 1`] = `
+<div
+  className="page-header"
+>
+  <div
+    className="content-container"
+  >
+    <h1
+      className="page-header__title"
+    >
+      You must login.
+    </h1>
+  </div>
+</div>
+`;

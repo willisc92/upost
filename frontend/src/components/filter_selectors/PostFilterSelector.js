@@ -37,10 +37,6 @@ export class PostFilters extends React.Component {
         }
     };
 
-    onVisibleChange = (e) => {
-        this.props.setVisibleFilter(e.target.value);
-    };
-
     handleCheckbox = (e) => {
         this.props.setVisibleFilter(!this.props.filters.visible);
     };

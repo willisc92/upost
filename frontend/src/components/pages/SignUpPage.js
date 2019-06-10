@@ -5,7 +5,7 @@ import moment from "moment";
 import emailValidator from "email-validator";
 import { authFail, authSignup } from "../../actions/auth";
 
-class SignUpPage extends React.Component {
+export class SignUpPage extends React.Component {
     constructor(props) {
         super(props);
 

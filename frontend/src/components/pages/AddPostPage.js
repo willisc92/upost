@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { addPost } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
 
-class AddPostPage extends React.Component {
+export class AddPostPage extends React.Component {
     constructor(props) {
         super(props);
     }

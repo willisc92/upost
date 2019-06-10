@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render component correctly 1`] = `
+<div>
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page_header__title"
+      >
+        Let's get to know you
+      </h1>
+      <p>
+        Please choose 3 or more Interests. When we know what are are passionate about we can find better events for you
+      </p>
+    </div>
+  </div>
+  <div
+    className="content-container"
+  >
+    <div
+      className="clearfix"
+    />
+    <button
+      className="button--centered"
+      onClick={[Function]}
+    >
+      Submit
+    </button>
+  </div>
+</div>
+`;

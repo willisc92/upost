@@ -2,9 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import API from "../../utils/API";
 import Interest from "../Interest";
-import { startSetUserInterests, startEditUserInterests, getAllInterests } from "../../actions/interests";
+import { startSetUserInterests, startEditUserInterests } from "../../actions/interests";
 
-class InterestsPage extends React.Component {
+export class InterestsPage extends React.Component {
     constructor(props) {
         super(props);
 

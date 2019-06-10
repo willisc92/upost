@@ -6,7 +6,7 @@ import MyPostSummary from "../MyPostSummary";
 import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
 import { getVisiblePosts } from "../../selectors/myPosts";
 
-class MyChannelDetail extends React.Component {
+export class MyChannelDetail extends React.Component {
     constructor(props) {
         super(props);
     }

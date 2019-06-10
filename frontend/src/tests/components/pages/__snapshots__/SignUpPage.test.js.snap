@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render SignUpPage 1`] = `
+<div>
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page_header__title"
+      >
+         SignUp 
+      </h1>
+    </div>
+  </div>
+  <div
+    className="content-container"
+  >
+    <Connect(AccountForm)
+      minPasswordLength={8}
+      onSubmit={[Function]}
+    />
+  </div>
+</div>
+`;

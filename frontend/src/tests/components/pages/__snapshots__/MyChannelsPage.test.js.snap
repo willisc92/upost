@@ -1,0 +1,190 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render page while loading 1`] = `
+<div>
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page-header__title"
+      >
+        WILLIS
+         - Channel Pages
+      </h1>
+      <div
+        className="page-header__actions"
+      >
+        <Connect(ChannelFilters) />
+        <button
+          className="button button--secondary"
+          onClick={[Function]}
+        >
+          Add a channel
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="content-container"
+  >
+    <p>
+      Loading...
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Should render page, no channels 1`] = `
+<div>
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page-header__title"
+      >
+        WILLIS
+         - Channel Pages
+      </h1>
+      <div
+        className="page-header__actions"
+      >
+        <Connect(ChannelFilters) />
+        <button
+          className="button button--secondary"
+          onClick={[Function]}
+        >
+          Add a channel
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="content-container"
+  >
+    <div
+      className="list-body"
+    >
+      <div
+        className="list-parent"
+      >
+        <p>
+          No channels to show
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Should render page, with channels 1`] = `
+<div>
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page-header__title"
+      >
+        WILLIS
+         - Channel Pages
+      </h1>
+      <div
+        className="page-header__actions"
+      >
+        <Connect(ChannelFilters) />
+        <button
+          className="button button--secondary"
+          onClick={[Function]}
+        >
+          Add a channel
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="content-container"
+  >
+    <div
+      className="list-body"
+    >
+      <div
+        className="list-parent"
+      >
+        <div
+          className="list-box"
+          key="1"
+        >
+          <MyChannelListItem
+            channel_description="Test"
+            channel_id={1}
+            channel_name="Channel 1"
+            channel_posts={
+              Array [
+                Object {
+                  "channel": 1,
+                  "cost": 0,
+                  "deleted_flag": false,
+                  "email": "willisc92@hotmail.com",
+                  "phone_number": "4034010115",
+                  "post_description": "Test",
+                  "post_event": null,
+                  "post_id": 1,
+                  "post_timestamp": "2019-06-04T23:23:53.199984-06:00",
+                  "post_title": "Post 1",
+                  "poster_name": "Willis",
+                  "tags": Array [
+                    "Interest 1",
+                  ],
+                  "user": "willisc92",
+                },
+              ]
+            }
+            creation_date="2019-06-04"
+            deleted_flag={false}
+            deletion_date={null}
+            user="willisc92"
+          />
+        </div>
+        <div
+          className="list-box"
+          key="2"
+        >
+          <MyChannelListItem
+            channel_description=""
+            channel_id={2}
+            channel_name="Channel 2"
+            channel_posts={Array []}
+            creation_date="2019-06-04"
+            deleted_flag={false}
+            deletion_date={null}
+            user="willisc92"
+          />
+        </div>
+        <div
+          className="list-box"
+          key="3"
+        >
+          <MyChannelListItem
+            channel_description=""
+            channel_id={3}
+            channel_name="Channel 3"
+            channel_posts={Array []}
+            creation_date="2019-06-05"
+            deleted_flag={false}
+            deletion_date={null}
+            user="willisc92"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

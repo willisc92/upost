@@ -3,7 +3,7 @@ import { startGetPost, editPost } from "../../actions/posts";
 import { connect } from "react-redux";
 import PostForm from "../forms/PostForm";
 
-class EditPostPage extends React.Component {
+export class EditPostPage extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -25,13 +25,10 @@ class EditPostPage extends React.Component {
     }
 
     onSubmit = (post) => {
-        console.log(post);
         const post_id = this.props.match.params.id;
-        console.log(post_id);
         this.props
             .editPost(post_id, post)
             .then((result) => {
-                console.log(result);
                 this.props.history.push(`/myChannels/${post.channel}`);
             })
             .catch((err) => {
