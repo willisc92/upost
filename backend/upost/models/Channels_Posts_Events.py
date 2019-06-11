@@ -99,14 +99,8 @@ class PostEvent(models.Model):
         db_column='Planned_start_datetime', null=False, blank=False)
     planned_end_date = models.DateTimeField(
         db_column='Planned_end_datetime', null=False, blank=False)
-
-    # planned_start_date = models.DateField(db_column='Planned_start_date')
-    # # Field name made lowercase.
-    # planned_start_time = models.TimeField(db_column='Planned_start_time')
-    # # Field name made lowercase.
-    # planned_end_date = models.DateField(db_column='Planned_end_date')
-    # # Field name made lowercase.
-    # planned_end_time = models.TimeField(db_column='Planned_end_time')
+    school = models.OneToOneField(
+        "upost.School", on_delete=models.DO_NOTHING, related_name="at_school")
 
     def has_post_event_content(self):
         return hasattr(self, 'content')

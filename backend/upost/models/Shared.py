@@ -17,3 +17,11 @@ class Interest(models.Model):
 
     class Meta:
         db_table = 'interest'
+
+
+class School(models.Model):
+    school_name = models.CharField(
+        db_column='School_name', primary_key=True, max_length=100)
+
+    class Meta:
+        db_table = 'school'

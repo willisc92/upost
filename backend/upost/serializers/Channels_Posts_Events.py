@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import ContentChannel, Post, Interest, PostEvent
+from ..models import ContentChannel, Post, Interest, PostEvent, School
 from rest_framework.validators import UniqueValidator
 
 
@@ -39,10 +39,14 @@ class EventSerializer(serializers.ModelSerializer):
             'capacity',
             'planned_start_date',
             'planned_end_date',
+            'school'
         )
         model = PostEvent
         post = serializers.PrimaryKeyRelatedField(
             read_only=False, many=False, queryset=Post.objects.all())
+        school = serializers.PrimaryKeyRelatedField(
+            read_only=False, many=False, queryset=School.objects.all()
+        )
 
 
 class ContentChannelSerializer(serializers.ModelSerializer):
