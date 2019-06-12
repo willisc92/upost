@@ -1,9 +1,9 @@
 branch-defaults:
   default:
-    environment: upost
+    environment: upost-env
     group_suffix: null
 global:
-  application_name: upost-deploy2
+  application_name: upost-deploy
   branch: null
   default_ec2_keyname: null
   default_platform: Python 3.6

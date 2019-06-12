@@ -61,7 +61,9 @@ export class ChannelForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit}>
-                {!!this.props.error && <p className="form_error"> {this.props.error.channel_name[0]}</p>}
+                {!!this.props.error && !!this.props.error.channel_name && (
+                    <p className="form_error"> {this.props.error.channel_name[0]}</p>
+                )}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
                 Channel Name:{" "}
                 <input
