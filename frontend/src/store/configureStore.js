@@ -5,6 +5,7 @@ import channelFiltersReducer from "../reducers/channel_filters";
 import channelsReducer from "../reducers/channels";
 import postFiltersReducer from "../reducers/post_filters";
 import postReducer from "../reducers/posts";
+import eventReducer from "../reducers/events";
 import interestsReducer from "../reducers/interests";
 import communityReducer from "../reducers/communities";
 
@@ -20,7 +21,8 @@ export default () => {
             channels: channelsReducer,
             userInterests: interestsReducer,
             posts: postReducer,
-            communities: communityReducer
+            communities: communityReducer,
+            events: eventReducer
         }),
         composeEnhancers(applyMiddleware(thunk))
     );
