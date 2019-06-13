@@ -6,7 +6,7 @@ import channelsReducer from "../reducers/channels";
 import postFiltersReducer from "../reducers/post_filters";
 import postReducer from "../reducers/posts";
 import interestsReducer from "../reducers/interests";
-import schoolsReducer from "../reducers/schools";
+import communityReducer from "../reducers/communities";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -20,7 +20,7 @@ export default () => {
             channels: channelsReducer,
             userInterests: interestsReducer,
             posts: postReducer,
-            schools: schoolsReducer
+            communities: communityReducer
         }),
         composeEnhancers(applyMiddleware(thunk))
     );
