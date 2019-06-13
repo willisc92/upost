@@ -17,8 +17,8 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserChangeForm):
         model = CustomUser
         fields = (
-            'username', 'email', 'first_name', 'middle_name', 'last_name', 'birth_date', 'country', 'state',
-            'street_name', 'postal_code', 'city', 'sex', 'phone_number', 'interests')
+            'username', 'email', 'first_name', 'middle_name', 'last_name', 'birth_date',
+           'interests')
         widgets = {
             'birth_date': DateInput()
         }
@@ -28,8 +28,8 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta(UserChangeForm):
         model = CustomUser
         fields = (
-            'username', 'email', 'first_name', 'middle_name', 'last_name', 'birth_date', 'country', 'state',
-            'street_name', 'postal_code', 'city', 'sex', 'phone_number', 'password', 'interests')
+            'username', 'email', 'first_name', 'middle_name', 'last_name', 'birth_date', 
+            'password', 'interests')
 
         widgets = {
             'birth_date': DateInput()

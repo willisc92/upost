@@ -1,12 +1,12 @@
 // Channels Reducers
-const channelsDefaultState = { error: "", loading: false, channels: [] };
+const channelsDefaultState = { error: null, loading: false, channels: [] };
 
 export default (state = channelsDefaultState, action) => {
     switch (action.type) {
         case "CHANNEL_START":
             return {
                 ...state,
-                error: "",
+                error: null,
                 loading: true
             };
         case "SET_CHANNELS":
@@ -23,7 +23,7 @@ export default (state = channelsDefaultState, action) => {
         case "CHANNEL_SUCCESS":
             return {
                 ...state,
-                error: "",
+                error: null,
                 loading: false
             };
         default:

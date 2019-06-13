@@ -122,68 +122,6 @@ export class AccountForm extends React.Component {
                     numberOfMonths={1}
                     isOutsideRange={(day) => false}
                 />
-                <p>Country*</p>
-                {!!this.props.auth.error &&
-                    !!this.props.auth.error.country &&
-                    this.props.auth.error.country.map((error) => {
-                        return (
-                            <p className="form__error" key={error}>
-                                {error}
-                            </p>
-                        );
-                    })}
-                <input type="text" className="text-input" name="country" />
-                <p>State*</p>
-                {!!this.props.auth.error &&
-                    !!this.props.auth.error.state &&
-                    this.props.auth.error.state.map((error) => {
-                        return (
-                            <p className="form__error" key={error}>
-                                {error}
-                            </p>
-                        );
-                    })}
-                <input type="text" className="text-input" name="state" />
-                <p>Steet Name*</p>
-                {!!this.props.auth.error &&
-                    !!this.props.auth.error.street_name &&
-                    this.props.auth.error.street_name.map((error) => {
-                        return (
-                            <p className="form__error" key={error}>
-                                {error}
-                            </p>
-                        );
-                    })}
-                <input type="text" className="text-input" name="streetName" />
-                <p>Postal Code*</p>
-                {!!this.props.auth.error &&
-                    !!this.props.auth.error.postal_code &&
-                    this.props.auth.error.postal_code.map((error) => {
-                        return (
-                            <p className="form__error" key={error}>
-                                {error}
-                            </p>
-                        );
-                    })}
-                <input type="text" className="text-input" name="postalCode" />
-                <p>City*</p>
-                {!!this.props.auth.error &&
-                    !!this.props.auth.error.city &&
-                    this.props.auth.error.city.map((error) => {
-                        return (
-                            <p className="form__error" key={error}>
-                                {error}
-                            </p>
-                        );
-                    })}
-                <input type="text" className="text-input" name="city" />
-                <p>Sex</p>
-                <select className="select" name="sex">
-                    <option>Male</option>
-                    <option>Female</option>
-                </select>
-                <p>Phone Number</p>
-                <input type="text" className="text-input" name="phoneNumber" />
                 <p>Password</p>
                 <p>Your password contain at least {this.props.minPasswordLength} characters.</p>
                 {!!this.props.auth.error &&

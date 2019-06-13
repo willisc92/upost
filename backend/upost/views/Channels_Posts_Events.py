@@ -34,7 +34,7 @@ class Event_View(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     queryset = PostEvent.objects.all()
     filterset_fields = ('post', 'location', 'capacity',
-                        'planned_start_date', 'planned_end_date', 'school')
+                        'planned_start_date', 'planned_end_date', 'community')
 
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,

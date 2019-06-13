@@ -142,9 +142,9 @@ class PostForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit}>
-                {!!this.props.error && <p className="form__error">Request failed.</p>}
+                {!!this.props.error && <p className="form__error">Request failed...</p>}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
-                Post Title:{" "}
+                Post Title*:{" "}
                 <input
                     className="text-input"
                     type="text"
@@ -153,7 +153,7 @@ class PostForm extends React.Component {
                     value={this.state.post_title}
                     onChange={this.onTitleChange}
                 />
-                Poster Name:{" "}
+                Poster Name*:{" "}
                 <input
                     className="text-input"
                     type="text"
@@ -161,7 +161,7 @@ class PostForm extends React.Component {
                     value={this.state.poster_name}
                     onChange={this.onPosterNameChange}
                 />
-                Phone Number (10-digit):{" "}
+                Phone Number (10-digit)*:{" "}
                 <input
                     className="text-input"
                     type="text"
@@ -169,7 +169,7 @@ class PostForm extends React.Component {
                     value={this.state.phone_number}
                     onChange={this.onPhoneNumberChange}
                 />
-                Cost:{" "}
+                Cost*:{" "}
                 <input
                     className="text-input"
                     type="text"
@@ -177,7 +177,7 @@ class PostForm extends React.Component {
                     value={this.state.cost}
                     onChange={this.onCostChange}
                 />
-                Email:{" "}
+                Email*:{" "}
                 <input
                     className="text-input"
                     type="text"
@@ -185,7 +185,7 @@ class PostForm extends React.Component {
                     value={this.state.email}
                     onChange={this.onEmailChange}
                 />
-                Description:
+                Description*:
                 <textarea
                     className="textarea"
                     type="text"

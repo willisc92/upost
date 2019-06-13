@@ -1,12 +1,12 @@
 // Post Reducers
-const postsDefaultState = { error: "", loading: false, posts: [] };
+export const postsDefaultState = { error: null, loading: false, posts: [] };
 
 export default (state = postsDefaultState, action) => {
     switch (action.type) {
         case "POST_START":
             return {
                 ...state,
-                error: "",
+                error: null,
                 loading: true
             };
         case "SET_POSTS":
@@ -23,7 +23,7 @@ export default (state = postsDefaultState, action) => {
         case "POST_SUCCESS":
             return {
                 ...state,
-                error: "",
+                error: null,
                 loading: false
             };
         default:

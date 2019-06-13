@@ -19,9 +19,9 @@ class Interest(models.Model):
         db_table = 'interest'
 
 
-class School(models.Model):
-    school_name = models.CharField(
-        db_column='School_name', primary_key=True, max_length=100)
+class Community(models.Model):
+    community_name = models.CharField(
+        db_column='community_name', primary_key=True, max_length=100)
 
     class Meta:
-        db_table = 'school'
+        db_table = 'community'
