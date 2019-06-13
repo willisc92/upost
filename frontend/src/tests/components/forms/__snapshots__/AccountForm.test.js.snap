@@ -128,68 +128,6 @@ exports[`Should render AccountForm 1`] = `
     withPortal={false}
   />
   <p>
-    Country*
-  </p>
-  <input
-    className="text-input"
-    name="country"
-    type="text"
-  />
-  <p>
-    State*
-  </p>
-  <input
-    className="text-input"
-    name="state"
-    type="text"
-  />
-  <p>
-    Steet Name*
-  </p>
-  <input
-    className="text-input"
-    name="streetName"
-    type="text"
-  />
-  <p>
-    Postal Code*
-  </p>
-  <input
-    className="text-input"
-    name="postalCode"
-    type="text"
-  />
-  <p>
-    City*
-  </p>
-  <input
-    className="text-input"
-    name="city"
-    type="text"
-  />
-  <p>
-    Sex
-  </p>
-  <select
-    className="select"
-    name="sex"
-  >
-    <option>
-      Male
-    </option>
-    <option>
-      Female
-    </option>
-  </select>
-  <p>
-    Phone Number
-  </p>
-  <input
-    className="text-input"
-    name="phoneNumber"
-    type="text"
-  />
-  <p>
     Password
   </p>
   <p>

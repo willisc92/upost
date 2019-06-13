@@ -60,6 +60,7 @@ export const addPost = (post) => {
                 user: localStorage.getItem("user_id")
             })
                 .then((result) => {
+                    console.log(JSON.stringify(result, null, 2));
                     dispatch(postSuccess());
                     dispatch(startSetMyPosts());
                     resolve(result);

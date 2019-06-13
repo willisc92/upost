@@ -1,28 +1,28 @@
-const schoolsDefaultState = { loading: false, error: null, schools: [] };
+const communityDefaultState = { loading: false, error: null, communities: [] };
 
-export default (state = schoolsDefaultState, action) => {
+export default (state = communityDefaultState, action) => {
     switch (action.type) {
-        case "SCHOOL_START":
+        case "COMMUNITY_START":
             return {
                 ...state,
                 loading: true
             };
-        case "SCHOOL_FAIL":
+        case "COMMUNITY_FAIL":
             return {
                 ...state,
                 loading: false,
                 error: action.error
             };
-        case "SCHOOL_SUCCESS":
+        case "COMMUNITY_SUCCESS":
             return {
                 ...state,
                 loading: false,
                 error: null
             };
-        case "SET_SCHOOLS":
+        case "SET_COMMUNITIES":
             return {
                 ...state,
-                schools: action.schools
+                communities: action.communities
             };
         default:
             return state;

@@ -11,6 +11,7 @@ from rest_framework import status
 class UserAccountView(viewsets.ModelViewSet):
     serializer_class = UserAccountSerializer
     queryset = CustomUser.objects.all()
+    filterset_fields = ('username',)
 
     def create(self, request):  # for POST, calls create in serializer defines return response
         serializer = self.get_serializer(data=request.data)

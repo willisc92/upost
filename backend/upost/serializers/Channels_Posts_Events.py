@@ -1,6 +1,24 @@
 from rest_framework import serializers
-from ..models import ContentChannel, Post, Interest, PostEvent, Community
+from ..models import ContentChannel, Post, Interest, PostEvent, Community, CustomUser
 from rest_framework.validators import UniqueValidator
+
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = (
+            'post',
+            'location',
+            'capacity',
+            'planned_start_date',
+            'planned_end_date',
+            'community',
+        )
+        model = PostEvent
+        post = serializers.PrimaryKeyRelatedField(
+            read_only=False, many=False, queryset=Post.objects.all())
+        community = serializers.PrimaryKeyRelatedField(
+            read_only=False, many=False, queryset=Community.objects.all()
+        )
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -27,26 +45,7 @@ class PostSerializer(serializers.ModelSerializer):
         read_only=False, many=False, queryset=ContentChannel.objects.all())
     tags = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Interest.objects.all())
-    post_event = serializers.PrimaryKeyRelatedField(read_only=False, many=False,
-                                                    queryset=PostEvent.objects.all(), required=False)
-
-
-class EventSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = (
-            'post',
-            'location',
-            'capacity',
-            'planned_start_date',
-            'planned_end_date',
-            'community'
-        )
-        model = PostEvent
-        post = serializers.PrimaryKeyRelatedField(
-            read_only=False, many=False, queryset=Post.objects.all())
-        community = serializers.PrimaryKeyRelatedField(
-            read_only=False, many=False, queryset=Community.objects.all()
-        )
+    post_event = EventSerializer(many=False, read_only=True)
 
 
 class ContentChannelSerializer(serializers.ModelSerializer):

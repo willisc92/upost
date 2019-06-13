@@ -1,5 +1,5 @@
 import React from "react";
-import { ChannelFilters } from "../../components/filter_selectors/ChannelFilterSelector";
+import { ChannelFilters } from "../../../components/filter_selectors/ChannelFilterSelector";
 import { shallow } from "enzyme";
 import moment from "moment";
 

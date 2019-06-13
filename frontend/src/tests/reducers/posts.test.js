@@ -1,7 +1,7 @@
 import postsReducer from "../../reducers/posts";
 import posts from "../fixtures/posts";
 
-const postsDefaultState = { error: "", loading: false, posts: [] };
+const postsDefaultState = { error: null, loading: false, posts: [] };
 
 test("Should alter state from POST_START action object", () => {
     const action = {
@@ -11,7 +11,7 @@ test("Should alter state from POST_START action object", () => {
     const state = postsReducer(undefined, action);
     expect(state).toEqual({
         ...postsDefaultState,
-        error: "",
+        error: null,
         loading: true
     });
 });
@@ -30,13 +30,13 @@ test("Should alter state from SET_POSTS action object", () => {
 });
 
 test("Should alter state from POST_FAIL action object", () => {
-    const error = "Some error";
+    const error = null;
     const action = {
         type: "POST_FAIL",
         error
     };
 
-    const prevState = { error: "", loading: true, posts: [] };
+    const prevState = { error: null, loading: true, posts: [] };
     const state = postsReducer(prevState, action);
     expect(state).toEqual({
         ...prevState,
@@ -50,11 +50,11 @@ test("Should alter state from POST_SUCCESS action object", () => {
         type: "POST_SUCCESS"
     };
 
-    const prevState = { error: "", loading: true, posts: [] };
+    const prevState = { error: null, loading: true, posts: [] };
     const state = postsReducer(prevState, action);
     expect(state).toEqual({
         ...prevState,
-        error: "",
+        error: null,
         loading: false
     });
 });

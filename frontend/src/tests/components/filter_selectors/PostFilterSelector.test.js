@@ -1,5 +1,5 @@
 import React from "react";
-import { PostFilters } from "../../components/filter_selectors/PostFilterSelector";
+import { PostFilters } from "../../../components/filter_selectors/PostFilterSelector";
 import { shallow } from "enzyme";
 import moment from "moment";
 

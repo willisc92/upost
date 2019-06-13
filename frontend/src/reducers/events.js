@@ -1,0 +1,32 @@
+// Event Reducers
+export const eventsDefaultState = { error: null, loading: false, events: [] };
+
+export default (state = eventsDefaultState, action) => {
+    switch (action.type) {
+        case "EVENT_START":
+            return {
+                ...state,
+                error: null,
+                loading: true
+            };
+        case "SET_EVENTS":
+            return {
+                ...state,
+                events: action.events
+            };
+        case "EVENT_FAIL":
+            return {
+                ...state,
+                error: action.error,
+                loading: false
+            };
+        case "EVENT_SUCCESS":
+            return {
+                ...state,
+                error: null,
+                loading: false
+            };
+        default:
+            return state;
+    }
+};
