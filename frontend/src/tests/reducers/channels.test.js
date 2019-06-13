@@ -1,7 +1,7 @@
 import channelsReducer from "../../reducers/channels";
 import channels from "../fixtures/channels";
 
-const channelsDefaultState = { error: "", loading: false, channels: [] };
+const channelsDefaultState = { error: null, loading: false, channels: [] };
 
 test("Should alter state from CHANNEL_START action object", () => {
     const action = {
@@ -11,7 +11,7 @@ test("Should alter state from CHANNEL_START action object", () => {
     const state = channelsReducer(undefined, action);
     expect(state).toEqual({
         ...channelsDefaultState,
-        error: "",
+        error: null,
         loading: true
     });
 });
@@ -30,13 +30,13 @@ test("Should alter state from SET_CHANNELS action object", () => {
 });
 
 test("Should alter state from CHANNEL_FAIL action object", () => {
-    const error = "Some error";
+    const error = {};
     const action = {
         type: "CHANNEL_FAIL",
         error
     };
 
-    const prevState = { error: "", loading: true, channels: [] };
+    const prevState = { error: null, loading: true, channels: [] };
     const state = channelsReducer(prevState, action);
     expect(state).toEqual({
         ...prevState,
@@ -50,11 +50,11 @@ test("Should alter state from CHANNEL_SUCCESS action object", () => {
         type: "CHANNEL_SUCCESS"
     };
 
-    const prevState = { error: "", loading: true, channels: [] };
+    const prevState = { error: null, loading: true, channels: [] };
     const state = channelsReducer(prevState, action);
     expect(state).toEqual({
         ...prevState,
-        error: "",
+        error: null,
         loading: false
     });
 });
