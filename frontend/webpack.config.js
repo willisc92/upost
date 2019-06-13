@@ -55,10 +55,17 @@ module.exports = (env) => {
         devServer: {
             contentBase: [
                 path.join(__dirname, "..", "backend", "frontendapp", "templates", "frontend"),
-                path.join(__dirname, "public")
+                path.join(__dirname, "..", "backend", "frontendapp", "static", "frontend")
+                //path.join(__dirname, "public")
             ], // enable dev server
             historyApiFallback: true, // Allows for client-side routing - should return index.html for all 404's.
-            publicPath: "/dist/"
+            publicPath: "/dist/",
+            proxy: {
+                "/dist/images": {
+                    target: "http://localhost:8080",
+                    pathRewrite: { "^/dist/images": "/images" }
+                }
+            }
         }
     };
 };
