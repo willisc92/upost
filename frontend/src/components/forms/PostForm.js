@@ -141,61 +141,73 @@ class PostForm extends React.Component {
 
     render() {
         return (
-            <form className="form" onSubmit={this.onSubmit}>
+            <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 {!!this.props.error && <p className="form__error">Request failed...</p>}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
-                Post Title*:{" "}
-                <input
-                    className="text-input"
-                    type="text"
-                    placeholder="Title"
-                    autoFocus
-                    value={this.state.post_title}
-                    onChange={this.onTitleChange}
-                />
-                Poster Name*:{" "}
-                <input
-                    className="text-input"
-                    type="text"
-                    placeholder="Name"
-                    value={this.state.poster_name}
-                    onChange={this.onPosterNameChange}
-                />
-                Phone Number (10-digit)*:{" "}
-                <input
-                    className="text-input"
-                    type="text"
-                    placeholder="Phone Number"
-                    value={this.state.phone_number}
-                    onChange={this.onPhoneNumberChange}
-                />
-                Cost*:{" "}
-                <input
-                    className="text-input"
-                    type="text"
-                    placeholder="Cost"
-                    value={this.state.cost}
-                    onChange={this.onCostChange}
-                />
-                Email*:{" "}
-                <input
-                    className="text-input"
-                    type="text"
-                    placeholder="Email"
-                    value={this.state.email}
-                    onChange={this.onEmailChange}
-                />
-                Description*:
-                <textarea
-                    className="textarea"
-                    type="text"
-                    placeholder="Description"
-                    value={this.state.post_description}
-                    onChange={this.onDescriptionChange}
-                />
-                <p>
-                    Visible <span />
-                    <span>
+                <div className="input-group">
+                    <p className="form__label">Post Title*: </p>
+                    <input
+                        className="text-input"
+                        type="text"
+                        placeholder="Title"
+                        autoFocus
+                        value={this.state.post_title}
+                        onChange={this.onTitleChange}
+                    />
+                </div>
+                <div className="input-group">
+                    <p className="form__label">Poster Name*: </p>
+                    <input
+                        className="text-input"
+                        type="text"
+                        placeholder="Name"
+                        value={this.state.poster_name}
+                        onChange={this.onPosterNameChange}
+                    />
+                </div>
+                <div className="input-group">
+                    <p className="form__label">Phone Number (10-digit)*: </p>
+                    <input
+                        className="text-input"
+                        type="text"
+                        placeholder="Phone Number"
+                        value={this.state.phone_number}
+                        onChange={this.onPhoneNumberChange}
+                    />
+                </div>
+                <div className="input-group">
+                    <p className="form__label"> Cost*: </p>
+                    <input
+                        className="text-input"
+                        type="text"
+                        placeholder="Cost"
+                        value={this.state.cost}
+                        onChange={this.onCostChange}
+                    />
+                </div>
+                <div className="input-group">
+                    <p className="form__label">Email*: </p>
+                    <input
+                        className="text-input"
+                        type="text"
+                        placeholder="Email"
+                        value={this.state.email}
+                        onChange={this.onEmailChange}
+                    />
+                </div>
+                <div className="input-group">
+                    <p className="form__label">Description*: </p>
+                    <textarea
+                        className="textarea"
+                        type="text"
+                        placeholder="Description"
+                        value={this.state.post_description}
+                        onChange={this.onDescriptionChange}
+                    />
+                </div>
+                <div>
+                    <p>
+                        Visible*: <span />
                         <input
                             type="checkbox"
                             name="prop1"
@@ -203,11 +215,11 @@ class PostForm extends React.Component {
                             checked={!this.state.deleted_flag}
                             onChange={this.onDeletedFlagChange}
                         />
-                    </span>
-                </p>
+                    </p>
+                </div>
                 {!!this.props.interests && (
                     <div>
-                        <p>Interest Tags (Hold down "Control", or "Command" on a Mac, to select more than one.)</p>
+                        <p>Interest Tags (Hold down "Control", or "Command" on a Mac, to select more than one.): </p>
                         <select multiple onChange={this.onTagsChange} defaultValue={this.state.tags}>
                             {this.props.interests.map((interest) => {
                                 return (
@@ -221,7 +233,7 @@ class PostForm extends React.Component {
                     </div>
                 )}
                 <div>
-                    <button className="button">Submit</button>
+                    <button className="button">{this.props.nextStep}</button>
                 </div>
             </form>
         );

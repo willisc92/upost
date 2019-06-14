@@ -65,35 +65,41 @@ export class ChannelForm extends React.Component {
                     <p className="form_error"> {this.props.error.channel_name[0]}</p>
                 )}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
-                Channel Name:{" "}
-                <input
-                    className="text-input"
-                    type="text"
-                    placeholder="Name"
-                    autoFocus
-                    value={this.state.channel_name}
-                    onChange={this.onNameChange}
-                />
-                Channel Description:
-                <textarea
-                    className="textarea"
-                    type="text"
-                    placeholder="Description"
-                    value={this.state.channel_description}
-                    onChange={this.onDescriptionChange}
-                />
-                <p>
-                    Visible <span />
-                    <span>
-                        <input
-                            type="checkbox"
-                            name="prop1"
-                            id="string"
-                            checked={!this.state.deleted_flag}
-                            onChange={this.onDeletedFlagChange}
-                        />
-                    </span>
-                </p>
+                <div className="input-group__item">
+                    Channel Name:{" "}
+                    <input
+                        className="text-input"
+                        type="text"
+                        placeholder="Name"
+                        autoFocus
+                        value={this.state.channel_name}
+                        onChange={this.onNameChange}
+                    />
+                </div>
+                <div className="input-group__item">
+                    Channel Description:{" "}
+                    <textarea
+                        className="text-input"
+                        type="text"
+                        placeholder="Description"
+                        value={this.state.channel_description}
+                        onChange={this.onDescriptionChange}
+                    />
+                </div>
+                <div className="input-group__item">
+                    <p>
+                        Visible <span />
+                        <span>
+                            <input
+                                type="checkbox"
+                                name="prop1"
+                                id="string"
+                                checked={!this.state.deleted_flag}
+                                onChange={this.onDeletedFlagChange}
+                            />
+                        </span>
+                    </p>
+                </div>
                 <div>
                     <button className="button">Submit</button>
                 </div>

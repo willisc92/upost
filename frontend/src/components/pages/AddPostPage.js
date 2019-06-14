@@ -1,5 +1,6 @@
 import React from "react";
 import PostForm from "../forms/PostForm";
+import EventForm from "../forms/EventForm";
 import { connect } from "react-redux";
 import { addPost } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
@@ -7,6 +8,11 @@ import { startGetChannel } from "../../actions/channels";
 export class AddPostPage extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            step: "Post",
+            postID: null,
+            finished: false
+        };
     }
 
     componentDidMount() {
@@ -23,15 +29,30 @@ export class AddPostPage extends React.Component {
             .catch((err) => console.log(err));
     }
 
-    onSubmit = (post) => {
-        const channel_id = this.props.match.params.id;
+    onSubmit = (data) => {
+        switch (this.state.step) {
+            case "Post": {
+                this.props
+                    .addPost({ ...data })
+                    .then(() => {
+                        this.setState(() => ({
+                            step: "Event"
+                        }));
+                    })
+                    .catch((err) => {
+                        console.log(JSON.stringify(err, null, 2));
+                    });
+            }
+            case "Event": {
+            }
+            default: {
+            }
+        }
+    };
 
-        this.props
-            .addPost({ ...post })
-            .then(() => this.props.history.push(`/myChannels/${channel_id}`))
-            .catch((err) => {
-                console.log(JSON.stringify(err, null, 2));
-            });
+    handleReturn = () => {
+        const channel_id = this.props.match.params.id;
+        this.props.history.push(`/myChannels/${channel_id}`);
     };
 
     render() {
@@ -43,7 +64,19 @@ export class AddPostPage extends React.Component {
                     </div>
                 </div>
                 <div className="content-container">
-                    <PostForm onSubmit={this.onSubmit} channel={this.props.match.params.id} />
+                    {this.state.step === "Post" && (
+                        <PostForm
+                            onSubmit={this.onSubmit}
+                            channel={this.props.match.params.id}
+                            nextStep="Save, and add an optional event"
+                        />
+                    )}
+                    {this.state.step === "Event" && (
+                        <EventForm onSubmit={this.onSubmit} channel={this.props.match.params.id} nextStep="Save" />
+                    )}
+                    <button className="button" onClick={this.handleReturn}>
+                        Return to channel
+                    </button>
                 </div>
             </div>
         );

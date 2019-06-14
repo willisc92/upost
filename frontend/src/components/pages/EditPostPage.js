@@ -46,7 +46,12 @@ export class EditPostPage extends React.Component {
                 </div>
                 <div className="content-container">
                     {!!this.props.post && (
-                        <PostForm onSubmit={this.onSubmit} channel={this.props.post.channel} post={this.props.post} />
+                        <PostForm
+                            onSubmit={this.onSubmit}
+                            channel={this.props.post.channel}
+                            post={this.props.post}
+                            nextStep="Save Changes"
+                        />
                     )}
                 </div>
             </div>
