@@ -35,9 +35,13 @@ export class AddPostPage extends React.Component {
                 this.props
                     .addPost({ ...data })
                     .then(() => {
-                        this.setState(() => ({
-                            step: "Event"
-                        }));
+                        if (this.state.finished) {
+                            this.handleReturn();
+                        } else {
+                            this.setState(() => ({
+                                step: "Event"
+                            }));
+                        }
                     })
                     .catch((err) => {
                         console.log(JSON.stringify(err, null, 2));
@@ -55,28 +59,57 @@ export class AddPostPage extends React.Component {
         this.props.history.push(`/myChannels/${channel_id}`);
     };
 
+    onTriggerSaveReturn = async () => {
+        await this.setState({ finished: true });
+        this.submitButtonRef.click();
+    };
+
+    mapStepToTitle = () => {
+        switch (this.state.step) {
+            case "Post":
+                return "Add a Post";
+            case "Event":
+                return "Add an Event";
+            default:
+                return "";
+        }
+    };
+
     render() {
         return (
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page-header__title">Add a Post</h1>
+                        <h1 className="page-header__title">{this.mapStepToTitle()}</h1>
                     </div>
                 </div>
                 <div className="content-container">
                     {this.state.step === "Post" && (
                         <PostForm
+                            id="Post"
                             onSubmit={this.onSubmit}
                             channel={this.props.match.params.id}
-                            nextStep="Save, and add an optional event"
+                            nextStep="Save Post and Add Event"
                         />
                     )}
                     {this.state.step === "Event" && (
-                        <EventForm onSubmit={this.onSubmit} channel={this.props.match.params.id} nextStep="Save" />
+                        <EventForm
+                            onSubmit={this.onSubmit}
+                            channel={this.props.match.params.id}
+                            nextStep="Save and Return"
+                        />
                     )}
-                    <button className="button" onClick={this.handleReturn}>
-                        Return to channel
+                    <button className="button" onClick={this.onTriggerSaveReturn}>
+                        {`Save ${this.state.step} and Return to Channel`}
                     </button>
+                    <button
+                        className="button__invisible"
+                        type="submit"
+                        form={this.state.step}
+                        ref={(node) => {
+                            this.submitButtonRef = node;
+                        }}
+                    />
                 </div>
             </div>
         );
