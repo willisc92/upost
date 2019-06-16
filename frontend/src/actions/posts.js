@@ -29,6 +29,27 @@ export const startSetMyPosts = () => {
     };
 };
 
+// START_SET_RANDOM_POSTS
+export const startSetRandomPosts = (interest) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(postStart());
+            API.get("random-posts/", {
+                params: {
+                    interest: interest
+                }
+            })
+                .then((result) => {
+                    resolve(result.data);
+                })
+                .catch((error) => {
+                    console.log("error in getting posts for interest", error);
+                    reject(error);
+                });
+        });
+    };
+};
+
 export const startGetPost = (id) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {

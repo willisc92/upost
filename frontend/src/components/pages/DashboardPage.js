@@ -1,11 +1,33 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getAllInterests } from "../../actions/interests";
+import { startSetRandomPosts } from "../../actions/posts";
 
 export class DashboardPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            interestsPosts: []
+        };
+    }
+
+    componentDidUpdate() {
+        console.log(this.state);
+    }
+
     componentDidMount() {
         this.props.getAllInterests().then(() => {
-            console.log(this.props.interests);
+            for (let i = 0; i < this.props.interests.length; i++) {
+                const interest_tag = this.props.interests[i].interest_tag;
+                this.props.startSetRandomPosts(interest_tag).then((result) => {
+                    if (result.length > 0) {
+                        this.setState((prevState) => ({
+                            interestsPosts: [...prevState.interestsPosts, { tag: interest_tag, posts: result }]
+                        }));
+                    }
+                });
+            }
         });
     }
 
@@ -27,13 +49,14 @@ export class DashboardPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         isAuthenticated: !!state.auth.token,
-        interests: state.userInterests
+        interests: state.userInterests.userInterests
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllInterests: () => dispatch(getAllInterests())
+        getAllInterests: () => dispatch(getAllInterests()),
+        startSetRandomPosts: (interest) => dispatch(startSetRandomPosts(interest))
     };
 };
 
