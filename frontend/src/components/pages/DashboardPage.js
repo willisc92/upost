@@ -1,7 +1,14 @@
 import React from "react";
 import { connect } from "react-redux";
+import { getAllInterests } from "../../actions/interests";
 
 export class DashboardPage extends React.Component {
+    componentDidMount() {
+        this.props.getAllInterests().then(() => {
+            console.log(this.props.interests);
+        });
+    }
+
     render() {
         return (
             <div className="page-header">
@@ -19,8 +26,18 @@ export class DashboardPage extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        isAuthenticated: !!state.auth.token
+        isAuthenticated: !!state.auth.token,
+        interests: state.userInterests
     };
 };
 
-export default connect(mapStateToProps)(DashboardPage);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getAllInterests: () => dispatch(getAllInterests())
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DashboardPage);
