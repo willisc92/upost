@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from ..models import ContentChannel, Post, Interest, PostEvent, Community, CustomUser
 from rest_framework.validators import UniqueValidator
+import datetime
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -16,9 +17,8 @@ class EventSerializer(serializers.ModelSerializer):
         model = PostEvent
         post = serializers.PrimaryKeyRelatedField(
             read_only=False, many=False, queryset=Post.objects.all())
-        community = serializers.PrimaryKeyRelatedField(
-            read_only=False, many=False, queryset=Community.objects.all()
-        )
+        community = serializers.RelatedField(
+            source="community.community_name", read_only=True)
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -46,6 +46,8 @@ class PostSerializer(serializers.ModelSerializer):
     tags = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Interest.objects.all())
     post_event = EventSerializer(many=False, read_only=True)
+    post_title = serializers.CharField(max_length=50, validators=[
+        UniqueValidator(message="Post title must be unique", queryset=Post.objects.all())])
 
 
 class ContentChannelSerializer(serializers.ModelSerializer):

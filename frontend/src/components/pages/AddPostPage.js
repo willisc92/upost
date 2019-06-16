@@ -3,6 +3,7 @@ import PostForm from "../forms/PostForm";
 import EventForm from "../forms/EventForm";
 import { connect } from "react-redux";
 import { addPost } from "../../actions/posts";
+import { addEvent } from "../../actions/events";
 import { startGetChannel } from "../../actions/channels";
 
 export class AddPostPage extends React.Component {
@@ -29,25 +30,42 @@ export class AddPostPage extends React.Component {
             .catch((err) => console.log(err));
     }
 
-    onSubmit = (data) => {
+    onSubmit = async (data) => {
         switch (this.state.step) {
             case "Post": {
-                this.props
+                await this.props
                     .addPost({ ...data })
-                    .then(() => {
+                    .then((result) => {
                         if (this.state.finished) {
                             this.handleReturn();
                         } else {
                             this.setState(() => ({
-                                step: "Event"
+                                step: "Event",
+                                postID: result.data.post_id
                             }));
                         }
                     })
                     .catch((err) => {
                         console.log(JSON.stringify(err, null, 2));
                     });
+                break;
             }
             case "Event": {
+                this.props
+                    .addEvent({ ...data, post: this.state.postID })
+                    .then(() => {
+                        this.handleReturn();
+                        // if (this.state.finished) {
+                        //     this.handleReturn();
+                        // } else {
+                        //     this.setState(() => ({
+                        //         step: "Event"
+                        //     }));
+                        // }
+                    })
+                    .catch((err) => {
+                        console.log(JSON.stringify(err, null, 2));
+                    });
             }
             default: {
             }
@@ -94,6 +112,7 @@ export class AddPostPage extends React.Component {
                     )}
                     {this.state.step === "Event" && (
                         <EventForm
+                            id="Event"
                             onSubmit={this.onSubmit}
                             channel={this.props.match.params.id}
                             nextStep="Save and Return"
@@ -122,6 +141,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     addPost: (post) => dispatch(addPost(post)),
+    addEvent: (event) => dispatch(addEvent(event)),
     startGetChannel: (channel_id) => dispatch(startGetChannel(channel_id))
 });
 

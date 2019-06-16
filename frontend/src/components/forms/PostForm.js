@@ -142,7 +142,9 @@ class PostForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                {!!this.props.error && <p className="form__error">Request failed...</p>}
+                {!!this.props.error && !!this.props.error.post_title && (
+                    <p className="form_error"> {this.props.error.post_title[0]}</p>
+                )}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
                 <div className="input-group">
                     <p className="form__label">Post Title*: </p>

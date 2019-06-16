@@ -22,7 +22,7 @@ export const startSetMyEvents = () => {
             .then((result) => {
                 dispatch(eventSuccess());
                 const eventsList = [];
-                result.data.array.forEach((post) => {
+                result.data.forEach((post) => {
                     if (!!post.post_event) {
                         eventsList.push(post.post_event);
                     }
@@ -67,7 +67,6 @@ export const addEvent = (event) => {
             })
                 .then((result) => {
                     dispatch(eventSuccess());
-                    dispatch(startSetMyEvents());
                     resolve(result);
                 })
                 .catch((err) => {

@@ -90,7 +90,7 @@ export class EventForm extends React.Component {
             this.setState(() => ({ error: "End datetime must be after start datetime." }));
         } else {
             this.setState(() => ({ error: "" }));
-            console.log({
+            this.props.onSubmit({
                 user: localStorage.getItem("user_id"),
                 location: this.state.location,
                 community: this.state.community,
@@ -98,26 +98,18 @@ export class EventForm extends React.Component {
                 planned_start_date: this.state.startDate,
                 planned_end_date: this.state.endDate
             });
-            // this.props.onSubmit({
-            //     user: localStorage.getItem("user_id"),
-            //     location: this.state.location,
-            //     community: this.state.community,
-            //     capacity: this.state.capacity,
-            //     planned_start_date: this.state.startDate,
-            //     planned_end_date: this.state.endDate
-            // });
         }
     };
 
     render() {
         return (
-            <form className="form" onSubmit={this.onSubmit}>
+            <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 {!!this.props.eventError && <p className="form__error">Request failed...</p>}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
                 <div className="input-group">
                     <p className="form__label">Community: </p>
                     <select
-                        disabled={this.determineReadOnly}
+                        disabled={this.determineReadOnly()}
                         onChange={this.onCommunitySelectChange}
                         defaultValue={this.props.event ? this.props.event.community : ""}
                     >
@@ -134,7 +126,7 @@ export class EventForm extends React.Component {
                 <div className="input-group">
                     <p className="form__label">Location/Room:</p>
                     <input
-                        readOnly={this.determineReadOnly}
+                        readOnly={this.determineReadOnly()}
                         className="text-input"
                         type="text"
                         placeholder="Location"
@@ -146,7 +138,7 @@ export class EventForm extends React.Component {
                 <div className="input-group">
                     <p className="form__label">Capacity (Select 0 if undefined): </p>
                     <input
-                        readOnly={this.determineReadOnly}
+                        readOnly={this.determineReadOnly()}
                         className="text-input"
                         type="number"
                         value={this.state.capacity}
@@ -157,7 +149,7 @@ export class EventForm extends React.Component {
                 <div className="input-group">
                     <p className="form__label">Start Date:</p>
                     <DateTimePicker
-                        disabled={this.determineReadOnly}
+                        disabled={this.determineReadOnly()}
                         onChange={this.onStartDateChange}
                         value={this.state.startDate}
                         clearIcon={null}
@@ -168,7 +160,7 @@ export class EventForm extends React.Component {
                 <div className="input-group">
                     <p className="form__label">End Date:</p>
                     <DateTimePicker
-                        disabled={this.determineReadOnly}
+                        disabled={this.determineReadOnly()}
                         onChange={this.onEndDateChange}
                         value={this.state.endDate}
                         clearIcon={null}

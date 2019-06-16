@@ -99,8 +99,8 @@ class PostEvent(models.Model):
         db_column='Planned_start_datetime', null=False, blank=False)
     planned_end_date = models.DateTimeField(
         db_column='Planned_end_datetime', null=False, blank=False)
-    community = models.OneToOneField(
-        "upost.Community", on_delete=models.DO_NOTHING, related_name="at_Community")
+    community = models.ForeignKey(
+        "upost.Community", on_delete=models.DO_NOTHING)
 
     def has_post_event_content(self):
         return hasattr(self, 'content')

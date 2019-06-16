@@ -29,10 +29,6 @@ beforeEach(() => {
 
     localStorage.setItem("user_name", channel.user);
 
-    // submitButtonRef = {
-    //     click: jest.fn()
-    // };
-
     wrapper = shallow(
         <AddPostPage
             match={match}
