@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Should render page correctly 1`] = `
+exports[`Should handle intermediate submit and increment the step to Event 1`] = `
 <div>
   <div
     className="page-header"
@@ -20,7 +20,59 @@ exports[`Should render page correctly 1`] = `
   >
     <Connect(PostForm)
       channel={1}
+      id="Post"
+      nextStep="Save Post and Add Event"
       onSubmit={[Function]}
+    />
+    <button
+      className="button"
+      onClick={[Function]}
+    >
+      Save Post and Return to Channel
+    </button>
+    <button
+      className="button__invisible"
+      form="Post"
+      type="submit"
+    />
+  </div>
+</div>
+`;
+
+exports[`Should render page with Add Post form correctly upon page load 1`] = `
+<div>
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page-header__title"
+      >
+        Add a Post
+      </h1>
+    </div>
+  </div>
+  <div
+    className="content-container"
+  >
+    <Connect(PostForm)
+      channel={1}
+      id="Post"
+      nextStep="Save Post and Add Event"
+      onSubmit={[Function]}
+    />
+    <button
+      className="button"
+      onClick={[Function]}
+    >
+      Save Post and Return to Channel
+    </button>
+    <button
+      className="button__invisible"
+      form="Post"
+      type="submit"
     />
   </div>
 </div>

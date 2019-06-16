@@ -8,8 +8,10 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
-    list_display = ['first_name', 'middle_name', 'email', 'is_staff', 'username']
-    list_filter = ['first_name', 'middle_name', 'email', 'is_staff', 'username']
+    list_display = ['first_name', 'middle_name',
+                    'email', 'is_staff', 'username']
+    list_filter = ['first_name', 'middle_name',
+                   'email', 'is_staff', 'username']
     fieldsets = (
         (None, {'fields': (
             'username', 'email', 'password', 'first_name', 'middle_name', 'last_name', 'birth_date', 'country', 'state',
@@ -27,6 +29,7 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
 
 
+admin.site.register(Community)
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Post)
 admin.site.register(ContentChannel)
