@@ -29,24 +29,43 @@ export const startSetMyPosts = () => {
     };
 };
 
-// START_SET_RANDOM_POSTS
-export const startSetRandomPosts = (interest) => {
+/*
+SET_INTEREST_RANDOM_POSTS
+resets the interestRandomPosts in store to be an empty array
+*/
+export const setInterestRandomPosts = () => {
+    return { type: "SET_INTEREST_RANDOM_POSTS " };
+};
+
+/*
+ADD_INTEREST_RANDOM_POSTS
+adds a new interest and associated random posts to interestRandomPosts in store
+*/
+export const addInterestRandomPosts = (interestPosts) => {
+    return { type: "ADD_INTEREST_RANDOM_POSTS", interestPosts };
+};
+
+/*
+START_SET_INTEREST_RANDOM_POSTS
+Gets and stores interest and random posts for each interest provided
+
+@param interests An array of interest objects
+*/
+export const startSetInterestRandomPosts = (interests) => {
     return (dispatch) => {
-        return new Promise((resolve, reject) => {
-            dispatch(postStart());
+        dispatch(postStart());
+        dispatch(setInterestRandomPosts(dispatch));
+        for (let i = 0; i < interests.length; i++) {
             API.get("random-posts/", {
                 params: {
-                    interest: interest
+                    interest: interests[i].interest_tag
                 }
-            })
-                .then((result) => {
-                    resolve(result.data);
-                })
-                .catch((error) => {
-                    console.log("error in getting posts for interest", error);
-                    reject(error);
-                });
-        });
+            }).then((result) => {
+                if (result.data.length > 0) {
+                    dispatch(addInterestRandomPosts({ tag: interests[i].interest_tag, posts: result.data }));
+                }
+            });
+        }
     };
 };
 

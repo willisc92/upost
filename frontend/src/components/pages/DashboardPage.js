@@ -1,33 +1,16 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getAllInterests } from "../../actions/interests";
-import { startSetRandomPosts } from "../../actions/posts";
+import { startSetInterestRandomPosts } from "../../actions/posts";
 
 export class DashboardPage extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            interestsPosts: []
-        };
-    }
-
     componentDidUpdate() {
-        console.log(this.state);
+        console.log(this.props.interestRandomPosts);
     }
 
     componentDidMount() {
         this.props.getAllInterests().then(() => {
-            for (let i = 0; i < this.props.interests.length; i++) {
-                const interest_tag = this.props.interests[i].interest_tag;
-                this.props.startSetRandomPosts(interest_tag).then((result) => {
-                    if (result.length > 0) {
-                        this.setState((prevState) => ({
-                            interestsPosts: [...prevState.interestsPosts, { tag: interest_tag, posts: result }]
-                        }));
-                    }
-                });
-            }
+            this.props.startSetInterestRandomPosts(this.props.interests);
         });
     }
 
@@ -49,14 +32,15 @@ export class DashboardPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         isAuthenticated: !!state.auth.token,
-        interests: state.userInterests.userInterests
+        interests: state.userInterests.userInterests,
+        interestRandomPosts: state.posts.interestRandomPosts
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
         getAllInterests: () => dispatch(getAllInterests()),
-        startSetRandomPosts: (interest) => dispatch(startSetRandomPosts(interest))
+        startSetInterestRandomPosts: (interests) => dispatch(startSetInterestRandomPosts(interests))
     };
 };
 
