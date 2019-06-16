@@ -34,6 +34,7 @@ SET_INTEREST_RANDOM_POSTS
 resets the interestRandomPosts in store to be an empty array
 */
 export const setInterestRandomPosts = () => {
+    console.log("resetted");
     return { type: "SET_INTEREST_RANDOM_POSTS " };
 };
 
@@ -54,7 +55,7 @@ Gets and stores interest and random posts for each interest provided
 export const startSetInterestRandomPosts = (interests) => {
     return (dispatch) => {
         dispatch(postStart());
-        dispatch(setInterestRandomPosts(dispatch));
+        dispatch(setInterestRandomPosts());
         for (let i = 0; i < interests.length; i++) {
             API.get("random-posts/", {
                 params: {

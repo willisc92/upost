@@ -2,10 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { getAllInterests } from "../../actions/interests";
 import { startSetInterestRandomPosts } from "../../actions/posts";
+import MyPostSummary from "../MyPostSummary";
 
 export class DashboardPage extends React.Component {
     componentDidUpdate() {
-        console.log(this.props.interestRandomPosts);
+        console.log("updated", this.props.interestRandomPosts);
     }
 
     componentDidMount() {
@@ -16,13 +17,33 @@ export class DashboardPage extends React.Component {
 
     render() {
         return (
-            <div className="page-header">
+            <div>
+                <div className="page-header">
+                    <div className="content-container">
+                        {!this.props.isAuthenticated ? (
+                            <h1 className="page-header__title">You must login.</h1>
+                        ) : (
+                            <h1 className="page-header__title">{`Welcome, ${localStorage.getItem("first_name")}!`}</h1>
+                        )}
+                    </div>
+                </div>
                 <div className="content-container">
-                    {!this.props.isAuthenticated ? (
-                        <h1 className="page-header__title">You must login.</h1>
-                    ) : (
-                        <h1 className="page-header__title">{`Welcome, ${localStorage.getItem("first_name")}!`}</h1>
-                    )}
+                    {this.props.interestRandomPosts.map((interestPosts) => {
+                        return (
+                            <div key={interestPosts.tag}>
+                                <h1>{interestPosts.tag}</h1>
+                                <div className="list-parent">
+                                    {interestPosts.posts.map((post) => {
+                                        return (
+                                            <div key={post.post_id} className="list-box">
+                                                <MyPostSummary post={post} />
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         );
