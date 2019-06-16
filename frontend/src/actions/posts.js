@@ -34,8 +34,7 @@ SET_INTEREST_RANDOM_POSTS
 resets the interestRandomPosts in store to be an empty array
 */
 export const setInterestRandomPosts = () => {
-    console.log("resetted");
-    return { type: "SET_INTEREST_RANDOM_POSTS " };
+    return { type: "SET_INTEREST_RANDOM_POSTS" };
 };
 
 /*

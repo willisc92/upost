@@ -5,10 +5,6 @@ import { startSetInterestRandomPosts } from "../../actions/posts";
 import MyPostSummary from "../MyPostSummary";
 
 export class DashboardPage extends React.Component {
-    componentDidUpdate() {
-        console.log("updated", this.props.interestRandomPosts);
-    }
-
     componentDidMount() {
         this.props.getAllInterests().then(() => {
             this.props.startSetInterestRandomPosts(this.props.interests);
