@@ -17,7 +17,8 @@ class PostForm extends React.Component {
             deleted_flag: this.props.post ? this.props.post.deleted_flag : false,
             tags: this.props.post ? this.props.post.tags : [],
             error: "",
-            channel: this.props.channel
+            channel: this.props.channel,
+            image: null
         };
     }
 
@@ -106,8 +107,15 @@ class PostForm extends React.Component {
         this.setState(() => ({ tags }));
     };
 
+    handleImageChange = (e) => {
+        this.setState({
+            image: e.target.files[0]
+        });
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
+        console.log(this.state);
         if (!this.state.post_title) {
             this.setState(() => ({ error: "Please provide a post title" }));
         } else if (!this.state.poster_name) {
@@ -124,18 +132,22 @@ class PostForm extends React.Component {
             this.setState(() => ({ error: "Please provide at least one tag for the post" }));
         } else {
             this.setState(() => ({ error: "" }));
-            this.props.onSubmit({
-                user: localStorage.getItem("user_id"),
-                post_title: this.state.post_title,
-                poster_name: this.state.poster_name,
-                phone_number: this.state.phone_number,
-                cost: parseFloat(this.state.cost, 10) * 100,
-                email: this.state.email,
-                post_description: this.state.post_description,
-                deleted_flag: this.state.deleted_flag,
-                tags: this.state.tags,
-                channel: this.state.channel
+            let form_data = new FormData();
+            form_data.append("picture", this.state.image, this.state.image.name);
+            form_data.append("user", localStorage.getItem("user_id"));
+            form_data.append("post_title", this.state.post_title);
+            form_data.append("poster_name", this.state.poster_name);
+            form_data.append("phone_number", this.state.phone_number);
+            form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
+            form_data.append("email", this.state.email);
+            form_data.append("post_description", this.state.post_description);
+            form_data.append("deleted_flag", this.state.deleted_flag);
+            this.state.tags.forEach((tag) => {
+                form_data.append("tags", tag);
             });
+            form_data.append("channel", this.state.channel);
+
+            this.props.onSubmit(form_data);
         }
     };
 
@@ -218,6 +230,10 @@ class PostForm extends React.Component {
                             onChange={this.onDeletedFlagChange}
                         />
                     </p>
+                </div>
+                <div>
+                    <p>Image upload: </p>
+                    <input type="file" id="image" accept="image/png, image/jpeg" onChange={this.handleImageChange} />
                 </div>
                 {!!this.props.interests && (
                     <div>

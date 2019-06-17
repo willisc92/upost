@@ -36,7 +36,8 @@ class PostSerializer(serializers.ModelSerializer):
             'post_timestamp',
             'deleted_flag',
             'tags',
-            'post_event'
+            'post_event',
+            'picture'
         )
         model = Post
 

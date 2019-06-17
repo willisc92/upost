@@ -55,9 +55,8 @@ export const addPost = (post) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(postStart());
-            API.post(`posts/`, {
-                ...post,
-                user: localStorage.getItem("user_id")
+            API.post(`posts/`, post, {
+                headers: { "content-type": "multipart/form-data" }
             })
                 .then((result) => {
                     console.log(JSON.stringify(result, null, 2));

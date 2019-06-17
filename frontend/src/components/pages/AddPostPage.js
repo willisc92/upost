@@ -34,7 +34,7 @@ export class AddPostPage extends React.Component {
         switch (this.state.step) {
             case "Post": {
                 await this.props
-                    .addPost({ ...data })
+                    .addPost(data)
                     .then((result) => {
                         if (this.state.finished) {
                             this.handleReturn();
