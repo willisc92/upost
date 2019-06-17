@@ -1,5 +1,5 @@
 // Post Reducers
-export const postsDefaultState = { error: null, loading: false, posts: [] };
+export const postsDefaultState = { error: null, loading: false, posts: [], interestRandomPosts: [] };
 
 export default (state = postsDefaultState, action) => {
     switch (action.type) {
@@ -25,6 +25,16 @@ export default (state = postsDefaultState, action) => {
                 ...state,
                 error: null,
                 loading: false
+            };
+        case "SET_INTEREST_RANDOM_POSTS":
+            return {
+                ...state,
+                interestRandomPosts: []
+            };
+        case "ADD_INTEREST_RANDOM_POSTS":
+            return {
+                ...state,
+                interestRandomPosts: [...state.interestRandomPosts, action.interestPosts]
             };
         default:
             return state;

@@ -5,7 +5,7 @@
     background: $light-grey;
     padding: $s-size;
     margin: $s-size;
-    width: 30%;
+    width: 28rem;
     color: $black;
 }
 
@@ -18,8 +18,9 @@
 }
 
 .interest-image {
+    object-fit: fill;
     height: 16rem;
-    font-size: $font-size-medium;
+    width: 100%;
     background: $dark-grey;
 }
 

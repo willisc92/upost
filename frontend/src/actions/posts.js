@@ -29,6 +29,46 @@ export const startSetMyPosts = () => {
     };
 };
 
+/*
+SET_INTEREST_RANDOM_POSTS
+resets the interestRandomPosts in store to be an empty array
+*/
+export const setInterestRandomPosts = () => {
+    return { type: "SET_INTEREST_RANDOM_POSTS" };
+};
+
+/*
+ADD_INTEREST_RANDOM_POSTS
+adds a new interest and associated random posts to interestRandomPosts in store
+*/
+export const addInterestRandomPosts = (interestPosts) => {
+    return { type: "ADD_INTEREST_RANDOM_POSTS", interestPosts };
+};
+
+/*
+START_SET_INTEREST_RANDOM_POSTS
+Gets and stores interest and random posts for each interest provided
+
+@param interests An array of interest objects
+*/
+export const startSetInterestRandomPosts = (interests) => {
+    return (dispatch) => {
+        dispatch(postStart());
+        dispatch(setInterestRandomPosts());
+        for (let i = 0; i < interests.length; i++) {
+            API.get("random-posts/", {
+                params: {
+                    interest: interests[i].interest_tag
+                }
+            }).then((result) => {
+                if (result.data.length > 0) {
+                    dispatch(addInterestRandomPosts({ tag: interests[i].interest_tag, posts: result.data }));
+                }
+            });
+        }
+    };
+};
+
 export const startGetPost = (id) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
