@@ -50,6 +50,14 @@ class PostSerializer(serializers.ModelSerializer):
     post_title = serializers.CharField(max_length=50, validators=[
         UniqueValidator(message="Post title must be unique", queryset=Post.objects.all())])
 
+    def put(self, request, pk, format=None):
+        post = self.get_object(pk)
+        serializer = PostSerializer(post, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ContentChannelSerializer(serializers.ModelSerializer):
     class Meta:

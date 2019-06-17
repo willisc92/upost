@@ -99,7 +99,6 @@ export const addPost = (post) => {
                 headers: { "content-type": "multipart/form-data" }
             })
                 .then((result) => {
-                    console.log(JSON.stringify(result, null, 2));
                     dispatch(postSuccess());
                     dispatch(startSetMyPosts());
                     resolve(result);
@@ -116,9 +115,8 @@ export const editPost = (id, updates) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(postStart());
-            API.put(`posts/${id}/`, {
-                ...updates,
-                user: localStorage.getItem("user_id")
+            API.put(`posts/${id}/`, updates, {
+                headers: { "content-type": "multipart/form-data" }
             })
                 .then((result) => {
                     dispatch(postSuccess());
@@ -140,4 +138,8 @@ export const postFail = (error) => ({
 
 export const postSuccess = () => ({
     type: "POST_SUCCESS"
+});
+
+export const clearPosts = () => ({
+    type: "CLEAR_POSTS"
 });

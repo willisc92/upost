@@ -1,5 +1,5 @@
 import React from "react";
-import { startGetPost, editPost } from "../../actions/posts";
+import { startGetPost, editPost, clearPosts } from "../../actions/posts";
 import { connect } from "react-redux";
 import PostForm from "../forms/PostForm";
 
@@ -9,6 +9,7 @@ export class EditPostPage extends React.Component {
     }
 
     componentDidMount() {
+        this.props.clearPosts();
         const post_id = this.props.match.params.id;
         this.props
             .startGetPost(post_id)
@@ -29,7 +30,7 @@ export class EditPostPage extends React.Component {
         this.props
             .editPost(post_id, post)
             .then((result) => {
-                this.props.history.push(`/myChannels/${post.channel}`);
+                this.props.history.push(`/myChannels/${post.get("channel")}`);
             })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
@@ -65,6 +66,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+    clearPosts: () => dispatch(clearPosts()),
     startGetPost: (id) => dispatch(startGetPost(id)),
     editPost: (id, updates) => dispatch(editPost(id, updates))
 });

@@ -18,7 +18,8 @@ class PostForm extends React.Component {
             tags: this.props.post ? this.props.post.tags : [],
             error: "",
             channel: this.props.channel,
-            image: null
+            picture: this.props.post ? this.props.post.picture : null,
+            picture_preview: this.props.post ? this.props.post.picture : null
         };
     }
 
@@ -107,15 +108,15 @@ class PostForm extends React.Component {
         this.setState(() => ({ tags }));
     };
 
-    handleImageChange = (e) => {
-        this.setState({
-            image: e.target.files[0]
+    handleImageChange = async (e) => {
+        await this.setState({
+            picture: e.target.files[0],
+            picture_preview: URL.createObjectURL(e.target.files[0])
         });
     };
 
     onSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
         if (!this.state.post_title) {
             this.setState(() => ({ error: "Please provide a post title" }));
         } else if (!this.state.poster_name) {
@@ -133,7 +134,7 @@ class PostForm extends React.Component {
         } else {
             this.setState(() => ({ error: "" }));
             let form_data = new FormData();
-            form_data.append("picture", this.state.image, this.state.image.name);
+            form_data.append("picture", this.state.picture, this.state.picture && this.state.picture.name);
             form_data.append("user", localStorage.getItem("user_id"));
             form_data.append("post_title", this.state.post_title);
             form_data.append("poster_name", this.state.poster_name);
@@ -231,10 +232,13 @@ class PostForm extends React.Component {
                         />
                     </p>
                 </div>
-                <div>
-                    <p>Image upload: </p>
-                    <input type="file" id="image" accept="image/png, image/jpeg" onChange={this.handleImageChange} />
-                </div>
+                <p>Image upload: </p>
+                {!!this.state.picture ? (
+                    <img className="post_image" src={this.state.picture_preview} />
+                ) : (
+                    <p>No image uploaded.</p>
+                )}
+                <input type="file" id="image" accept="image/png, image/jpeg" onChange={this.handleImageChange} />
                 {!!this.props.interests && (
                     <div>
                         <p>Interest Tags (Hold down "Control", or "Command" on a Mac, to select more than one.): </p>
