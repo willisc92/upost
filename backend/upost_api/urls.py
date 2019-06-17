@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework import routers
-from upost.views import Channels_Posts_Events, User_Account, Communities, Shared
+from upost.views import Channels_Posts_Events, User_Account, Communities, Shared, Incentive_Packages
 from django.conf import settings
 from django.conf.urls.static import static
 from frontendapp import urls as frontendapp_urls
@@ -24,13 +24,21 @@ from frontendapp import urls as frontendapp_urls
 router = routers.DefaultRouter()
 # naming scheme: register('link_name', viewSet, 'base_name')
 router.register('interests', Shared.InterestView, 'interest')
-router.register('channels', Channels_Posts_Events.ContentChannel_View, 'channel')
+router.register(
+    'channels', Channels_Posts_Events.ContentChannel_View, 'channel')
 router.register('accounts', User_Account.UserAccountView, 'account')
 router.register('user-interests', Shared.UserInterestView, 'user-interest')
 router.register('posts', Channels_Posts_Events.Post_View, 'post')
 router.register('events', Channels_Posts_Events.Event_View, 'event')
 router.register('communities', Communities.CommunityView, 'community')
-router.register('random-posts', Channels_Posts_Events.Random_Post_view, 'random-post')
+router.register(
+    'random-posts', Channels_Posts_Events.Random_Post_view, 'random-post')
+router.register(
+    'incentive-packages', Incentive_Packages.IncentivePackageView, 'incentive-package')
+router.register('incentive-choices',
+                Incentive_Packages.IncentiveChoiceView, 'incentive-choice')
+router.register(
+    'diet-options', Incentive_Packages.DietOptionView, 'diet-option')
 
 
 urlpatterns = [

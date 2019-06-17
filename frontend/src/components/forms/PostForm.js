@@ -159,6 +159,7 @@ class PostForm extends React.Component {
                     <p className="form_error"> {this.props.error.post_title[0]}</p>
                 )}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
+                <p className="form__error">* - Fields required</p>
                 <div className="input-group">
                     <p className="form__label">Post Title*: </p>
                     <input
@@ -191,7 +192,7 @@ class PostForm extends React.Component {
                     />
                 </div>
                 <div className="input-group">
-                    <p className="form__label"> Cost*: </p>
+                    <p className="form__label"> Cost ($)*: </p>
                     <input
                         className="text-input"
                         type="text"

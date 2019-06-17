@@ -13,8 +13,8 @@ class UserAccountSerializer(serializers.ModelSerializer):
 
     channels = serializers.PrimaryKeyRelatedField(
         many=True, queryset=ContentChannel.objects.all(), required=False)
-    community = serializers.PrimaryKeyRelatedField(many=True, required=False, queryset=Community.objects.all())
-    
+    community = serializers.PrimaryKeyRelatedField(
+        many=True, required=False, queryset=Community.objects.all())
 
     def create(self, validated_data):  # for POST to hash passwords
         user = CustomUser.objects.create(

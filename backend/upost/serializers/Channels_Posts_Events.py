@@ -15,10 +15,11 @@ class EventSerializer(serializers.ModelSerializer):
             'community',
         )
         model = PostEvent
-        post = serializers.PrimaryKeyRelatedField(
-            read_only=False, many=False, queryset=Post.objects.all())
-        community = serializers.RelatedField(
-            source="community.community_name", read_only=True)
+
+    post = serializers.PrimaryKeyRelatedField(
+        read_only=False, many=False, queryset=Post.objects.all())
+    community = serializers.PrimaryKeyRelatedField(
+        many=False, queryset=Community.objects.all())
 
 
 class PostSerializer(serializers.ModelSerializer):

@@ -77,7 +77,8 @@ class Post(models.Model):
     deleted_flag = models.BooleanField(
         db_column='Deleted_Flag', default=False, blank=True)
     tags = models.ManyToManyField("upost.Interest", db_table='post_tags')
-    picture = models.ImageField(null=True, upload_to="post_images/")
+    picture = models.ImageField(
+        null=True, blank=True, upload_to="post_images/")
 
     def __str__(self):
         return self.post_title

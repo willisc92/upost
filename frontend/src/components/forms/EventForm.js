@@ -9,7 +9,7 @@ export class EventForm extends React.Component {
         this.state = {
             location: !!this.props.event ? this.props.event.location : "",
             community: !!this.props.event ? this.props.event.community : null,
-            capacity: !!this.props.event ? this.props.event.capacity : 0,
+            capacity: !!this.props.event ? this.props.event.capacity : "0",
             error: "",
             startDate: !!this.props.event ? new Date(this.props.event.planned_start_date) : new Date(),
             endDate: !!this.props.event
