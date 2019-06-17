@@ -38,7 +38,7 @@ class Random_Post_view(viewsets.ModelViewSet):
         queryset = self.queryset
         interest_param = self.request.query_params.get('interest')
         if interest_param is not None:
-            queryset = queryset.filter(tags__interest_tag=interest_param).order_by('?')[:5]  # get 5 objects
+            queryset = queryset.filter(tags__interest_tag=interest_param).order_by('?')[:4]  # get 4 objects
         return queryset
 
 

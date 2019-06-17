@@ -1,14 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getAllInterests } from "../../actions/interests";
+import { getAllInterests, startSetUserInterests } from "../../actions/interests";
 import { startSetInterestRandomPosts } from "../../actions/posts";
 import MyPostSummary from "../MyPostSummary";
 
 export class DashboardPage extends React.Component {
     componentDidMount() {
-        this.props.getAllInterests().then(() => {
-            this.props.startSetInterestRandomPosts(this.props.interests);
-        });
+        console.log(this.props.isAuthenticated);
+        if (this.props.isAuthenticated) {
+            this.props.startSetUserInterests().then(() => {
+                this.props.startSetInterestRandomPosts(this.props.interests);
+            });
+        } else {
+            this.props.getAllInterests().then(() => {
+                this.props.startSetInterestRandomPosts(this.props.interests);
+            });
+        }
     }
 
     render() {
@@ -57,7 +64,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getAllInterests: () => dispatch(getAllInterests()),
-        startSetInterestRandomPosts: (interests) => dispatch(startSetInterestRandomPosts(interests))
+        startSetInterestRandomPosts: (interests) => dispatch(startSetInterestRandomPosts(interests)),
+        startSetUserInterests: () => dispatch(startSetUserInterests())
     };
 };
 

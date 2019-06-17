@@ -56,6 +56,7 @@ export const startSetMyPosts = () => {
  * @returns {Object} object to reset interestRandomPosts
  */
 export const setInterestRandomPosts = () => {
+    console.log("resetted");
     return { type: "SET_INTEREST_RANDOM_POSTS" };
 };
 
@@ -83,16 +84,33 @@ export const startSetInterestRandomPosts = (interests) => {
     return (dispatch) => {
         dispatch(postStart());
         dispatch(setInterestRandomPosts());
-        for (let i = 0; i < interests.length; i++) {
-            API.get("random-posts/", {
-                params: {
-                    interest: interests[i].interest_tag
-                }
-            }).then((result) => {
-                if (result.data.length > 0) {
-                    dispatch(addInterestRandomPosts({ tag: interests[i].interest_tag, posts: result.data }));
-                }
-            });
+        // if we have a list of interest objects
+        if (interests.length > 0 && !!interests[0].interest_tag) {
+            for (let i = 0; i < interests.length; i++) {
+                API.get("random-posts/", {
+                    params: {
+                        interest: interests[i].interest_tag
+                    }
+                }).then((result) => {
+                    if (result.data.length > 0) {
+                        dispatch(addInterestRandomPosts({ tag: interests[i].interest_tag, posts: result.data }));
+                    }
+                });
+            }
+        }
+        // if we have a list of interest tags
+        else {
+            for (let i = 0; i < interests.length; i++) {
+                API.get("random-posts/", {
+                    params: {
+                        interest: interests[i]
+                    }
+                }).then((result) => {
+                    if (result.data.length > 0) {
+                        dispatch(addInterestRandomPosts({ tag: interests[i], posts: result.data }));
+                    }
+                });
+            }
         }
         dispatch(postSuccess());
     };
