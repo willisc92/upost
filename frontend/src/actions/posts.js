@@ -4,6 +4,8 @@ import API from "../utils/API";
  * POST_START.
  * action generator.
  * Resets the error and sets loading status.
+ *
+ * @returns {Object} object to reset error and loading status
  */
 export const postStart = () => ({
     type: "POST_START"
@@ -14,7 +16,8 @@ export const postStart = () => ({
  * action generator.
  * adds user's posts to store.
  *
- * @param {Object[]} posts
+ * @param {Object[]} posts posts to add to store
+ * @returns {Object} object to add posts to store
  */
 export const setPosts = (posts) => ({
     type: "SET_POSTS",
@@ -129,7 +132,7 @@ export const startGetPost = (id) => {
  * sends post request to API to add a new user created post.
  * upon sucessful post reloads user posts.
  *
- * @param {Object} post
+ * @param {Object} post post object to add to API
  * @returns {Promise}
  */
 export const addPost = (post) => {
@@ -189,6 +192,7 @@ export const editPost = (id, updates) => {
  * adds error to the store.
  *
  * @param {Object} error the error
+ * @returns {Object} object to set error
  */
 export const postFail = (error) => ({
     type: "POST_FAIL",
@@ -199,6 +203,8 @@ export const postFail = (error) => ({
  * POST_SUCCESS.
  * action generator.
  * resets loading and error status.
+ *
+ * @returns {Object} object to reset loading and error status
  */
 export const postSuccess = () => ({
     type: "POST_SUCCESS"
