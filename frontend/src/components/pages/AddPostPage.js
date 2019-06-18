@@ -52,7 +52,8 @@ export class AddPostPage extends React.Component {
             }
             case "Event": {
                 this.props
-                    .addEvent({ ...data, post: this.state.postID })
+                    .addEvent(data)
+                    // .addEvent({ ...data, post: this.state.postID })
                     .then(() => {
                         this.handleReturn();
                         // if (this.state.finished) {
@@ -113,6 +114,7 @@ export class AddPostPage extends React.Component {
                     {this.state.step === "Event" && (
                         <EventForm
                             id="Event"
+                            post={this.state.postID}
                             onSubmit={this.onSubmit}
                             channel={this.props.match.params.id}
                             nextStep="Save and Return"

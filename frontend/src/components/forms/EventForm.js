@@ -7,6 +7,7 @@ export class EventForm extends React.Component {
         super(props);
 
         this.state = {
+            post: !!this.props.event ? this.props.event.post : this.props.post,
             location: !!this.props.event ? this.props.event.location : "",
             community: !!this.props.event ? this.props.event.community : null,
             capacity: !!this.props.event ? this.props.event.capacity : "0",
@@ -91,6 +92,7 @@ export class EventForm extends React.Component {
         } else {
             this.setState(() => ({ error: "" }));
             this.props.onSubmit({
+                post: this.state.post,
                 user: localStorage.getItem("user_id"),
                 location: this.state.location,
                 community: this.state.community,
