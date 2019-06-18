@@ -6,7 +6,6 @@ import MyPostSummary from "../MyPostSummary";
 
 export class DashboardPage extends React.Component {
     componentDidMount() {
-        console.log(this.props.isAuthenticated);
         if (this.props.isAuthenticated) {
             this.props.startSetUserInterests().then(() => {
                 this.props.startSetInterestRandomPosts(this.props.interests);

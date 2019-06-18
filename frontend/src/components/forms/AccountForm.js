@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { SingleDatePicker } from "react-dates";
-import Select from "react-select";
+import DatePicker from "react-date-picker";
 import moment from "moment";
 import API from "../../utils/API";
 
@@ -10,9 +9,9 @@ export class AccountForm extends React.Component {
         super(props);
 
         this.state = {
-            calendarFocused: false,
-            date: moment(),
-            birthDate: moment(),
+            maxDate: new Date(),
+            minDate: new Date(1900, 1, 1),
+            birthDate: new Date(),
             isLoaded: false,
             interests: [],
             error: undefined,
@@ -20,10 +19,10 @@ export class AccountForm extends React.Component {
         };
     }
 
-    onDateChange = (birthDate) => {
-        if (birthDate) {
-            this.setState(() => ({ birthDate }));
-        }
+    onDateChange = (date) => {
+        this.setState({
+            birthDate: date
+        });
     };
 
     onFocusChange = ({ focused }) => {
@@ -58,7 +57,6 @@ export class AccountForm extends React.Component {
             interests: this.state.selectedInterests.map((interest) => {
                 return interest.value;
             }),
-            date: this.state.date,
             birthDate: this.state.birthDate
         });
     };
@@ -114,13 +112,12 @@ export class AccountForm extends React.Component {
                     })}
                 <input type="text" className="text-input" name="lastName" />
                 <p>Birth date</p>
-                <SingleDatePicker
-                    date={this.state.date}
-                    onDateChange={this.onDateChange}
-                    focused={this.state.calendarFocused}
-                    onFocusChange={this.onFocusChange}
-                    numberOfMonths={1}
-                    isOutsideRange={(day) => false}
+                <DatePicker
+                    value={this.state.birthDate}
+                    onChange={this.onDateChange}
+                    maxDate={this.state.maxDate}
+                    minDate={this.state.minDate}
+                    minDetail="decade"
                 />
                 <p>Password</p>
                 <p>Your password contain at least {this.props.minPasswordLength} characters.</p>

@@ -56,7 +56,6 @@ export const startSetMyPosts = () => {
  * @returns {Object} object to reset interestRandomPosts
  */
 export const setInterestRandomPosts = () => {
-    console.log("resetted");
     return { type: "SET_INTEREST_RANDOM_POSTS" };
 };
 
@@ -77,7 +76,7 @@ export const addInterestRandomPosts = (interestPosts) => {
  * resets the interestRandomPosts store.
  * for each interest provided gets random posts from API and adds to store.
  *
- * @param {Object[]} interests an array of interest objects
+ * @param {Object[]} interests an array of interest objects or interest tags
  * @returns {Function} dispatch function
  */
 export const startSetInterestRandomPosts = (interests) => {

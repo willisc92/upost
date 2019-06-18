@@ -11,8 +11,6 @@ export class SignUpPage extends React.Component {
 
         this.state = {
             calendarFocused: false,
-            date: moment(),
-            birthDate: moment(),
             isLoaded: false,
             error: undefined,
             minPasswordLength: 8
@@ -69,7 +67,7 @@ export class SignUpPage extends React.Component {
             first_name: formInput.firstName.value,
             middle_name: formInput.middleName.value,
             last_name: formInput.lastName.value,
-            birth_date: input.date.format("YYYY-MM-DD")
+            birth_date: input.birthDate.toISOString().split("T")[0]
         };
 
         this.props
