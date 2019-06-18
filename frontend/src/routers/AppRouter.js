@@ -31,7 +31,7 @@ class AppRouter extends React.Component {
             <Router history={history}>
                 <div>
                     <SideBar />
-                    <Header />
+                    <Header history={history} />
                     <Switch>
                         <Route path="/" component={DashboardPage} exact={true} />
                         <PublicRoute path="/login" component={LoginPage} exact={true} />
