@@ -6,3 +6,4 @@ from ..models.Shared import Community
 class CommunityView(viewsets.ModelViewSet):
     serializer_class = CommunitySerializer
     queryset = Community.objects.all()
+    filterset_fields = ('community_name',)

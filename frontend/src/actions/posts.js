@@ -1,4 +1,5 @@
 import API from "../utils/API";
+import { APIwForm } from "../utils/API";
 
 /**
  * POST_START.
@@ -139,9 +140,7 @@ export const addPost = (post) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(postStart());
-            API.post(`posts/`, post, {
-                headers: { "content-type": "multipart/form-data" }
-            })
+            APIwForm.post(`posts/`, post)
                 .then((result) => {
                     dispatch(postSuccess());
                     dispatch(startSetMyPosts());
@@ -167,9 +166,7 @@ export const editPost = (id, updates) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(postStart());
-            API.put(`posts/${id}/`, updates, {
-                headers: { "content-type": "multipart/form-data" }
-            })
+            APIwForm.put(`posts/${id}/`, updates)
                 .then((result) => {
                     dispatch(postSuccess());
                     dispatch(startSetMyPosts());
