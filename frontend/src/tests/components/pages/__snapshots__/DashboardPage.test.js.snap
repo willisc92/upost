@@ -1,33 +1,461 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Should render Dashboard page for logged in user 1`] = `
-<div
-  className="page-header"
->
+<div>
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page-header__title"
+      >
+        Welcome, WILLIS!
+      </h1>
+    </div>
+  </div>
   <div
     className="content-container"
   >
-    <h1
-      className="page-header__title"
+    <div
+      key="Interest 1"
     >
-      Welcome, WILLIS!
-    </h1>
+      <h1>
+        Interest 1
+      </h1>
+      <div
+        className="list-parent"
+      >
+        <div
+          className="list-box"
+          key="1"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 2,
+                "cost": 0,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": Object {
+                  "capacity": 1,
+                  "community": "University of Calgary",
+                  "location": "test",
+                  "planned_end_date": "2019-06-05T16:10:53-06:00",
+                  "planned_start_date": "2019-06-04T16:10:51-06:00",
+                  "post": 1,
+                },
+                "post_id": 1,
+                "post_timestamp": "2019-06-17T15:43:48.090766-06:00",
+                "post_title": "Post 1",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+        <div
+          className="list-box"
+          key="2"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 2,
+                "cost": 1,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": Object {
+                  "capacity": 100,
+                  "community": "University of Calgary",
+                  "location": "ICT 122",
+                  "planned_end_date": "2019-02-01T01:00:00-07:00",
+                  "planned_start_date": "2019-01-01T01:00:00-07:00",
+                  "post": 2,
+                },
+                "post_id": 2,
+                "post_timestamp": "2019-06-17T16:13:02.775479-06:00",
+                "post_title": "Post 2",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+        <div
+          className="list-box"
+          key="3"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 1,
+                "cost": 123,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": Object {
+                  "capacity": 123,
+                  "community": "University of Calgary",
+                  "location": "ICT 122",
+                  "planned_end_date": "2019-01-01T01:00:00-07:00",
+                  "planned_start_date": "2019-01-01T01:00:00-07:00",
+                  "post": 3,
+                },
+                "post_id": 3,
+                "post_timestamp": "2019-06-17T16:26:49.774048-06:00",
+                "post_title": "Post 3",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+        <div
+          className="list-box"
+          key="4"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 1,
+                "cost": 12300,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": Object {
+                  "capacity": 10,
+                  "community": "University of Calgary",
+                  "location": "ICT 122",
+                  "planned_end_date": "2019-06-17T17:33:01.112000-06:00",
+                  "planned_start_date": "2019-06-17T16:33:01.112000-06:00",
+                  "post": 4,
+                },
+                "post_id": 4,
+                "post_timestamp": "2019-06-17T16:33:01.093135-06:00",
+                "post_title": "Post 4",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+        <div
+          className="list-box"
+          key="5"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 1,
+                "cost": 0,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": null,
+                "post_id": 5,
+                "post_timestamp": "2019-06-17T16:34:27.423314-06:00",
+                "post_title": "Post 5",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+        <div
+          className="list-box"
+          key="6"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 1,
+                "cost": 12300,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": Object {
+                  "capacity": 0,
+                  "community": "University of Calgary",
+                  "location": "ICT 122",
+                  "planned_end_date": "2019-06-17T17:35:28.118000-06:00",
+                  "planned_start_date": "2019-06-17T16:35:28.118000-06:00",
+                  "post": 6,
+                },
+                "post_id": 6,
+                "post_timestamp": "2019-06-17T16:35:28.100463-06:00",
+                "post_title": "Post 6",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;
 
 exports[`Should render Dashboard page for non logged in user 1`] = `
-<div
-  className="page-header"
->
+<div>
+  <div
+    className="page-header"
+  >
+    <div
+      className="content-container"
+    >
+      <h1
+        className="page-header__title"
+      >
+        You must login.
+      </h1>
+    </div>
+  </div>
   <div
     className="content-container"
   >
-    <h1
-      className="page-header__title"
+    <div
+      key="Interest 1"
     >
-      You must login.
-    </h1>
+      <h1>
+        Interest 1
+      </h1>
+      <div
+        className="list-parent"
+      >
+        <div
+          className="list-box"
+          key="1"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 2,
+                "cost": 0,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": Object {
+                  "capacity": 1,
+                  "community": "University of Calgary",
+                  "location": "test",
+                  "planned_end_date": "2019-06-05T16:10:53-06:00",
+                  "planned_start_date": "2019-06-04T16:10:51-06:00",
+                  "post": 1,
+                },
+                "post_id": 1,
+                "post_timestamp": "2019-06-17T15:43:48.090766-06:00",
+                "post_title": "Post 1",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+        <div
+          className="list-box"
+          key="2"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 2,
+                "cost": 1,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": Object {
+                  "capacity": 100,
+                  "community": "University of Calgary",
+                  "location": "ICT 122",
+                  "planned_end_date": "2019-02-01T01:00:00-07:00",
+                  "planned_start_date": "2019-01-01T01:00:00-07:00",
+                  "post": 2,
+                },
+                "post_id": 2,
+                "post_timestamp": "2019-06-17T16:13:02.775479-06:00",
+                "post_title": "Post 2",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+        <div
+          className="list-box"
+          key="3"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 1,
+                "cost": 123,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": Object {
+                  "capacity": 123,
+                  "community": "University of Calgary",
+                  "location": "ICT 122",
+                  "planned_end_date": "2019-01-01T01:00:00-07:00",
+                  "planned_start_date": "2019-01-01T01:00:00-07:00",
+                  "post": 3,
+                },
+                "post_id": 3,
+                "post_timestamp": "2019-06-17T16:26:49.774048-06:00",
+                "post_title": "Post 3",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+        <div
+          className="list-box"
+          key="4"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 1,
+                "cost": 12300,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": Object {
+                  "capacity": 10,
+                  "community": "University of Calgary",
+                  "location": "ICT 122",
+                  "planned_end_date": "2019-06-17T17:33:01.112000-06:00",
+                  "planned_start_date": "2019-06-17T16:33:01.112000-06:00",
+                  "post": 4,
+                },
+                "post_id": 4,
+                "post_timestamp": "2019-06-17T16:33:01.093135-06:00",
+                "post_title": "Post 4",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+        <div
+          className="list-box"
+          key="5"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 1,
+                "cost": 0,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": null,
+                "post_id": 5,
+                "post_timestamp": "2019-06-17T16:34:27.423314-06:00",
+                "post_title": "Post 5",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+        <div
+          className="list-box"
+          key="6"
+        >
+          <MyPostSummary
+            post={
+              Object {
+                "channel": 1,
+                "cost": 12300,
+                "deleted_flag": false,
+                "email": "willisc92@hotmail.com",
+                "phone_number": "4034010115",
+                "picture": null,
+                "post_description": "Test",
+                "post_event": Object {
+                  "capacity": 0,
+                  "community": "University of Calgary",
+                  "location": "ICT 122",
+                  "planned_end_date": "2019-06-17T17:35:28.118000-06:00",
+                  "planned_start_date": "2019-06-17T16:35:28.118000-06:00",
+                  "post": 6,
+                },
+                "post_id": 6,
+                "post_timestamp": "2019-06-17T16:35:28.100463-06:00",
+                "post_title": "Post 6",
+                "poster_name": "Willis",
+                "tags": Array [
+                  "Interest 1",
+                ],
+                "user": "willisc92",
+              }
+            }
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 `;

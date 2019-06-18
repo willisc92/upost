@@ -207,6 +207,13 @@ export const postSuccess = () => ({
     type: "POST_SUCCESS"
 });
 
+/**
+ * CLEAR_POSTS.
+ * action generator.
+ * clears posts in store
+ *
+ * @returns {Object} object to reset posts
+ */
 export const clearPosts = () => ({
     type: "CLEAR_POSTS"
 });

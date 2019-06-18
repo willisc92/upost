@@ -5,7 +5,7 @@ import channels from "../../fixtures/channels";
 import posts from "../../fixtures/posts";
 import { writeHeapSnapshot } from "v8";
 
-let wrapper, match, channel, addPost, startGetChannel, history;
+let wrapper, match, channel, addPost, startGetChannel, history, clearPosts;
 
 beforeEach(() => {
     channel = channels[0];
@@ -20,7 +20,11 @@ beforeEach(() => {
     };
 
     addPost = jest.fn().mockImplementation(() => {
-        return Promise.resolve();
+        return Promise.resolve({
+            data: {
+                post: posts[0]
+            }
+        });
     });
 
     startGetChannel = jest.fn().mockImplementation(() => {
@@ -55,14 +59,9 @@ test("Should handle triggering final submit", async () => {
     expect(wrapper.state("finished")).toBe(true);
 });
 
-test("Should handle triggering final submit", async () => {
-    wrapper.instance().onTriggerSaveReturn();
-    expect(wrapper.state("finished")).toBe(true);
-});
-
 test("Should handle intermediate submit and increment the step to Event", async () => {
     await wrapper.instance().onSubmit(posts[0]);
-    expect(addPost).toHaveBeenCalledWith({ ...posts[0] });
+    expect(addPost).toHaveBeenCalledWith(posts[0]);
     expect(wrapper.state("step")).toBe("Event");
     expect(wrapper).toMatchSnapshot();
 });

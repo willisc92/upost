@@ -1,7 +1,7 @@
 import postsReducer from "../../reducers/posts";
 import posts from "../fixtures/posts";
 
-const postsDefaultState = { error: null, loading: false, posts: [] };
+export const postsDefaultState = { error: null, loading: false, posts: [], interestRandomPosts: [] };
 
 test("Should alter state from POST_START action object", () => {
     const action = {

@@ -19,19 +19,28 @@ exports[`Should render page correctly 1`] = `
     className="content-container"
   >
     <Connect(PostForm)
-      channel={1}
+      channel={2}
+      nextStep="Save Changes"
       onSubmit={[Function]}
       post={
         Object {
-          "channel": 1,
+          "channel": 2,
           "cost": 0,
           "deleted_flag": false,
           "email": "willisc92@hotmail.com",
           "phone_number": "4034010115",
+          "picture": null,
           "post_description": "Test",
-          "post_event": null,
+          "post_event": Object {
+            "capacity": 1,
+            "community": "University of Calgary",
+            "location": "test",
+            "planned_end_date": "2019-06-05T16:10:53-06:00",
+            "planned_start_date": "2019-06-04T16:10:51-06:00",
+            "post": 1,
+          },
           "post_id": 1,
-          "post_timestamp": "2019-06-04T23:23:53.199984-06:00",
+          "post_timestamp": "2019-06-17T15:43:48.090766-06:00",
           "post_title": "Post 1",
           "poster_name": "Willis",
           "tags": Array [
