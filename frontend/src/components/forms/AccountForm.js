@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import DatePicker from "react-date-picker";
-import moment from "moment";
 import API from "../../utils/API";
 
 export class AccountForm extends React.Component {

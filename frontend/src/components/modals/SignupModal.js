@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
-import AccountForm from "../forms/AccountForm.js";
+import Modal from "react-modal";
+import AccountForm from "../forms/AccountForm";
 import emailValidator from "email-validator";
 import { authFail, authSignup } from "../../actions/auth";
 
-export class SignUpPage extends React.Component {
+class SignupModal extends React.Component {
     constructor(props) {
         super(props);
 
@@ -23,7 +24,7 @@ export class SignUpPage extends React.Component {
         return true;
     };
 
-    onSubmit = (input) => {
+    signupOnSubmit = (input) => {
         let error = {};
 
         const formInput = input.formInput;
@@ -70,7 +71,7 @@ export class SignUpPage extends React.Component {
         this.props
             .authSignup(user)
             .then(() => {
-                this.props.history.push("/interests");
+                this.props.pageMove();
             })
             .catch((error) => {
                 console.log("An error has occured with signup", error);
@@ -79,16 +80,9 @@ export class SignUpPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <h1 className="page_header__title"> SignUp </h1>
-                    </div>
-                </div>
-                <div className="content-container">
-                    <AccountForm onSubmit={this.onSubmit} minPasswordLength={this.state.minPasswordLength} />
-                </div>
-            </div>
+            <Modal isOpen={this.props.signupOpen} contentLabel="Sign Up" onRequestClose={this.props.handleSignupClose}>
+                <AccountForm minPasswordLength={this.state.minPasswordLength} onSubmit={this.signupOnSubmit} />
+            </Modal>
         );
     }
 }
@@ -103,4 +97,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     undefined,
     mapDispatchToProps
-)(SignUpPage);
+)(SignupModal);

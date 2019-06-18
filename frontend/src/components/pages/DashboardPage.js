@@ -3,8 +3,17 @@ import { connect } from "react-redux";
 import { getAllInterests, startSetUserInterests } from "../../actions/interests";
 import { startSetInterestRandomPosts } from "../../actions/posts";
 import MyPostSummary from "../MyPostSummary";
+import SignupModal from "../modals/SignupModal";
 
 export class DashboardPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            signupOpen: true,
+            error: undefined
+        };
+    }
     componentDidMount() {
         if (this.props.isAuthenticated) {
             this.props.startSetUserInterests().then(() => {
@@ -16,6 +25,17 @@ export class DashboardPage extends React.Component {
             });
         }
     }
+
+    handleSignupClose = () => {
+        this.setState(() => {
+            return { signupOpen: false };
+        });
+    };
+
+    moveToInterestPage = () => {
+        this.handleSignupClose();
+        this.props.history.push("/interests");
+    };
 
     render() {
         return (
@@ -47,6 +67,11 @@ export class DashboardPage extends React.Component {
                         );
                     })}
                 </div>
+                <SignupModal
+                    signupOpen={this.state.signupOpen}
+                    handleSignupClose={this.handleSignupClose}
+                    pageMove={this.moveToInterestPage}
+                />
             </div>
         );
     }
