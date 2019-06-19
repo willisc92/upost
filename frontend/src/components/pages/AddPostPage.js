@@ -1,9 +1,11 @@
 import React from "react";
 import PostForm from "../forms/PostForm";
 import EventForm from "../forms/EventForm";
+import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { addPost } from "../../actions/posts";
 import { addEvent } from "../../actions/events";
+import { addIncentivePackage } from "../../actions/incentivePackage";
 import { startGetChannel } from "../../actions/channels";
 
 export class AddPostPage extends React.Component {
@@ -30,10 +32,10 @@ export class AddPostPage extends React.Component {
             .catch((err) => console.log(err));
     }
 
-    onSubmit = async (data) => {
+    onSubmit = (data) => {
         switch (this.state.step) {
             case "Post": {
-                await this.props
+                this.props
                     .addPost(data)
                     .then((result) => {
                         if (this.state.finished) {
@@ -53,20 +55,30 @@ export class AddPostPage extends React.Component {
             case "Event": {
                 this.props
                     .addEvent(data)
-                    // .addEvent({ ...data, post: this.state.postID })
-                    .then(() => {
-                        this.handleReturn();
-                        // if (this.state.finished) {
-                        //     this.handleReturn();
-                        // } else {
-                        //     this.setState(() => ({
-                        //         step: "Event"
-                        //     }));
-                        // }
+                    .then((result) => {
+                        if (this.state.finished) {
+                            this.handleReturn();
+                        } else {
+                            this.setState(() => ({
+                                step: "Incentive"
+                            }));
+                        }
                     })
                     .catch((err) => {
                         console.log(JSON.stringify(err, null, 2));
                     });
+                break;
+            }
+            case "Incentive": {
+                this.props
+                    .addIncentivePackage(data)
+                    .then((result) => {
+                        this.handleReturn();
+                    })
+                    .catch((err) => {
+                        console.log(JSON.stringify(err, null, 2));
+                    });
+                break;
             }
             default: {
             }
@@ -89,6 +101,8 @@ export class AddPostPage extends React.Component {
                 return "Add a Post";
             case "Event":
                 return "Add an Event";
+            case "Incentive":
+                return "Add an Incentive";
             default:
                 return "";
         }
@@ -117,12 +131,22 @@ export class AddPostPage extends React.Component {
                             post={this.state.postID}
                             onSubmit={this.onSubmit}
                             channel={this.props.match.params.id}
-                            nextStep="Save and Return"
+                            nextStep="Save and Add Incentive"
                         />
                     )}
-                    <button className="button" onClick={this.onTriggerSaveReturn}>
-                        {`Save ${this.state.step} and Return to Channel`}
-                    </button>
+                    {this.state.step === "Incentive" && (
+                        <IncentiveForm
+                            id="Incentive"
+                            post={this.state.postID}
+                            onSubmit={this.onSubmit}
+                            nextStep="Save Incentive and Return to Channel"
+                        />
+                    )}
+                    {this.state.step !== "Incentive" && (
+                        <button className="button" onClick={this.onTriggerSaveReturn}>
+                            {`Save ${this.state.step} and Return to Channel`}
+                        </button>
+                    )}
                     <button
                         className="button__invisible"
                         type="submit"
@@ -144,6 +168,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     addPost: (post) => dispatch(addPost(post)),
     addEvent: (event) => dispatch(addEvent(event)),
+    addIncentivePackage: (incentive) => dispatch(addIncentivePackage(incentive)),
     startGetChannel: (channel_id) => dispatch(startGetChannel(channel_id))
 });
 

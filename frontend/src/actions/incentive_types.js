@@ -1,3 +1,5 @@
+import API from "../utils/API";
+
 export const incentiveTypeStart = () => ({
     type: "INCENTIVE_TYPE_START"
 });
@@ -15,9 +17,9 @@ export const clearIncentiveTypes = () => ({
     type: "CLEAR_INCENTIVE_TYPES"
 });
 
-export const setIncentiveTypes = (incentivetypes) => ({
+export const setIncentiveTypes = (incentiveTypes) => ({
     type: "SET_INCENTIVE_TYPES",
-    incentivetypes
+    incentiveTypes
 });
 
 export const startGetIncentiveTypes = () => {

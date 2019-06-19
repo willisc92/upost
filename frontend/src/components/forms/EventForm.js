@@ -108,8 +108,9 @@ export class EventForm extends React.Component {
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 {!!this.props.eventError && <p className="form__error">Request failed...</p>}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
+                <p className="form__error">* - Fields required</p>
                 <div className="input-group">
-                    <p className="form__label">Community: </p>
+                    <p className="form__label">Community *: </p>
                     <select
                         disabled={this.determineReadOnly()}
                         onChange={this.onCommunitySelectChange}
@@ -126,7 +127,7 @@ export class EventForm extends React.Component {
                     </select>
                 </div>
                 <div className="input-group">
-                    <p className="form__label">Location/Room:</p>
+                    <p className="form__label">Location/Room *:</p>
                     <input
                         readOnly={this.determineReadOnly()}
                         className="text-input"
@@ -138,7 +139,7 @@ export class EventForm extends React.Component {
                     />
                 </div>
                 <div className="input-group">
-                    <p className="form__label">Capacity (Select 0 if undefined): </p>
+                    <p className="form__label">Capacity (Select 0 if undefined) *: </p>
                     <input
                         readOnly={this.determineReadOnly()}
                         className="text-input"
@@ -149,7 +150,7 @@ export class EventForm extends React.Component {
                     />
                 </div>
                 <div className="input-group">
-                    <p className="form__label">Start Date:</p>
+                    <p className="form__label">Start Date *:</p>
                     <DateTimePicker
                         disabled={this.determineReadOnly()}
                         onChange={this.onStartDateChange}
@@ -160,7 +161,7 @@ export class EventForm extends React.Component {
                     <div />
                 </div>
                 <div className="input-group">
-                    <p className="form__label">End Date:</p>
+                    <p className="form__label">End Date *:</p>
                     <DateTimePicker
                         disabled={this.determineReadOnly()}
                         onChange={this.onEndDateChange}
@@ -171,7 +172,7 @@ export class EventForm extends React.Component {
                     <div />
                 </div>
                 <div>
-                    <button className="button">Submit Event</button>
+                    <button className="button">{this.props.nextStep}</button>
                 </div>
             </form>
         );

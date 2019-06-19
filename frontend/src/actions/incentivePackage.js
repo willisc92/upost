@@ -46,7 +46,3 @@ export const incentivePackageFail = (error) => ({
 export const incentivePackageSuccess = () => ({
     type: "INCENTIVE_PACKAGE_SUCCESS"
 });
-
-export const clearIncentivePackage = () => ({
-    type: "CLEAR_INCENTIVE_PACKAGE"
-});

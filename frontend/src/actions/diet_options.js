@@ -1,3 +1,5 @@
+import API from "../utils/API";
+
 export const dietOptionsStart = () => ({
     type: "DIET_OPTIONS_START"
 });
