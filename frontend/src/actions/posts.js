@@ -77,23 +77,40 @@ export const addInterestRandomPosts = (interestPosts) => {
  * resets the interestRandomPosts store.
  * for each interest provided gets random posts from API and adds to store.
  *
- * @param {Object[]} interests an array of interest objects
+ * @param {Object[]} interests an array of interest objects or interest tags
  * @returns {Function} dispatch function
  */
 export const startSetInterestRandomPosts = (interests) => {
     return (dispatch) => {
         dispatch(postStart());
         dispatch(setInterestRandomPosts());
-        for (let i = 0; i < interests.length; i++) {
-            API.get("random-posts/", {
-                params: {
-                    interest: interests[i].interest_tag
-                }
-            }).then((result) => {
-                if (result.data.length > 0) {
-                    dispatch(addInterestRandomPosts({ tag: interests[i].interest_tag, posts: result.data }));
-                }
-            });
+        // if we have a list of interest objects
+        if (interests.length > 0 && !!interests[0].interest_tag) {
+            for (let i = 0; i < interests.length; i++) {
+                API.get("random-posts/", {
+                    params: {
+                        interest: interests[i].interest_tag
+                    }
+                }).then((result) => {
+                    if (result.data.length > 0) {
+                        dispatch(addInterestRandomPosts({ tag: interests[i].interest_tag, posts: result.data }));
+                    }
+                });
+            }
+        }
+        // if we have a list of interest tags
+        else {
+            for (let i = 0; i < interests.length; i++) {
+                API.get("random-posts/", {
+                    params: {
+                        interest: interests[i]
+                    }
+                }).then((result) => {
+                    if (result.data.length > 0) {
+                        dispatch(addInterestRandomPosts({ tag: interests[i], posts: result.data }));
+                    }
+                });
+            }
         }
         dispatch(postSuccess());
     };

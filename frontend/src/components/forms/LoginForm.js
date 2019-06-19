@@ -8,8 +8,7 @@ export class LoginForm extends React.Component {
 
         this.state = {
             username: "",
-            password: "",
-            error: ""
+            password: ""
         };
     }
 
@@ -25,19 +24,13 @@ export class LoginForm extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (!this.state.username || !this.state.password) {
-            this.setState(() => ({ error: "Please provide both username and password" }));
-        } else {
-            this.setState(() => ({ error: "" }));
-            this.props.authLogin(this.state.username, this.state.password);
-        }
+        this.props.onSubmit({ username: this.state.username, password: this.state.password });
     };
 
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit}>
                 {!!this.props.error && <p className="form__error">Request failed.</p>}
-                {this.state.error && <p className="form__error">{this.state.error}</p>}
                 <input
                     className="text-input"
                     type="text"
