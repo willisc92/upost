@@ -17,7 +17,9 @@ class PostForm extends React.Component {
             deleted_flag: this.props.post ? this.props.post.deleted_flag : false,
             tags: this.props.post ? this.props.post.tags : [],
             error: "",
-            channel: this.props.channel
+            channel: this.props.channel,
+            picture: this.props.post ? this.props.post.picture : null,
+            picture_preview: this.props.post ? this.props.post.picture : null
         };
     }
 
@@ -106,6 +108,13 @@ class PostForm extends React.Component {
         this.setState(() => ({ tags }));
     };
 
+    handleImageChange = async (e) => {
+        await this.setState({
+            picture: e.target.files[0],
+            picture_preview: URL.createObjectURL(e.target.files[0])
+        });
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         if (!this.state.post_title) {
@@ -124,18 +133,22 @@ class PostForm extends React.Component {
             this.setState(() => ({ error: "Please provide at least one tag for the post" }));
         } else {
             this.setState(() => ({ error: "" }));
-            this.props.onSubmit({
-                user: localStorage.getItem("user_id"),
-                post_title: this.state.post_title,
-                poster_name: this.state.poster_name,
-                phone_number: this.state.phone_number,
-                cost: parseFloat(this.state.cost, 10) * 100,
-                email: this.state.email,
-                post_description: this.state.post_description,
-                deleted_flag: this.state.deleted_flag,
-                tags: this.state.tags,
-                channel: this.state.channel
+            let form_data = new FormData();
+            form_data.append("picture", this.state.picture, this.state.picture && this.state.picture.name);
+            form_data.append("user", localStorage.getItem("user_id"));
+            form_data.append("post_title", this.state.post_title);
+            form_data.append("poster_name", this.state.poster_name);
+            form_data.append("phone_number", this.state.phone_number);
+            form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
+            form_data.append("email", this.state.email);
+            form_data.append("post_description", this.state.post_description);
+            form_data.append("deleted_flag", this.state.deleted_flag);
+            this.state.tags.forEach((tag) => {
+                form_data.append("tags", tag);
             });
+            form_data.append("channel", this.state.channel);
+
+            this.props.onSubmit(form_data);
         }
     };
 
@@ -146,6 +159,7 @@ class PostForm extends React.Component {
                     <p className="form_error"> {this.props.error.post_title[0]}</p>
                 )}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
+                <p className="form__error">* - Fields required</p>
                 <div className="input-group">
                     <p className="form__label">Post Title*: </p>
                     <input
@@ -178,7 +192,7 @@ class PostForm extends React.Component {
                     />
                 </div>
                 <div className="input-group">
-                    <p className="form__label"> Cost*: </p>
+                    <p className="form__label"> Cost ($)*: </p>
                     <input
                         className="text-input"
                         type="text"
@@ -219,6 +233,13 @@ class PostForm extends React.Component {
                         />
                     </p>
                 </div>
+                <p>Image upload: </p>
+                {!!this.state.picture ? (
+                    <img className="post_image" src={this.state.picture_preview} />
+                ) : (
+                    <p>No image uploaded.</p>
+                )}
+                <input type="file" id="image" accept="image/png, image/jpeg" onChange={this.handleImageChange} />
                 {!!this.props.interests && (
                     <div>
                         <p>Interest Tags (Hold down "Control", or "Command" on a Mac, to select more than one.): </p>

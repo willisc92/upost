@@ -3,6 +3,11 @@ export const postsDefaultState = { error: null, loading: false, posts: [], inter
 
 export default (state = postsDefaultState, action) => {
     switch (action.type) {
+        case "CLEAR_POSTS":
+            return {
+                ...state,
+                posts: []
+            };
         case "POST_START":
             return {
                 ...state,

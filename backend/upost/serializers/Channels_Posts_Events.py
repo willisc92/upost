@@ -15,10 +15,11 @@ class EventSerializer(serializers.ModelSerializer):
             'community',
         )
         model = PostEvent
-        post = serializers.PrimaryKeyRelatedField(
-            read_only=False, many=False, queryset=Post.objects.all())
-        community = serializers.RelatedField(
-            source="community.community_name", read_only=True)
+
+    post = serializers.PrimaryKeyRelatedField(
+        read_only=False, many=False, queryset=Post.objects.all())
+    community = serializers.PrimaryKeyRelatedField(
+        many=False, queryset=Community.objects.all())
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -36,7 +37,8 @@ class PostSerializer(serializers.ModelSerializer):
             'post_timestamp',
             'deleted_flag',
             'tags',
-            'post_event'
+            'post_event',
+            'picture'
         )
         model = Post
 
@@ -48,6 +50,14 @@ class PostSerializer(serializers.ModelSerializer):
     post_event = EventSerializer(many=False, read_only=True)
     post_title = serializers.CharField(max_length=50, validators=[
         UniqueValidator(message="Post title must be unique", queryset=Post.objects.all())])
+
+    def put(self, request, pk, format=None):
+        post = self.get_object(pk)
+        serializer = PostSerializer(post, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ContentChannelSerializer(serializers.ModelSerializer):

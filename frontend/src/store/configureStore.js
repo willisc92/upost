@@ -8,6 +8,10 @@ import postReducer from "../reducers/posts";
 import eventReducer from "../reducers/events";
 import interestsReducer from "../reducers/interests";
 import communityReducer from "../reducers/communities";
+import incentiveTypeReducer from "../reducers/incentive_types";
+import dietOptionsReducer from "../reducers/diet_options";
+import incentivePackageReducer from "../reducers/incentivePackage";
+import incentivePackage from "../reducers/incentivePackage";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -22,7 +26,10 @@ export default () => {
             userInterests: interestsReducer,
             posts: postReducer,
             communities: communityReducer,
-            events: eventReducer
+            events: eventReducer,
+            incentiveTypes: incentiveTypeReducer,
+            dietOptions: dietOptionsReducer,
+            incentivePackage: incentivePackageReducer
         }),
         composeEnhancers(applyMiddleware(thunk))
     );

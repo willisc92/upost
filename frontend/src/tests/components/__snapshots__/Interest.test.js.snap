@@ -18,7 +18,7 @@ exports[`Should render an interest component 1`] = `
   </svg>
   <img
     className="interest-image"
-    src="http://localhost:8000/media/interests/fa-image.png"
+    src="http://localhost:8000/media/interests/santa_hat_cat.png"
   />
   <p
     className="interest-title"

@@ -5,37 +5,50 @@ exports[`Should render ChannelForm correctly 1`] = `
   className="form"
   onSubmit={[Function]}
 >
-  Channel Name:
-   
-  <input
-    autoFocus={true}
-    className="text-input"
-    onChange={[Function]}
-    placeholder="Name"
-    type="text"
-    value=""
-  />
-  Channel Description:
-  <textarea
-    className="textarea"
-    onChange={[Function]}
-    placeholder="Description"
-    type="text"
-    value=""
-  />
-  <p>
-    Visible 
-    <span />
-    <span>
-      <input
-        checked={true}
-        id="string"
-        name="prop1"
-        onChange={[Function]}
-        type="checkbox"
-      />
-    </span>
-  </p>
+  <div
+    className="input-group__item"
+  >
+    Channel Name:
+     
+    <input
+      autoFocus={true}
+      className="text-input"
+      onChange={[Function]}
+      placeholder="Name"
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    className="input-group__item"
+  >
+    Channel Description:
+     
+    <textarea
+      className="text-input"
+      onChange={[Function]}
+      placeholder="Description"
+      type="text"
+      value=""
+    />
+  </div>
+  <div
+    className="input-group__item"
+  >
+    <p>
+      Visible 
+      <span />
+      <span>
+        <input
+          checked={true}
+          id="string"
+          name="prop1"
+          onChange={[Function]}
+          type="checkbox"
+        />
+      </span>
+    </p>
+  </div>
   <div>
     <button
       className="button"
@@ -51,37 +64,50 @@ exports[`Should render ChannelForm with existing channel data 1`] = `
   className="form"
   onSubmit={[Function]}
 >
-  Channel Name:
-   
-  <input
-    autoFocus={true}
-    className="text-input"
-    onChange={[Function]}
-    placeholder="Name"
-    type="text"
-    value="Channel 1"
-  />
-  Channel Description:
-  <textarea
-    className="textarea"
-    onChange={[Function]}
-    placeholder="Description"
-    type="text"
-    value="Test"
-  />
-  <p>
-    Visible 
-    <span />
-    <span>
-      <input
-        checked={true}
-        id="string"
-        name="prop1"
-        onChange={[Function]}
-        type="checkbox"
-      />
-    </span>
-  </p>
+  <div
+    className="input-group__item"
+  >
+    Channel Name:
+     
+    <input
+      autoFocus={true}
+      className="text-input"
+      onChange={[Function]}
+      placeholder="Name"
+      type="text"
+      value="Channel 1"
+    />
+  </div>
+  <div
+    className="input-group__item"
+  >
+    Channel Description:
+     
+    <textarea
+      className="text-input"
+      onChange={[Function]}
+      placeholder="Description"
+      type="text"
+      value="Test"
+    />
+  </div>
+  <div
+    className="input-group__item"
+  >
+    <p>
+      Visible 
+      <span />
+      <span>
+        <input
+          checked={true}
+          id="string"
+          name="prop1"
+          onChange={[Function]}
+          type="checkbox"
+        />
+      </span>
+    </p>
+  </div>
   <div>
     <button
       className="button"

@@ -14,9 +14,7 @@ class CustomUserAdmin(UserAdmin):
                    'email', 'is_staff', 'username']
     fieldsets = (
         (None, {'fields': (
-            'username', 'email', 'password', 'first_name', 'middle_name', 'last_name', 'birth_date', 'country', 'state',
-            'street_name',
-            'postal_code', 'city', 'sex', 'phone_number', 'is_superuser', 'interests')}),
+            'username', 'email', 'password', 'first_name', 'middle_name', 'last_name', 'birth_date',  'is_superuser', 'interests')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
     )
     add_fieldsets = (
@@ -40,9 +38,8 @@ admin.site.register(EventContent)
 admin.site.register(IncentivePackage)
 admin.site.register(UsedBy)
 admin.site.register(View)
-admin.site.register(FoodDonation)
 admin.site.register(DietOption)
-admin.site.register(Marketing)
+admin.site.register(IncentiveChoice)
 admin.site.register(AttendanceStrike)
 admin.site.register(Attend)
 admin.site.register(Rate)

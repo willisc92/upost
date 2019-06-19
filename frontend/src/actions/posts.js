@@ -1,4 +1,5 @@
 import API from "../utils/API";
+import { APIwForm } from "../utils/API";
 
 /**
  * POST_START.
@@ -156,12 +157,8 @@ export const addPost = (post) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(postStart());
-            API.post(`posts/`, {
-                ...post,
-                user: localStorage.getItem("user_id")
-            })
+            APIwForm.post(`posts/`, post)
                 .then((result) => {
-                    console.log(JSON.stringify(result, null, 2));
                     dispatch(postSuccess());
                     dispatch(startSetMyPosts());
                     resolve(result);
@@ -186,10 +183,7 @@ export const editPost = (id, updates) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(postStart());
-            API.put(`posts/${id}/`, {
-                ...updates,
-                user: localStorage.getItem("user_id")
-            })
+            APIwForm.put(`posts/${id}/`, updates)
                 .then((result) => {
                     dispatch(postSuccess());
                     dispatch(startSetMyPosts());
@@ -225,4 +219,15 @@ export const postFail = (error) => ({
  */
 export const postSuccess = () => ({
     type: "POST_SUCCESS"
+});
+
+/**
+ * CLEAR_POSTS.
+ * action generator.
+ * clears posts in store
+ *
+ * @returns {Object} object to reset posts
+ */
+export const clearPosts = () => ({
+    type: "CLEAR_POSTS"
 });

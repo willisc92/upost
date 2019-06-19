@@ -4,6 +4,9 @@ from ..serializers import ContentChannelSerializer, PostSerializer, EventSeriali
 
 from rest_framework import permissions
 from ..permissions import IsOwnerOrReadOnly, EventAccessPermission
+from ..filters import EventFilter
+
+from rest_framework.parsers import MultiPartParser, FormParser
 
 
 class ContentChannel_View(viewsets.ModelViewSet):
@@ -19,6 +22,8 @@ class ContentChannel_View(viewsets.ModelViewSet):
 
 
 class Post_View(viewsets.ModelViewSet):
+    parser_classes = (MultiPartParser, FormParser,)
+
     serializer_class = PostSerializer
     queryset = Post.objects.all()
     filterset_fields = ('post_id', 'channel_id', 'user')
@@ -45,8 +50,7 @@ class Random_Post_view(viewsets.ModelViewSet):
 class Event_View(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     queryset = PostEvent.objects.all()
-    filterset_fields = ('post', 'location', 'capacity',
-                        'planned_start_date', 'planned_end_date', 'community')
+    filterset_class = EventFilter
 
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
