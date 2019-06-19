@@ -94,8 +94,15 @@ class SignupModal extends React.Component {
                         <p className="modal__header__sublabel">to continue</p>
                     </div>
                 </div>
-                <AccountForm minPasswordLength={this.state.minPasswordLength} onSubmit={this.signupOnSubmit} />
-                <div className="modal__button">
+                <AccountForm
+                    minPasswordLength={this.state.minPasswordLength}
+                    onSubmit={this.signupOnSubmit}
+                    id="signup"
+                />
+                <div className="modal__buttons">
+                    <button className="button modal__button" type="submit" form="signup">
+                        Sign Up
+                    </button>
                     <button className="button" onClick={this.props.closeSignupOpenLoginModal}>
                         Login instead
                     </button>

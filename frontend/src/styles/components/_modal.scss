@@ -67,8 +67,12 @@
     text-align: left;
 }
 
-.modal__button {
+.modal__buttons {
     align-items: right;
     display: flex;
     justify-content: right;
+}
+
+.modal__button {
+    margin-right: $s-size;
 }

@@ -29,7 +29,7 @@ export class LoginForm extends React.Component {
 
     render() {
         return (
-            <form className="form" onSubmit={this.onSubmit}>
+            <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 {!!this.props.error && <p className="form__error">Request failed.</p>}
                 <input
                     className="text-input"
@@ -46,9 +46,6 @@ export class LoginForm extends React.Component {
                     onChange={this.onPasswordChange}
                     placeholder="Password"
                 />
-                <div className="modal__button">
-                    <button className="button">Login</button>
-                </div>
             </form>
         );
     }

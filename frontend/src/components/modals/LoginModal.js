@@ -45,8 +45,11 @@ class LoginModal extends React.Component {
                         <p className="modal__header__sublabel">to continue</p>
                     </div>
                 </div>
-                <LoginForm onSubmit={this.loginOnSubmit} />
-                <div className="modal__button">
+                <LoginForm onSubmit={this.loginOnSubmit} id="login" />
+                <div className="modal__buttons">
+                    <button className="button modal__button" type="submit" form="login">
+                        Login
+                    </button>
                     <button className="button" onClick={this.props.closeLoginOpenSignupModal}>
                         Create Account
                     </button>

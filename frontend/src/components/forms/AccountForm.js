@@ -62,7 +62,7 @@ export class AccountForm extends React.Component {
 
     render() {
         return (
-            <form className="form" onSubmit={this.onSubmit}>
+            <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.username &&
                     this.props.auth.error.username.map((error) => {
@@ -140,10 +140,6 @@ export class AccountForm extends React.Component {
                     name="passwordConfirmation"
                     placeholder="Password Confirmation*"
                 />
-                <br />
-                <div className="modal__button">
-                    <button className="button">Sign Up</button>
-                </div>
             </form>
         );
     }
