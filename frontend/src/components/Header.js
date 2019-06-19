@@ -3,32 +3,61 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../actions/auth";
 import SignupModal from "../components/modals/SignupModal";
+import LoginModal from "../components/modals/LoginModal";
 
 class Header extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            loginOpen: false,
             signupOpen: false,
             error: undefined
         };
     }
 
-    handleSignupClose = () => {
+    handleLoginModalOpen = () => {
+        this.setState(() => {
+            return { loginOpen: true };
+        });
+    };
+
+    handleLoginModalClose = () => {
+        this.setState(() => {
+            return { loginOpen: false };
+        });
+    };
+
+    handleSignupModalClose = () => {
         this.setState(() => {
             return { signupOpen: false };
         });
     };
 
-    handleSignupOpen = () => {
+    handleSignupModalOpen = () => {
         this.setState(() => {
             return { signupOpen: true };
         });
     };
 
     moveToInterestPage = () => {
-        this.handleSignupClose();
+        this.handleSignupModalClose();
         this.props.history.push("/interests");
+    };
+
+    closeLoginOpenSignupModal = () => {
+        this.handleLoginModalClose();
+        this.handleSignupModalOpen();
+    };
+
+    closeSignupOpenLoginModal = () => {
+        this.handleSignupModalClose();
+        this.handleLoginModalOpen();
+    };
+
+    handleSucessfulLogin = () => {
+        this.handleLoginModalClose();
+        this.props.history.push("/");
     };
 
     render() {
@@ -50,10 +79,10 @@ class Header extends React.Component {
                             </div>
                         ) : (
                             <div>
-                                <Link className="button button--link" to="/login">
+                                <button className="button button--link" onClick={this.handleLoginModalOpen}>
                                     Login
-                                </Link>
-                                <button className="button button--link" onClick={this.handleSignupOpen}>
+                                </button>
+                                <button className="button button--link" onClick={this.handleSignupModalOpen}>
                                     Signup
                                 </button>
                             </div>
@@ -62,8 +91,15 @@ class Header extends React.Component {
                 </div>
                 <SignupModal
                     signupOpen={this.state.signupOpen}
-                    handleSignupClose={this.handleSignupClose}
+                    handleSignupClose={this.handleSignupModalClose}
                     pageMove={this.moveToInterestPage}
+                    closeSignupOpenLoginModal={this.closeSignupOpenLoginModal}
+                />
+                <LoginModal
+                    loginOpen={this.state.loginOpen}
+                    handleLoginClose={this.handleLoginModalClose}
+                    closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
+                    handleSucessfulLogin={this.handleSucessfulLogin}
                 />
             </header>
         );

@@ -82,6 +82,9 @@ class SignupModal extends React.Component {
         return (
             <Modal isOpen={this.props.signupOpen} contentLabel="Sign Up" onRequestClose={this.props.handleSignupClose}>
                 <AccountForm minPasswordLength={this.state.minPasswordLength} onSubmit={this.signupOnSubmit} />
+                <button className="button" onClick={this.props.closeSignupOpenLoginModal}>
+                    Login instead
+                </button>
             </Modal>
         );
     }

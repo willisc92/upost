@@ -38,26 +38,30 @@ export const logout = () => {
 
 export const authLogin = (username, password) => {
     return (dispatch) => {
-        dispatch(authStart());
-        API.post("login/", {
-            username,
-            password
-        })
-            .then((res) => {
-                const token = res.data.token;
-                const expirationDate = moment() + 3600 * 1000;
-                localStorage.setItem("token", token);
-                localStorage.setItem("expirationDate", expirationDate);
-                localStorage.setItem("first_name", res.data.first_name);
-                localStorage.setItem("last_name", res.data.last_name);
-                localStorage.setItem("user_id", res.data.user_id);
-                localStorage.setItem("user_name", res.data.username);
-                dispatch(authSuccess(token));
-                dispatch(checkAuthTimeout(3600));
+        return new Promise((resolve, reject) => {
+            dispatch(authStart());
+            API.post("login/", {
+                username,
+                password
             })
-            .catch((err) => {
-                dispatch(authFail(err));
-            });
+                .then((res) => {
+                    const token = res.data.token;
+                    const expirationDate = moment() + 3600 * 1000;
+                    localStorage.setItem("token", token);
+                    localStorage.setItem("expirationDate", expirationDate);
+                    localStorage.setItem("first_name", res.data.first_name);
+                    localStorage.setItem("last_name", res.data.last_name);
+                    localStorage.setItem("user_id", res.data.user_id);
+                    localStorage.setItem("user_name", res.data.username);
+                    dispatch(authSuccess(token));
+                    dispatch(checkAuthTimeout(3600));
+                    resolve(true);
+                })
+                .catch((err) => {
+                    dispatch(authFail(err));
+                    reject(err);
+                });
+        });
     };
 };
 
