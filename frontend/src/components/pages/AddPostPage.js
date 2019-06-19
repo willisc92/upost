@@ -73,6 +73,7 @@ export class AddPostPage extends React.Component {
                 this.props
                     .addIncentivePackage(data)
                     .then((result) => {
+                        console.log(JSON.stringify(result, null, 2));
                         this.handleReturn();
                     })
                     .catch((err) => {

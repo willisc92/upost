@@ -1,5 +1,4 @@
-import API from "../utils/API";
-import { APIwForm } from "../utils/API";
+import API, { setContentToForm, resetContentType } from "../utils/API";
 
 /**
  * POST_START.
@@ -156,14 +155,17 @@ export const startGetPost = (id) => {
 export const addPost = (post) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
+            setContentToForm();
             dispatch(postStart());
-            APIwForm.post(`posts/`, post)
+            API.post(`posts/`, post)
                 .then((result) => {
+                    resetContentType();
                     dispatch(postSuccess());
                     dispatch(startSetMyPosts());
                     resolve(result);
                 })
                 .catch((err) => {
+                    resetContentType();
                     dispatch(postFail(err));
                     reject(err);
                 });
@@ -182,14 +184,17 @@ export const addPost = (post) => {
 export const editPost = (id, updates) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
+            setContentToForm();
             dispatch(postStart());
-            APIwForm.put(`posts/${id}/`, updates)
+            API.put(`posts/${id}/`, updates)
                 .then((result) => {
+                    resetContentType();
                     dispatch(postSuccess());
                     dispatch(startSetMyPosts());
                     resolve(result);
                 })
                 .catch((err) => {
+                    resetContentType();
                     dispatch(postFail(err));
                     reject(err);
                 });

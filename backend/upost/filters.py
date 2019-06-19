@@ -15,7 +15,7 @@ class EventFilter(filters.FilterSet):
     class Meta:
         model = PostEvent
         fields = ('post', 'location', 'capacity', 'planned_start_date_gte',
-                  'planned_end_date_gte', 'planned_start_date_lte', 'planned_end_date_lte', 'community')
+                  'planned_end_date_gte', 'planned_start_date_lte', 'planned_end_date_lte',)
 
 
 class IncentiveFilter(filters.FilterSet):

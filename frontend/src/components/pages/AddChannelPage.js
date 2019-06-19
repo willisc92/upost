@@ -10,7 +10,7 @@ export class AddChannelPage extends React.Component {
 
     onSubmit = (channel) => {
         this.props
-            .addChannel({ ...channel })
+            .addChannel(channel)
             .then(() => this.props.history.push("/myChannels"))
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));

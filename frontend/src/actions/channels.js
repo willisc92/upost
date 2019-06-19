@@ -55,10 +55,7 @@ export const addChannel = (channel) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(channelStart());
-            API.post(`channels/`, {
-                ...channel,
-                user: localStorage.getItem("user_id")
-            })
+            API.post(`channels/`, channel)
                 .then((result) => {
                     dispatch(channelSuccess());
                     dispatch(startSetChannels());
@@ -76,10 +73,7 @@ export const editChannel = (id, updates) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(channelStart());
-            API.put(`channels/${id}/`, {
-                ...updates,
-                user: localStorage.getItem("user_id")
-            })
+            API.put(`channels/${id}/`, updates)
                 .then((result) => {
                     dispatch(channelSuccess());
                     dispatch(startSetChannels());
