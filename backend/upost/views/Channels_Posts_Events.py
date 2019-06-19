@@ -12,7 +12,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 class ContentChannel_View(viewsets.ModelViewSet):
     serializer_class = ContentChannelSerializer
     queryset = ContentChannel.objects.all()
-    filterset_fields = ('user', 'channel_id')
+    filterset_fields = ('user', 'channel_id', 'deleted_flag',)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

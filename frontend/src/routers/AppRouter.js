@@ -19,12 +19,14 @@ import EditChannelPage from "../components/pages/EditChannelPage";
 import AddPostPage from "../components/pages/AddPostPage";
 import EditPostPage from "../components/pages/EditPostPage";
 import IncentiveForm from "../components/forms/IncentiveForm";
+import { setAuthToken } from "../utils/API";
 
 export const history = createHistory();
 
 class AppRouter extends React.Component {
     componentDidMount() {
         this.props.onTryAutoSignup();
+        setAuthToken(localStorage.getItem("token"));
     }
 
     render() {

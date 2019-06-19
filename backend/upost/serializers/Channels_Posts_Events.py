@@ -8,6 +8,7 @@ import datetime
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         fields = (
+            'event_id',
             'post',
             'location',
             'capacity',
@@ -37,9 +38,9 @@ class PostSerializer(serializers.ModelSerializer):
             'deleted_flag',
             'tags',
             'community',
-            'post_event',
+            'post_events',
             'picture',
-            'incentive'
+            'post_incentives'
         )
         model = Post
 
@@ -48,8 +49,8 @@ class PostSerializer(serializers.ModelSerializer):
         read_only=False, many=False, queryset=ContentChannel.objects.all())
     tags = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Interest.objects.all())
-    post_event = EventSerializer(many=False, read_only=True)
-    incentive = IncentiveSerializer(many=False, read_only=True)
+    post_events = EventSerializer(many=True, required=False)
+    post_incentives = IncentiveSerializer(many=True, required=False)
     post_title = serializers.CharField(max_length=50, validators=[
         UniqueValidator(message="Post title must be unique", queryset=Post.objects.all())])
     community = serializers.PrimaryKeyRelatedField(many=False, queryset=Community.objects.all())

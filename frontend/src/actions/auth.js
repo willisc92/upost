@@ -26,6 +26,7 @@ export const checkAuthTimeout = (expirationTime) => {
 
 export const logout = () => {
     localStorage.clear();
+    setAuthToken();
     return {
         type: AUTH_LOGOUT
     };

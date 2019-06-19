@@ -18,8 +18,9 @@ class DietOption(models.Model):
 
 
 class IncentivePackage(models.Model):
-    post = models.OneToOneField(
-        "upost.Post", on_delete=models.CASCADE, primary_key=True, related_name="incentive")
+    incentive_package_id = models.AutoField(db_column = "incentive_package_id", primary_key=True);
+    post = models.ForeignKey(
+        "upost.Post", on_delete=models.CASCADE, related_name="post_incentives")
     incentive_type = models.ForeignKey(
         "upost.IncentiveChoice", on_delete=models.DO_NOTHING)
     ip_description = models.CharField(

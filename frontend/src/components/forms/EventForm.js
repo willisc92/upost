@@ -72,14 +72,15 @@ export class EventForm extends React.Component {
             this.setState(() => ({ error: "End datetime must be after start datetime." }));
         } else {
             this.setState(() => ({ error: "" }));
-            this.props.onSubmit({
+            const payload = {
                 post: this.state.post,
                 user: localStorage.getItem("user_id"),
                 location: this.state.location,
                 capacity: this.state.capacity,
                 planned_start_date: this.state.startDate,
                 planned_end_date: this.state.endDate
-            });
+            };
+            this.props.onSubmit(payload);
         }
     };
 
