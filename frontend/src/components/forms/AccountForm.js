@@ -63,7 +63,6 @@ export class AccountForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit}>
-                <p>Username*</p>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.username &&
                     this.props.auth.error.username.map((error) => {
@@ -73,9 +72,12 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <input type="text" className="text-input" name="username" />
-                <p>150 characters of fewer. Letters, digits and @/./+/-/) only.</p>
-                <p>Email Address</p>
+                <input
+                    type="text"
+                    className="text-input"
+                    name="username"
+                    placeholder="Username* (150 characters or fewer)"
+                />
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.email &&
                     this.props.auth.error.email.map((error) => {
@@ -85,8 +87,7 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <input type="text" className="text-input" name="email" />
-                <p>First Name*</p>
+                <input type="text" className="text-input" name="email" placeholder="Email*" />
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.first_name &&
                     this.props.auth.error.first_name.map((error) => {
@@ -96,10 +97,8 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <input type="text" className="text-input" name="firstName" />
-                <p>Middle Name</p>
-                <input type="text" className="text-input" name="middleName" />
-                <p>Last Name*</p>
+                <input type="text" className="text-input" name="firstName" placeholder="First Name*" />
+                <input type="text" className="text-input" name="middleName" placeholder="Middle Name" />
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.last_name &&
                     this.props.auth.error.last_name.map((error) => {
@@ -109,40 +108,42 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <input type="text" className="text-input" name="lastName" />
-                <p>Birth date</p>
-                <DatePicker
-                    value={this.state.birthDate}
-                    onChange={this.onDateChange}
-                    maxDate={this.state.maxDate}
-                    minDate={this.state.minDate}
-                    minDetail="decade"
+                <input type="text" className="text-input" name="lastName" placeholder="Last Name*" />
+                <div>
+                    <span className="modal__label">Birth Date</span>
+                    <DatePicker
+                        value={this.state.birthDate}
+                        onChange={this.onDateChange}
+                        maxDate={this.state.maxDate}
+                        minDate={this.state.minDate}
+                        minDetail="decade"
+                    />
+                </div>
+                {!!this.props.auth.error &&
+                    !!this.props.auth.error.password &&
+                    this.props.auth.error.password.map((error) => {
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
+                    })}
+                <input
+                    type="password"
+                    className="text-input"
+                    name="password"
+                    placeholder={`Password (At least ${this.props.minPasswordLength} characters)`}
                 />
-                <p>Password</p>
-                <p>Your password contain at least {this.props.minPasswordLength} characters.</p>
-                {!!this.props.auth.error &&
-                    !!this.props.auth.error.password &&
-                    this.props.auth.error.password.map((error) => {
-                        return (
-                            <p className="form__error" key={error}>
-                                {error}
-                            </p>
-                        );
-                    })}
-                <input type="password" className="text-input" name="password" />
-                <p>Password Confirmation*</p>
-                {!!this.props.auth.error &&
-                    !!this.props.auth.error.password &&
-                    this.props.auth.error.password.map((error) => {
-                        return (
-                            <p className="form__error" key={error}>
-                                {error}
-                            </p>
-                        );
-                    })}
-                <input type="password" className="text-input" name="passwordConfirmation" />
+                <input
+                    type="password"
+                    className="text-input"
+                    name="passwordConfirmation"
+                    placeholder="Password Confirmation"
+                />
                 <br />
-                <button className="button">Sign Up</button>
+                <div>
+                    <button className="button">Sign Up</button>
+                </div>
             </form>
         );
     }

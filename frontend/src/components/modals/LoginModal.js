@@ -31,7 +31,17 @@ class LoginModal extends React.Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.loginOpen} contentLabel="Login" onRequestClose={this.props.handleLoginClose}>
+            <Modal
+                className="modal"
+                isOpen={this.props.loginOpen}
+                contentLabel="Login"
+                onRequestClose={this.props.handleLoginClose}
+                closeTimeoutMS={200}
+            >
+                <div className="modal__header">
+                    <img className="modal__logo" src="dist/images/logo.png" />
+                    <p className="modal__header__label">Create Your U-post Account</p>
+                </div>
                 <LoginForm onSubmit={this.loginOnSubmit} />
                 <button className="button" onClick={this.props.closeLoginOpenSignupModal}>
                     Create Account

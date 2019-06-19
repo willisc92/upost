@@ -80,7 +80,13 @@ class SignupModal extends React.Component {
 
     render() {
         return (
-            <Modal isOpen={this.props.signupOpen} contentLabel="Sign Up" onRequestClose={this.props.handleSignupClose}>
+            <Modal
+                className="modal"
+                isOpen={this.props.signupOpen}
+                contentLabel="Sign Up"
+                onRequestClose={this.props.handleSignupClose}
+                closeTimeoutMS={200}
+            >
                 <AccountForm minPasswordLength={this.state.minPasswordLength} onSubmit={this.signupOnSubmit} />
                 <button className="button" onClick={this.props.closeSignupOpenLoginModal}>
                     Login instead
