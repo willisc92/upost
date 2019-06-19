@@ -10,7 +10,7 @@ export class AccountForm extends React.Component {
         this.state = {
             maxDate: new Date(),
             minDate: new Date(1900, 1, 1),
-            birthDate: new Date(),
+            birthDate: null,
             isLoaded: false,
             interests: [],
             error: undefined,
@@ -109,6 +109,15 @@ export class AccountForm extends React.Component {
                         );
                     })}
                 <input type="text" className="text-input" name="lastName" placeholder="Last Name*" />
+                {!!this.props.auth.error &&
+                    !!this.props.auth.error.birth_date &&
+                    this.props.auth.error.birth_date.map((error) => {
+                        return (
+                            <p className="form__error" key={error}>
+                                {error}
+                            </p>
+                        );
+                    })}
                 <div>
                     <span className="modal__label">Birth Date</span>
                     <DatePicker

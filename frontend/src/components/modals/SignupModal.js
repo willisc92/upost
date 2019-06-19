@@ -51,6 +51,9 @@ class SignupModal extends React.Component {
         if (formInput.lastName.value.length === 0) {
             error.last_name = ["Field cannot be blank."];
         }
+        if (!input.birthDate) {
+            error.birth_date = ["Field cannot be blank."];
+        }
 
         if (!this.isEmpty(error)) {
             console.log("client side error", error);
