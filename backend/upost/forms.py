@@ -41,10 +41,4 @@ class CustomUserChangeForm(UserChangeForm):
         if cd.get('birth_date') >= datetime.datetime.now().date():
             raise forms.ValidationError("Invalid birthdate.")
 
-        if not re.match(r'[0-9]{10}', cd.get('phone_number')):
-            raise forms.ValidationError("Must enter a 10 digit phone number")
-
-        if not re.match(r'[A-Z]\d[A-Z]\d[A-Z]\d', cd.get('postal_code')):
-            raise forms.ValidationError("Postal code must be in the form A2A2A2")
-
         return cd
