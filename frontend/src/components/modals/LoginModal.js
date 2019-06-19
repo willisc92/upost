@@ -40,12 +40,17 @@ class LoginModal extends React.Component {
             >
                 <div className="modal__header">
                     <img className="modal__logo" src="dist/images/logo.png" />
-                    <p className="modal__header__label">Create Your U-post Account</p>
+                    <div>
+                        <p className="modal__header__label">Login to Your U-post Account</p>
+                        <p className="modal__header__sublabel">to continue</p>
+                    </div>
                 </div>
                 <LoginForm onSubmit={this.loginOnSubmit} />
-                <button className="button" onClick={this.props.closeLoginOpenSignupModal}>
-                    Create Account
-                </button>
+                <div className="modal__button">
+                    <button className="button" onClick={this.props.closeLoginOpenSignupModal}>
+                        Create Account
+                    </button>
+                </div>
             </Modal>
         );
     }

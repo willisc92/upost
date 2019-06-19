@@ -132,16 +132,16 @@ export class AccountForm extends React.Component {
                     type="password"
                     className="text-input"
                     name="password"
-                    placeholder={`Password (At least ${this.props.minPasswordLength} characters)`}
+                    placeholder={`Password* (At least ${this.props.minPasswordLength} characters)`}
                 />
                 <input
                     type="password"
                     className="text-input"
                     name="passwordConfirmation"
-                    placeholder="Password Confirmation"
+                    placeholder="Password Confirmation*"
                 />
                 <br />
-                <div>
+                <div className="modal__button">
                     <button className="button">Sign Up</button>
                 </div>
             </form>

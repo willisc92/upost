@@ -87,10 +87,19 @@ class SignupModal extends React.Component {
                 onRequestClose={this.props.handleSignupClose}
                 closeTimeoutMS={200}
             >
+                <div className="modal__header">
+                    <img className="modal__logo" src="dist/images/logo.png" />
+                    <div>
+                        <p className="modal__header__label">Create Your U-post Account</p>
+                        <p className="modal__header__sublabel">to continue</p>
+                    </div>
+                </div>
                 <AccountForm minPasswordLength={this.state.minPasswordLength} onSubmit={this.signupOnSubmit} />
-                <button className="button" onClick={this.props.closeSignupOpenLoginModal}>
-                    Login instead
-                </button>
+                <div className="modal__button">
+                    <button className="button" onClick={this.props.closeSignupOpenLoginModal}>
+                        Login instead
+                    </button>
+                </div>
             </Modal>
         );
     }

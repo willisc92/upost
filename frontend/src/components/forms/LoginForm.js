@@ -46,7 +46,7 @@ export class LoginForm extends React.Component {
                     onChange={this.onPasswordChange}
                     placeholder="Password"
                 />
-                <div>
+                <div className="modal__button">
                     <button className="button">Login</button>
                 </div>
             </form>
