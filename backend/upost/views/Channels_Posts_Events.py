@@ -1,6 +1,6 @@
 from rest_framework import generics, viewsets
 from ..models import ContentChannel, Post, PostEvent, Interest
-from ..serializers import ContentChannelSerializer, PostSerializer, EventSerializer
+from ..serializers import *
 
 from rest_framework import permissions
 from ..permissions import IsOwnerOrReadOnly, EventAccessPermission
@@ -26,7 +26,7 @@ class Post_View(viewsets.ModelViewSet):
 
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    filterset_fields = ('post_id', 'channel_id', 'user')
+    filterset_fields = ('post_id', 'channel_id', 'user', 'community', 'deleted_flag',)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)

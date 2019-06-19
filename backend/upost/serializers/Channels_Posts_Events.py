@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from ..models import ContentChannel, Post, Interest, PostEvent, Community, CustomUser
 from rest_framework.validators import UniqueValidator
+from ..serializers import IncentiveSerializer
 import datetime
 
 
@@ -12,14 +13,12 @@ class EventSerializer(serializers.ModelSerializer):
             'capacity',
             'planned_start_date',
             'planned_end_date',
-            'community',
         )
         model = PostEvent
 
     post = serializers.PrimaryKeyRelatedField(
         read_only=False, many=False, queryset=Post.objects.all())
-    community = serializers.PrimaryKeyRelatedField(
-        many=False, queryset=Community.objects.all())
+
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -37,8 +36,10 @@ class PostSerializer(serializers.ModelSerializer):
             'post_timestamp',
             'deleted_flag',
             'tags',
+            'community',
             'post_event',
-            'picture'
+            'picture',
+            'incentive'
         )
         model = Post
 
@@ -48,8 +49,10 @@ class PostSerializer(serializers.ModelSerializer):
     tags = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Interest.objects.all())
     post_event = EventSerializer(many=False, read_only=True)
+    incentive = IncentiveSerializer(many=False, read_only=True)
     post_title = serializers.CharField(max_length=50, validators=[
         UniqueValidator(message="Post title must be unique", queryset=Post.objects.all())])
+    community = serializers.PrimaryKeyRelatedField(many=False, queryset=Community.objects.all())
 
     def put(self, request, pk, format=None):
         post = self.get_object(pk)

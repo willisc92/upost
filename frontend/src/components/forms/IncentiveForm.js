@@ -81,15 +81,15 @@ class IncentiveForm extends React.Component {
     };
 
     onStartDateChange = (planned_start_date) => {
-        this.setState(() => {
-            planned_start_date;
-        });
+        this.setState(() => ({
+            planned_start_date
+        }));
     };
 
     onEndDateChange = (planned_end_date) => {
-        this.setState(() => {
-            planned_end_date;
-        });
+        this.setState(() => ({
+            planned_end_date
+        }));
     };
 
     onSubmit = (e) => {

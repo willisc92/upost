@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from ..serializers import PostSerializer
 from ..models.Incentive_Packages import *
 from ..models.Channels_Posts_Events import Post
 

@@ -77,6 +77,7 @@ class Post(models.Model):
     deleted_flag = models.BooleanField(
         db_column='Deleted_Flag', default=False, blank=True)
     tags = models.ManyToManyField("upost.Interest", db_table='post_tags')
+    community = models.ForeignKey("upost.Community", on_delete=models.DO_NOTHING)
     picture = models.ImageField(
         null=True, blank=True, upload_to="post_images/")
 
@@ -101,8 +102,6 @@ class PostEvent(models.Model):
         db_column='Planned_start_datetime', null=False, blank=False)
     planned_end_date = models.DateTimeField(
         db_column='Planned_end_datetime', null=False, blank=False)
-    community = models.ForeignKey(
-        "upost.Community", on_delete=models.DO_NOTHING)
 
     def has_post_event_content(self):
         return hasattr(self, 'content')

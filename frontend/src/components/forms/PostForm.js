@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import validator from "validator";
+import { getAllCommunities } from "../../actions/communities";
 import { getAllInterests } from "../../actions/interests";
 
 class PostForm extends React.Component {
@@ -19,13 +20,32 @@ class PostForm extends React.Component {
             error: "",
             channel: this.props.channel,
             picture: this.props.post ? this.props.post.picture : null,
-            picture_preview: this.props.post ? this.props.post.picture : null
+            picture_preview: this.props.post ? this.props.post.picture : null,
+            community: !!this.props.post ? this.props.post.community : null
         };
     }
 
     componentDidMount() {
-        this.props.getInterests();
+        this.props
+            .getInterests()
+            .then(() => {})
+            .catch((error) => {
+                console.log(JSON.stringify(error, null, 2));
+            });
+        this.props
+            .getAllCommunities()
+            .then(() => {})
+            .catch((error) => {
+                console.log(JSON.stringify(error, null, 2));
+            });
     }
+
+    onCommunitySelectChange = (e) => {
+        e.persist();
+        this.setState(() => ({
+            community: e.target.value
+        }));
+    };
 
     onTitleChange = (e) => {
         const post_title = e.target.value;
@@ -117,7 +137,9 @@ class PostForm extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (!this.state.post_title) {
+        if (!this.state.community) {
+            this.setState(() => ({ error: "Please select a commmunity from the dropdown menu." }));
+        } else if (!this.state.post_title) {
             this.setState(() => ({ error: "Please provide a post title" }));
         } else if (!this.state.poster_name) {
             this.setState(() => ({ error: "Please provide a poster name" }));
@@ -143,6 +165,7 @@ class PostForm extends React.Component {
             form_data.append("email", this.state.email);
             form_data.append("post_description", this.state.post_description);
             form_data.append("deleted_flag", this.state.deleted_flag);
+            form_data.append("community", this.state.community);
             this.state.tags.forEach((tag) => {
                 form_data.append("tags", tag);
             });
@@ -255,6 +278,22 @@ class PostForm extends React.Component {
                         </select>
                     </div>
                 )}
+                <div className="input-group">
+                    <p className="form__label">Community *: </p>
+                    <select
+                        onChange={this.onCommunitySelectChange}
+                        defaultValue={this.props.post ? this.props.post.community : ""}
+                    >
+                        <option key="empty" value="" />
+                        {this.props.communities.map((community) => {
+                            return (
+                                <option key={community.community_name} value={community.community_name}>
+                                    {community.community_name}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
                 <div>
                     <button className="button">{this.props.nextStep}</button>
                 </div>
@@ -265,10 +304,12 @@ class PostForm extends React.Component {
 
 const mapStateToProps = (state) => ({
     error: !!state.posts.error && state.posts.error.response.data,
-    interests: !!state.userInterests && state.userInterests.userInterests
+    interests: !!state.userInterests && state.userInterests.userInterests,
+    communities: !!state.communities && state.communities.communities
 });
 
 const mapDispatchToProps = (dispatch) => ({
+    getAllCommunities: () => dispatch(getAllCommunities()),
     getInterests: () => dispatch(getAllInterests())
 });
 

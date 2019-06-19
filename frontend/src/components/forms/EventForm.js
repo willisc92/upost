@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getAllCommunities } from "../../actions/communities";
 import DateTimePicker from "react-datetime-picker";
+
 export class EventForm extends React.Component {
     constructor(props) {
         super(props);
@@ -9,7 +9,6 @@ export class EventForm extends React.Component {
         this.state = {
             post: !!this.props.event ? this.props.event.post : this.props.post,
             location: !!this.props.event ? this.props.event.location : "",
-            community: !!this.props.event ? this.props.event.community : null,
             capacity: !!this.props.event ? this.props.event.capacity : "0",
             error: "",
             startDate: !!this.props.event ? new Date(this.props.event.planned_start_date) : new Date(),
@@ -18,22 +17,6 @@ export class EventForm extends React.Component {
                 : new Date(new Date().setHours(new Date().getHours() + 1))
         };
     }
-
-    componentWillMount() {
-        this.props
-            .getAllCommunities()
-            .then(() => {})
-            .catch((error) => {
-                console.log(JSON.stringify(error, null, 2));
-            });
-    }
-
-    onCommunitySelectChange = (e) => {
-        e.persist();
-        this.setState(() => ({
-            community: e.target.value
-        }));
-    };
 
     determineReadOnly = () => {
         if (this.props.event) {
@@ -68,22 +51,20 @@ export class EventForm extends React.Component {
     };
 
     onStartDateChange = (startDate) => {
-        this.setState(() => {
-            startDate;
-        });
+        this.setState(() => ({
+            startDate
+        }));
     };
 
     onEndDateChange = (endDate) => {
-        this.setState(() => {
-            endDate;
-        });
+        this.setState(() => ({
+            endDate
+        }));
     };
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (!this.state.community) {
-            this.setState(() => ({ error: "Please select a commmunity from the dropdown menu." }));
-        } else if (!this.state.location) {
+        if (!this.state.location) {
             this.setState(() => ({ error: "Please enter a location/room for your event." }));
         } else if (!this.state.capacity) {
             this.setState(() => ({ error: "Please enter a capacity for your event." }));
@@ -95,7 +76,6 @@ export class EventForm extends React.Component {
                 post: this.state.post,
                 user: localStorage.getItem("user_id"),
                 location: this.state.location,
-                community: this.state.community,
                 capacity: this.state.capacity,
                 planned_start_date: this.state.startDate,
                 planned_end_date: this.state.endDate
@@ -109,23 +89,6 @@ export class EventForm extends React.Component {
                 {!!this.props.eventError && <p className="form__error">Request failed...</p>}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
                 <p className="form__error">* - Fields required</p>
-                <div className="input-group">
-                    <p className="form__label">Community *: </p>
-                    <select
-                        disabled={this.determineReadOnly()}
-                        onChange={this.onCommunitySelectChange}
-                        defaultValue={this.props.event ? this.props.event.community : ""}
-                    >
-                        <option key="empty" value="" />
-                        {this.props.communities.map((community) => {
-                            return (
-                                <option key={community.community_name} value={community.community_name}>
-                                    {community.community_name}
-                                </option>
-                            );
-                        })}
-                    </select>
-                </div>
                 <div className="input-group">
                     <p className="form__label">Location/Room *:</p>
                     <input
@@ -180,15 +143,7 @@ export class EventForm extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    eventError: !!state.events.error && state.events.error.response.data,
-    communities: !!state.communities && state.communities.communities
+    eventError: !!state.events.error && state.events.error.response.data
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    getAllCommunities: () => dispatch(getAllCommunities())
-});
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(EventForm);
+export default connect(mapStateToProps)(EventForm);
