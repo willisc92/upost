@@ -1,6 +1,7 @@
 import { AUTH_FAIL, AUTH_LOGOUT, AUTH_START, AUTH_SUCCESS } from "./auth_action_types";
 import API from "../utils/API";
 import moment from "moment";
+import { setAuthToken } from "../utils/API";
 
 export const authStart = () => ({
     type: AUTH_START
