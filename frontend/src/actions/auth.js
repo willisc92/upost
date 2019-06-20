@@ -50,6 +50,7 @@ export const authLogin = (username, password) => {
                     localStorage.setItem("last_name", res.data.last_name);
                     localStorage.setItem("user_id", res.data.user_id);
                     localStorage.setItem("user_name", res.data.username);
+                    setAuthToken(token);
                     dispatch(authSuccess(token));
                     dispatch(checkAuthTimeout(3600));
                     resolve(true);
@@ -75,12 +76,12 @@ export const authSignup = (user) => {
                     localStorage.setItem("user_id", res.data.user_id);
                     localStorage.setItem("expirationDate", expirationDate);
                     localStorage.setItem("user_name", res.data.username);
+                    setAuthToken(token);
                     dispatch(authSuccess(token));
                     dispatch(checkAuthTimeout(3600));
                     resolve(true);
                 })
                 .catch((error) => {
-                    console.log(error);
                     dispatch(authFail(error.response.request.response));
                     reject(error.response.request.response);
                 });

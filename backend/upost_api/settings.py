@@ -85,12 +85,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-    'http://localhost:8000',
-    'http://localhost:8080',
-]
-
 AUTH_USER_MODEL = 'upost.CustomUser'
 
 SILENCED_SYSTEM_CHECKS = ['mysql.E001']
@@ -204,5 +198,4 @@ MEDIA_ROOT = 'upost/media/'
 MEDIA_URL = '/media/'
 
 CORS_ORIGIN_ALLOW_ALL = True
-
 CSRF_COOKIE_NAME = "csrftoken"
