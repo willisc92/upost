@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { logout } from "../actions/auth";
 import SignupModal from "../components/modals/SignupModal";
 import LoginModal from "../components/modals/LoginModal";
+import SideBar from "../components/SideBar";
 
 class Header extends React.Component {
     constructor(props) {
@@ -63,31 +64,32 @@ class Header extends React.Component {
     render() {
         return (
             <header className="header">
-                <div className="content-container">
-                    <div className="header__content">
+                <div className="header__content">
+                    <div>
+                        <SideBar />
                         <Link to="/">
                             <img className="header__logo" src="dist/images/logo.png" />
                         </Link>
-                        {!!this.props.token ? (
-                            <div>
-                                <Link className="button button--link" to="/myChannels">
-                                    My Content
-                                </Link>
-                                <button className="button button--link" onClick={this.props.logout}>
-                                    Logout
-                                </button>
-                            </div>
-                        ) : (
-                            <div>
-                                <button className="button button--link" onClick={this.handleLoginModalOpen}>
-                                    Login
-                                </button>
-                                <button className="button button--link" onClick={this.handleSignupModalOpen}>
-                                    Signup
-                                </button>
-                            </div>
-                        )}
                     </div>
+                    {!!this.props.token ? (
+                        <div>
+                            <Link className="button button--link" to="/myChannels">
+                                My Content
+                            </Link>
+                            <button className="button button--link" onClick={this.props.logout}>
+                                Logout
+                            </button>
+                        </div>
+                    ) : (
+                        <div>
+                            <button className="button button--link" onClick={this.handleLoginModalOpen}>
+                                Login
+                            </button>
+                            <button className="button button--link" onClick={this.handleSignupModalOpen}>
+                                Signup
+                            </button>
+                        </div>
+                    )}
                 </div>
                 <SignupModal
                     signupOpen={this.state.signupOpen}

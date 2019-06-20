@@ -1,5 +1,9 @@
 .header {
+    overflow: hidden;
     background: $crimson-red;
+    position: fixed;
+    width: 100%;
+    top: 0;
 }
 
 .header__content {
@@ -20,4 +24,10 @@
 .header__logo {
     height: 50px;
     width: 100px;
+    margin-left: 60px;
+    display: inline;
+}
+
+.contentBody {
+    margin-top: 50px;
 }
