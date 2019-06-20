@@ -7,6 +7,9 @@ const axiosInstance = axios.create({
     responseType: "json"
 });
 
+axiosInstance.defaults.xsrfCookieName = "csrftoken";
+axiosInstance.defaults.xsrfHeaderName = "X-CSRFToken";
+
 export default axiosInstance;
 
 export const setAuthToken = (token) => {

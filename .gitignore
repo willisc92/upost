@@ -174,3 +174,6 @@ bundle.js
 bundle.js.map
 styles.css
 styles.css.map
+
+# remove createsu file in backend management command
+createsu.py
