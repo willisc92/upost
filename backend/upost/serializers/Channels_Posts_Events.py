@@ -2,7 +2,6 @@ from rest_framework import serializers
 from ..models import ContentChannel, Post, Interest, PostEvent, Community, CustomUser
 from rest_framework.validators import UniqueValidator
 from ..serializers import IncentiveSerializer
-import datetime
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -55,6 +54,7 @@ class PostSerializer(serializers.ModelSerializer):
         UniqueValidator(message="Post title must be unique", queryset=Post.objects.all())])
     community = serializers.PrimaryKeyRelatedField(many=False, queryset=Community.objects.all())
     extra_kwargs = {'picture': {'required': False}}
+
 
     def put(self, request, pk, format=None):
         post = self.get_object(pk)
