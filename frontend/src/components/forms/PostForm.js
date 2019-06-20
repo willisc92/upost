@@ -156,7 +156,7 @@ class PostForm extends React.Component {
         } else {
             this.setState(() => ({ error: "" }));
             let form_data = new FormData();
-            form_data.append("picture", this.state.picture, this.state.picture && this.state.picture.name);
+            form_data.append("picture", this.state.picture);
             form_data.append("user", localStorage.getItem("user_id"));
             form_data.append("post_title", this.state.post_title);
             form_data.append("poster_name", this.state.poster_name);
