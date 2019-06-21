@@ -16,6 +16,7 @@ import EditChannelPage from "../components/pages/EditChannelPage";
 import AddPostPage from "../components/pages/AddPostPage";
 import EditPostPage from "../components/pages/EditPostPage";
 import IncentiveForm from "../components/forms/IncentiveForm";
+import ViewPostPage from "../components/pages/ViewPostPage";
 import { setAuthToken } from "../utils/API";
 
 export const history = createHistory();
@@ -38,6 +39,7 @@ class AppRouter extends React.Component {
                             <PrivateRoute path="/myChannels/:id" component={MyChannelDetail} exact={true} />
                             <PrivateRoute path="/myChannels/:id/addPost" component={AddPostPage} exact={true} />
                             <PrivateRoute path="/myPosts/:id/edit" component={EditPostPage} exact={true} />
+                            <PrivateRoute path="/post/:id" component={ViewPostPage} exact={true} />
                             <PrivateRoute path="/myChannels/edit/:id" component={EditChannelPage} exact={true} />
                             <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
                             <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
