@@ -87,9 +87,11 @@ export class EventForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                {!!this.props.eventError && <p className="form__error">Request failed...</p>}
-                {this.state.error && <p className="form__error">{this.state.error}</p>}
-                <p className="form__error">* - Fields required</p>
+                <div>
+                    {!!this.props.eventError && <p className="form__error">Request failed...</p>}
+                    {this.state.error && <p className="form__error">{this.state.error}</p>}
+                    <p className="form__error">* - Fields required</p>
+                </div>
                 <div className="input-group">
                     <p className="form__label">Location/Room *:</p>
                     <input

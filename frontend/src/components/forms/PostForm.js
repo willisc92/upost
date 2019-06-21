@@ -178,11 +178,13 @@ class PostForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                {!!this.props.error && !!this.props.error.post_title && (
-                    <p className="form_error"> {this.props.error.post_title[0]}</p>
-                )}
-                {this.state.error && <p className="form__error">{this.state.error}</p>}
-                <p className="form__error">* - Fields required</p>
+                <div>
+                    {!!this.props.error && !!this.props.error.post_title && (
+                        <p className="form_error"> {this.props.error.post_title[0]}</p>
+                    )}
+                    {this.state.error && <p className="form__error">{this.state.error}</p>}
+                    <p className="form__error">* - Fields required</p>
+                </div>
                 <div className="input-group">
                     <p className="form__label">Post Title*: </p>
                     <input
@@ -264,8 +266,10 @@ class PostForm extends React.Component {
                 )}
                 <input type="file" id="image" accept="image/png, image/jpeg" onChange={this.handleImageChange} />
                 {!!this.props.interests && (
-                    <div>
-                        <p>Interest Tags (Hold down "Control", or "Command" on a Mac, to select more than one.): </p>
+                    <div className="input-group">
+                        <p className="form__label">
+                            Interest Tags (Hold down "Control", or "Command" on a Mac, to select more than one.):{" "}
+                        </p>
                         <select multiple onChange={this.onTagsChange} defaultValue={this.state.tags}>
                             {this.props.interests.map((interest) => {
                                 return (

@@ -14,7 +14,9 @@ export class AddPostPage extends React.Component {
         this.state = {
             step: "Post",
             postID: null,
-            finished: false
+            finished: false,
+            reoccuringEvents: null,
+            reoccruingIncentive: null
         };
     }
 
@@ -109,6 +111,12 @@ export class AddPostPage extends React.Component {
         }
     };
 
+    skipEvent = () => {
+        this.setState(() => ({
+            step: "Incentive"
+        }));
+    };
+
     render() {
         return (
             <div>
@@ -123,17 +131,22 @@ export class AddPostPage extends React.Component {
                             id="Post"
                             onSubmit={this.onSubmit}
                             channel={this.props.match.params.id}
-                            nextStep="Save Post and Add Event"
+                            nextStep="Save Post and Add Event/Incentive"
                         />
                     )}
                     {this.state.step === "Event" && (
-                        <EventForm
-                            id="Event"
-                            post={this.state.postID}
-                            onSubmit={this.onSubmit}
-                            channel={this.props.match.params.id}
-                            nextStep="Save and Add Incentive"
-                        />
+                        <div>
+                            <EventForm
+                                id="Event"
+                                post={this.state.postID}
+                                onSubmit={this.onSubmit}
+                                channel={this.props.match.params.id}
+                                nextStep="Save and Add Incentive"
+                            />
+                            <button className="button" onClick={this.skipEvent}>
+                                Skip and Add Incentive
+                            </button>
+                        </div>
                     )}
                     {this.state.step === "Incentive" && (
                         <IncentiveForm

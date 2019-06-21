@@ -46,7 +46,6 @@ class AppRouter extends React.Component {
                         <PrivateRoute path="/myChannels/edit/:id" component={EditChannelPage} exact={true} />
                         <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
                         <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
-                        <Route path="/incentiveForm" component={IncentiveForm} exact={true} />
                         <Route component={NotFoundPage} />
                     </Switch>
                 </div>
