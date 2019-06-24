@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { startGetIncentiveTypes } from "../../actions/incentive_types";
 import { startGetDietOptions } from "../../actions/diet_options";
 import DateTimePicker from "react-datetime-picker";
+import { getCurrentUser } from "../../actions/auth";
 
 class IncentiveForm extends React.Component {
     constructor(props) {
@@ -103,25 +104,35 @@ class IncentiveForm extends React.Component {
         } else if (this.state.incentive_type === "Food" && this.state.diet_option.length === 0) {
             this.setState(() => ({ error: "Must have at least one diet option selected" }));
         } else {
-            this.setState(() => ({ error: "" }));
-            this.props.onSubmit({
-                post: this.state.post,
-                user: localStorage.getItem("user_id"),
-                diet_option: this.state.diet_option,
-                incentive_type: this.state.incentive_type,
-                ip_description: this.state.ip_description,
-                planned_start_date: this.state.planned_start_date,
-                planned_end_date: this.state.planned_end_date
-            });
+            getCurrentUser()
+                .then((res) => {
+                    this.setState(() => ({ error: "" }));
+                    const payload = {
+                        post: this.state.post,
+                        user: res.data.id,
+                        diet_option: this.state.diet_option,
+                        incentive_type: this.state.incentive_type,
+                        ip_description: this.state.ip_description,
+                        planned_start_date: this.state.planned_start_date,
+                        planned_end_date: this.state.planned_end_date
+                    };
+                    console.log(payload);
+                    this.props.onSubmit(payload);
+                })
+                .catch((err) => {
+                    console.log(JSON.stringify(err, null, 2));
+                });
         }
     };
 
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                {!!this.props.incentivePackageError && <p className="form__error">Request failed...</p>}
-                {this.state.error && <p className="form__error">{this.state.error}</p>}
-                <p className="form__error">* - Fields required</p>
+                <div>
+                    {!!this.props.incentivePackageError && <p className="form__error">Request failed...</p>}
+                    {this.state.error && <p className="form__error">{this.state.error}</p>}
+                    <p className="form__error">* - Fields required</p>
+                </div>
                 <div className="input-group">
                     <p className="form__label">Description*: </p>
                     <textarea

@@ -1,4 +1,5 @@
 import API from "../utils/API";
+import { getCurrentUser } from "./auth";
 
 export const channelStart = () => ({
     type: "CHANNEL_START"
@@ -14,17 +15,23 @@ export const setChannels = (channels) => ({
 export const startSetChannels = () => {
     return (dispatch) => {
         dispatch(channelStart());
-        API.get("channels/", {
-            params: {
-                user: localStorage.getItem("user_id")
-            }
-        })
-            .then((result) => {
-                dispatch(channelSuccess());
-                dispatch(setChannels(result.data));
+        getCurrentUser()
+            .then((res) => {
+                API.get("channels/", {
+                    params: {
+                        user: res.data.id
+                    }
+                })
+                    .then((result) => {
+                        dispatch(channelSuccess());
+                        dispatch(setChannels(result.data));
+                    })
+                    .catch((err) => {
+                        dispatch(channelFail(err));
+                    });
             })
             .catch((err) => {
-                dispatch(channelFail(err));
+                console.log(JSON.stringify(err));
             });
     };
 };

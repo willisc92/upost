@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Modal from "react-modal";
 import AccountForm from "../forms/AccountForm";
 import emailValidator from "email-validator";
-import { authFail, authSignup } from "../../actions/auth";
+import { authFail, authSignup, authLogin } from "../../actions/auth";
 
 class SignupModal extends React.Component {
     constructor(props) {
@@ -73,11 +73,18 @@ class SignupModal extends React.Component {
 
         this.props
             .authSignup(user)
-            .then(() => {
-                this.props.pageMove();
+            .then((res) => {
+                this.props
+                    .authLogin(res.data.username, formInput.password.value)
+                    .then(() => {
+                        this.props.pageMove();
+                    })
+                    .catch((err) => {
+                        console.log(JSON.stringify(err, null, 2));
+                    });
             })
             .catch((error) => {
-                console.log("An error has occured with signup", error);
+                console.log(JSON.stringify(error, null, 2));
             });
     };
 
@@ -118,7 +125,8 @@ class SignupModal extends React.Component {
 const mapDispatchToProps = (dispatch) => {
     return {
         authFail: (error) => dispatch(authFail(error)),
-        authSignup: (user) => dispatch(authSignup(user))
+        authSignup: (user) => dispatch(authSignup(user)),
+        authLogin: (username, password) => dispatch(authLogin(username, password))
     };
 };
 

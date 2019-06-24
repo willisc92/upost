@@ -18,7 +18,7 @@ class ContentChannel_View(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+        permissions.IsAuthenticated, IsOwnerOrReadOnly,)
 
 
 class Post_View(viewsets.ModelViewSet):
@@ -26,13 +26,14 @@ class Post_View(viewsets.ModelViewSet):
 
     serializer_class = PostSerializer
     queryset = Post.objects.all()
-    filterset_fields = ('post_id', 'channel_id', 'user', 'community', 'deleted_flag',)
+    filterset_fields = ('post_id', 'channel_id', 'user',
+                        'community', 'deleted_flag',)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+        permissions.IsAuthenticated, IsOwnerOrReadOnly,)
 
 
 class Random_Post_view(viewsets.ModelViewSet):
@@ -43,7 +44,8 @@ class Random_Post_view(viewsets.ModelViewSet):
         queryset = self.queryset
         interest_param = self.request.query_params.get('interest')
         if interest_param is not None:
-            queryset = queryset.filter(tags__interest_tag=interest_param).order_by('?')[:4]  # get 4 objects
+            queryset = queryset.filter(tags__interest_tag=interest_param).order_by('?')[
+                :4]  # get 4 objects
         return queryset
 
 

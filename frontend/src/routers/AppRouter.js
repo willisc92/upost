@@ -15,13 +15,14 @@ import MyChannelDetail from "../components/pages/MyChannelDetail";
 import EditChannelPage from "../components/pages/EditChannelPage";
 import AddPostPage from "../components/pages/AddPostPage";
 import EditPostPage from "../components/pages/EditPostPage";
-import IncentiveForm from "../components/forms/IncentiveForm";
 import { setAuthToken } from "../utils/API";
+
+import { RecurringForm } from "../components/forms/RecurringForm";
 
 export const history = createHistory();
 
 class AppRouter extends React.Component {
-    componentDidMount() {
+    componentWillMount() {
         this.props.onTryAutoSignup();
         setAuthToken(localStorage.getItem("token"));
     }
@@ -41,7 +42,7 @@ class AppRouter extends React.Component {
                             <PrivateRoute path="/myChannels/edit/:id" component={EditChannelPage} exact={true} />
                             <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
                             <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
-                            <Route path="/incentiveForm" component={IncentiveForm} exact={true} />
+                            <Route path="/RecurringForm" component={RecurringForm} exact={true} />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>

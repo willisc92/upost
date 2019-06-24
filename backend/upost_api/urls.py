@@ -17,7 +17,6 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework import routers
 from upost.views import *
-# from upost.views import Channels_Posts_Events, User_Account, Communities, Shared, Incentive_Packages
 from django.conf import settings
 from django.conf.urls.static import static
 from frontendapp import urls as frontendapp_urls
@@ -45,6 +44,7 @@ router.register(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/login/', User_Account.CustomAuthToken.as_view()),
+    path('api/me/', UserDetailView.as_view(), name='me'),
+    path('api/auth/', include('rest_framework_social_oauth2.urls')),
     re_path(r'', include(frontendapp_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

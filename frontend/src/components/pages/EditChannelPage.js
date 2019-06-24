@@ -2,6 +2,7 @@ import React from "react";
 import ChannelForm from "../forms/ChannelForm";
 import { connect } from "react-redux";
 import { editChannel, startGetChannel } from "../../actions/channels";
+import { getCurrentUser } from "../../actions/auth";
 
 export class EditChannelPage extends React.Component {
     constructor(props) {
@@ -10,12 +11,18 @@ export class EditChannelPage extends React.Component {
 
     componentDidMount() {
         const channel_id = this.props.match.params.id;
-        this.props
-            .startGetChannel(channel_id)
-            .then(() => {
-                if (this.props.channel.user !== localStorage.getItem("user_name")) {
-                    this.props.history.push("/myChannels");
-                }
+        getCurrentUser()
+            .then((res) => {
+                this.props
+                    .startGetChannel(channel_id)
+                    .then((channel_res) => {
+                        if (res.data.username !== channel_res.data[0].user) {
+                            this.props.history.push("/myChannels");
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(JSON.stringify(err, null, 2));
+                    });
             })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));

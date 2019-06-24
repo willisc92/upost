@@ -7,6 +7,7 @@ import { addPost } from "../../actions/posts";
 import { addEvent } from "../../actions/events";
 import { addIncentivePackage } from "../../actions/incentivePackage";
 import { startGetChannel } from "../../actions/channels";
+import { getCurrentUser } from "../../actions/auth";
 
 export class AddPostPage extends React.Component {
     constructor(props) {
@@ -14,22 +15,30 @@ export class AddPostPage extends React.Component {
         this.state = {
             step: "Post",
             postID: null,
-            finished: false
+            finished: false,
+            reoccuringEvents: null,
+            reoccruingIncentive: null
         };
     }
 
     componentDidMount() {
         const channel_id = this.props.match.params.id;
-        this.props
-            .startGetChannel(channel_id)
-            .then(() => {
-                if (!!this.props.post) {
-                    if (this.props.channel.user !== localStorage.getItem("user_name")) {
-                        this.props.history.push("/");
-                    }
-                }
+        getCurrentUser()
+            .then((res) => {
+                this.props
+                    .startGetChannel(channel_id)
+                    .then((channel_res) => {
+                        if (res.data.username !== channel_res.data[0].user) {
+                            this.props.history.push("/myChannels");
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(JSON.stringify(err, null, 2));
+                    });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
     }
 
     onSubmit = (data) => {
@@ -109,6 +118,12 @@ export class AddPostPage extends React.Component {
         }
     };
 
+    skipEvent = () => {
+        this.setState(() => ({
+            step: "Incentive"
+        }));
+    };
+
     render() {
         return (
             <div>
@@ -123,17 +138,22 @@ export class AddPostPage extends React.Component {
                             id="Post"
                             onSubmit={this.onSubmit}
                             channel={this.props.match.params.id}
-                            nextStep="Save Post and Add Event"
+                            nextStep="Save Post and Add Event/Incentive"
                         />
                     )}
                     {this.state.step === "Event" && (
-                        <EventForm
-                            id="Event"
-                            post={this.state.postID}
-                            onSubmit={this.onSubmit}
-                            channel={this.props.match.params.id}
-                            nextStep="Save and Add Incentive"
-                        />
+                        <div>
+                            <EventForm
+                                id="Event"
+                                post={this.state.postID}
+                                onSubmit={this.onSubmit}
+                                channel={this.props.match.params.id}
+                                nextStep="Save and Add Incentive"
+                            />
+                            <button className="button" onClick={this.skipEvent}>
+                                Skip and Add Incentive
+                            </button>
+                        </div>
                     )}
                     {this.state.step === "Incentive" && (
                         <IncentiveForm
