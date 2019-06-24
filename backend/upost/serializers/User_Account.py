@@ -28,3 +28,10 @@ class UserAccountSerializer(serializers.ModelSerializer):
             birth_date=validated_data['birth_date'],
         )
         return user
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('first_name', 'last_name', 'email',
+                  'username', 'channels', 'community',)

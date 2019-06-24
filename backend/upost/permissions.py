@@ -14,7 +14,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
             return True
 
         # Write permissions are only allowed to the owner of the snippet.
-        return obj.user == request.user 
+        return obj.user == request.user
 
 
 class EventAccessPermission(permissions.BasePermission):
@@ -24,3 +24,18 @@ class EventAccessPermission(permissions.BasePermission):
             return True
 
         return request.user == Post.objects.get(pk=obj.post.pk).user
+
+
+class IsAuthenticatedOrCreate(permissions.IsAuthenticated):
+    def has_permission(self, request, view):
+        if request.method == 'POST':
+            return True
+        return super(IsAuthenticatedOrCreate, self).has_permission(request, view)
+
+
+class IsAdminOrReadOnly(BasePermission):
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        else:
+            return request.user.is_staff

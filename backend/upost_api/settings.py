@@ -24,7 +24,8 @@ else:
     try:
         from .local_settings import *
     except ImportError:
-        raise Exception("A local_settings.py file is required to run this project")
+        raise Exception(
+            "A local_settings.py file is required to run this project")
 
     SECRET_KEY = S_KEY
 
@@ -48,29 +49,44 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_auth',
-    'rest_framework.authtoken',
+    # 'rest_auth',
+    # 'rest_framework.authtoken',
     'corsheaders',
     'upost.apps.UpostConfig',
     'django_filters',
-    'frontendapp'
+    'frontendapp',
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2'
 ]
 
 SITE_ID = 1
 
+OAUTH2_PROVIDER = {
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 60 * 60,
+}
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-
+        # 'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
         'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAuthenticated'
     ],
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 }
+
+AUTHENTICATION_BACKENDS = (
+    'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -83,6 +99,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware'
 ]
 
 AUTH_USER_MODEL = 'upost.CustomUser'
@@ -102,6 +119,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -115,6 +134,7 @@ WSGI_APPLICATION = 'upost_api.wsgi.application'
 if 'RDS_HOSTNAME' in os.environ:
     DATABASES = {
         'default': {
+            # 'ENGINE': 'mysql.connector.django',
             'ENGINE': 'django.db.backends.mysql',
             'NAME': os.environ['RDS_DB_NAME'],
             'USER': os.environ['RDS_USERNAME'],
@@ -127,11 +147,13 @@ else:
     try:
         from .local_settings import *
     except ImportError:
-        raise Exception("A local_settings.py file is required to run this project")
+        raise Exception(
+            "A local_settings.py file is required to run this project")
 
     DATABASES = {
         'default': {
-            'ENGINE': 'mysql.connector.django',
+            # 'ENGINE': 'mysql.connector.django',
+            'ENGINE': 'django.db.backends.mysql',
             'NAME': DB_NAME,
             'USER': 'root',
 
@@ -140,9 +162,9 @@ else:
 
                     'HOST': '127.0.0.1',
                     'PORT': '3306',
-            'OPTIONS': {
-                'use_pure': 'true'
-            }
+            # 'OPTIONS': {
+            #     'use_pure': 'true'
+            # }
         }
     }
 
@@ -182,13 +204,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'frontendapp', 'static', 'frontend')]
-STATICFILES_STORAGE = ('whitenoise.storage.CompressedManifestStaticFilesStorage')
+STATICFILES_DIRS = [os.path.join(
+    BASE_DIR, 'frontendapp', 'static', 'frontend')]
+STATICFILES_STORAGE = (
+    'whitenoise.storage.CompressedManifestStaticFilesStorage')
 
 STATIC_URL = '/dist/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'dist')
 
-#WHITENOISE_ROOT = os.path.join(BASE_DIR, 'frontendapp', 'dist', 'root')  # serves assets at application root
+# WHITENOISE_ROOT = os.path.join(BASE_DIR, 'frontendapp', 'dist', 'root')  # serves assets at application root
 
 
 # Media fields
