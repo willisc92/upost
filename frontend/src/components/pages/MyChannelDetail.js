@@ -79,7 +79,7 @@ export class MyChannelDetail extends React.Component {
                                     this.props.posts.map((post) => {
                                         return (
                                             <div key={post.post_id} className="list-box">
-                                                <MyPostSummary post={post} />
+                                                <MyPostSummary post={post} pathName={`/myPosts/${post.post_id}/edit`} />
                                             </div>
                                         );
                                     })

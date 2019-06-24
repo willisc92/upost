@@ -38,7 +38,7 @@ export class DashboardPage extends React.Component {
                                     {interestPosts.posts.map((post) => {
                                         return (
                                             <div key={post.post_id} className="list-box">
-                                                <MyPostSummary post={post} />
+                                                <MyPostSummary post={post} pathName={`/post/${post.post_id}`} />
                                             </div>
                                         );
                                     })}

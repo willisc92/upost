@@ -2,12 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-export const MyPostSummary = ({ post }) => {
+export const MyPostSummary = ({ post, pathName }) => {
     return (
         <Link
             className="list-item"
             to={{
-                pathname: `/myPosts/${post.post_id}/edit`,
+                pathname: pathName,
                 state: { post }
             }}
         >
