@@ -1,4 +1,5 @@
 import API from "../utils/API";
+import { getCurrentUser } from "./auth";
 
 export const communityStart = () => ({
     type: "COMMUNITY_START"
@@ -38,19 +39,25 @@ export const getAllCommunities = () => {
 export const getMyCommunities = () => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
-            API.get("accounts/", {
-                params: {
-                    username: localStorage.getItem("user_name")
-                }
-            })
-                .then((result) => {
-                    dispatch(communitySuccess());
-                    dispatch(setCommunities(result.data.community));
-                    resolve(result);
+            getCurrentUser()
+                .then((res) => {
+                    API.get("accounts/", {
+                        params: {
+                            username: res.data.username
+                        }
+                    })
+                        .then((result) => {
+                            dispatch(communitySuccess());
+                            dispatch(setCommunities(result.data.community));
+                            resolve(result);
+                        })
+                        .catch((error) => {
+                            dispiatch(communityFail(error));
+                            reject(error);
+                        });
                 })
-                .catch((error) => {
-                    dispiatch(communityFail(error));
-                    reject(error);
+                .catch((err) => {
+                    console.log(JSON.stringify(err));
                 });
         });
     };

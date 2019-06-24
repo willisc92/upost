@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import DateTimePicker from "react-datetime-picker";
+import { getCurrentUser } from "../../actions/auth";
 
 export class EventForm extends React.Component {
     constructor(props) {
@@ -71,16 +72,22 @@ export class EventForm extends React.Component {
         } else if (this.state.endDate <= this.state.startDate) {
             this.setState(() => ({ error: "End datetime must be after start datetime." }));
         } else {
-            this.setState(() => ({ error: "" }));
-            const payload = {
-                post: this.state.post,
-                user: localStorage.getItem("user_id"),
-                location: this.state.location,
-                capacity: this.state.capacity,
-                planned_start_date: this.state.startDate,
-                planned_end_date: this.state.endDate
-            };
-            this.props.onSubmit(payload);
+            getCurrentUser()
+                .then((res) => {
+                    this.setState(() => ({ error: "" }));
+                    const payload = {
+                        post: this.state.post,
+                        user: res.data.username,
+                        location: this.state.location,
+                        capacity: this.state.capacity,
+                        planned_start_date: this.state.startDate,
+                        planned_end_date: this.state.endDate
+                    };
+                    this.props.onSubmit(payload);
+                })
+                .catch((err) => {
+                    console.log(JSON.stringify(err, null, 2));
+                });
         }
     };
 

@@ -7,6 +7,7 @@ import { addPost } from "../../actions/posts";
 import { addEvent } from "../../actions/events";
 import { addIncentivePackage } from "../../actions/incentivePackage";
 import { startGetChannel } from "../../actions/channels";
+import { getCurrentUser } from "../../actions/auth";
 
 export class AddPostPage extends React.Component {
     constructor(props) {
@@ -22,16 +23,22 @@ export class AddPostPage extends React.Component {
 
     componentDidMount() {
         const channel_id = this.props.match.params.id;
-        this.props
-            .startGetChannel(channel_id)
-            .then(() => {
-                if (!!this.props.post) {
-                    if (this.props.channel.user !== localStorage.getItem("user_name")) {
-                        this.props.history.push("/");
-                    }
-                }
+        getCurrentUser()
+            .then((res) => {
+                this.props
+                    .startGetChannel(channel_id)
+                    .then((channel_res) => {
+                        if (res.data.username !== channel_res.data[0].user) {
+                            this.props.history.push("/myChannels");
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(JSON.stringify(err, null, 2));
+                    });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
     }
 
     onSubmit = (data) => {

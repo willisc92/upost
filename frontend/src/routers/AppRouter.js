@@ -25,7 +25,7 @@ import { RecurringForm } from "../components/forms/RecurringForm";
 export const history = createHistory();
 
 class AppRouter extends React.Component {
-    componentDidMount() {
+    componentWillMount() {
         this.props.onTryAutoSignup();
         setAuthToken(localStorage.getItem("token"));
     }

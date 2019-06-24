@@ -1,4 +1,5 @@
 import API from "../utils/API";
+import { getCurrentUser } from "./auth";
 
 /**
  * SET_USER_INTERESTS.
@@ -22,14 +23,20 @@ export const setUserInterests = (userInterests) => ({
 export const startSetUserInterests = () => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
-            API.get(`user-interests/${localStorage.getItem("user_id")}`)
-                .then((result) => {
-                    dispatch(setUserInterests(result.data.interests));
-                    resolve(result);
+            getCurrentUser()
+                .then((res) => {
+                    API.get(`user-interests/${res.data.id}`)
+                        .then((result) => {
+                            dispatch(setUserInterests(result.data.interests));
+                            resolve(result);
+                        })
+                        .catch((error) => {
+                            console.log("error in getting user interests", error);
+                            reject(error);
+                        });
                 })
-                .catch((error) => {
-                    console.log("error in getting user interests", error);
-                    reject(error);
+                .catch((err) => {
+                    console.log(JSON.stringify(err));
                 });
         });
     };
@@ -59,16 +66,22 @@ export const editUserInterests = (userInterests) => ({
 export const startEditUserInterests = (userInterests) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
-            API.put(`user-interests/${localStorage.getItem("user_id")}/`, {
-                interests: userInterests
-            })
-                .then((result) => {
-                    dispatch(editUserInterests(userInterests));
-                    resolve(true);
+            getCurrentUser()
+                .then((res) => {
+                    API.put(`user-interests/${res.data.id}/`, {
+                        interests: userInterests
+                    })
+                        .then((result) => {
+                            dispatch(editUserInterests(userInterests));
+                            resolve(true);
+                        })
+                        .catch((error) => {
+                            console.log("error in updating user interests", error);
+                            reject(error);
+                        });
                 })
-                .catch((error) => {
-                    console.log("error in updating user interests", error);
-                    reject(error);
+                .catch((err) => {
+                    console.log(JSON.stringify(err, null, 2));
                 });
         });
     };

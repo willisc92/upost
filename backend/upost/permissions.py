@@ -33,9 +33,9 @@ class IsAuthenticatedOrCreate(permissions.IsAuthenticated):
         return super(IsAuthenticatedOrCreate, self).has_permission(request, view)
 
 
-class IsAdminOrReadOnly(BasePermission):
+class IsAdminOrReadOnly(permissions.BasePermission):
     def has_permission(self, request, view):
-        if request.method in SAFE_METHODS:
+        if request.method in permissions.SAFE_METHODS:
             return True
         else:
             return request.user.is_staff

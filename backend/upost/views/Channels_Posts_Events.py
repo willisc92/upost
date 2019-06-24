@@ -20,9 +20,6 @@ class ContentChannel_View(viewsets.ModelViewSet):
     permission_classes = (
         permissions.IsAuthenticated, IsOwnerOrReadOnly,)
 
-    # permission_classes = (
-    #     permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
-
 
 class Post_View(viewsets.ModelViewSet):
     parser_classes = (MultiPartParser, FormParser,)
@@ -36,7 +33,7 @@ class Post_View(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+        permissions.IsAuthenticated, IsOwnerOrReadOnly,)
 
 
 class Random_Post_view(viewsets.ModelViewSet):

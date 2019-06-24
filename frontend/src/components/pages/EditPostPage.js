@@ -2,6 +2,7 @@ import React from "react";
 import { startGetPost, editPost, clearPosts } from "../../actions/posts";
 import { connect } from "react-redux";
 import PostForm from "../forms/PostForm";
+import { getCurrentUser } from "../../actions/auth";
 
 export class EditPostPage extends React.Component {
     constructor(props) {
@@ -11,6 +12,23 @@ export class EditPostPage extends React.Component {
     componentDidMount() {
         this.props.clearPosts();
         const post_id = this.props.match.params.id;
+        getCurrentUser()
+            .then((res) => {
+                this.props
+                    .startGetPost(post_id)
+                    .then((post_res) => {
+                        if (res.data.username !== post_res.data[0].user) {
+                            this.props.history.push("/myChannels");
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(JSON.stringify(err, null, 2));
+                    });
+            })
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
+
         this.props
             .startGetPost(post_id)
             .then((result) => {

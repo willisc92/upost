@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import validator from "validator";
 import { getAllCommunities } from "../../actions/communities";
 import { getAllInterests } from "../../actions/interests";
+import { getCurrentUser } from "../../actions/auth";
 
 class PostForm extends React.Component {
     constructor(props) {
@@ -154,24 +155,29 @@ class PostForm extends React.Component {
         } else if (this.state.tags.length === 0) {
             this.setState(() => ({ error: "Please provide at least one tag for the post" }));
         } else {
-            this.setState(() => ({ error: "" }));
-            let form_data = new FormData();
-            form_data.append("picture", this.state.picture);
-            form_data.append("user", localStorage.getItem("user_id"));
-            form_data.append("post_title", this.state.post_title);
-            form_data.append("poster_name", this.state.poster_name);
-            form_data.append("phone_number", this.state.phone_number);
-            form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
-            form_data.append("email", this.state.email);
-            form_data.append("post_description", this.state.post_description);
-            form_data.append("deleted_flag", this.state.deleted_flag);
-            form_data.append("community", this.state.community);
-            this.state.tags.forEach((tag) => {
-                form_data.append("tags", tag);
-            });
-            form_data.append("channel", this.state.channel);
-
-            this.props.onSubmit(form_data);
+            getCurrentUser()
+                .then((res) => {
+                    this.setState(() => ({ error: "" }));
+                    let form_data = new FormData();
+                    form_data.append("picture", this.state.picture);
+                    form_data.append("user", res.data.username);
+                    form_data.append("post_title", this.state.post_title);
+                    form_data.append("poster_name", this.state.poster_name);
+                    form_data.append("phone_number", this.state.phone_number);
+                    form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
+                    form_data.append("email", this.state.email);
+                    form_data.append("post_description", this.state.post_description);
+                    form_data.append("deleted_flag", this.state.deleted_flag);
+                    form_data.append("community", this.state.community);
+                    this.state.tags.forEach((tag) => {
+                        form_data.append("tags", tag);
+                    });
+                    form_data.append("channel", this.state.channel);
+                    this.props.onSubmit(form_data);
+                })
+                .catch((err) => {
+                    console.log(JSON.stringify(err, null, 2));
+                });
         }
     };
 

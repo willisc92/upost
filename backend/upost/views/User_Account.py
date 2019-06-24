@@ -1,13 +1,11 @@
 from rest_framework import viewsets
 from ..serializers.User_Account import UserAccountSerializer, UserDetailSerializer
 from ..models.User_Account import CustomUser
-# from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
+from ..permissions import IsAuthenticatedOrCreate
 from rest_framework import generics
-from oauth2_provider.views import TokenView
 
 
 # Create your views here.
@@ -15,6 +13,7 @@ class UserAccountView(viewsets.ModelViewSet):
     serializer_class = UserAccountSerializer
     queryset = CustomUser.objects.all()
     filterset_fields = ('username',)
+    permission_classes = (IsAuthenticatedOrCreate,)
 
     def create(self, request):  # for POST, calls create in serializer defines return response
         serializer = self.get_serializer(data=request.data)
@@ -22,9 +21,7 @@ class UserAccountView(viewsets.ModelViewSet):
         self.perform_create(serializer)
         user = serializer.instance
         headers = self.get_success_headers(serializer.data)
-        # token, created = Token.objects.get_or_create(user=user)
         return Response({
-            # 'token': token.key,
             'user_id': user.pk,
             'username': user.username,
             'first_name': user.first_name,
