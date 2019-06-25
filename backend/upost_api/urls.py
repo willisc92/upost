@@ -40,6 +40,7 @@ router.register('incentive-choices',
                 IncentiveChoiceView, 'incentive-choice')
 router.register(
     'diet-options', DietOptionView, 'diet-option')
+router.register('subscriptions', UserAccountSubscriptionsView, 'subscription')
 
 
 urlpatterns = [

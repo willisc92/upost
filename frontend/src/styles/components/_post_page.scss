@@ -1,5 +1,8 @@
 .post-image {
     width: 100%;
+}
+
+.post-image:not([src]) {
     padding-top: 56.25%;
     background: $dark-grey;
 }

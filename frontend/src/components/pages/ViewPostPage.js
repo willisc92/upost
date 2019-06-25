@@ -2,8 +2,15 @@ import React from "react";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
+import { startGetSubscriptions } from "../../actions/subscriptions";
 
 class ViewPostPage extends React.Component {
+    componentDidUpdate() {
+        if (this.props.subscriptions !== undefined && this.props.channel !== undefined) {
+            console.log(this.props.subscriptions.includes(this.props.channel.channel_id));
+        }
+    }
+
     componentDidMount() {
         this.props.clearPosts();
         const post_id = this.props.match.params.id;
@@ -17,6 +24,7 @@ class ViewPostPage extends React.Component {
             .catch((err) => {
                 console.log("error in getting post information", JSON.stringify(err, null, 2));
             });
+        this.props.startGetSubscriptions();
     }
 
     render() {
@@ -39,7 +47,11 @@ class ViewPostPage extends React.Component {
                         {!!this.props.channel && (
                             <div>
                                 <h1>{this.props.channel.channel_name}</h1>
-                                <button>Subscribe</button>
+                                <button className="button">
+                                    {this.props.subscriptions.includes(this.props.channel.channel_id)
+                                        ? "Unsubscribe"
+                                        : "Subscribe"}
+                                </button>
                             </div>
                         )}
                         {!!this.props.post && (
@@ -58,13 +70,15 @@ class ViewPostPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     post: state.posts.posts[0],
-    channel: state.channels.channels[0]
+    channel: state.channels.channels[0],
+    subscriptions: state.subscriptions.subscriptions
 });
 
 const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
     startGetPost: (id) => dispatch(startGetPost(id)),
-    startGetChannel: (id) => dispatch(startGetChannel(id))
+    startGetChannel: (id) => dispatch(startGetChannel(id)),
+    startGetSubscriptions: () => dispatch(startGetSubscriptions())
 });
 
 export default connect(

@@ -28,3 +28,9 @@ class UserAccountSerializer(serializers.ModelSerializer):
             birth_date=validated_data['birth_date'],
         )
         return user
+
+
+class UserAccountSubscriptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('id', 'subscriptions')
+        model = CustomUser

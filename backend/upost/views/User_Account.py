@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from ..serializers.User_Account import UserAccountSerializer
+from ..serializers.User_Account import UserAccountSerializer, UserAccountSubscriptionsSerializer
 from ..models.User_Account import CustomUser
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -49,3 +49,8 @@ class CustomAuthToken(ObtainAuthToken):
     # @classmethod
     # def get_extra_actions(cls):
     #     return []
+
+
+class UserAccountSubscriptionsView(viewsets.ModelViewSet):
+    serializer_class = UserAccountSubscriptionsSerializer
+    queryset = CustomUser.objects.filter(subscribe__unsubscribe_date=None)
