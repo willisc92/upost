@@ -8,7 +8,7 @@ export const setSubscriptions = (subscriptions) => {
 // START_SET_SUBSCRIPTIONS
 export const startGetSubscriptions = () => {
     return (dispatch) => {
-        API.get(`subscriptions/${localStorage.getItem("user_id")}`).then((result) => {
+        API.get(`user-subscriptions/${localStorage.getItem("user_id")}`).then((result) => {
             dispatch(setSubscriptions(result.data.subscriptions));
         });
     };

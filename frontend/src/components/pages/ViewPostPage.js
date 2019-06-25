@@ -5,12 +5,6 @@ import { startGetChannel } from "../../actions/channels";
 import { startGetSubscriptions } from "../../actions/subscriptions";
 
 class ViewPostPage extends React.Component {
-    componentDidUpdate() {
-        if (this.props.subscriptions !== undefined && this.props.channel !== undefined) {
-            console.log(this.props.subscriptions.includes(this.props.channel.channel_id));
-        }
-    }
-
     componentDidMount() {
         this.props.clearPosts();
         const post_id = this.props.match.params.id;

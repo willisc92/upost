@@ -5,6 +5,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -53,4 +54,4 @@ class CustomAuthToken(ObtainAuthToken):
 
 class UserAccountSubscriptionsView(viewsets.ModelViewSet):
     serializer_class = UserAccountSubscriptionsSerializer
-    queryset = CustomUser.objects.filter(subscribe__unsubscribe_date=None)
+    queryset = CustomUser.objects.all()
