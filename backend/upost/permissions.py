@@ -24,3 +24,18 @@ class EventAccessPermission(permissions.BasePermission):
             return True
 
         return request.user == Post.objects.get(pk=obj.post.pk).user
+
+
+class IsAuthenticatedOrCreate(permissions.IsAuthenticated):
+    def has_permission(self, request, view):
+        if request.method == 'POST':
+            return True
+        return super(IsAuthenticatedOrCreate, self).has_permission(request, view)
+
+
+class IsAdminOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        else:
+            return request.user.is_staff

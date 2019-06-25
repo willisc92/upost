@@ -47,6 +47,7 @@ router.register('subscriptions', SubscribeView, 'subscription')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('api/login/', User_Account.CustomAuthToken.as_view()),
+    path('api/me/', UserDetailView.as_view(), name='me'),
+    path('api/auth/', include('rest_framework_social_oauth2.urls')),
     re_path(r'', include(frontendapp_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

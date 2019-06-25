@@ -5,6 +5,7 @@ import moment from "moment";
 import MyPostSummary from "../MyPostSummary";
 import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
 import { getVisiblePosts } from "../../selectors/myPosts";
+import { getCurrentUser } from "../../actions/auth";
 
 export class MyChannelDetail extends React.Component {
     constructor(props) {
@@ -13,12 +14,18 @@ export class MyChannelDetail extends React.Component {
 
     componentDidMount() {
         const channel_id = this.props.match.params.id;
-        this.props
-            .startGetChannel(channel_id)
-            .then(() => {
-                if (this.props.channel.user !== localStorage.getItem("user_name")) {
-                    this.props.history.push("/myChannels");
-                }
+        getCurrentUser()
+            .then((res) => {
+                this.props
+                    .startGetChannel(channel_id)
+                    .then((channel_res) => {
+                        if (res.data.username !== channel_res.data[0].user) {
+                            this.props.history.push("/myChannels");
+                        }
+                    })
+                    .catch((err) => {
+                        console.log(JSON.stringify(err, null, 2));
+                    });
             })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));

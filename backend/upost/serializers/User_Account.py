@@ -43,3 +43,10 @@ class UserAccountSubscriptionsSerializer(serializers.ModelSerializer):
         qs = Subscribe.objects.filter(community_member=user, unsubscribe_date=None)
         serializer = SubscribeSerializerIdOnly(instance=qs, many=True)
         return map(lambda x: x['channel'], serializer.data)
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('first_name', 'last_name', 'email',
+                  'username', 'channels', 'community', 'id')

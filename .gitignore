@@ -177,3 +177,6 @@ styles.css.map
 
 # remove createsu file in backend management command
 createsu.py
+
+# Remove local API config (should be local for development purposes)
+localAPIConfig.js

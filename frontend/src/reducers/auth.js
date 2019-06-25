@@ -3,7 +3,8 @@ import { AUTH_FAIL, AUTH_LOGOUT, AUTH_START, AUTH_SUCCESS } from "../actions/aut
 const authDefaultState = {
     token: null,
     error: null,
-    loading: false
+    loading: false,
+    username: null
 };
 
 export default (state = authDefaultState, action) => {

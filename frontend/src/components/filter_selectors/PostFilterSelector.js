@@ -49,7 +49,7 @@ export class PostFilters extends React.Component {
                         <input
                             type="text"
                             className="text-input"
-                            placeholder="Search Channels"
+                            placeholder="Search Posts"
                             value={this.props.filters.text}
                             onChange={this.onTextChange}
                         />

@@ -1,4 +1,5 @@
 import API, { setContentToForm, resetContentType } from "../utils/API";
+import { getCurrentUser } from "./auth";
 
 /**
  * POST_START.
@@ -33,17 +34,23 @@ export const setPosts = (posts) => ({
 export const startSetMyPosts = () => {
     return (dispatch) => {
         dispatch(postStart());
-        API.get("posts/", {
-            params: {
-                user: localStorage.getItem("user_id")
-            }
-        })
-            .then((result) => {
-                dispatch(postSuccess());
-                dispatch(setPosts(result.data));
+        getCurrentUser()
+            .then((res) => {
+                API.get("posts/", {
+                    params: {
+                        user: res.data.id
+                    }
+                })
+                    .then((result) => {
+                        dispatch(postSuccess());
+                        dispatch(setPosts(result.data));
+                    })
+                    .catch((err) => {
+                        dispatch(postFail(err));
+                    });
             })
             .catch((err) => {
-                dispatch(postFail(err));
+                console.log(JSON.stringify(err));
             });
     };
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { getCurrentUser } from "../../actions/auth";
 
 export class ChannelForm extends React.Component {
     constructor(props) {
@@ -48,12 +49,14 @@ export class ChannelForm extends React.Component {
         if (!this.state.channel_name) {
             this.setState(() => ({ error: "Please provide a channel name" }));
         } else {
-            this.setState(() => ({ error: "" }));
-            this.props.onSubmit({
-                channel_name: this.state.channel_name,
-                deleted_flag: this.state.deleted_flag,
-                channel_description: this.state.channel_description,
-                user: localStorage.getItem("user_id")
+            getCurrentUser().then((res) => {
+                this.setState(() => ({ error: "" }));
+                this.props.onSubmit({
+                    channel_name: this.state.channel_name,
+                    deleted_flag: this.state.deleted_flag,
+                    channel_description: this.state.channel_description,
+                    user: res.data.username
+                });
             });
         }
     };
