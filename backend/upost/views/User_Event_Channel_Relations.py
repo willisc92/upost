@@ -23,5 +23,5 @@ class SubscribeView(viewsets.ModelViewSet):
             subscribe.save()
             return Response(status=status.HTTP_200_OK)
         else:
-            subscribe = Subscribe.objects.create(validated_data)
+            subscribe = Subscribe.objects.create(request.data)
             return Response(status=status.HTTP_201_CREATED)

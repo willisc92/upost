@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
-import { startGetSubscriptions } from "../../actions/subscriptions";
+import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 
 class ViewPostPage extends React.Component {
     componentDidMount() {
@@ -10,7 +10,7 @@ class ViewPostPage extends React.Component {
         const post_id = this.props.match.params.id;
         this.props
             .startGetPost(post_id)
-            .then((result) => {
+            .then(() => {
                 this.props.startGetChannel(this.props.post.channel).catch((err) => {
                     console.log("error in getting channel information", JSON.stringify(err, null, 2));
                 });
@@ -20,6 +20,10 @@ class ViewPostPage extends React.Component {
             });
         this.props.startGetSubscriptions();
     }
+
+    updateSubscriptions = () => {
+        this.props.startUpdateSubscriptions(this.props.channel.channel_id);
+    };
 
     render() {
         return (
@@ -41,7 +45,7 @@ class ViewPostPage extends React.Component {
                         {!!this.props.channel && (
                             <div>
                                 <h1>{this.props.channel.channel_name}</h1>
-                                <button className="button">
+                                <button className="button" onClick={this.updateSubscriptions}>
                                     {this.props.subscriptions.includes(this.props.channel.channel_id)
                                         ? "Unsubscribe"
                                         : "Subscribe"}
@@ -72,7 +76,8 @@ const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
     startGetPost: (id) => dispatch(startGetPost(id)),
     startGetChannel: (id) => dispatch(startGetChannel(id)),
-    startGetSubscriptions: () => dispatch(startGetSubscriptions())
+    startGetSubscriptions: () => dispatch(startGetSubscriptions()),
+    startUpdateSubscriptions: (id) => dispatch(startUpdateSubscriptions(id))
 });
 
 export default connect(
