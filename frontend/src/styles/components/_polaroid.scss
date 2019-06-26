@@ -1,4 +1,4 @@
-.interest {
+.polaroid {
     float: left;
     position: relative;
     cursor: pointer;
@@ -7,24 +7,34 @@
     margin: $s-size;
     width: 28rem;
     color: $black;
+    border: 2px solid darken($light-grey, 7%);
+    text-decoration: None;
+    &:hover {
+        color: $red;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    }
 }
 
-.interest-title {
+.polaroid__title {
+    margin: 0;
     font-size: $font-size-medium;
+    text-decoration: none;
 }
 
-.interest-description {
+.polaroid__description {
+    color: $dark-grey;
     font-size: $font-size-small;
+    text-decoration: none;
 }
 
-.interest-image {
+.polaroid__image {
     object-fit: fill;
     height: 16rem;
     width: 100%;
     background: $dark-grey;
 }
 
-.interest-selector {
+.polaroid__selector {
     position: absolute;
     height: 4.4rem;
     width: 100%;
@@ -32,11 +42,11 @@
     margin: 0;
 }
 
-.interest-circle {
+.polaroid__circle {
     transform: translate(88%, 50%);
 }
 
-// apply to remove the float property on interest elements
+// apply to remove the float property on elements
 .clearfix:after {
     content: "";
     visibility: hidden;

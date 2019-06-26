@@ -7,19 +7,19 @@ export class Interest extends React.Component {
 
     render() {
         return (
-            <div className="interest" onClick={this.onClick}>
-                <svg className="interest-selector">
+            <div className="polaroid" onClick={this.onClick}>
+                <svg className="polaroid__selector">
                     <circle
-                        className="interest-circle"
+                        className="polaroid__circle"
                         cx={0}
                         cy={0}
                         r={22}
                         fill={this.props.interest.isSelected ? "red" : "grey"}
                     />
                 </svg>
-                <img className="interest-image" src={this.props.interest.image} />
-                <p className="interest-title">{this.props.interest.interest_tag}</p>
-                <p className="interest-description">{this.props.interest.description}</p>
+                <img className="polaroid__image" src={this.props.interest.image} />
+                <h3 className="polaroid__title">{this.props.interest.interest_tag}</h3>
+                <p className="polaroid__description">{this.props.interest.description}</p>
             </div>
         );
     }
