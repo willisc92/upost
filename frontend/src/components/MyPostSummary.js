@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 
 export const MyPostSummary = ({ post, pathName }) => {
-    console.log(post);
     return (
         <Link
             className="polaroid"
