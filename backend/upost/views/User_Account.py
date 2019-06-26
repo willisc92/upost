@@ -1,19 +1,12 @@
 from rest_framework import viewsets
-<<<<<<< HEAD
-from ..serializers.User_Account import UserAccountSerializer, UserAccountSubscriptionsSerializer
-=======
-from ..serializers.User_Account import UserAccountSerializer, UserDetailSerializer
->>>>>>> master
+from ..serializers.User_Account import UserAccountSerializer, UserAccountSubscriptionsSerializer, UserDetailSerializer
 from ..models.User_Account import CustomUser
 from rest_framework.response import Response
 from rest_framework import status
-<<<<<<< HEAD
 from django.shortcuts import get_object_or_404
-=======
 from rest_framework.permissions import IsAuthenticated
 from ..permissions import IsAuthenticatedOrCreate
 from rest_framework import generics
->>>>>>> master
 
 
 # Create your views here.
