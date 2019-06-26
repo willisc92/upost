@@ -30,7 +30,7 @@ class ViewPostPage extends React.Component {
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page_header__title">Post</h1>
+                        <h1 className="page-header__title">Post</h1>
                     </div>
                 </div>
                 <div className="content-container-split">
@@ -45,11 +45,13 @@ class ViewPostPage extends React.Component {
                         {!!this.props.channel && (
                             <div>
                                 <h1>{this.props.channel.channel_name}</h1>
-                                <button className="button" onClick={this.updateSubscriptions}>
-                                    {this.props.subscriptions.includes(this.props.channel.channel_id)
-                                        ? "Unsubscribe"
-                                        : "Subscribe"}
-                                </button>
+                                {!!this.props.subscriptions && (
+                                    <button className="button" onClick={this.updateSubscriptions}>
+                                        {this.props.subscriptions.includes(this.props.channel.channel_id)
+                                            ? "Unsubscribe"
+                                            : "Subscribe"}
+                                    </button>
+                                )}
                             </div>
                         )}
                         {!!this.props.post && (

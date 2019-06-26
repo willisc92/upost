@@ -53,7 +53,7 @@ class PostSerializer(serializers.ModelSerializer):
     post_title = serializers.CharField(max_length=50, validators=[
         UniqueValidator(message="Post title must be unique", queryset=Post.objects.all())])
     community = serializers.PrimaryKeyRelatedField(many=False, queryset=Community.objects.all())
-    extra_kwargs = {'picture': {'required': False}}
+    extra_kwargs = {'picture': {'required': False, 'allow_null': True}}
 
 
     def put(self, request, pk, format=None):
