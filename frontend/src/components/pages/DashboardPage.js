@@ -34,12 +34,22 @@ export class DashboardPage extends React.Component {
                         return (
                             <div key={interestPosts.tag}>
                                 <h1>{interestPosts.tag}</h1>
+<<<<<<< HEAD
                                 {/* <div className="list-parent"> */}
                                 {interestPosts.posts.map((post) => {
                                     return (
                                         // <div key={post.post_id} className="list-box">
                                         <MyPostSummary post={post} pathName={`/post/${post.post_id}`} />
                                         // </div>
+=======
+                                {interestPosts.posts.map((post) => {
+                                    return (
+                                        <MyPostSummary
+                                            key={post.post_id}
+                                            post={post}
+                                            pathName={`/post/${post.post_id}`}
+                                        />
+>>>>>>> react-pages
                                     );
                                 })}
                             </div>
