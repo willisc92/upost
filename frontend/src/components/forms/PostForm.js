@@ -159,7 +159,9 @@ class PostForm extends React.Component {
                 .then((res) => {
                     this.setState(() => ({ error: "" }));
                     let form_data = new FormData();
-                    form_data.append("picture", this.state.picture);
+                    if (!!this.state.picture) {
+                        form_data.append("picture", this.state.picture);
+                    }
                     form_data.append("user", res.data.username);
                     form_data.append("post_title", this.state.post_title);
                     form_data.append("poster_name", this.state.poster_name);
@@ -186,7 +188,7 @@ class PostForm extends React.Component {
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 <div>
                     {!!this.props.error && !!this.props.error.post_title && (
-                        <p className="form_error"> {this.props.error.post_title[0]}</p>
+                        <p className="form__error"> {this.props.error.post_title[0]}</p>
                     )}
                     {this.state.error && <p className="form__error">{this.state.error}</p>}
                     <p className="form__error">* - Fields required</p>

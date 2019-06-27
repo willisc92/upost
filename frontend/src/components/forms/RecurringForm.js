@@ -1,34 +1,69 @@
 import React from "react";
 import DatePicker from "react-date-picker";
+import CheckBox from "../Checkbox";
+import RRule from "rrule";
 
 export class RecurringForm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            recurringFrequency: "none",
-            endSelection: "none",
-            numOccurences: 0,
-            endDate: null,
-            error: null
+            recurringFrequency: this.props.lastSelection ? this.props.lastSelection.recurringFrequency : "none",
+            endSelection: this.props.lastSelection ? this.props.lastSelection.endSelection : "none",
+            numOccurences: this.props.lastSelection ? this.props.lastSelection.numOccurences : 0,
+            endDate: this.props.lastSelection ? this.props.lastSelection.endDate : null,
+            error: null,
+            byweekday: this.props.lastSelection
+                ? this.props.lastSelection.byweekday
+                : [
+                      { id: 0, value: "0", label: "Monday", isChecked: false },
+                      { id: 1, value: "1", label: "Tuesday", isChecked: false },
+                      { id: 2, value: "2", label: "Wednesday", isChecked: false },
+                      { id: 3, value: "3", label: "Thursday", isChecked: false },
+                      { id: 4, value: "4", label: "Friday", isChecked: false },
+                      { id: 5, value: "5", label: "Saturday", isChecked: false },
+                      { id: 6, value: "6", label: "Sunday", isChecked: false }
+                  ]
         };
     }
 
     onFrequencyChange = (e) => {
-        this.setState({ recurringFrequency: e.target.value });
+        e.persist();
+        if (e.target.value === "none") {
+            this.setState(() => ({
+                recurringFrequency: "none",
+                endSelection: "none",
+                numOccurences: 0,
+                endDate: null,
+                error: null,
+                byweekday: [
+                    { id: 0, value: "0", label: "Monday", isChecked: false },
+                    { id: 1, value: "1", label: "Tuesday", isChecked: false },
+                    { id: 2, value: "2", label: "Wednesday", isChecked: false },
+                    { id: 3, value: "3", label: "Thursday", isChecked: false },
+                    { id: 4, value: "4", label: "Friday", isChecked: false },
+                    { id: 5, value: "5", label: "Saturday", isChecked: false },
+                    { id: 6, value: "6", label: "Sunday", isChecked: false }
+                ]
+            }));
+        } else {
+            this.setState({ recurringFrequency: e.target.value });
+        }
     };
 
     handleEndSelection = (e) => {
-        this.setState({ endSelection: e.target.value });
+        e.persist();
+        this.setState(() => ({ endSelection: e.target.value }));
     };
 
     handleNumOccurences = (e) => {
+        e.persist();
         if (e.target.value > 0) {
-            this.setState({ numOccurences: e.target.value });
+            this.setState(() => ({ numOccurences: e.target.value }));
         }
     };
 
     handleEndDateChange = (endDate) => {
-        this.setState({ endDate });
+        this.setState(() => ({ endDate }));
     };
 
     onSubmit = (e) => {
@@ -52,33 +87,69 @@ export class RecurringForm extends React.Component {
         }
 
         payload = {
-            recurringFrequency: this.state.reOccuringFrequency,
-            endSelection: { type: this.state.endSelection, value: this.mapEndSelectionToValue() }
+            recurringFrequency: this.state.recurringFrequency,
+            endSelection: this.state.endSelection,
+            numOccurences: this.state.numOccurences,
+            endDate: this.state.endDate,
+            byweekday: this.state.byweekday
         };
 
-        // this.props.onSubmit(payload);
-        console.log(payload);
+        this.props.onSubmit(payload);
     };
 
-    mapEndSelectionToValue = () => {
-        switch (this.state.endSelection) {
-            case "numOccurence":
-                return parseInt(this.state.numOccurences, 10);
-            case "onDate":
-                return this.state.endDate;
-            default:
-                return null;
-        }
+    handleClear = () => {
+        this.setState({
+            recurringFrequency: "none",
+            endSelection: "none",
+            numOccurences: 0,
+            endDate: null,
+            error: null,
+            byweekday: [
+                { id: 0, value: "0", label: "Monday", isChecked: false },
+                { id: 1, value: "1", label: "Tuesday", isChecked: false },
+                { id: 2, value: "2", label: "Wednesday", isChecked: false },
+                { id: 3, value: "3", label: "Thursday", isChecked: false },
+                { id: 4, value: "4", label: "Friday", isChecked: false },
+                { id: 5, value: "5", label: "Saturday", isChecked: false },
+                { id: 6, value: "6", label: "Sunday", isChecked: false }
+            ]
+        });
+    };
+
+    handleRecurringFocus = (e) => {
+        e.target.value = this.state.recurringFrequency;
+    };
+
+    handleEndSelectionFocus = (e) => {
+        e.target.value = this.state.endSelection;
+    };
+
+    handleAllChecked = (event) => {
+        let byweekday = this.state.byweekday;
+        byweekday.forEach((day) => (day.isChecked = event.target.checked));
+        this.setState({ byweekday });
+    };
+
+    handleCheckChieldElement = (event) => {
+        let byweekday = this.state.byweekday;
+        byweekday.forEach((day) => {
+            if (day.value === event.target.value) day.isChecked = event.target.checked;
+        });
+        this.setState({ byweekday });
     };
 
     render() {
         return (
             <div>
                 <div>{!!this.state.error && <p className="form__error">{this.state.error}</p>}</div>
-                <form className="form" onSubmit={this.onSubmit}>
+                <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                     <div className="input-group">
                         <p className="form__label">Reoccuring Frequency: </p>
-                        <select onChange={this.onFrequencyChange} defaultValue="none">
+                        <select
+                            onChange={this.onFrequencyChange}
+                            defaultValue={this.state.recurringFrequency}
+                            onFocus={this.handleRecurringFocus}
+                        >
                             <option key="none" value="none">
                                 None
                             </option>
@@ -88,9 +159,6 @@ export class RecurringForm extends React.Component {
                             <option key="weekly" value="weekly">
                                 Weekly
                             </option>
-                            <option key="bi-weekly" value="bi-weekly">
-                                Bi-Weekly
-                            </option>
                             <option key="monthly" value="monthly">
                                 Monthly
                             </option>
@@ -99,7 +167,11 @@ export class RecurringForm extends React.Component {
                     {this.state.recurringFrequency !== "none" && (
                         <div className="input-group">
                             <p className="form__label">Recurring Selection: </p>
-                            <select onChange={this.handleEndSelection} defaultValue="none">
+                            <select
+                                onChange={this.handleEndSelection}
+                                defaultValue={this.state.endSelection}
+                                onFocus={this.handleEndSelectionFocus}
+                            >
                                 <option key="none" value="none">
                                     None
                                 </option>{" "}
@@ -125,36 +197,40 @@ export class RecurringForm extends React.Component {
                         </div>
                     )}
                     {this.state.recurringFrequency !== "none" && this.state.endSelection === "onDate" && (
-                        <div className="input-group">
-                            <p className="form__label">Re-occur Until: </p>
-                            <DatePicker
-                                value={this.state.endDate}
-                                onChange={this.handleEndDateChange}
-                                minDate={new Date()}
-                                minDetail="decade"
-                            />
+                        <div>
+                            <div className="input-group">
+                                <p className="form__label">Re-occur Until: </p>
+                                <DatePicker
+                                    value={this.state.endDate}
+                                    onChange={this.handleEndDateChange}
+                                    minDate={new Date()}
+                                    minDetail="decade"
+                                />
+                            </div>
+                            <div className="input-group">
+                                <p className="form__label">By-Weekday: </p>
+                                <div>
+                                    <ul className="nobull">
+                                        <li>
+                                            <input type="checkbox" onClick={this.handleAllChecked} value="checkedall" />{" "}
+                                            Check / Uncheck All
+                                        </li>
+                                        {this.state.byweekday.map((day) => {
+                                            return (
+                                                <CheckBox
+                                                    handleCheckChieldElement={this.handleCheckChieldElement}
+                                                    {...day}
+                                                    key={day.id}
+                                                />
+                                            );
+                                        })}
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     )}
-                    <button className="button">Save Recurring Event/Incentive Settings</button>
                 </form>
             </div>
         );
     }
 }
-
-// Function to dynamically set max date of Events
-// mapReOccuringEventFrequencyToMaxDate = () => {
-//     if (this.state.reOccuringEventFrequency === "daily") {
-//         MaxDate = startDate + 1 day.
-//     } else if (this.state.reOccuringEventFrequency === "weekly") {
-//         MaxDate = startDate + 1 week.
-//     } else if (this.state.reOcccuringEventFrequency === "bi-weekly") {
-//         MaxDate = startDate + 2 weeks.
-//     } else if (this.state.reOcccuringEventFrequency === "monthly") {
-//         MaxDate = startDate + 1 month.
-//     }
-//     else {
-//         MaxDate = null;
-//     }
-//     return MaxDate;
-// }
