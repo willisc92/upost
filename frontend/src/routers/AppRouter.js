@@ -17,6 +17,7 @@ import AddPostPage from "../components/pages/AddPostPage";
 import EditPostPage from "../components/pages/EditPostPage";
 import IncentiveForm from "../components/forms/IncentiveForm";
 import ViewPostPage from "../components/pages/ViewPostPage";
+import ViewPostEventsPage from "../components/pages/ViewPostEventsPage";
 import { setAuthToken } from "../utils/API";
 
 import { RecurringForm } from "../components/forms/RecurringForm";
@@ -42,6 +43,7 @@ class AppRouter extends React.Component {
                             <PrivateRoute path="/myChannels/:id/addPost" component={AddPostPage} exact={true} />
                             <PrivateRoute path="/myPosts/:id/edit" component={EditPostPage} exact={true} />
                             <PrivateRoute path="/post/:id" component={ViewPostPage} exact={true} />
+                            <PrivateRoute path="/post-events/:id" component={ViewPostEventsPage} exact={true} />
                             <PrivateRoute path="/myChannels/edit/:id" component={EditChannelPage} exact={true} />
                             <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
                             <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
