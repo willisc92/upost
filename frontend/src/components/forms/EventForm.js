@@ -12,6 +12,7 @@ export class EventForm extends React.Component {
             post: !!this.props.event ? this.props.event.post : this.props.post,
             location: !!this.props.event ? this.props.event.location : "",
             capacity: !!this.props.event ? this.props.event.capacity : "0",
+            cost: this.props.event ? (this.props.event.cost / 100).toString() : "0",
             error: "",
             startDate: !!this.props.event ? new Date(this.props.event.planned_start_date) : new Date(),
             endDate: !!this.props.event
@@ -50,6 +51,17 @@ export class EventForm extends React.Component {
         this.setState(() => ({ capacity }));
     };
 
+    onCostChange = (e) => {
+        const cost = e.target.value;
+        if (!!cost) {
+            if (cost.match(/^\d{1,}(\.\d{0,2})?$/)) {
+                this.setState(() => ({ cost }));
+            }
+        } else {
+            this.setState(() => ({ cost }));
+        }
+    };
+
     onStartDateChange = (startDate) => {
         this.setState(() => ({
             startDate
@@ -79,6 +91,7 @@ export class EventForm extends React.Component {
                         user: res.data.username,
                         location: this.state.location,
                         capacity: this.state.capacity,
+                        cost: parseFloat(this.state.cost, 10) * 100,
                         planned_start_date: this.state.startDate,
                         planned_end_date: this.state.endDate
                     };
@@ -119,6 +132,16 @@ export class EventForm extends React.Component {
                         value={this.state.capacity}
                         onChange={this.onCapacityChange}
                         min="0"
+                    />
+                </div>
+                <div className="input-group">
+                    <p className="form__label"> Cost ($)*: </p>
+                    <input
+                        className="text-input"
+                        type="text"
+                        placeholder="Cost"
+                        value={this.state.cost}
+                        onChange={this.onCostChange}
                     />
                 </div>
                 <div className="input-group">

@@ -9,6 +9,9 @@ class EventSerializer(serializers.ModelSerializer):
         fields = (
             'event_id',
             'post',
+            'event_title',
+            'event_description',
+            'cost',
             'location',
             'capacity',
             'planned_start_date',
@@ -28,7 +31,6 @@ class PostSerializer(serializers.ModelSerializer):
             'poster_name',
             'phone_number',
             'email',
-            'cost',
             'post_description',
             'user',
             'channel',

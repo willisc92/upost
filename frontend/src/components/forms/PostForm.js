@@ -13,7 +13,7 @@ class PostForm extends React.Component {
             post_title: this.props.post ? this.props.post.post_title : "",
             poster_name: this.props.post ? this.props.post.poster_name : "",
             phone_number: this.props.post ? this.props.post.phone_number : "",
-            cost: this.props.post ? (this.props.post.cost / 100).toString() : "0",
+            //cost: this.props.post ? (this.props.post.cost / 100).toString() : "0",
             email: this.props.post ? this.props.post.email : "",
             post_description: this.props.post ? this.props.post.post_description : "",
             deleted_flag: this.props.post ? this.props.post.deleted_flag : false,
@@ -85,6 +85,7 @@ class PostForm extends React.Component {
         }
     };
 
+    /*
     onCostChange = (e) => {
         const cost = e.target.value;
         if (!!cost) {
@@ -95,6 +96,7 @@ class PostForm extends React.Component {
             this.setState(() => ({ cost }));
         }
     };
+    */
 
     onEmailChange = (e) => {
         const email = e.target.value;
@@ -166,7 +168,7 @@ class PostForm extends React.Component {
                     form_data.append("post_title", this.state.post_title);
                     form_data.append("poster_name", this.state.poster_name);
                     form_data.append("phone_number", this.state.phone_number);
-                    form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
+                    //form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
                     form_data.append("email", this.state.email);
                     form_data.append("post_description", this.state.post_description);
                     form_data.append("deleted_flag", this.state.deleted_flag);
@@ -222,16 +224,6 @@ class PostForm extends React.Component {
                         placeholder="Phone Number"
                         value={this.state.phone_number}
                         onChange={this.onPhoneNumberChange}
-                    />
-                </div>
-                <div className="input-group">
-                    <p className="form__label"> Cost ($)*: </p>
-                    <input
-                        className="text-input"
-                        type="text"
-                        placeholder="Cost"
-                        value={this.state.cost}
-                        onChange={this.onCostChange}
                     />
                 </div>
                 <div className="input-group">
