@@ -20,7 +20,7 @@ import ViewPostPage from "../components/pages/ViewPostPage";
 import ViewPostEventsPage from "../components/pages/ViewPostEventsPage";
 import { setAuthToken } from "../utils/API";
 
-import { RecurringForm } from "../components/forms/RecurringForm";
+import { RecurringTest } from "../components/pages/RecurringTest";
 
 export const history = createHistory();
 
@@ -47,7 +47,7 @@ class AppRouter extends React.Component {
                             <PrivateRoute path="/myChannels/edit/:id" component={EditChannelPage} exact={true} />
                             <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
                             <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
-                            <Route path="/RecurringForm" component={RecurringForm} exact={true} />
+                            <Route path="/RecurringTest" component={RecurringTest} exact={true} />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>

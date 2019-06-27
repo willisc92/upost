@@ -11,7 +11,7 @@ from rest_framework import permissions
 class InterestView(viewsets.ModelViewSet):
     serializer_class = InterestSerializer
     queryset = Interest.objects.all()
-    permission_classes = (permissions.IsAuthenticated, IsAdminOrReadOnly,)
+    permission_classes = (IsAdminOrReadOnly,)
 
 
 class UserInterestView(viewsets.ModelViewSet):

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import DateTimePicker from "react-datetime-picker";
 import { getCurrentUser } from "../../actions/auth";
+import { addDays } from "../../utils/recurring";
 
 export class EventForm extends React.Component {
     constructor(props) {
@@ -46,9 +47,7 @@ export class EventForm extends React.Component {
 
     onCapacityChange = (e) => {
         const capacity = e.target.value;
-        if (!!capacity) {
-            this.setState(() => ({ capacity }));
-        }
+        this.setState(() => ({ capacity }));
     };
 
     onStartDateChange = (startDate) => {
@@ -141,6 +140,7 @@ export class EventForm extends React.Component {
                         value={this.state.endDate}
                         clearIcon={null}
                         minDate={this.state.startDate}
+                        maxDate={addDays(this.state.startDate, 30)}
                     />
                     <div />
                 </div>

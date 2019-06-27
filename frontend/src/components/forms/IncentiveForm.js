@@ -116,7 +116,6 @@ class IncentiveForm extends React.Component {
                         planned_start_date: this.state.planned_start_date,
                         planned_end_date: this.state.planned_end_date
                     };
-                    console.log(payload);
                     this.props.onSubmit(payload);
                 })
                 .catch((err) => {

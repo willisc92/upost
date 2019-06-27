@@ -188,7 +188,7 @@ class PostForm extends React.Component {
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 <div>
                     {!!this.props.error && !!this.props.error.post_title && (
-                        <p className="form_error"> {this.props.error.post_title[0]}</p>
+                        <p className="form__error"> {this.props.error.post_title[0]}</p>
                     )}
                     {this.state.error && <p className="form__error">{this.state.error}</p>}
                     <p className="form__error">* - Fields required</p>
