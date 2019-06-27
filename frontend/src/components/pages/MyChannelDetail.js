@@ -80,21 +80,19 @@ export class MyChannelDetail extends React.Component {
                 </div>
                 {this.props.posts !== [] && (
                     <div className="content-container">
-                        <div className="list-body">
-                            <div className="list-parent">
-                                {this.props.length > 0 ? (
-                                    this.props.posts.map((post) => {
-                                        return (
-                                            <div key={post.post_id} className="list-box">
-                                                <MyPostSummary post={post} />
-                                            </div>
-                                        );
-                                    })
-                                ) : (
-                                    <p> No posts </p>
-                                )}
-                            </div>
-                        </div>
+                        {this.props.length > 0 ? (
+                            this.props.posts.map((post) => {
+                                return (
+                                    <MyPostSummary
+                                        key={post.post_id}
+                                        post={post}
+                                        pathName={`/myPosts/${post.post_id}/edit`}
+                                    />
+                                );
+                            })
+                        ) : (
+                            <p> No posts </p>
+                        )}
                     </div>
                 )}
             </div>

@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework import routers
 from upost.views import *
+from upost.views.User_Event_Channel_Relations import SubscribeView  # not ideal but only works this way
 from django.conf import settings
 from django.conf.urls.static import static
 from frontendapp import urls as frontendapp_urls
@@ -39,6 +40,8 @@ router.register('incentive-choices',
                 IncentiveChoiceView, 'incentive-choice')
 router.register(
     'diet-options', DietOptionView, 'diet-option')
+router.register('user-subscriptions', UserAccountSubscriptionsView, 'user-subscription')
+router.register('subscriptions', SubscribeView, 'subscription')
 
 
 urlpatterns = [

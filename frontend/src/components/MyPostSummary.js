@@ -2,19 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-export const MyPostSummary = ({ post }) => {
+export const MyPostSummary = ({ post, pathName }) => {
     return (
         <Link
-            className="list-item"
+            className="polaroid"
             to={{
-                pathname: `/myPosts/${post.post_id}/edit`,
+                pathname: pathName,
                 state: { post }
             }}
         >
             <div>
-                <h3 className="list_item__title">{post.post_title}</h3>
-                <p className="list-item__sub-title">{post.post_description}</p>
-                <p className="list-item__sub-title">
+                <img className="polaroid__image" src={post.picture} />
+                <h3 className="polaroid__title">{post.post_title}</h3>
+                <p className="polaroid__description">{post.post_description}</p>
+                <p className="polaroid__description">
                     Creation Date: {moment(post.post_timestamp).format("MMMM Do YYYY")}
                 </p>
             </div>

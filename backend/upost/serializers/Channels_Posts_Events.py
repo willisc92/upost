@@ -51,10 +51,16 @@ class PostSerializer(serializers.ModelSerializer):
     post_incentives = IncentiveSerializer(many=True, required=False)
     post_title = serializers.CharField(max_length=50, validators=[
         UniqueValidator(message="Post title must be unique", queryset=Post.objects.all())])
+<<<<<<< HEAD
     community = serializers.PrimaryKeyRelatedField(
         many=False, queryset=Community.objects.all())
     picture = serializers.ImageField(required=False, max_length=None,
                                      allow_empty_file=True, use_url=True)
+=======
+    community = serializers.PrimaryKeyRelatedField(many=False, queryset=Community.objects.all())
+    extra_kwargs = {'picture': {'required': False, 'allow_null': True}}
+
+>>>>>>> fbe081b80d19c95120b3ab0c07a5f1419a0a8e2f
 
     def put(self, request, pk, format=None):
         post = self.get_object(pk)

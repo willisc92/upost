@@ -3,3 +3,22 @@
     padding: 0 $xl-size;
     max-width: 150rem;
 }
+
+.content-container-split {
+    margin: 0 auto;
+    padding: 0 $xl-size;
+    max-width: 150rem;
+    display: flex;
+}
+
+.content-container-twothirds {
+    margin: 0 auto;
+    padding: $l-size;
+    width: 66%;
+}
+
+.content-container-onethirds {
+    margin: 0 auto;
+    padding: $m-size;
+    width: 33%;
+}

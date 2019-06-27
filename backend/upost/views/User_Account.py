@@ -1,8 +1,9 @@
 from rest_framework import viewsets
-from ..serializers.User_Account import UserAccountSerializer, UserDetailSerializer
+from ..serializers.User_Account import UserAccountSerializer, UserAccountSubscriptionsSerializer, UserDetailSerializer
 from ..models.User_Account import CustomUser
 from rest_framework.response import Response
 from rest_framework import status
+from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from ..permissions import IsAuthenticatedOrCreate
 from rest_framework import generics
@@ -42,3 +43,8 @@ class UserDetailView(generics.RetrieveAPIView):
 
     def get_object(self, *args, **kwargs):
         return self.request.user
+
+
+class UserAccountSubscriptionsView(viewsets.ModelViewSet):
+    serializer_class = UserAccountSubscriptionsSerializer
+    queryset = CustomUser.objects.all()

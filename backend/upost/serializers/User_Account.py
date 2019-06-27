@@ -2,7 +2,9 @@ from rest_framework import serializers
 from ..models.User_Account import CustomUser
 from ..models.Channels_Posts_Events import ContentChannel
 from ..models.Shared import Community
+from ..models.User_Event_Channel_Relations import Subscribe
 from django.contrib.auth.hashers import make_password
+from ..serializers.User_Event_Channel_Relations import SubscribeSerializerIdOnly
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
@@ -28,6 +30,19 @@ class UserAccountSerializer(serializers.ModelSerializer):
             birth_date=validated_data['birth_date'],
         )
         return user
+
+
+class UserAccountSubscriptionsSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('id', 'subscriptions')
+        model = CustomUser
+
+    subscriptions = serializers.SerializerMethodField('get_subscription')
+
+    def get_subscription(self, user):
+        qs = Subscribe.objects.filter(community_member=user, unsubscribe_date=None)
+        serializer = SubscribeSerializerIdOnly(instance=qs, many=True)
+        return map(lambda x: x['channel'], serializer.data)
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
