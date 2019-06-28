@@ -10,6 +10,8 @@ export class EventForm extends React.Component {
 
         this.state = {
             post: !!this.props.event ? this.props.event.post : this.props.post,
+            event_title: this.props.event ? this.props.event.event_title : "",
+            event_description: this.props.event ? this.props.event.event_description : "",
             location: !!this.props.event ? this.props.event.location : "",
             capacity: !!this.props.event ? this.props.event.capacity : "0",
             cost: this.props.event ? (this.props.event.cost / 100).toString() : "0",
@@ -30,6 +32,32 @@ export class EventForm extends React.Component {
             }
         } else {
             return false;
+        }
+    };
+
+    onTitleChange = (e) => {
+        const event_title = e.target.value;
+        if (!!event_title) {
+            if (event_title.length > 50) {
+                this.setState({ error: "Must have an event name 50 characters or less" });
+            } else {
+                this.setState(() => ({ event_title }));
+            }
+        } else {
+            this.setState(() => ({ event_title }));
+        }
+    };
+
+    onDescriptionChange = (e) => {
+        const event_description = e.target.value;
+        if (!!event_description) {
+            if (event_description.length > 500) {
+                this.setState({ error: "Event description must be 500 characters or less" });
+            } else {
+                this.setState(() => ({ event_description }));
+            }
+        } else {
+            this.setState(() => ({ event_description }));
         }
     };
 
@@ -88,6 +116,8 @@ export class EventForm extends React.Component {
                     this.setState(() => ({ error: "" }));
                     const payload = {
                         post: this.state.post,
+                        event_title: this.state.event_title,
+                        event_description: this.state.event_description,
                         user: res.data.username,
                         location: this.state.location,
                         capacity: this.state.capacity,
@@ -110,6 +140,27 @@ export class EventForm extends React.Component {
                     {!!this.props.eventError && <p className="form__error">Request failed...</p>}
                     {this.state.error && <p className="form__error">{this.state.error}</p>}
                     <p className="form__error">* - Fields required</p>
+                </div>
+                <div className="input-group">
+                    <p className="form__label">Event Title*: </p>
+                    <input
+                        className="text-input"
+                        type="text"
+                        placeholder="Title"
+                        autoFocus
+                        value={this.state.event_title}
+                        onChange={this.onTitleChange}
+                    />
+                </div>
+                <div className="input-group">
+                    <p className="form__label">Description*: </p>
+                    <textarea
+                        className="textarea"
+                        type="text"
+                        placeholder="Description"
+                        value={this.state.event_description}
+                        onChange={this.onDescriptionChange}
+                    />
                 </div>
                 <div className="input-group">
                     <p className="form__label">Location/Room *:</p>
