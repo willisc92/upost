@@ -13,6 +13,11 @@ export class EventForm extends React.Component {
             location: !!this.props.event ? this.props.event.location : "",
             capacity: !!this.props.event ? this.props.event.capacity : "0",
             cost: this.props.event ? (this.props.event.cost / 100).toString() : "0",
+            description: this.props.event
+                ? this.props.event.event_description
+                : !!this.props.description
+                ? this.props.description
+                : "",
             error: "",
             startDate: !!this.props.event ? new Date(this.props.event.planned_start_date) : new Date(),
             endDate: !!this.props.event
@@ -74,6 +79,19 @@ export class EventForm extends React.Component {
         }));
     };
 
+    onDescriptionChange = (e) => {
+        const description = e.target.value;
+        if (!!description) {
+            if (description.length > 500) {
+                this.setState({ error: "Event description must be 500 characters or less" });
+            } else {
+                this.setState(() => ({ description }));
+            }
+        } else {
+            this.setState(() => ({ description }));
+        }
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         if (!this.state.location) {
@@ -82,6 +100,8 @@ export class EventForm extends React.Component {
             this.setState(() => ({ error: "Please enter a capacity for your event." }));
         } else if (this.state.endDate <= this.state.startDate) {
             this.setState(() => ({ error: "End datetime must be after start datetime." }));
+        } else if (!this.props.description) {
+            this.setState(() => ({ error: "Event description must be provided." }));
         } else {
             getCurrentUser()
                 .then((res) => {
@@ -93,7 +113,8 @@ export class EventForm extends React.Component {
                         capacity: this.state.capacity,
                         cost: parseFloat(this.state.cost, 10) * 100,
                         planned_start_date: this.state.startDate,
-                        planned_end_date: this.state.endDate
+                        planned_end_date: this.state.endDate,
+                        event_description: this.state.description
                     };
                     this.props.onSubmit(payload);
                 })
@@ -110,6 +131,16 @@ export class EventForm extends React.Component {
                     {!!this.props.eventError && <p className="form__error">Request failed...</p>}
                     {this.state.error && <p className="form__error">{this.state.error}</p>}
                     <p className="form__error">* - Fields required</p>
+                </div>
+                <div className="input-group">
+                    <p className="form__label">Description*: </p>
+                    <textarea
+                        className="textarea"
+                        type="text"
+                        placeholder="Description"
+                        value={this.state.description}
+                        onChange={this.onDescriptionChange}
+                    />
                 </div>
                 <div className="input-group">
                     <p className="form__label">Location/Room *:</p>

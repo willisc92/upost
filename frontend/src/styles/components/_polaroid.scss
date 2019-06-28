@@ -15,16 +15,24 @@
     }
 }
 
+.polaroid__text-wrapper {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
 .polaroid__title {
     margin: 0;
     font-size: $font-size-medium;
     text-decoration: none;
+    word-break: break-all;
 }
 
 .polaroid__description {
     color: $dark-grey;
     font-size: $font-size-small;
     text-decoration: none;
+    word-break: break-all;
 }
 
 .polaroid__image {

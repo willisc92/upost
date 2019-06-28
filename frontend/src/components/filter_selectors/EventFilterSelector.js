@@ -1,17 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { DateRangePicker } from "react-dates";
-import {
-    setTextFilter,
-    setVisibleFilter,
-    sortByName,
-    sortByDate,
-    sortByVisible,
-    setStartDate,
-    setEndDate
-} from "../../actions/channel_filters";
+import { setVisibleFilter, sortAscending, sortDescending, setStartDate, setEndDate } from "../../actions/event_filters";
 
-export class ChannelFilters extends React.Component {
+export class EventFilters extends React.Component {
     state = {
         calenderFocused: null
     };
@@ -25,15 +17,11 @@ export class ChannelFilters extends React.Component {
         this.setState(() => ({ calenderFocused }));
     };
 
-    onTextChange = (e) => {
-        this.props.setTextFilter(e.target.value);
-    };
-
     onSortChange = (e) => {
-        if (e.target.value === "date") {
-            this.props.sortByDate();
-        } else if (e.target.value === "name") {
-            this.props.sortByName();
+        if (e.target.value === "ascending") {
+            this.props.sortAscending();
+        } else if (e.target.value === "descending") {
+            this.props.sortDescending();
         }
     };
 
@@ -46,23 +34,11 @@ export class ChannelFilters extends React.Component {
             <div>
                 <div className="input-group">
                     <div className="input-group__item">
-                        <input
-                            type="text"
-                            className="text-input"
-                            placeholder="Search Channels"
-                            value={this.props.filters.text}
-                            onChange={this.onTextChange}
-                        />
-                    </div>
-
-                    <div className="input-group__item">
-                        <span>
-                            Sort by:{" "}
-                            <select className="select" value={this.props.filters.sortBy} onChange={this.onSortChange}>
-                                <option value="date">Date</option>
-                                <option value="name">Name</option>
-                            </select>
-                        </span>
+                        Sort by:{" "}
+                        <select className="select" value={this.props.filters.sortBy} onChange={this.onSortChange}>
+                            <option value="ascending">Ascending</option>
+                            <option value="descending">Descending</option>
+                        </select>
                     </div>
                     <div className="input-group__item">
                         Date Range:{" "}
@@ -98,14 +74,13 @@ export class ChannelFilters extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    filters: state.channelFilters
+    filters: state.eventFilters
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setTextFilter: (text) => dispatch(setTextFilter(text)),
     setVisibleFilter: (visible) => dispatch(setVisibleFilter(visible)),
-    sortByName: () => dispatch(sortByName()),
-    sortByDate: () => dispatch(sortByDate()),
+    sortAscending: () => dispatch(sortAscending()),
+    sortDescending: () => dispatch(sortDescending()),
     setStartDate: (startDate) => dispatch(setStartDate(startDate)),
     setEndDate: (endDate) => dispatch(setEndDate(endDate))
 });
@@ -113,4 +88,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ChannelFilters);
+)(EventFilters);

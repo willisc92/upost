@@ -1,23 +1,17 @@
-// SET_TEXT_FILTER
-export const setTextFilter = (text = "") => ({
-    type: "SET_TEXT_FILTER",
-    text
-});
-
 // SET_VISIBLE_FILTER
 export const setVisibleFilter = (visible = false) => ({
     type: "SET_VISIBLE_FILTER",
     visible
 });
 
-// SORT_BY_NAME
-export const sortByName = () => ({
-    type: "SORT_BY_NAME"
+// SORT_BY_ASCENDING_DATE
+export const sortAscending = () => ({
+    type: "SORT_BY_ASCENDING_DATE"
 });
 
-// SORT_BY_DATE
-export const sortByDate = () => ({
-    type: "SORT_BY_DATE"
+// SORT_BY_DESCENDING_DATE
+export const sortDescending = () => ({
+    type: "SORT_BY_DESCENDING_DATE"
 });
 
 // SET_START_DATE
@@ -31,6 +25,3 @@ export const setEndDate = (endDate) => ({
     type: "SET_END_DATE",
     endDate
 });
-
-//TODO: SET EVENT FILTER
-//TODO: SET INCENTIVE FILTER

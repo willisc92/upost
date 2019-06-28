@@ -37,7 +37,7 @@ export class MyChannelsPage extends React.Component {
                         <h1 className="page-header__title">{localStorage.getItem("first_name")} - Channel Pages</h1>
                         <div className="page-header__actions">
                             <MyChannelFilterSelector />
-                            <button className="button button--secondary" onClick={this.handleAddChannel}>
+                            <button className="button" onClick={this.handleAddChannel}>
                                 Add a channel
                             </button>
                         </div>

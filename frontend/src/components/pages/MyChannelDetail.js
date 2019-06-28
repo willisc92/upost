@@ -3,7 +3,7 @@ import { startGetChannel } from "../../actions/channels";
 import { connect } from "react-redux";
 import moment from "moment";
 import { MyPostMenu } from "../MyPostSummary";
-import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
+import MyPostFilterSelector from "../filter_selectors/PostFilterSelector";
 import { getVisiblePosts } from "../../selectors/myPosts";
 import { getCurrentUser } from "../../actions/auth";
 import ScrollMenu from "react-horizontal-scrolling-menu";
@@ -71,20 +71,20 @@ export class MyChannelDetail extends React.Component {
                                 </h3>
 
                                 <div>
-                                    <button className="button button--secondary" onClick={this.handleAddPost}>
+                                    <button className="button" onClick={this.handleAddPost}>
                                         Add a new post
                                     </button>
                                     <span> </span>
                                     <button
                                         id={this.props.channel.channel_id}
-                                        className="button button--secondary"
+                                        className="button"
                                         onClick={this.handleEditChannel}
                                     >
                                         Edit this channel
                                     </button>
                                 </div>
                                 <div className="page-header__actions">
-                                    <MyChannelFilterSelector />
+                                    <MyPostFilterSelector />
                                 </div>
                             </div>
                         )}
@@ -117,7 +117,7 @@ const mapStateToProps = (state) => {
         loading: state.channels.loading,
         posts:
             state.channels.channels.length === 1
-                ? getVisiblePosts(state.channels.channels[0].channel_posts, state.channelFilters)
+                ? getVisiblePosts(state.channels.channels[0].channel_posts, state.postFilters)
                 : []
     };
 };

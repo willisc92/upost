@@ -13,7 +13,11 @@ class IncentiveForm extends React.Component {
             post: !!this.props.incentivePackage ? this.props.incentivePackage.post.post_id : this.props.post,
             diet_option: !!this.props.incentivePackage ? this.props.incentivePackage.diet_option : [],
             incentive_type: !!this.props.incentivePackage ? this.props.incentivePackage.incentive_type : null,
-            ip_description: !!this.props.incentivePackage ? this.props.incentivePackage.ip_description : "",
+            ip_description: !!this.props.incentivePackage
+                ? this.props.incentivePackage.ip_description
+                : !!this.props.description
+                ? this.props.description
+                : "",
             planned_start_date: !!this.props.incentivePackage
                 ? new Date(this.props.incentivePackage.planned_start_date)
                 : new Date(),

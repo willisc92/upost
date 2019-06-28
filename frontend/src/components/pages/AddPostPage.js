@@ -72,6 +72,7 @@ export class AddPostPage extends React.Component {
                         } else {
                             this.setState(() => ({
                                 step: "Event",
+                                description: result.data.post_description,
                                 postID: result.data.post_id
                             }));
                         }
@@ -374,6 +375,7 @@ export class AddPostPage extends React.Component {
                                 <EventForm
                                     id="Event"
                                     post={this.state.postID}
+                                    description={this.state.description}
                                     onSubmit={this.onSubmit}
                                     channel={this.props.match.params.id}
                                     nextStep="Save and Add Incentive"
@@ -388,6 +390,7 @@ export class AddPostPage extends React.Component {
                         <div className="input_group__item">
                             <IncentiveForm
                                 id="Incentive"
+                                description={this.state.description}
                                 post={this.state.postID}
                                 onSubmit={this.onSubmit}
                                 nextStep="Save Incentive and Return to Channel"

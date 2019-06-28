@@ -28,19 +28,6 @@ export class EditPostPage extends React.Component {
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
             });
-
-        this.props
-            .startGetPost(post_id)
-            .then((result) => {
-                if (!!this.props.post) {
-                    if (this.props.post.user !== localStorage.getItem("user_name")) {
-                        this.props.history.push("/myChannels");
-                    }
-                }
-            })
-            .catch((err) => {
-                console.log(JSON.stringify(err, null, 2));
-            });
     }
 
     onSubmit = (post) => {
@@ -59,12 +46,26 @@ export class EditPostPage extends React.Component {
             });
     };
 
+    onEditIncentiveClick = () => {
+        console.log("Link to edit incentive");
+    };
+
+    onEditEventsClick = () => {
+        this.props.history.push(`/myPosts/${this.props.match.params.id}/events`);
+    };
+
+    // Add link to post-events
+    // Add link to post-incentives
     render() {
         return (
             <div>
                 <div className="page-header">
                     <div className="content-container">
                         <h1 className="page-header__title">Edit Post</h1>
+                        <button className="button" onClick={this.onEditEventsClick}>
+                            Add/Edit Events
+                        </button>{" "}
+                        <button className="button">Add/Edit Incentives</button>
                     </div>
                 </div>
                 <div className="content-container">

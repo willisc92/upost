@@ -12,7 +12,7 @@ export const MyPostSummary = ({ post, pathName, selected }) => {
                     state: { post }
                 }}
             >
-                <div>
+                <div className="polaroid__text-wrapper">
                     <img className="polaroid__image" src={post.picture} />
                     <h3 className="polaroid__title">{post.post_title}</h3>
                     <p className="polaroid__description">{post.post_description}</p>
