@@ -4,6 +4,12 @@ export const setVisibleFilter = (visible = false) => ({
     visible
 });
 
+// SET_TEXT_FILTER
+export const setTextFilter = (text) => ({
+    type: "SET_TEXT_FILTER",
+    text
+});
+
 // SORT_BY_ASCENDING_DATE
 export const sortAscending = () => ({
     type: "SORT_BY_ASCENDING_DATE"

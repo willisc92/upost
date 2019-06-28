@@ -14,6 +14,7 @@ export const MyEventSummary = ({ post_picture, event, pathName, selected }) => {
             >
                 <div>
                     <img className="polaroid__image" src={post_picture} />
+                    <h3 className="polaroid__title">{event.event_title}</h3>
                     <p className="polaroid__description">{event.description}</p>
                     <p className="polaroid__description">
                         Start Date: {moment(event.planned_start_date).format("llll")}

@@ -240,6 +240,8 @@ export class AddPostPage extends React.Component {
                 user: data.user,
                 location: data.location,
                 capacity: data.capacity,
+                event_title: data.event_title,
+                event_description: data.event_description,
                 planned_start_date: this.state.rrule_starts.all()[i],
                 planned_end_date: this.state.rrule_ends.all()[i]
             };

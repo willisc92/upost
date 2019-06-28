@@ -10,6 +10,24 @@ export const setEvents = (events) => ({
     events
 });
 
+export const startSetEvent = (id) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(eventStart());
+            API.get(`events/${id}`)
+                .then((result) => {
+                    dispatch(eventSuccess());
+                    dispatch(setEvents(result.data));
+                    resolve(result);
+                })
+                .catch((error) => {
+                    dispatch(eventFail(error));
+                    reject(error);
+                });
+        });
+    };
+};
+
 export const startGetEvent = (id) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {

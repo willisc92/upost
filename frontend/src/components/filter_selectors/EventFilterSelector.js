@@ -1,11 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
 import { DateRangePicker } from "react-dates";
-import { setVisibleFilter, sortAscending, sortDescending, setStartDate, setEndDate } from "../../actions/event_filters";
+import {
+    setVisibleFilter,
+    sortAscending,
+    sortDescending,
+    setStartDate,
+    setEndDate,
+    setTextFilter
+} from "../../actions/event_filters";
 
 export class EventFilters extends React.Component {
     state = {
         calenderFocused: null
+    };
+
+    onTextChange = (e) => {
+        this.props.setTextFilter(e.target.value);
     };
 
     onDatesChange = ({ startDate, endDate }) => {
@@ -33,6 +44,15 @@ export class EventFilters extends React.Component {
         return (
             <div>
                 <div className="input-group">
+                    <div className="input-group__item">
+                        <input
+                            type="text"
+                            className="text-input"
+                            placeholder="Search Channels"
+                            value={this.props.filters.text}
+                            onChange={this.onTextChange}
+                        />
+                    </div>
                     <div className="input-group__item">
                         Sort by:{" "}
                         <select className="select" value={this.props.filters.sortBy} onChange={this.onSortChange}>
@@ -78,6 +98,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+    setTextFilter: (text) => dispatch(setTextFilter(text)),
     setVisibleFilter: (visible) => dispatch(setVisibleFilter(visible)),
     sortAscending: () => dispatch(sortAscending()),
     sortDescending: () => dispatch(sortDescending()),

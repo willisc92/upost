@@ -3,11 +3,17 @@ const postFiltersReducerDefaultState = {
     visible: true,
     sortBy: "ascending_date",
     startDate: null,
-    endDate: null
+    endDate: null,
+    text: ""
 };
 
 export default (state = postFiltersReducerDefaultState, action) => {
     switch (action.type) {
+        case "SET_TEXT_FILTER":
+            return {
+                ...state,
+                text: action.text
+            };
         case "SET_VISIBLE_FILTER":
             return {
                 ...state,
