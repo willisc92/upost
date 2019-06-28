@@ -2,23 +2,34 @@ import React from "react";
 import { getVisibleChannels } from "../../selectors/myChannels";
 import { connect } from "react-redux";
 import { startSetChannels } from "../../actions/channels";
-import MyChannelListItem from "../MyChannelListItem";
+import { MyChannelsMenu } from "../MyChannelListItem";
 import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
+import ScrollMenu from "react-horizontal-scrolling-menu";
+import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 
 export class MyChannelsPage extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            selected: 0
+        };
     }
 
     componentDidMount() {
         this.props.startSetChannels();
     }
 
+    onSelect = (key) => {
+        this.setState({ selected: key });
+    };
+
     handleAddChannel = () => {
         this.props.history.push("/addChannel");
     };
 
     render() {
+        const menu = !!this.props.channels && MyChannelsMenu(this.props.channels, this.state.selected);
+
         return (
             <div>
                 <div className="page-header">
@@ -36,14 +47,16 @@ export class MyChannelsPage extends React.Component {
                     {this.props.loading === true ? (
                         <p>Loading...</p>
                     ) : (
-                        <div className="list-body">
-                            <div className="list-parent">
+                        <div>
+                            <div>
                                 {this.props.length > 0 ? (
-                                    this.props.channels.map((channel) => (
-                                        <div className="list-box" key={channel.channel_id}>
-                                            <MyChannelListItem {...channel} />
-                                        </div>
-                                    ))
+                                    <ScrollMenu
+                                        data={menu}
+                                        arrowLeft={ArrowLeft}
+                                        arrowRight={ArrowRight}
+                                        selected={this.state.selected}
+                                        onSelect={this.onSelect}
+                                    />
                                 ) : (
                                     <p>No channels to show</p>
                                 )}

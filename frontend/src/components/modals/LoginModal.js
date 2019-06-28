@@ -13,6 +13,10 @@ class LoginModal extends React.Component {
         };
     }
 
+    componentWillMount() {
+        Modal.setAppElement("body");
+    }
+
     loginOnSubmit = ({ username, password }) => {
         if (!username || !password) {
             this.props.authFail({ error: "Please provide both username and password" });

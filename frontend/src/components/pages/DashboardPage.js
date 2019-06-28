@@ -1,11 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getAllInterests, startSetUserInterests } from "../../actions/interests";
+import { getAllInterests, startSetUserInterests, clearInterests } from "../../actions/interests";
 import { startSetInterestRandomPosts } from "../../actions/posts";
-import MyPostSummary from "../MyPostSummary";
+import { BrowsePostMenu } from "../MyPostSummary";
+import ScrollMenu from "react-horizontal-scrolling-menu";
+import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 
 export class DashboardPage extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selected: 0
+        };
+    }
+
     componentDidMount() {
+        this.props.clearInterests();
         if (this.props.isAuthenticated) {
             this.props.startSetUserInterests().then(() => {
                 this.props.startSetInterestRandomPosts(this.props.interests);
@@ -17,7 +27,31 @@ export class DashboardPage extends React.Component {
         }
     }
 
+    componentWillReceiveProps(newProps) {
+        if (newProps.isAuthenticated !== this.props.isAuthenticated) {
+            this.props.clearInterests();
+            if (newProps.isAuthenticated) {
+                this.props.startSetUserInterests().then(() => {
+                    this.props.startSetInterestRandomPosts(this.props.interests);
+                });
+            } else {
+                this.props.getAllInterests().then(() => {
+                    this.props.startSetInterestRandomPosts(this.props.interests);
+                });
+            }
+        }
+    }
+
+    onSelect = (key) => {
+        this.setState({ selected: key });
+    };
+
     render() {
+        const menus = [];
+        this.props.interestRandomPosts.forEach((element, i) => {
+            menus.push(BrowsePostMenu(element.posts, this.state.selected));
+        });
+
         return (
             <div>
                 <div className="page-header">
@@ -30,19 +64,17 @@ export class DashboardPage extends React.Component {
                     </div>
                 </div>
                 <div className="content-container">
-                    {this.props.interestRandomPosts.map((interestPosts) => {
+                    {this.props.interestRandomPosts.map((interestPosts, index) => {
                         return (
                             <div key={interestPosts.tag}>
                                 <h1>{interestPosts.tag}</h1>
-                                {interestPosts.posts.map((post) => {
-                                    return (
-                                        <MyPostSummary
-                                            key={post.post_id}
-                                            post={post}
-                                            pathName={`/post/${post.post_id}`}
-                                        />
-                                    );
-                                })}
+                                <ScrollMenu
+                                    data={menus[index]}
+                                    arrowLeft={ArrowLeft}
+                                    arrowRight={ArrowRight}
+                                    selected={this.state.selected}
+                                    onSelect={this.onSelect}
+                                />
                             </div>
                         );
                     })}
@@ -62,6 +94,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        clearInterests: () => dispatch(clearInterests()),
         getAllInterests: () => dispatch(getAllInterests()),
         startSetInterestRandomPosts: (interests) => dispatch(startSetInterestRandomPosts(interests)),
         startSetUserInterests: () => dispatch(startSetUserInterests())

@@ -20,7 +20,7 @@ class PostForm extends React.Component {
             tags: this.props.post ? this.props.post.tags : [],
             error: "",
             channel: this.props.channel,
-            picture: this.props.post ? this.props.post.picture : null,
+            picture: null,
             picture_preview: this.props.post ? this.props.post.picture : null,
             community: !!this.props.post ? this.props.post.community : null
         };
@@ -136,6 +136,13 @@ class PostForm extends React.Component {
         });
     };
 
+    clearPicture = () => {
+        this.setState({
+            picture: null,
+            picture_preview: null
+        });
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         if (!this.state.community) {
@@ -158,24 +165,40 @@ class PostForm extends React.Component {
             getCurrentUser()
                 .then((res) => {
                     this.setState(() => ({ error: "" }));
-                    let form_data = new FormData();
                     if (!!this.state.picture) {
+                        let form_data = new FormData();
                         form_data.append("picture", this.state.picture);
+                        form_data.append("user", res.data.username);
+                        form_data.append("post_title", this.state.post_title);
+                        form_data.append("poster_name", this.state.poster_name);
+                        form_data.append("phone_number", this.state.phone_number);
+                        form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
+                        form_data.append("email", this.state.email);
+                        form_data.append("post_description", this.state.post_description);
+                        form_data.append("deleted_flag", this.state.deleted_flag);
+                        form_data.append("community", this.state.community);
+                        this.state.tags.forEach((tag) => {
+                            form_data.append("tags", tag);
+                        });
+                        form_data.append("channel", this.state.channel);
+                        this.props.onSubmit(form_data);
+                    } else {
+                        let payload = {
+                            picture: this.state.picture,
+                            user: res.data.username,
+                            post_title: this.state.post_title,
+                            poster_name: this.state.poster_name,
+                            phone_number: this.state.phone_number,
+                            cost: parseFloat(this.state.cost, 10) * 100,
+                            email: this.state.email,
+                            post_description: this.state.post_description,
+                            deleted_flag: this.state.deleted_flag,
+                            community: this.state.community,
+                            tags: this.state.tags,
+                            channel: this.state.channel
+                        };
+                        this.props.onSubmit(payload);
                     }
-                    form_data.append("user", res.data.username);
-                    form_data.append("post_title", this.state.post_title);
-                    form_data.append("poster_name", this.state.poster_name);
-                    form_data.append("phone_number", this.state.phone_number);
-                    form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
-                    form_data.append("email", this.state.email);
-                    form_data.append("post_description", this.state.post_description);
-                    form_data.append("deleted_flag", this.state.deleted_flag);
-                    form_data.append("community", this.state.community);
-                    this.state.tags.forEach((tag) => {
-                        form_data.append("tags", tag);
-                    });
-                    form_data.append("channel", this.state.channel);
-                    this.props.onSubmit(form_data);
                 })
                 .catch((err) => {
                     console.log(JSON.stringify(err, null, 2));
@@ -266,8 +289,15 @@ class PostForm extends React.Component {
                         />
                     </p>
                 </div>
-                <p>Image upload: </p>
-                {!!this.state.picture ? (
+                <p>
+                    Image upload:{" "}
+                    {!!this.state.picture_preview && (
+                        <button className="button" onClick={this.clearPicture}>
+                            Clear Picture
+                        </button>
+                    )}{" "}
+                </p>
+                {!!this.state.picture_preview ? (
                     <img className="post_image" src={this.state.picture_preview} />
                 ) : (
                     <p>No image uploaded.</p>
@@ -278,7 +308,7 @@ class PostForm extends React.Component {
                         <p className="form__label">
                             Interest Tags (Hold down "Control", or "Command" on a Mac, to select more than one.):{" "}
                         </p>
-                        <select multiple onChange={this.onTagsChange} defaultValue={this.state.tags}>
+                        <select multiple onChange={this.onTagsChange} value={this.state.tags}>
                             {this.props.interests.map((interest) => {
                                 return (
                                     <option key={interest.interest_tag} value={interest.interest_tag}>
@@ -294,7 +324,7 @@ class PostForm extends React.Component {
                     <p className="form__label">Community *: </p>
                     <select
                         onChange={this.onCommunitySelectChange}
-                        defaultValue={this.props.post ? this.props.post.community : ""}
+                        value={this.props.post ? this.props.post.community : ""}
                     >
                         <option key="empty" value="" />
                         {this.props.communities.map((community) => {

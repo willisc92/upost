@@ -11,6 +11,10 @@ export default (state = interestsDefaultState, action) => {
             return {
                 userInterests: action.userInterests
             };
+        case "CLEAR_INTERESTS":
+            return {
+                userInterests: []
+            };
         default:
             return state;
     }

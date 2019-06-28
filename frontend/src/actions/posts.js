@@ -162,11 +162,15 @@ export const startGetPost = (id) => {
 export const addPost = (post) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
-            setContentToForm();
+            if (post.toString() == "[object FormData]") {
+                setContentToForm();
+            }
             dispatch(postStart());
             API.post(`posts/`, post)
                 .then((result) => {
-                    resetContentType();
+                    if (post.toString() == "[object FormData]") {
+                        resetContentType();
+                    }
                     dispatch(postSuccess());
                     dispatch(startSetMyPosts());
                     resolve(result);
@@ -191,11 +195,15 @@ export const addPost = (post) => {
 export const editPost = (id, updates) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
-            setContentToForm();
+            if (updates.toString() == "[object FormData]") {
+                setContentToForm();
+            }
             dispatch(postStart());
             API.put(`posts/${id}/`, updates)
                 .then((result) => {
-                    resetContentType();
+                    if (updates.toString() == "[object FormData]") {
+                        resetContentType();
+                    }
                     dispatch(postSuccess());
                     dispatch(startSetMyPosts());
                     resolve(result);

@@ -53,8 +53,7 @@ class PostSerializer(serializers.ModelSerializer):
         UniqueValidator(message="Post title must be unique", queryset=Post.objects.all())])
     community = serializers.PrimaryKeyRelatedField(
         many=False, queryset=Community.objects.all())
-    picture = serializers.ImageField(required=False, max_length=None,
-                                     allow_empty_file=True, use_url=True)
+    extra_kwargs = {'picture': {'required': False}}
 
     def put(self, request, pk, format=None):
         post = self.get_object(pk)

@@ -52,6 +52,20 @@
     }
 }
 
+.list-item--scrollable {
+    color: $dark-grey;
+    padding: $s-size;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    &:hover {
+        color: $red;
+    }
+
+    @media (min-width: $desktop-breakpoint) {
+        padding: $m-size;
+    }
+}
+
 .list-item--message {
     align-items: center;
     color: $grey;
