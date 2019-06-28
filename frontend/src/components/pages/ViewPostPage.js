@@ -25,6 +25,10 @@ class ViewPostPage extends React.Component {
         this.props.startUpdateSubscriptions(this.props.channel.channel_id);
     };
 
+    moveToPostEventsPage = () => {
+        this.props.history.push(`/post-events/${this.props.post.post_id}`);
+    };
+
     render() {
         return (
             <div>
@@ -37,6 +41,11 @@ class ViewPostPage extends React.Component {
                     {!!this.props.post && (
                         <div className="content-container-twothirds">
                             <img className="post-image" src={this.props.post.picture} />
+                            {this.props.post.post_events.length > 0 && (
+                                <button className="button" onClick={this.moveToPostEventsPage}>
+                                    See Events
+                                </button>
+                            )}
                             <h1>{this.props.post.post_title}</h1>
                             <p>Description: {this.props.post.post_description}</p>
                         </div>
