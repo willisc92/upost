@@ -2,14 +2,20 @@ import React from "react";
 import { startGetChannel } from "../../actions/channels";
 import { connect } from "react-redux";
 import moment from "moment";
-import MyPostSummary from "../MyPostSummary";
+import { MyPostMenu } from "../MyPostSummary";
 import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
 import { getVisiblePosts } from "../../selectors/myPosts";
 import { getCurrentUser } from "../../actions/auth";
+import ScrollMenu from "react-horizontal-scrolling-menu";
+import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 
 export class MyChannelDetail extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            selected: 0
+        };
     }
 
     componentDidMount() {
@@ -32,6 +38,10 @@ export class MyChannelDetail extends React.Component {
             });
     }
 
+    onSelect = (key) => {
+        this.setState({ selected: key });
+    };
+
     handleAddPost = () => {
         const channel_id = this.props.match.params.id;
         this.props.history.push(`/myChannels/${channel_id}/addPost`);
@@ -43,6 +53,8 @@ export class MyChannelDetail extends React.Component {
     };
 
     render() {
+        const menu = this.props.posts && MyPostMenu(this.props.posts, this.state.selected);
+
         return (
             <div>
                 <div className="page-header">
@@ -80,16 +92,14 @@ export class MyChannelDetail extends React.Component {
                 </div>
                 {this.props.posts !== [] && (
                     <div className="content-container">
-                        {this.props.length > 0 ? (
-                            this.props.posts.map((post) => {
-                                return (
-                                    <MyPostSummary
-                                        key={post.post_id}
-                                        post={post}
-                                        pathName={`/myPosts/${post.post_id}/edit`}
-                                    />
-                                );
-                            })
+                        {this.props.posts.length > 0 ? (
+                            <ScrollMenu
+                                data={menu}
+                                arrowLeft={ArrowLeft}
+                                arrowRight={ArrowRight}
+                                selected={this.state.selected}
+                                onSelect={this.onSelect}
+                            />
                         ) : (
                             <p> No posts </p>
                         )}
@@ -104,10 +114,6 @@ const mapStateToProps = (state) => {
     return {
         filters: state.postFilters,
         channel: state.channels.channels.length === 1 && state.channels.channels[0],
-        length:
-            state.channels.channels.length === 1
-                ? getVisiblePosts(state.channels.channels[0].channel_posts, state.channelFilters).length
-                : 0,
         loading: state.channels.loading,
         posts:
             state.channels.channels.length === 1

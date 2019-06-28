@@ -6,7 +6,7 @@ from rest_framework import permissions
 from ..permissions import IsOwnerOrReadOnly, EventAccessPermission
 from ..filters import EventFilter
 
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 
 class ContentChannel_View(viewsets.ModelViewSet):
@@ -22,7 +22,7 @@ class ContentChannel_View(viewsets.ModelViewSet):
 
 
 class Post_View(viewsets.ModelViewSet):
-    parser_classes = (MultiPartParser, FormParser,)
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
 
     serializer_class = PostSerializer
     queryset = Post.objects.all()

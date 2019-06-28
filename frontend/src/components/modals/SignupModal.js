@@ -15,6 +15,10 @@ class SignupModal extends React.Component {
         };
     }
 
+    componentWillMount() {
+        Modal.setAppElement("body");
+    }
+
     isEmpty = (obj) => {
         for (let key in obj) {
             if (obj.hasOwnProperty(key)) {

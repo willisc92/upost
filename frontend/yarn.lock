@@ -6219,6 +6219,11 @@ react-fit@^1.0.3:
     detect-element-overflow "^1.1.1"
     prop-types "^15.6.0"
 
+react-horizontal-scrolling-menu@^0.6.12:
+  version "0.6.12"
+  resolved "https://registry.yarnpkg.com/react-horizontal-scrolling-menu/-/react-horizontal-scrolling-menu-0.6.12.tgz#2669e86d99f178703a7d8421208c78b4b2977986"
+  integrity sha512-YGGJ7k+tMaBYRkrSZnEzvpFvAEj1uYFqICbFevvjHD8s56HwCwf5EbaBi+T622RE5gutXedZ108CDQQ67LhkcA==
+
 react-input-autosize@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.1.tgz#ec428fa15b1592994fb5f9aa15bb1eb6baf420f8"

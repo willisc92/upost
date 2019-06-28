@@ -48,7 +48,11 @@ export class EditPostPage extends React.Component {
         this.props
             .editPost(post_id, post)
             .then((result) => {
-                this.props.history.push(`/myChannels/${post.get("channel")}`);
+                if (post.toString() == "[object FormData]") {
+                    this.props.history.push(`/myChannels/${post.get("channel")}`);
+                } else {
+                    this.props.history.push(`/myChannels/${post.channel}`);
+                }
             })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
