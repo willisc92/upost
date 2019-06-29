@@ -12,7 +12,7 @@ class Attend(models.Model):
                           ("No Showed", "No Showed"))
 
     attendID = models.AutoField(primary_key=True, db_column="attend_ID", blank=True)
-    post = models.ForeignKey('upost.PostEvent', models.DO_NOTHING, db_column='Post_ID',
+    event = models.ForeignKey('upost.PostEvent', models.DO_NOTHING, db_column='Event_ID',
                              related_name="event_to_attend")  # Field name made lowercase.
     attendee = models.ForeignKey('upost.CustomUser', models.DO_NOTHING, db_column='User_ID',
                                  related_name="attendee")  # Field name made lowercase.
@@ -20,7 +20,7 @@ class Attend(models.Model):
 
     class Meta:
         db_table = 'attend'
-        unique_together = (('post', 'attendee'),)
+        unique_together = (('event', 'attendee'),)
 
 
 class AttendanceStrike(models.Model):

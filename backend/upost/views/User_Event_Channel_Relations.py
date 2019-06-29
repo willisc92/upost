@@ -36,9 +36,7 @@ class AttendView(viewsets.ModelViewSet):
     queryset = Attend.objects.all()
 
     def delete(self, request):
-        print(request.data)
-        user = CustomUser.objects.get(pk=request.data['attendee'])
-        instance = Attend.objects.filter(attendee=user, post=request.data['event_id'])
+        instance = Attend.objects.filter(attendee=request.data['attendee'], event=request.data['event_id'])
         if len(instance):
             instance = instance[0]
             instance.delete()

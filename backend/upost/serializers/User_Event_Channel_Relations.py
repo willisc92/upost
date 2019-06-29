@@ -16,5 +16,5 @@ class SubscribeSerializerIdOnly(serializers.ModelSerializer):
 
 class AttendSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('post', 'attendee')
+        fields = ('event', 'attendee')
         model = Attend

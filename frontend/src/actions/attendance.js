@@ -44,7 +44,7 @@ export const addAttendance = (event_id) => {
 // START_ADD_ATTENDANCE
 export const startAddAttendance = (event_id) => {
     return (dispatch) => {
-        API.post("attendance/", { post: event_id, attendee: localStorage.getItem("user_id") })
+        API.post("attendance/", { event: event_id, attendee: localStorage.getItem("user_id") })
             .then(() => {
                 dispatch(addAttendance(event_id));
             })
