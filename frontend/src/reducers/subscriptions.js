@@ -5,6 +5,7 @@ export default (state = subscriptionsDefaultState, action) => {
     switch (action.type) {
         case "SET_SUBSCRIPTIONS":
             return {
+                ...state,
                 subscriptions: action.subscriptions
             };
         case "UPDATE_SUBSCRIPTION":
@@ -17,6 +18,7 @@ export default (state = subscriptionsDefaultState, action) => {
                 subscriptions = [...state.subscriptions, action.channel];
             }
             return {
+                ...state,
                 subscriptions
             };
         default:

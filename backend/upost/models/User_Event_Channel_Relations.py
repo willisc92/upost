@@ -16,7 +16,7 @@ class Attend(models.Model):
                              related_name="event_to_attend")  # Field name made lowercase.
     attendee = models.ForeignKey('upost.CustomUser', models.DO_NOTHING, db_column='User_ID',
                                  related_name="attendee")  # Field name made lowercase.
-    attendance_status = models.CharField(max_length=20, choices=Attendance_options)
+    attendance_status = models.CharField(max_length=20, choices=Attendance_options, default=Attendance_options[0][0])
 
     class Meta:
         db_table = 'attend'

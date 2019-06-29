@@ -4,12 +4,9 @@ import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
 import { setEvents, startSetEvent } from "../../actions/events";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
+import { startGetAttendance, startAddAttendance, startDeleteAttendance } from "../../actions/attendance";
 
 class ViewEventPage extends React.Component {
-    componentDidUpdate() {
-        console.log(this.props);
-    }
-
     checkPost = (post_id, event_id) => {
         // check to see if post is provided
         if (!!this.props.post) {
@@ -44,7 +41,6 @@ class ViewEventPage extends React.Component {
     };
 
     checkChannel = () => {
-        console.log("reached");
         // check to see if channel is provided
         if (!!this.props.channel && this.props.channel.channel_id === this.props.post.channel) {
             // pass
@@ -84,10 +80,19 @@ class ViewEventPage extends React.Component {
         if (!this.props.subscriptions) {
             this.props.startGetSubscriptions();
         }
+
+        // check to see if attendance is provided
+        if (!this.props.attendance) {
+            this.props.startGetAttendance();
+        }
     }
 
-    updateSubscriptions = () => {
-        this.props.startUpdateSubscriptions(this.props.channel.channel_id);
+    updateAttendance = () => {
+        if (this.props.attendance.includes(this.props.event.event_id)) {
+            this.props.startDeleteAttendance(this.props.event.event_id);
+        } else {
+            this.props.startAddAttendance(this.props.event.event_id);
+        }
     };
 
     render() {
@@ -103,6 +108,13 @@ class ViewEventPage extends React.Component {
                         {!!this.props.post && <img className="post-image" src={this.props.post.picture} />}
                         {!!this.props.event && (
                             <div>
+                                <button className="button" onClick={this.updateAttendance}>
+                                    {!!this.props.attendance &&
+                                    !!this.props.event &&
+                                    this.props.attendance.includes(this.props.event.event_id)
+                                        ? "Unregister"
+                                        : "Register"}
+                                </button>
                                 <h1>{this.props.event.event_title}</h1>
                                 <p>Description: {this.props.event.event_description}</p>
                             </div>
@@ -139,7 +151,8 @@ const mapStateToProps = (state) => ({
     post: state.posts.posts[0],
     channel: state.channels.channels[0],
     event: state.events.events,
-    subscriptions: state.subscriptions.subscriptions
+    subscriptions: state.subscriptions.subscriptions,
+    attendance: state.attendance.attendance
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -149,7 +162,10 @@ const mapDispatchToProps = (dispatch) => ({
     setEvents: (event) => dispatch(setEvents(event)),
     startSetEvent: (id) => dispatch(startSetEvent(id)),
     startGetSubscriptions: () => dispatch(startGetSubscriptions()),
-    startUpdateSubscriptions: (id) => dispatch(startUpdateSubscriptions(id))
+    startUpdateSubscriptions: (id) => dispatch(startUpdateSubscriptions(id)),
+    startGetAttendance: () => dispatch(startGetAttendance()),
+    startAddAttendance: (event_id) => dispatch(startAddAttendance(event_id)),
+    startDeleteAttendance: (event_id) => dispatch(startDeleteAttendance(event_id))
 });
 
 export default connect(

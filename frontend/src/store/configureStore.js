@@ -13,6 +13,7 @@ import dietOptionsReducer from "../reducers/diet_options";
 import incentivePackageReducer from "../reducers/incentivePackage";
 import incentivePackage from "../reducers/incentivePackage";
 import subscriptionsReducer from "../reducers/subscriptions";
+import attendanceReducer from "../reducers/attendance";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -31,7 +32,8 @@ export default () => {
             incentiveTypes: incentiveTypeReducer,
             dietOptions: dietOptionsReducer,
             incentivePackage: incentivePackageReducer,
-            subscriptions: subscriptionsReducer
+            subscriptions: subscriptionsReducer,
+            attendance: attendanceReducer
         }),
         composeEnhancers(applyMiddleware(thunk))
     );
