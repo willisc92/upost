@@ -316,7 +316,7 @@ class PostForm extends React.Component {
                     <p className="form__label">Community *: </p>
                     <select
                         onChange={this.onCommunitySelectChange}
-                        value={this.props.post ? this.props.post.community : ""}
+                        defaultValue={this.props.post ? this.props.post.community : ""}
                     >
                         <option key="empty" value="" />
                         {this.props.communities.map((community) => {

@@ -7,8 +7,23 @@
 }
 
 .menu-item-wrapper {
+    display: flex;
     padding: $xl-size, 0;
     margin: $xl-size, 0;
+}
+
+.menu_header {
+    color: $red;
+    font-weight: bold;
+    border-bottom: 1px solid $dark-grey;
+}
+
+.horizontal-menu {
+    background: darken(white, 0.5%);
+}
+
+.horizontal-menu_wrapper {
+    border-bottom: 1px solid $dark-grey;
 }
 
 .menu-item-wrapper.active {

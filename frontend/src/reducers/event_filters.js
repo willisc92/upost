@@ -1,12 +1,10 @@
-// Post Filters Reducers
+// Event Filters Reducers
 const postFiltersReducerDefaultState = {
-    text: "",
     visible: true,
-    sortBy: "name",
+    sortBy: "ascending_date",
     startDate: null,
-    endDate: null
-    // TODO: ADD EVENT TOGGLE.
-    // TODO: ADD INCENTIVE TOGGLE.
+    endDate: null,
+    text: ""
 };
 
 export default (state = postFiltersReducerDefaultState, action) => {
@@ -21,15 +19,15 @@ export default (state = postFiltersReducerDefaultState, action) => {
                 ...state,
                 visible: action.visible
             };
-        case "SORT_BY_NAME":
+        case "SORT_BY_ASCENDING_DATE":
             return {
                 ...state,
-                sortBy: "name"
+                sortBy: "ascending_date"
             };
-        case "SORT_BY_DATE":
+        case "SORT_BY_DESCENDING_DATE":
             return {
                 ...state,
-                sortBy: "date"
+                sortBy: "descending_date"
             };
         case "SET_START_DATE":
             return {

@@ -15,13 +15,11 @@ import MyChannelDetail from "../components/pages/MyChannelDetail";
 import EditChannelPage from "../components/pages/EditChannelPage";
 import AddPostPage from "../components/pages/AddPostPage";
 import EditPostPage from "../components/pages/EditPostPage";
-import IncentiveForm from "../components/forms/IncentiveForm";
 import ViewPostPage from "../components/pages/ViewPostPage";
 import ViewPostEventsPage from "../components/pages/ViewPostEventsPage";
+import EditEventsPage from "../components/pages/EditEventsPage";
 import ViewEventPage from "../components/pages/ViewEventPage";
 import { setAuthToken } from "../utils/API";
-
-import { RecurringTest } from "../components/pages/RecurringTest";
 
 export const history = createHistory();
 
@@ -49,7 +47,7 @@ class AppRouter extends React.Component {
                             <PrivateRoute path="/myChannels/edit/:id" component={EditChannelPage} exact={true} />
                             <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
                             <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
-                            <Route path="/RecurringTest" component={RecurringTest} exact={true} />
+                            <PrivateRoute path="/myPosts/:id/events" component={EditEventsPage} exact={true} />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>

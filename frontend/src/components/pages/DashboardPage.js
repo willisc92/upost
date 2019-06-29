@@ -66,8 +66,10 @@ export class DashboardPage extends React.Component {
                 <div className="content-container">
                     {this.props.interestRandomPosts.map((interestPosts, index) => {
                         return (
-                            <div key={interestPosts.tag}>
-                                <h1>{interestPosts.tag}</h1>
+                            <div key={interestPosts.tag} className="horizontal-menu_wrapper">
+                                <div className="menu_header">
+                                    <h1>{interestPosts.tag}</h1>
+                                </div>
                                 <ScrollMenu
                                     data={menus[index]}
                                     arrowLeft={ArrowLeft}
