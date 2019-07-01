@@ -7,6 +7,7 @@ import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
+import { deleteEvent } from "../../actions/events";
 
 class EditEventsPage extends React.Component {
     constructor(props) {
@@ -42,6 +43,38 @@ class EditEventsPage extends React.Component {
         this.setState({ selected: key });
     };
 
+    clearAllEvents = () => {
+        const promises = [];
+        const events = this.props.post.post_events;
+
+        events.forEach((event) => {
+            if (event.planned_start_date > new Date()) {
+                promises.push(this.props.deleteEvent(event.event_id));
+            }
+        });
+
+        Promise.all(promises)
+            .then(() => {
+                this.props.startGetPost(this.props.match.params.id);
+            })
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
+    };
+
+    returnEditPosts = () => {
+        this.props.history.push(`/myPosts/${this.props.match.params.id}/edit`);
+    };
+
+    // TODO:  Link to Add/Edit Incentives
+    addEditIncentives = () => {
+        console.log("Should link to add/edit incentives page");
+    };
+
+    addNewEvent = () => {
+        this.props.history.push(`/myPosts/${this.props.match.params.id}/addEvent`);
+    };
+
     render() {
         const menu =
             this.props.post &&
@@ -54,14 +87,26 @@ class EditEventsPage extends React.Component {
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page-header__title">Edit Events</h1>
+                        <h1 className="page-header__title">
+                            Edit Events for <span>{this.props.post && this.props.post.post_title}</span>
+                        </h1>
                         <div className="page-header__actions">
                             <EventFilterSelector />
                         </div>
-                        <button className="button">Clear all events</button>{" "}
-                        <button className="button">Add a new event</button>{" "}
+                        {!!menu && menu.length > 0 && (
+                            <span>
+                                <button className="button" onClick={this.clearAllEvents}>
+                                    Clear all future events
+                                </button>{" "}
+                            </span>
+                        )}
+                        <button className="button" onClick={this.addNewEvent}>
+                            Add a new event
+                        </button>{" "}
                         <button className="button">Add/Edit Incentives</button>{" "}
-                        <button className="button">Return to Edit Post</button>
+                        <button className="button" onClick={this.returnEditPosts}>
+                            Return to Edit Post
+                        </button>
                     </div>
                 </div>
                 <div className="content-container">
@@ -90,7 +135,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
-    startGetPost: (id) => dispatch(startGetPost(id))
+    startGetPost: (id) => dispatch(startGetPost(id)),
+    deleteEvent: (id) => dispatch(deleteEvent(id))
 });
 
 export default connect(

@@ -12,7 +12,7 @@ export class EventForm extends React.Component {
             post: !!this.props.event ? this.props.event.post : this.props.post,
             event_title: this.props.event ? this.props.event.event_title : "",
             location: !!this.props.event ? this.props.event.location : "",
-            capacity: !!this.props.event ? this.props.event.capacity : "0",
+            capacity: !!this.props.event ? this.props.event.capacity : 0,
             cost: this.props.event ? (this.props.event.cost / 100).toString() : "0",
             event_description: this.props.event
                 ? this.props.event.event_description
@@ -26,18 +26,6 @@ export class EventForm extends React.Component {
                 : new Date(new Date().setHours(new Date().getHours() + 1))
         };
     }
-
-    determineReadOnly = () => {
-        if (this.props.event) {
-            if (new Date(this.props.event.startDate) >= new Date()) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    };
 
     onTitleChange = (e) => {
         const event_title = e.target.value;
@@ -110,8 +98,6 @@ export class EventForm extends React.Component {
         e.preventDefault();
         if (!this.state.location) {
             this.setState(() => ({ error: "Please enter a location/room for your event." }));
-        } else if (!this.state.capacity) {
-            this.setState(() => ({ error: "Please enter a capacity for your event." }));
         } else if (this.state.endDate <= this.state.startDate) {
             this.setState(() => ({ error: "End datetime must be after start datetime." }));
         } else if (!this.state.event_description) {
@@ -159,6 +145,7 @@ export class EventForm extends React.Component {
                         placeholder="Title"
                         value={this.state.event_title}
                         onChange={this.onTitleChange}
+                        disabled={this.props.read_only}
                     />
                 </div>
                 <div className="input-group">
@@ -169,12 +156,13 @@ export class EventForm extends React.Component {
                         placeholder="Description"
                         value={this.state.event_description}
                         onChange={this.onDescriptionChange}
+                        disabled={this.props.read_only}
                     />
                 </div>
                 <div className="input-group">
                     <p className="form__label">Location/Room *:</p>
                     <input
-                        readOnly={this.determineReadOnly()}
+                        readOnly={this.props.read_only}
                         className="text-input"
                         type="text"
                         placeholder="Location"
@@ -186,7 +174,7 @@ export class EventForm extends React.Component {
                 <div className="input-group">
                     <p className="form__label">Capacity (Select 0 if undefined) *: </p>
                     <input
-                        readOnly={this.determineReadOnly()}
+                        readOnly={this.props.read_only}
                         className="text-input"
                         type="number"
                         value={this.state.capacity}
@@ -202,23 +190,24 @@ export class EventForm extends React.Component {
                         placeholder="Cost"
                         value={this.state.cost}
                         onChange={this.onCostChange}
+                        disabled={this.props.read_only}
                     />
                 </div>
                 <div className="input-group">
                     <p className="form__label">Start Date *:</p>
                     <DateTimePicker
-                        disabled={this.determineReadOnly()}
+                        disabled={this.props.read_only}
                         onChange={this.onStartDateChange}
                         value={this.state.startDate}
                         clearIcon={null}
-                        minDate={new Date()}
+                        minDate={this.state.startDate}
                     />
                     <div />
                 </div>
                 <div className="input-group">
                     <p className="form__label">End Date *:</p>
                     <DateTimePicker
-                        disabled={this.determineReadOnly()}
+                        disabled={this.props.read_only}
                         onChange={this.onEndDateChange}
                         value={this.state.endDate}
                         clearIcon={null}
@@ -227,9 +216,7 @@ export class EventForm extends React.Component {
                     />
                     <div />
                 </div>
-                <div>
-                    <button className="button">{this.props.nextStep}</button>
-                </div>
+                <div>{!this.props.read_only && <button className="button">{this.props.nextStep}</button>}</div>
             </form>
         );
     }

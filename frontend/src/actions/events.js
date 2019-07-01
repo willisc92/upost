@@ -74,7 +74,6 @@ export const editEvent = (id, updates) => {
             API.put(`events/${id}/`, updates)
                 .then((result) => {
                     dispatch(eventSuccess());
-                    // dispatch(startSetMyEvents());
                     resolve(result);
                 })
                 .catch((err) => {
@@ -94,27 +93,19 @@ export const eventSuccess = () => ({
     type: "EVENT_SUCCESS"
 });
 
-// START_SET_EVENTS
-// export const startSetMyEvents = () => {
-//     return (dispatch) => {
-//         dispatch(eventStart());
-//         API.get("posts/", {
-//             params: {
-//                 user: localStorage.getItem("user_id")
-//             }
-//         })
-//             .then((result) => {
-//                 dispatch(eventSuccess());
-//                 const eventsList = [];
-//                 result.data.forEach((post) => {
-//                     if (!!post.post_event) {
-//                         eventsList.push(post.post_event);
-//                     }
-//                 });
-//                 dispatch(setEvents(eventsList));
-//             })
-//             .catch((err) => {
-//                 dispatch(eventFail(err));
-//             });
-//     };
-// };
+export const deleteEvent = (id) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(eventStart());
+            API.delete(`events/${id}`)
+                .then((result) => {
+                    dispatch(eventSuccess());
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(eventFail(err));
+                    reject(err);
+                });
+        });
+    };
+};

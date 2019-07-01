@@ -34,7 +34,7 @@ export const MyEventMenu = (list, selected, post_picture) =>
             <MyEventSummary
                 post_picture={post_picture}
                 event={el}
-                pathName={`/myEvents/${el.event_id}/edit`}
+                pathName={`/myPosts/${el.post}/events/${el.event_id}/edit`}
                 key={el.event_id}
                 selected={selected}
             />

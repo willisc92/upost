@@ -375,11 +375,11 @@ export class AddPostPage extends React.Component {
                         <div className="input_group__item">
                             <div className="input_group__item">
                                 <EventForm
+                                    read_only={false}
                                     id="Event"
                                     post={this.state.postID}
                                     description={this.state.description}
                                     onSubmit={this.onSubmit}
-                                    channel={this.props.match.params.id}
                                     nextStep="Save and Add Incentive"
                                 />
                             </div>
