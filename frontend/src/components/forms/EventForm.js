@@ -200,7 +200,6 @@ export class EventForm extends React.Component {
                         onChange={this.onStartDateChange}
                         value={this.state.startDate}
                         clearIcon={null}
-                        minDate={this.state.startDate}
                     />
                     <div />
                 </div>
@@ -211,8 +210,6 @@ export class EventForm extends React.Component {
                         onChange={this.onEndDateChange}
                         value={this.state.endDate}
                         clearIcon={null}
-                        minDate={this.state.startDate}
-                        maxDate={addDays(this.state.startDate, 30)}
                     />
                     <div />
                 </div>

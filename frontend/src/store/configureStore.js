@@ -5,6 +5,7 @@ import channelFiltersReducer from "../reducers/channel_filters";
 import channelsReducer from "../reducers/channels";
 import postFiltersReducer from "../reducers/post_filters";
 import eventFilterReducer from "../reducers/event_filters";
+import incentiveFiltersReducer from "../reducers/incentive_filters";
 import postReducer from "../reducers/posts";
 import eventReducer from "../reducers/events";
 import interestsReducer from "../reducers/interests";
@@ -25,6 +26,7 @@ export default () => {
             channelFilters: channelFiltersReducer,
             postFilters: postFiltersReducer,
             eventFilters: eventFilterReducer,
+            incentiveFilters: incentiveFiltersReducer,
             channels: channelsReducer,
             userInterests: interestsReducer,
             posts: postReducer,

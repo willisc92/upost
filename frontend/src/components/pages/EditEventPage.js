@@ -70,12 +70,10 @@ class EditEventPage extends React.Component {
                         nextStep={"Save and Return"}
                         post={this.props.match.params.id}
                     />
-                    {read_only && (
-                        <button className="button" onClick={this.goBack}>
-                            {" "}
-                            Go Back{" "}
-                        </button>
-                    )}
+                    <button className="button" onClick={this.goBack}>
+                        {" "}
+                        Go Back{" "}
+                    </button>
                 </div>
             </div>
         );
