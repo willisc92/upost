@@ -31,10 +31,10 @@ import { setAuthToken } from "../utils/API";
 export const history = createHistory();
 
 class AppRouter extends React.Component {
-  componentWillMount() {
-    this.props.onTryAutoSignup();
-    setAuthToken(localStorage.getItem("token"));
-  }
+    componentWillMount() {
+        this.props.onTryAutoSignup();
+        setAuthToken(localStorage.getItem("token"));
+    }
 
     render() {
         return (
@@ -54,7 +54,8 @@ class AppRouter extends React.Component {
                             <PrivateRoute path="/myChannels/edit/:id" component={EditChannelPage} exact={true} />
                             <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
                             <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
-                            /><PrivateRoute path="/communities" component={CommunitiesPage} exact={true}/>
+                            />
+                            <PrivateRoute path="/communities" component={CommunitiesPage} exact={true} />
                             <PrivateRoute path="/myPosts/:id/events" component={EditEventsPage} exact={true} />
                             <PrivateRoute path="/myPosts/:id/addEvent" component={AddEventPage} exact={true} />
                             <PrivateRoute path="/channel/:id/" component={ViewChannelPage} exact={true} />
@@ -77,22 +78,21 @@ class AppRouter extends React.Component {
             </Router>
         );
     }
->>>>>>> 160ac6b66eca600cd9e0bd1d8bb87ac010575dd0
 }
 
 const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: !!state.auth.token
-  };
+    return {
+        isAuthenticated: !!state.auth.token
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    onTryAutoSignup: () => dispatch(authCheckState())
-  };
+    return {
+        onTryAutoSignup: () => dispatch(authCheckState())
+    };
 };
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(AppRouter);
