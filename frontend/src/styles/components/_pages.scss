@@ -6,3 +6,35 @@
     padding-top: 56.25%;
     background: $dark-grey;
 }
+
+.post__title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post__title > button {
+    align-self: center;
+}
+
+.post__header {
+    margin: 0;
+}
+
+.post__header2 {
+    margin: $s-size;
+    margin-left: 0;
+}
+
+.post__infobox {
+    display: flex;
+}
+
+.post__infobox > h2 {
+    margin: $s-size;
+    margin-left: 0;
+}
+
+.post__infobox > p {
+    margin: 0;
+    margin-top: 8%;
+}

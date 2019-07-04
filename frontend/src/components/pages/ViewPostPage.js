@@ -41,19 +41,21 @@ class ViewPostPage extends React.Component {
                     {!!this.props.post && (
                         <div className="content-container-twothirds">
                             <img className="post-image" src={this.props.post.picture} />
-                            {this.props.post.post_events.length > 0 && (
-                                <button className="button" onClick={this.moveToPostEventsPage}>
-                                    See Events
-                                </button>
-                            )}
-                            <h1>{this.props.post.post_title}</h1>
+                            <div className="post__title">
+                                <h1 className="post__header">{this.props.post.post_title}</h1>
+                                {this.props.post.post_events.length > 0 && (
+                                    <button className="button" onClick={this.moveToPostEventsPage}>
+                                        See Events
+                                    </button>
+                                )}
+                            </div>
                             <p>Description: {this.props.post.post_description}</p>
                         </div>
                     )}
                     <div className="content-container-onethirds">
                         {!!this.props.channel && (
                             <div>
-                                <h1>{this.props.channel.channel_name}</h1>
+                                <h2 className="post__header2">{this.props.channel.channel_name}</h2>
                                 {!!this.props.subscriptions && (
                                     <button className="button" onClick={this.updateSubscriptions}>
                                         {this.props.subscriptions.includes(this.props.channel.channel_id)
@@ -65,7 +67,7 @@ class ViewPostPage extends React.Component {
                         )}
                         {!!this.props.post && (
                             <div>
-                                <h1>Contact Information</h1>
+                                <h2 className="post__header2">Contact Information</h2>
                                 <p>{`Phone Number: ${this.props.post.phone_number}`}</p>
                                 <p>{`Email: ${this.props.post.email}`}</p>
                             </div>
