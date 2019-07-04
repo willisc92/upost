@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
@@ -18,7 +19,11 @@ class ViewPostPage extends React.Component {
             .catch((err) => {
                 console.log("error in getting post information", JSON.stringify(err, null, 2));
             });
-        this.props.startGetSubscriptions();
+
+        // check to see if subscriptions is provided
+        if (!this.props.subscriptions) {
+            this.props.startGetSubscriptions();
+        }
     }
 
     updateSubscriptions = () => {
@@ -55,7 +60,12 @@ class ViewPostPage extends React.Component {
                     <div className="content-container-onethirds">
                         {!!this.props.channel && (
                             <div>
-                                <h2 className="post__header2">{this.props.channel.channel_name}</h2>
+                                <Link
+                                    className="post__link"
+                                    to={{ pathname: `/channel/${this.props.channel.channel_id}` }}
+                                >
+                                    {<h2 className="post__header2">{this.props.channel.channel_name}</h2>}
+                                </Link>
                                 {!!this.props.subscriptions && (
                                     <button className="button" onClick={this.updateSubscriptions}>
                                         {this.props.subscriptions.includes(this.props.channel.channel_id)

@@ -24,6 +24,7 @@ import EditEventPage from "../components/pages/EditEventPage";
 import EditIncentivesPage from "../components/pages/EditIncentivesPage";
 import AddIncentivePage from "../components/pages/AddIncentivePage";
 import EditIncentivePage from "../components/pages/EditIncentivePage";
+import ViewChannelPage from "../components/pages/ViewChannelPage";
 import { setAuthToken } from "../utils/API";
 
 export const history = createHistory();
@@ -54,6 +55,7 @@ class AppRouter extends React.Component {
                             <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
                             <PrivateRoute path="/myPosts/:id/events" component={EditEventsPage} exact={true} />
                             <PrivateRoute path="/myPosts/:id/addEvent" component={AddEventPage} exact={true} />
+                            <PrivateRoute path="/channel/:id/" component={ViewChannelPage} exact={true} />
                             <PrivateRoute
                                 path="/myPosts/:id/events/:event_id/edit"
                                 component={EditEventPage}

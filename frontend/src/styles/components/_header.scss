@@ -29,6 +29,15 @@
     display: inline;
 }
 
+.header__box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header__box .button {
+    align-self: center;
+}
+
 .contentBody {
     margin-top: 80px;
 }

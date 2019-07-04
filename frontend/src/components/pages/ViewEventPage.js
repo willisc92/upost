@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
@@ -6,7 +7,6 @@ import { setEvents, startSetEvent } from "../../actions/events";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 import { startGetAttendance, startAddAttendance, startDeleteAttendance } from "../../actions/attendance";
 import DateRangeTag from "../DateRangeTag";
-import moment from "moment";
 
 class ViewEventPage extends React.Component {
     checkPost = (post_id, event_id) => {
@@ -131,7 +131,12 @@ class ViewEventPage extends React.Component {
                     <div className="content-container-onethirds">
                         {!!this.props.channel && (
                             <div>
-                                <h2 className="post__header2">{this.props.channel.channel_name}</h2>
+                                <Link
+                                    className="post__link"
+                                    to={{ pathname: `/channel/${this.props.channel.channel_id}` }}
+                                >
+                                    <h2 className="post__header2">{this.props.channel.channel_name}</h2>
+                                </Link>
                                 {!!this.props.subscriptions && (
                                     <button className="button" onClick={this.updateSubscriptions}>
                                         {this.props.subscriptions.includes(this.props.channel.channel_id)
