@@ -14,5 +14,5 @@ class CommunitySerializer(serializers.ModelSerializer):
 
 class UserCommunitiesSerializer(serializers.ModelSerializer):
     class Meta:
-        fields = ('id', 'communities')
+        fields = ('id', 'community')
         model = CustomUser

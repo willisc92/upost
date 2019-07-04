@@ -28,6 +28,7 @@ class CommunityView(viewsets.ModelViewSet):
 
     permission_classes = (permissions.IsAuthenticated, IsAdminOrReadOnly,)
 
+
 class UserCommunitiesView(viewsets.ModelViewSet):
     serializer_class = UserCommunitiesSerializer
     queryset = CustomUser.objects.all()
