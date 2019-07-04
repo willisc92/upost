@@ -1,0 +1,9 @@
+
+When Selecting Communities: its like a tag. It should suggest first communities you have and then other communities for exploration.
+
+Community:
+	Should have Address
+	
+Incentives:
+	Should it be for post only or post and events (ed and I think post and events)
+	
