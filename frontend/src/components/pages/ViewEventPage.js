@@ -5,6 +5,8 @@ import { startGetChannel } from "../../actions/channels";
 import { setEvents, startSetEvent } from "../../actions/events";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 import { startGetAttendance, startAddAttendance, startDeleteAttendance } from "../../actions/attendance";
+import DateRangeTag from "../DateRangeTag";
+import moment from "moment";
 
 class ViewEventPage extends React.Component {
     checkPost = (post_id, event_id) => {
@@ -95,6 +97,10 @@ class ViewEventPage extends React.Component {
         }
     };
 
+    updateSubscriptions = () => {
+        this.props.startUpdateSubscriptions(this.props.channel.channel_id);
+    };
+
     render() {
         return (
             <div>
@@ -131,6 +137,19 @@ class ViewEventPage extends React.Component {
                                             : "Subscribe"}
                                     </button>
                                 )}
+                            </div>
+                        )}
+                        {!!this.props.event && (
+                            <div>
+                                <h1>Date and Time:</h1>
+                                <DateRangeTag
+                                    startDate={this.props.event.planned_start_date}
+                                    endDate={this.props.event.planned_end_date}
+                                />
+                                <h1>Location:</h1>
+                                <p>{this.props.event.location}</p>
+                                <h1>Capacity: {this.props.event.capacity}</h1>
+                                <h1>Cost: {this.props.event.cost}</h1>
                             </div>
                         )}
                         {!!this.props.post && (
