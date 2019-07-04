@@ -29,6 +29,7 @@ router.register(
     'channels', ContentChannel_View, 'channel')
 router.register('accounts', UserAccountView, 'account')
 router.register('user-interests', UserInterestView, 'user-interest')
+router.register('user-communities', UserCommunitiesView, 'user-community')
 router.register('posts', Post_View, 'post')
 router.register('events', Event_View, 'event')
 router.register('communities', CommunityView, 'community')

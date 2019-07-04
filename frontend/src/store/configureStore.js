@@ -19,27 +19,27 @@ import attendanceReducer from "../reducers/attendance";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default () => {
-    // Store creation
-    const store = createStore(
-        combineReducers({
-            auth: authReducer,
-            channelFilters: channelFiltersReducer,
-            postFilters: postFiltersReducer,
-            eventFilters: eventFilterReducer,
-            incentiveFilters: incentiveFiltersReducer,
-            channels: channelsReducer,
-            userInterests: interestsReducer,
-            posts: postReducer,
-            communities: communityReducer,
-            events: eventReducer,
-            incentiveTypes: incentiveTypeReducer,
-            dietOptions: dietOptionsReducer,
-            incentivePackage: incentivePackageReducer,
-            subscriptions: subscriptionsReducer,
-            attendance: attendanceReducer
-        }),
-        composeEnhancers(applyMiddleware(thunk))
-    );
+  // Store creation
+  const store = createStore(
+    combineReducers({
+      auth: authReducer,
+      channelFilters: channelFiltersReducer,
+      postFilters: postFiltersReducer,
+      eventFilters: eventFilterReducer,
+      incentiveFilters: incentiveFiltersReducer,
+      channels: channelsReducer,
+      userInterests: interestsReducer,
+      posts: postReducer,
+      userCommunities: communityReducer,
+      events: eventReducer,
+      incentiveTypes: incentiveTypeReducer,
+      dietOptions: dietOptionsReducer,
+      incentivePackage: incentivePackageReducer,
+      subscriptions: subscriptionsReducer,
+      attendance: attendanceReducer
+    }),
+    composeEnhancers(applyMiddleware(thunk))
+  );
 
-    return store;
+  return store;
 };
