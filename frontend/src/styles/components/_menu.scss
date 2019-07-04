@@ -1,0 +1,46 @@
+.menu-item {
+    padding: none;
+    margin: none;
+    user-select: none;
+    cursor: pointer;
+    border: none;
+}
+
+.menu-item-wrapper {
+    display: flex;
+    padding: $xl-size, 0;
+    margin: $xl-size, 0;
+}
+
+.menu_header {
+    color: $red;
+    font-weight: bold;
+    border-bottom: 1px solid $dark-grey;
+}
+
+.horizontal-menu {
+    background: darken(white, 0.5%);
+}
+
+.horizontal-menu_wrapper {
+    border-bottom: 1px solid $dark-grey;
+}
+
+.menu-item-wrapper.active {
+    border: none;
+}
+.menu-item.active {
+    border: none;
+}
+
+.scroll-menu-arrow {
+    color: $crimson-red;
+    font-size: 3.6rem;
+    padding: 20px;
+    font-weight: normal;
+    transition: font-weight 0.3s ease;
+
+    &:hover {
+        font-weight: bold;
+    }
+}

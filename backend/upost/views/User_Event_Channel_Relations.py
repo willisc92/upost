@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from ..serializers.User_Event_Channel_Relations import SubscribeSerializer
-from ..models.User_Event_Channel_Relations import Subscribe
+from ..serializers.User_Event_Channel_Relations import SubscribeSerializer, AttendSerializer
+from ..models.User_Event_Channel_Relations import Subscribe, Attend
 from ..models.Channels_Posts_Events import ContentChannel
 from ..models.User_Account import CustomUser
 from datetime import datetime
@@ -29,3 +29,15 @@ class SubscribeView(viewsets.ModelViewSet):
             user = CustomUser.objects.get(pk=request.data['community_member'])
             subscribe = Subscribe.objects.create(channel=channel, community_member=user)
             return Response(status=status.HTTP_201_CREATED)
+
+
+class AttendView(viewsets.ModelViewSet):
+    serializer_class = AttendSerializer
+    queryset = Attend.objects.all()
+
+    def delete(self, request):
+        instance = Attend.objects.filter(attendee=request.data['attendee'], event=request.data['event_id'])
+        if len(instance):
+            instance = instance[0]
+            instance.delete()
+        return Response(status=status.HTTP_200_OK)

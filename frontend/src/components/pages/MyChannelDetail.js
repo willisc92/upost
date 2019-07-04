@@ -2,14 +2,20 @@ import React from "react";
 import { startGetChannel } from "../../actions/channels";
 import { connect } from "react-redux";
 import moment from "moment";
-import MyPostSummary from "../MyPostSummary";
-import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
+import { MyPostMenu } from "../MyPostSummary";
+import MyPostFilterSelector from "../filter_selectors/PostFilterSelector";
 import { getVisiblePosts } from "../../selectors/myPosts";
 import { getCurrentUser } from "../../actions/auth";
+import ScrollMenu from "react-horizontal-scrolling-menu";
+import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 
 export class MyChannelDetail extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            selected: 0
+        };
     }
 
     componentDidMount() {
@@ -32,6 +38,10 @@ export class MyChannelDetail extends React.Component {
             });
     }
 
+    onSelect = (key) => {
+        this.setState({ selected: key });
+    };
+
     handleAddPost = () => {
         const channel_id = this.props.match.params.id;
         this.props.history.push(`/myChannels/${channel_id}/addPost`);
@@ -43,36 +53,39 @@ export class MyChannelDetail extends React.Component {
     };
 
     render() {
+        const menu = this.props.posts && MyPostMenu(this.props.posts, this.state.selected);
+
         return (
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page-header__title">Channel Page</h1>
+                        <h1 className="page-header__title">
+                            Channel Page: <span>{this.props.channel.channel_name}</span>
+                        </h1>
                         {this.props.loading ? (
                             <p>Loading...</p>
                         ) : (
                             <div>
-                                <h2>Name: {this.props.channel.channel_name}</h2>
                                 <h3>Description: {this.props.channel.channel_description}</h3>
                                 <h3>
                                     Creation Date: {moment(this.props.channel.creation_date).format("MMMM Do YYYY")}
                                 </h3>
 
                                 <div>
-                                    <button className="button button--secondary" onClick={this.handleAddPost}>
+                                    <button className="button" onClick={this.handleAddPost}>
                                         Add a new post
                                     </button>
                                     <span> </span>
                                     <button
                                         id={this.props.channel.channel_id}
-                                        className="button button--secondary"
+                                        className="button"
                                         onClick={this.handleEditChannel}
                                     >
                                         Edit this channel
                                     </button>
                                 </div>
                                 <div className="page-header__actions">
-                                    <MyChannelFilterSelector />
+                                    <MyPostFilterSelector />
                                 </div>
                             </div>
                         )}
@@ -80,16 +93,14 @@ export class MyChannelDetail extends React.Component {
                 </div>
                 {this.props.posts !== [] && (
                     <div className="content-container">
-                        {this.props.length > 0 ? (
-                            this.props.posts.map((post) => {
-                                return (
-                                    <MyPostSummary
-                                        key={post.post_id}
-                                        post={post}
-                                        pathName={`/myPosts/${post.post_id}/edit`}
-                                    />
-                                );
-                            })
+                        {this.props.posts.length > 0 ? (
+                            <ScrollMenu
+                                data={menu}
+                                arrowLeft={ArrowLeft}
+                                arrowRight={ArrowRight}
+                                selected={this.state.selected}
+                                onSelect={this.onSelect}
+                            />
                         ) : (
                             <p> No posts </p>
                         )}
@@ -104,14 +115,10 @@ const mapStateToProps = (state) => {
     return {
         filters: state.postFilters,
         channel: state.channels.channels.length === 1 && state.channels.channels[0],
-        length:
-            state.channels.channels.length === 1
-                ? getVisiblePosts(state.channels.channels[0].channel_posts, state.channelFilters).length
-                : 0,
         loading: state.channels.loading,
         posts:
             state.channels.channels.length === 1
-                ? getVisiblePosts(state.channels.channels[0].channel_posts, state.channelFilters)
+                ? getVisiblePosts(state.channels.channels[0].channel_posts, state.postFilters)
                 : []
     };
 };

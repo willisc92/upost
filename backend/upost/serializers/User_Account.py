@@ -45,6 +45,12 @@ class UserAccountSubscriptionsSerializer(serializers.ModelSerializer):
         return map(lambda x: x['channel'], serializer.data)
 
 
+class UserAccountAttendsSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('id', 'attends')
+        model = CustomUser
+
+
 class UserDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser

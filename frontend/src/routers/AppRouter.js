@@ -16,12 +16,16 @@ import MyChannelDetail from "../components/pages/MyChannelDetail";
 import EditChannelPage from "../components/pages/EditChannelPage";
 import AddPostPage from "../components/pages/AddPostPage";
 import EditPostPage from "../components/pages/EditPostPage";
-import IncentiveForm from "../components/forms/IncentiveForm";
 import ViewPostPage from "../components/pages/ViewPostPage";
 import ViewPostEventsPage from "../components/pages/ViewPostEventsPage";
+import EditEventsPage from "../components/pages/EditEventsPage";
+import ViewEventPage from "../components/pages/ViewEventPage";
+import AddEventPage from "../components/pages/AddEventPage";
+import EditEventPage from "../components/pages/EditEventPage";
+import EditIncentivesPage from "../components/pages/EditIncentivesPage";
+import AddIncentivePage from "../components/pages/AddIncentivePage";
+import EditIncentivePage from "../components/pages/EditIncentivePage";
 import { setAuthToken } from "../utils/API";
-
-import { RecurringTest } from "../components/pages/RecurringTest";
 
 export const history = createHistory();
 
@@ -31,76 +35,47 @@ class AppRouter extends React.Component {
     setAuthToken(localStorage.getItem("token"));
   }
 
-  render() {
-    return (
-      <Router history={history}>
-        <div>
-          <Header history={history} />
-          <div className="contentBody">
-            <Switch>
-              <Route path="/" component={DashboardPage} exact={true} />
-              <PrivateRoute
-                path="/myChannels"
-                component={MyChannelsPage}
-                exact={true}
-              />
-              <PrivateRoute
-                path="/myChannels/:id"
-                component={MyChannelDetail}
-                exact={true}
-              />
-              <PrivateRoute
-                path="/myChannels/:id/addPost"
-                component={AddPostPage}
-                exact={true}
-              />
-              <PrivateRoute
-                path="/myPosts/:id/edit"
-                component={EditPostPage}
-                exact={true}
-              />
-              <PrivateRoute
-                path="/post/:id"
-                component={ViewPostPage}
-                exact={true}
-              />
-              <PrivateRoute
-                path="/post-events/:id"
-                component={ViewPostEventsPage}
-                exact={true}
-              />
-              <PrivateRoute
-                path="/myChannels/edit/:id"
-                component={EditChannelPage}
-                exact={true}
-              />
-              <PrivateRoute
-                path="/addChannel"
-                component={AddChannelPage}
-                exact={true}
-              />
-              <PrivateRoute
-                path="/interests"
-                component={InterestsPage}
-                exact={true}
-              />
-              <PrivateRoute
-                path="/communities"
-                component={CommunitiesPage}
-                exact={true}
-              />
-              <Route
-                path="/RecurringTest"
-                component={RecurringTest}
-                exact={true}
-              />
-              <Route component={NotFoundPage} />
-            </Switch>
-          </div>
-        </div>
-      </Router>
-    );
-  }
+    render() {
+        return (
+            <Router history={history}>
+                <div>
+                    <Header history={history} />
+                    <div className="contentBody">
+                        <Switch>
+                            <Route path="/" component={DashboardPage} exact={true} />
+                            <PrivateRoute path="/myChannels" component={MyChannelsPage} exact={true} />
+                            <PrivateRoute path="/myChannels/:id" component={MyChannelDetail} exact={true} />
+                            <PrivateRoute path="/myChannels/:id/addPost" component={AddPostPage} exact={true} />
+                            <PrivateRoute path="/myPosts/:id/edit" component={EditPostPage} exact={true} />
+                            <PrivateRoute path="/post/:id" component={ViewPostPage} exact={true} />
+                            <PrivateRoute path="/post-events/:id" component={ViewPostEventsPage} exact={true} />
+                            <PrivateRoute path="/event/:id" component={ViewEventPage} exact={true} />
+                            <PrivateRoute path="/myChannels/edit/:id" component={EditChannelPage} exact={true} />
+                            <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
+                            <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
+                            /><PrivateRoute path="/communities" component={CommunitiesPage} exact={true}/>
+                            <PrivateRoute path="/myPosts/:id/events" component={EditEventsPage} exact={true} />
+                            <PrivateRoute path="/myPosts/:id/addEvent" component={AddEventPage} exact={true} />
+                            <PrivateRoute
+                                path="/myPosts/:id/events/:event_id/edit"
+                                component={EditEventPage}
+                                exact={true}
+                            />
+                            <PrivateRoute path="/myPosts/:id/incentives" component={EditIncentivesPage} exact={true} />
+                            <PrivateRoute path="/myPosts/:id/addIncentive" component={AddIncentivePage} exact={true} />
+                            <PrivateRoute
+                                path="/myPosts/:id/incentives/:incentive_id/edit"
+                                component={EditIncentivePage}
+                                exact={true}
+                            />
+                            <Route component={NotFoundPage} />
+                        </Switch>
+                    </div>
+                </div>
+            </Router>
+        );
+    }
+>>>>>>> 160ac6b66eca600cd9e0bd1d8bb87ac010575dd0
 }
 
 const mapStateToProps = (state) => {

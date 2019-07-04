@@ -108,3 +108,13 @@ export const getAllInterests = () => {
         });
     };
 };
+
+/**
+ * CLEAR_INTERESTS.
+ * Dispatches clear interest action.
+ *
+ * @returns {Object} to clear interests.
+ */
+export const clearInterests = () => ({
+    type: "CLEAR_INTERESTS"
+});

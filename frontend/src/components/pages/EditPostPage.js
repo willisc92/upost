@@ -28,19 +28,6 @@ export class EditPostPage extends React.Component {
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
             });
-
-        this.props
-            .startGetPost(post_id)
-            .then((result) => {
-                if (!!this.props.post) {
-                    if (this.props.post.user !== localStorage.getItem("user_name")) {
-                        this.props.history.push("/myChannels");
-                    }
-                }
-            })
-            .catch((err) => {
-                console.log(JSON.stringify(err, null, 2));
-            });
     }
 
     onSubmit = (post) => {
@@ -48,11 +35,23 @@ export class EditPostPage extends React.Component {
         this.props
             .editPost(post_id, post)
             .then((result) => {
-                this.props.history.push(`/myChannels/${post.get("channel")}`);
+                if (post.toString() == "[object FormData]") {
+                    this.props.history.push(`/myChannels/${post.get("channel")}`);
+                } else {
+                    this.props.history.push(`/myChannels/${post.channel}`);
+                }
             })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
             });
+    };
+
+    onEditIncentiveClick = () => {
+        this.props.history.push(`/myPosts/${this.props.match.params.id}/incentives`);
+    };
+
+    onEditEventsClick = () => {
+        this.props.history.push(`/myPosts/${this.props.match.params.id}/events`);
     };
 
     render() {
@@ -60,7 +59,15 @@ export class EditPostPage extends React.Component {
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page-header__title">Edit Post</h1>
+                        <h1 className="page-header__title">
+                            Edit Post for <span>{this.props.post && this.props.post.post_title}</span>
+                        </h1>
+                        <button className="button" onClick={this.onEditEventsClick}>
+                            Add/Edit Events
+                        </button>{" "}
+                        <button className="button" onClick={this.onEditIncentiveClick}>
+                            Add/Edit Incentives
+                        </button>
                     </div>
                 </div>
                 <div className="content-container">

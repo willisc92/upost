@@ -1,5 +1,6 @@
 from rest_framework import viewsets
-from ..serializers.User_Account import UserAccountSerializer, UserAccountSubscriptionsSerializer, UserDetailSerializer
+from ..serializers.User_Account import (UserAccountSerializer, UserAccountSubscriptionsSerializer, UserDetailSerializer,
+                                        UserAccountAttendsSerializer)
 from ..models.User_Account import CustomUser
 from rest_framework.response import Response
 from rest_framework import status
@@ -47,4 +48,9 @@ class UserDetailView(generics.RetrieveAPIView):
 
 class UserAccountSubscriptionsView(viewsets.ModelViewSet):
     serializer_class = UserAccountSubscriptionsSerializer
+    queryset = CustomUser.objects.all()
+
+
+class UserAccountAttendsView(viewsets.ModelViewSet):
+    serializer_class = UserAccountAttendsSerializer
     queryset = CustomUser.objects.all()

@@ -32,4 +32,5 @@ export const setEndDate = (endDate) => ({
     endDate
 });
 
-// TO ADD LATER - SET EVENT FILTER
+//TODO: SET EVENT FILTER
+//TODO: SET INCENTIVE FILTER

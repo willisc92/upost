@@ -4,6 +4,8 @@ import authReducer from "../reducers/auth";
 import channelFiltersReducer from "../reducers/channel_filters";
 import channelsReducer from "../reducers/channels";
 import postFiltersReducer from "../reducers/post_filters";
+import eventFilterReducer from "../reducers/event_filters";
+import incentiveFiltersReducer from "../reducers/incentive_filters";
 import postReducer from "../reducers/posts";
 import eventReducer from "../reducers/events";
 import interestsReducer from "../reducers/interests";
@@ -11,8 +13,8 @@ import communityReducer from "../reducers/communities";
 import incentiveTypeReducer from "../reducers/incentive_types";
 import dietOptionsReducer from "../reducers/diet_options";
 import incentivePackageReducer from "../reducers/incentivePackage";
-import incentivePackage from "../reducers/incentivePackage";
 import subscriptionsReducer from "../reducers/subscriptions";
+import attendanceReducer from "../reducers/attendance";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -23,6 +25,8 @@ export default () => {
       auth: authReducer,
       channelFilters: channelFiltersReducer,
       postFilters: postFiltersReducer,
+      eventFilters: eventFilterReducer,
+      incentiveFilters: incentiveFiltersReducer,
       channels: channelsReducer,
       userInterests: interestsReducer,
       posts: postReducer,
@@ -31,7 +35,8 @@ export default () => {
       incentiveTypes: incentiveTypeReducer,
       dietOptions: dietOptionsReducer,
       incentivePackage: incentivePackageReducer,
-      subscriptions: subscriptionsReducer
+      subscriptions: subscriptionsReducer,
+      attendance: attendanceReducer
     }),
     composeEnhancers(applyMiddleware(thunk))
   );

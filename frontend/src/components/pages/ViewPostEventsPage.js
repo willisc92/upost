@@ -1,11 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
-import { startGetChannel } from "../../actions/channels";
+import EventFilterSelector from "../filter_selectors/EventFilterSelector";
+import { getVisibleEvents } from "../../selectors/myEvents";
+import EventSummary from "../MyEventSummary";
 
 class ViewPostEventsPage extends React.Component {
-    componentDidUpdate() {
-        console.log(this.props);
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            selected: 0
+        };
     }
 
     componentDidMount() {
@@ -17,33 +23,38 @@ class ViewPostEventsPage extends React.Component {
         } else {
             // load post from API
             this.props.clearPosts();
-            this.props
-                .startGetPost(post_id)
-                .then(() => {
-                    this.props.startGetChannel(this.props.post.channel).catch((err) => {
-                        console.log("error in getting channel information", JSON.stringify(err, null, 2));
-                    });
-                })
-                .catch((err) => {
-                    console.log("error in getting post information", JSON.stringify(err, null, 2));
-                });
+            this.props.startGetPost(post_id).catch((err) => {
+                console.log("error in getting post information", JSON.stringify(err, null, 2));
+            });
         }
     }
 
     render() {
+        const events = this.props.post && getVisibleEvents(this.props.post, this.props.filters);
         return (
             <div>
                 <div className="page-header">
                     <div className="content-container">
                         {!!this.props.post && (
-                            <h1 className="page-header__title">{this.props.post.post_title} - Events</h1>
+                            <h1 className="page-header__title">
+                                Events for <span>{this.props.post.post_title}</span>
+                            </h1>
                         )}
+                        <div className="page-header__actions">
+                            <EventFilterSelector />
+                        </div>
                     </div>
                 </div>
                 <div className="content-container">
-                    {!!this.props.post &&
-                        this.props.post.post_events.map((event) => {
-                            return <p key={event.event_id}>{event.event_id}</p>;
+                    {!!events &&
+                        events.map((event) => {
+                            return (
+                                <EventSummary
+                                    key={event.event_id}
+                                    event={event}
+                                    pathName={`/event/${event.event_id}`}
+                                />
+                            );
                         })}
                 </div>
             </div>
@@ -53,13 +64,12 @@ class ViewPostEventsPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     post: state.posts.posts[0],
-    channel: state.channels.channels[0]
+    filters: state.eventFilters
 });
 
 const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
-    startGetPost: (id) => dispatch(startGetPost(id)),
-    startGetChannel: (id) => dispatch(startGetChannel(id))
+    startGetPost: (id) => dispatch(startGetPost(id))
 });
 
 export default connect(

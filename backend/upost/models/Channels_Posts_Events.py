@@ -66,7 +66,8 @@ class Post(models.Model):
     deleted_flag = models.BooleanField(
         db_column='Deleted_Flag', default=False, blank=True)
     tags = models.ManyToManyField("upost.Interest", db_table='post_tags')
-    community = models.ForeignKey("upost.Community", on_delete=models.DO_NOTHING, related_name="community_posts")
+    community = models.ForeignKey(
+        "upost.Community", on_delete=models.DO_NOTHING, related_name="community_posts")
     picture = models.ImageField(
         null=True, blank=True, upload_to="post_images/")
 

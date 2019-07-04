@@ -5,7 +5,8 @@ const postFiltersReducerDefaultState = {
     sortBy: "name",
     startDate: null,
     endDate: null
-    // ADD EVENT TOGGLE AFTER.
+    // TODO: ADD EVENT TOGGLE.
+    // TODO: ADD INCENTIVE TOGGLE.
 };
 
 export default (state = postFiltersReducerDefaultState, action) => {

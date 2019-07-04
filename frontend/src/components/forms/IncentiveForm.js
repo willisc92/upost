@@ -4,16 +4,21 @@ import { startGetIncentiveTypes } from "../../actions/incentive_types";
 import { startGetDietOptions } from "../../actions/diet_options";
 import DateTimePicker from "react-datetime-picker";
 import { getCurrentUser } from "../../actions/auth";
+import { addDays } from "../../utils/recurring";
 
 class IncentiveForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            post: !!this.props.incentivePackage ? this.props.incentivePackage.post.post_id : this.props.post,
+            post: !!this.props.incentivePackage ? this.props.incentivePackage.post : this.props.post,
             diet_option: !!this.props.incentivePackage ? this.props.incentivePackage.diet_option : [],
-            incentive_type: !!this.props.incentivePackage ? this.props.incentivePackage.incentive_type : null,
-            ip_description: !!this.props.incentivePackage ? this.props.incentivePackage.ip_description : "",
+            incentive_type: !!this.props.incentivePackage ? this.props.incentivePackage.incentive_type : "",
+            ip_description: !!this.props.incentivePackage
+                ? this.props.incentivePackage.ip_description
+                : !!this.props.description
+                ? this.props.description
+                : "",
             planned_start_date: !!this.props.incentivePackage
                 ? new Date(this.props.incentivePackage.planned_start_date)
                 : new Date(),
@@ -37,18 +42,6 @@ class IncentiveForm extends React.Component {
                 console.log(JSON.stringify(error, null, 2));
             });
     }
-
-    determineReadOnly = () => {
-        if (this.props.incentivePackage) {
-            if (new Date(this.props.incentivePackage.startDate) >= new Date()) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    };
 
     onDescriptionChange = (e) => {
         const ip_description = e.target.value;
@@ -125,6 +118,7 @@ class IncentiveForm extends React.Component {
     };
 
     render() {
+        console.log(this.state);
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 <div>
@@ -140,14 +134,15 @@ class IncentiveForm extends React.Component {
                         placeholder="Description"
                         value={this.state.ip_description}
                         onChange={this.onDescriptionChange}
+                        disabled={this.props.read_only}
                     />
                 </div>
                 <div className="input-group">
                     <p className="form__label">Incentive Type*: </p>
                     <select
-                        disabled={this.determineReadOnly()}
+                        disabled={this.props.read_only}
                         onChange={this.onIncentiveTypeChange}
-                        defaultValue={this.props.incentivePackage ? this.props.incentivePackage.incentive_type : ""}
+                        defaultValue={this.state.incentive_type}
                     >
                         <option key="empty" value="" />
                         {this.props.incentiveTypes.map((incentiveType) => {
@@ -164,7 +159,12 @@ class IncentiveForm extends React.Component {
                         <p className="form__label">
                             Diet Options* (Hold down "Control", or "Command" on a Mac, to select more than one.):{" "}
                         </p>
-                        <select multiple onChange={this.onDietOptionsChange} defaultValue={this.state.diet_option}>
+                        <select
+                            multiple
+                            onChange={this.onDietOptionsChange}
+                            defaultValue={this.state.diet_option}
+                            disabled={this.props.read_only}
+                        >
                             {this.props.dietOptions.map((diet_option) => {
                                 return (
                                     <option key={diet_option.diet_option} value={diet_option.diet_option}>
@@ -178,28 +178,24 @@ class IncentiveForm extends React.Component {
                 <div className="input-group">
                     <p className="form__label">Start Date*:</p>
                     <DateTimePicker
-                        disabled={this.determineReadOnly()}
+                        disabled={this.props.read_only}
                         onChange={this.onStartDateChange}
                         value={this.state.planned_start_date}
                         clearIcon={null}
-                        minDate={new Date()}
                     />
                     <div />
                 </div>
                 <div className="input-group">
                     <p className="form__label">End Date*:</p>
                     <DateTimePicker
-                        disabled={this.determineReadOnly()}
+                        disabled={this.props.read_only}
                         onChange={this.onEndDateChange}
                         value={this.state.planned_end_date}
                         clearIcon={null}
-                        minDate={this.state.planned_start_date}
                     />
                     <div />
                 </div>
-                <div>
-                    <button className="button">Submit Incentive</button>
-                </div>
+                <div>{!this.props.read_only && <button className="button">Submit Incentive</button>}</div>
             </form>
         );
     }

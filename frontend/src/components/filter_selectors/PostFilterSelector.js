@@ -55,12 +55,16 @@ export class PostFilters extends React.Component {
                         />
                     </div>
                     <div className="input-group__item">
-                        <select className="select" value={this.props.filters.sortBy} onChange={this.onSortChange}>
-                            <option value="date">Date</option>
-                            <option value="name">Name</option>
-                        </select>
+                        <span>
+                            Sort by:{" "}
+                            <select className="select" value={this.props.filters.sortBy} onChange={this.onSortChange}>
+                                <option value="date">Date</option>
+                                <option value="name">Name</option>
+                            </select>{" "}
+                        </span>
                     </div>
                     <div className="input-group__item">
+                        Date Range:{" "}
                         <DateRangePicker
                             startDate={this.props.filters.startDate}
                             endDate={this.props.filters.endDate}
@@ -101,7 +105,6 @@ const mapDispatchToProps = (dispatch) => ({
     setVisibleFilter: (visible) => dispatch(setVisibleFilter(visible)),
     sortByName: () => dispatch(sortByName()),
     sortByDate: () => dispatch(sortByDate()),
-    sortByVisible: () => dispatch(sortByVisible()),
     setStartDate: (startDate) => dispatch(setStartDate(startDate)),
     setEndDate: (endDate) => dispatch(setEndDate(endDate))
 });
