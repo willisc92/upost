@@ -1,9 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
-import EventSummary from "../EventSummary";
+import EventFilterSelector from "../filter_selectors/EventFilterSelector";
+import { getVisibleEvents } from "../../selectors/myEvents";
+import EventSummary from "../MyEventSummary";
 
 class ViewPostEventsPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            selected: 0
+        };
+    }
+
     componentDidMount() {
         const post_id = parseInt(this.props.match.params.id);
 
@@ -20,18 +30,24 @@ class ViewPostEventsPage extends React.Component {
     }
 
     render() {
+        const events = this.props.post && getVisibleEvents(this.props.post, this.props.filters);
         return (
             <div>
                 <div className="page-header">
                     <div className="content-container">
                         {!!this.props.post && (
-                            <h1 className="page-header__title">{this.props.post.post_title} - Events</h1>
+                            <h1 className="page-header__title">
+                                Events for <span>{this.props.post.post_title}</span>
+                            </h1>
                         )}
+                        <div className="page-header__actions">
+                            <EventFilterSelector />
+                        </div>
                     </div>
                 </div>
                 <div className="content-container">
-                    {!!this.props.post &&
-                        this.props.post.post_events.map((event) => {
+                    {!!events &&
+                        events.map((event) => {
                             return (
                                 <EventSummary
                                     key={event.event_id}
@@ -47,7 +63,8 @@ class ViewPostEventsPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    post: state.posts.posts[0]
+    post: state.posts.posts[0],
+    filters: state.eventFilters
 });
 
 const mapDispatchToProps = (dispatch) => ({

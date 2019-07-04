@@ -28,7 +28,8 @@
     word-break: break-all;
 }
 
-.polaroid__description {
+.polaroid__description,
+.polaroid > div > div > p {
     color: $dark-grey;
     font-size: $font-size-small;
     text-decoration: none;

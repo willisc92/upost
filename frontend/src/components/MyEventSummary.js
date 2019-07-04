@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import DateRangeTag from "../components/DateRangeTag";
 
 export const MyEventSummary = ({ event, pathName, selected }) => {
     return (
@@ -15,10 +16,9 @@ export const MyEventSummary = ({ event, pathName, selected }) => {
                 <div>
                     <h3 className="polaroid__title">{event.event_title}</h3>
                     <p className="polaroid__description">{event.description}</p>
-                    <p className="polaroid__description">
-                        Start Date: {moment(event.planned_start_date).format("llll")}
-                    </p>
-                    <p className="polaroid__description">End Date: {moment(event.planned_end_date).format("llll")}</p>
+                    <DateRangeTag startDate={event.planned_start_date} endDate={event.planned_end_date} />
+                    {/* <p className="polaroid__description">Start: {moment(event.planned_start_date).format("llll")}</p>
+                    <p className="polaroid__description">End: {moment(event.planned_end_date).format("llll")}</p> */}
                 </div>
             </Link>
         </div>
