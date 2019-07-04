@@ -25,7 +25,24 @@ export const editIncentivePackage = (id, updates) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(incentivePackageStart());
-            API.put(`incentive-packages/${id}`, updates)
+            API.put(`incentive-packages/${id}/`, updates)
+                .then((result) => {
+                    dispatch(incentivePackageSuccess());
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(incentivePackageFail(err));
+                    reject(err);
+                });
+        });
+    };
+};
+
+export const deleteIncentivePackage = (id) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(incentivePackageStart());
+            API.delete(`incentive-packages/${id}`)
                 .then((result) => {
                     dispatch(incentivePackageSuccess());
                     resolve(result);

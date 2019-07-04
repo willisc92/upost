@@ -47,25 +47,27 @@ export class EditPostPage extends React.Component {
     };
 
     onEditIncentiveClick = () => {
-        console.log("Link to edit incentive");
+        this.props.history.push(`/myPosts/${this.props.match.params.id}/incentives`);
     };
 
     onEditEventsClick = () => {
         this.props.history.push(`/myPosts/${this.props.match.params.id}/events`);
     };
 
-    // Add link to post-events
-    // Add link to post-incentives
     render() {
         return (
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page-header__title">Edit Post</h1>
+                        <h1 className="page-header__title">
+                            Edit Post for <span>{this.props.post && this.props.post.post_title}</span>
+                        </h1>
                         <button className="button" onClick={this.onEditEventsClick}>
                             Add/Edit Events
                         </button>{" "}
-                        <button className="button">Add/Edit Incentives</button>
+                        <button className="button" onClick={this.onEditIncentiveClick}>
+                            Add/Edit Incentives
+                        </button>
                     </div>
                 </div>
                 <div className="content-container">

@@ -1,33 +1,33 @@
-// Event Filters Reducers
-const eventFiltersReducerDefaultState = {
+// Incentive Filters Reducers
+const incentiveFiltersReducerDefaultState = {
     visible: true,
-    sortBy: "ascending_date",
+    sortBy: "date",
     startDate: null,
     endDate: null,
-    text: ""
+    type: ""
 };
 
-export default (state = eventFiltersReducerDefaultState, action) => {
+export default (state = incentiveFiltersReducerDefaultState, action) => {
     switch (action.type) {
-        case "SET_TEXT_FILTER":
+        case "SET_TYPE_FILTER":
             return {
                 ...state,
-                text: action.text
+                type: action.type_filter
             };
         case "SET_VISIBLE_FILTER":
             return {
                 ...state,
                 visible: action.visible
             };
-        case "SORT_BY_ASCENDING_DATE":
+        case "SORT_BY_DATE":
             return {
                 ...state,
-                sortBy: "ascending_date"
+                sortBy: "date"
             };
-        case "SORT_BY_DESCENDING_DATE":
+        case "SORT_BY_TYPE":
             return {
                 ...state,
-                sortBy: "descending_date"
+                sortBy: "type"
             };
         case "SET_START_DATE":
             return {

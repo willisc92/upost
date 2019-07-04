@@ -59,12 +59,13 @@ export class MyChannelDetail extends React.Component {
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page-header__title">Channel Page</h1>
+                        <h1 className="page-header__title">
+                            Channel Page: <span>{this.props.channel.channel_name}</span>
+                        </h1>
                         {this.props.loading ? (
                             <p>Loading...</p>
                         ) : (
                             <div>
-                                <h2>Name: {this.props.channel.channel_name}</h2>
                                 <h3>Description: {this.props.channel.channel_description}</h3>
                                 <h3>
                                     Creation Date: {moment(this.props.channel.creation_date).format("MMMM Do YYYY")}

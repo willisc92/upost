@@ -48,14 +48,18 @@ export class EventFilters extends React.Component {
                         <input
                             type="text"
                             className="text-input"
-                            placeholder="Search Channels"
+                            placeholder="Search Events"
                             value={this.props.filters.text}
                             onChange={this.onTextChange}
                         />
                     </div>
                     <div className="input-group__item">
                         Sort by:{" "}
-                        <select className="select" value={this.props.filters.sortBy} onChange={this.onSortChange}>
+                        <select
+                            className="select"
+                            defaultValue={this.props.filters.sortBy}
+                            onChange={this.onSortChange}
+                        >
                             <option value="ascending">Ascending</option>
                             <option value="descending">Descending</option>
                         </select>

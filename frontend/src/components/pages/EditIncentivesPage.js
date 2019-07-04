@@ -2,14 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { getCurrentUser } from "../../actions/auth";
-import { MyEventMenu } from "../MyEventSummary";
+import { MyIncentiveMenu } from "../MyIncentiveSummary";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";
-import EventFilterSelector from "../filter_selectors/EventFilterSelector";
-import { getVisibleEvents } from "../../selectors/myEvents";
-import { deleteEvent } from "../../actions/events";
+import IncentiveFilterSelector from "../filter_selectors/IncentiveFilterSelector";
+import { getVisibleIncentives } from "../../selectors/myIncentives";
+import { deleteIncentivePackage } from "../../actions/incentivePackage";
 
-class EditEventsPage extends React.Component {
+class EditIncentivesPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -43,13 +43,13 @@ class EditEventsPage extends React.Component {
         this.setState({ selected: key });
     };
 
-    clearAllEvents = () => {
+    clearAllIncentives = () => {
         const promises = [];
-        const events = this.props.post.post_events;
+        const incentives = this.props.post.post_incentives;
 
-        events.forEach((event) => {
-            if (event.planned_start_date > new Date()) {
-                promises.push(this.props.deleteEvent(event.event_id));
+        incentives.forEach((incentive) => {
+            if (new Date(incentive.planned_start_date) > new Date()) {
+                promises.push(this.props.deleteIncentivePackage(incentive.incentive_package_id));
             }
         });
 
@@ -66,39 +66,41 @@ class EditEventsPage extends React.Component {
         this.props.history.push(`/myPosts/${this.props.match.params.id}/edit`);
     };
 
-    addEditIncentives = () => {
-        this.props.history.push(`/myPosts/${this.props.match.params.id}/incentives`);
+    addEditEvents = () => {
+        this.props.history.push(`/myPosts/${this.props.match.params.id}/events`);
     };
 
-    addNewEvent = () => {
-        this.props.history.push(`/myPosts/${this.props.match.params.id}/addEvent`);
+    addNewIncentive = () => {
+        this.props.history.push(`/myPosts/${this.props.match.params.id}/addIncentive`);
     };
 
     render() {
         const menu =
-            this.props.post && MyEventMenu(getVisibleEvents(this.props.post, this.props.filters), this.state.selected);
+            this.props.post &&
+            MyIncentiveMenu(getVisibleIncentives(this.props.post, this.props.filters), this.state.selected);
+
         return (
             <div>
                 <div className="page-header">
                     <div className="content-container">
                         <h1 className="page-header__title">
-                            Add/Edit Events for <span>{this.props.post && this.props.post.post_title}</span>
+                            Add/Edit Incentives for <span>{this.props.post && this.props.post.post_title}</span>
                         </h1>
                         <div className="page-header__actions">
-                            <EventFilterSelector />
+                            <IncentiveFilterSelector />
                         </div>
                         {!!menu && menu.length > 0 && (
                             <span>
-                                <button className="button" onClick={this.clearAllEvents}>
-                                    Clear all future events
+                                <button className="button" onClick={this.clearAllIncentives}>
+                                    Clear all future incentives
                                 </button>{" "}
                             </span>
                         )}
-                        <button className="button" onClick={this.addNewEvent}>
-                            Add a new event
+                        <button className="button" onClick={this.addNewIncentive}>
+                            Add a new incentive
                         </button>{" "}
-                        <button className="button" onClick={this.addEditIncentives}>
-                            Add/Edit Incentives
+                        <button className="button" onClick={this.addEditEvents}>
+                            Add/Edit Events
                         </button>{" "}
                         <button className="button" onClick={this.returnEditPosts}>
                             Return to Edit Post
@@ -115,7 +117,7 @@ class EditEventsPage extends React.Component {
                             onSelect={this.onSelect}
                         />
                     ) : (
-                        <p>No Events to Show</p>
+                        <p>No Incentives to Show</p>
                     )}
                 </div>
             </div>
@@ -124,7 +126,7 @@ class EditEventsPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    filters: state.eventFilters,
+    filters: state.incentiveFilters,
     loading: state.posts.loading,
     post: state.posts.posts[0]
 });
@@ -132,10 +134,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
     startGetPost: (id) => dispatch(startGetPost(id)),
-    deleteEvent: (id) => dispatch(deleteEvent(id))
+    deleteIncentivePackage: (id) => dispatch(deleteIncentivePackage(id))
 });
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(EditEventsPage);
+)(EditIncentivesPage);

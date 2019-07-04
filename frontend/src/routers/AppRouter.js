@@ -19,6 +19,11 @@ import ViewPostPage from "../components/pages/ViewPostPage";
 import ViewPostEventsPage from "../components/pages/ViewPostEventsPage";
 import EditEventsPage from "../components/pages/EditEventsPage";
 import ViewEventPage from "../components/pages/ViewEventPage";
+import AddEventPage from "../components/pages/AddEventPage";
+import EditEventPage from "../components/pages/EditEventPage";
+import EditIncentivesPage from "../components/pages/EditIncentivesPage";
+import AddIncentivePage from "../components/pages/AddIncentivePage";
+import EditIncentivePage from "../components/pages/EditIncentivePage";
 import { setAuthToken } from "../utils/API";
 
 export const history = createHistory();
@@ -48,6 +53,19 @@ class AppRouter extends React.Component {
                             <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
                             <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
                             <PrivateRoute path="/myPosts/:id/events" component={EditEventsPage} exact={true} />
+                            <PrivateRoute path="/myPosts/:id/addEvent" component={AddEventPage} exact={true} />
+                            <PrivateRoute
+                                path="/myPosts/:id/events/:event_id/edit"
+                                component={EditEventPage}
+                                exact={true}
+                            />
+                            <PrivateRoute path="/myPosts/:id/incentives" component={EditIncentivesPage} exact={true} />
+                            <PrivateRoute path="/myPosts/:id/addIncentive" component={AddIncentivePage} exact={true} />
+                            <PrivateRoute
+                                path="/myPosts/:id/incentives/:incentive_id/edit"
+                                component={EditIncentivePage}
+                                exact={true}
+                            />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>

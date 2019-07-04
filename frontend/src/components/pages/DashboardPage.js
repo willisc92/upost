@@ -59,7 +59,9 @@ export class DashboardPage extends React.Component {
                         {!this.props.isAuthenticated ? (
                             <h1 className="page-header__title">You must login.</h1>
                         ) : (
-                            <h1 className="page-header__title">{`Welcome, ${localStorage.getItem("first_name")}!`}</h1>
+                            <h1 className="page-header__title">
+                                Welcome, <span>{`${localStorage.getItem("first_name")}!`}</span>
+                            </h1>
                         )}
                     </div>
                 </div>

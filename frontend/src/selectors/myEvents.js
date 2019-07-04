@@ -16,7 +16,7 @@ export const getVisibleEvents = (post, { visible, sortBy, startDate, endDate, te
                 if (sortBy === "ascending_date") {
                     return a.planned_start_date < b.planned_start_date ? -1 : 1;
                 } else if (sortBy === "descending_date") {
-                    return a.planned_start_date < b.planned_start_date ? 1 : -11;
+                    return a.planned_start_date < b.planned_start_date ? 1 : -1;
                 }
             });
     }
