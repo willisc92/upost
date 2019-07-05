@@ -4,27 +4,51 @@ import { startGetIncentiveTypes } from "../../actions/incentive_types";
 import { startGetDietOptions } from "../../actions/diet_options";
 import DateTimePicker from "react-datetime-picker";
 import { getCurrentUser } from "../../actions/auth";
-import { addDays } from "../../utils/recurring";
+
+//TODO:  Update to match new serializer - where Incentives must be tied to either a post or an event.  The indicator should be passed down as a prop.
+//TODO:  Update form to be able to select multiple incentive types (was previously just one).
+//TODO:  Incentive dates should be passed down by an existing incentive (in case of edit incentive) OR from an event passed down as a prop.
 
 class IncentiveForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            post: !!this.props.incentivePackage ? this.props.incentivePackage.post : this.props.post,
+            fromPost: !!this.props.fromPost,
+            fromEvent: !!this.props.fromEvent,
+            post: !!this.props.incentivePackage
+                ? this.props.incentivePackage.post
+                : !!this.props.post
+                ? this.props.post
+                : null,
+            event: !!this.props.incentivePackage
+                ? this.props.incentivePackage.event
+                : !!this.props.event
+                ? this.props.event.event_id
+                : null,
             diet_option: !!this.props.incentivePackage ? this.props.incentivePackage.diet_option : [],
-            incentive_type: !!this.props.incentivePackage ? this.props.incentivePackage.incentive_type : "",
+            incentive_type: !!this.props.incentivePackage ? this.props.incentivePackage.incentive_type : [],
             ip_description: !!this.props.incentivePackage
                 ? this.props.incentivePackage.ip_description
                 : !!this.props.description
                 ? this.props.description
                 : "",
-            planned_start_date: !!this.props.incentivePackage
-                ? new Date(this.props.incentivePackage.planned_start_date)
-                : new Date(),
-            planned_end_date: !!this.props.incentivePackage
-                ? new Date(this.props.incentivePackage.planned_end_date)
-                : new Date(new Date().setHours(new Date().getHours() + 1))
+            planned_start_date:
+                !!this.props.incentivePackage && !!this.props.incentivePackage.planned_start_date
+                    ? new Date(this.props.incentivePackage.planned_start_date)
+                    : !!this.props.event && !!this.props.event.planned_start_date
+                    ? new Date(this.props.event.planned_start_date)
+                    : !!this.props.fromEvent
+                    ? new Date()
+                    : null,
+            planned_end_date:
+                !!this.props.incentivePackage && !!this.props.incentivePackage.planned_end_date
+                    ? new Date(this.props.incentivePackage.planned_end_date)
+                    : !!this.props.event && !!this.props.event.planned_end_date
+                    ? new Date(this.props.event.planned_end_date)
+                    : !!this.props.fromEvent
+                    ? new Date(new Date().setHours(new Date().getHours() + 1))
+                    : null
         };
     }
 
@@ -69,8 +93,16 @@ class IncentiveForm extends React.Component {
 
     onIncentiveTypeChange = (e) => {
         e.persist();
+        let incentive_type = [];
+        const options = e.target.options;
+        for (let i = 0, l = options.length; i < l; i++) {
+            if (options[i].selected) {
+                incentive_type.push(options[i].value);
+            }
+        }
+
         this.setState(() => ({
-            incentive_type: e.target.value
+            incentive_type
         }));
     };
 
@@ -88,13 +120,13 @@ class IncentiveForm extends React.Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        if (!this.state.incentive_type) {
-            this.setState(() => ({ error: "Please select an incentive type." }));
+        if (this.state.incentive_type.length === 0) {
+            this.setState(() => ({ error: "Please select at least one incentive type." }));
         } else if (!this.state.ip_description) {
             this.setState(() => ({ error: "Please enter a brief description." }));
         } else if (this.state.planned_end_date <= this.state.planned_start_date) {
             this.setState(() => ({ error: "End datetime must be after start datetime." }));
-        } else if (this.state.incentive_type === "Food" && this.state.diet_option.length === 0) {
+        } else if (this.state.incentive_type.includes("Food") && this.state.diet_option.length === 0) {
             this.setState(() => ({ error: "Must have at least one diet option selected" }));
         } else {
             getCurrentUser()
@@ -102,6 +134,7 @@ class IncentiveForm extends React.Component {
                     this.setState(() => ({ error: "" }));
                     const payload = {
                         post: this.state.post,
+                        event: this.state.event,
                         user: res.data.id,
                         diet_option: this.state.diet_option,
                         incentive_type: this.state.incentive_type,
@@ -118,10 +151,9 @@ class IncentiveForm extends React.Component {
     };
 
     render() {
-        console.log(this.state);
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                <div>
+                <div className="input-group-column">
                     {!!this.props.incentivePackageError && <p className="form__error">Request failed...</p>}
                     {this.state.error && <p className="form__error">{this.state.error}</p>}
                     <p className="form__error">* - Fields required</p>
@@ -138,11 +170,14 @@ class IncentiveForm extends React.Component {
                     />
                 </div>
                 <div className="input-group">
-                    <p className="form__label">Incentive Type*: </p>
+                    <p className="form__label">
+                        Incentive Type* (Hold down "Control", or "Command" on a Mac, to select more than one.):{" "}
+                    </p>
                     <select
+                        multiple
                         disabled={this.props.read_only}
                         onChange={this.onIncentiveTypeChange}
-                        defaultValue={this.state.incentive_type}
+                        value={this.state.incentive_type}
                     >
                         <option key="empty" value="" />
                         {this.props.incentiveTypes.map((incentiveType) => {
@@ -154,7 +189,7 @@ class IncentiveForm extends React.Component {
                         })}
                     </select>
                 </div>
-                {this.state.incentive_type === "Food" && (
+                {this.state.incentive_type.includes("Food") && (
                     <div className="input-group">
                         <p className="form__label">
                             Diet Options* (Hold down "Control", or "Command" on a Mac, to select more than one.):{" "}
@@ -162,7 +197,7 @@ class IncentiveForm extends React.Component {
                         <select
                             multiple
                             onChange={this.onDietOptionsChange}
-                            defaultValue={this.state.diet_option}
+                            value={this.state.diet_option}
                             disabled={this.props.read_only}
                         >
                             {this.props.dietOptions.map((diet_option) => {
@@ -175,27 +210,31 @@ class IncentiveForm extends React.Component {
                         </select>
                     </div>
                 )}
-                <div className="input-group">
-                    <p className="form__label">Start Date*:</p>
-                    <DateTimePicker
-                        disabled={this.props.read_only}
-                        onChange={this.onStartDateChange}
-                        value={this.state.planned_start_date}
-                        clearIcon={null}
-                    />
-                    <div />
-                </div>
-                <div className="input-group">
-                    <p className="form__label">End Date*:</p>
-                    <DateTimePicker
-                        disabled={this.props.read_only}
-                        onChange={this.onEndDateChange}
-                        value={this.state.planned_end_date}
-                        clearIcon={null}
-                    />
-                    <div />
-                </div>
-                <div>{!this.props.read_only && <button className="button">Submit Incentive</button>}</div>
+                {!!this.state.fromEvent && (
+                    <div>
+                        <div className="input-group">
+                            <p className="form__label">Start Date*:</p>
+                            <DateTimePicker
+                                disabled={this.props.read_only}
+                                onChange={this.onStartDateChange}
+                                value={this.state.planned_start_date}
+                                clearIcon={null}
+                            />
+                            <div />
+                        </div>
+                        <div className="input-group">
+                            <p className="form__label">End Date*:</p>
+                            <DateTimePicker
+                                disabled={this.props.read_only}
+                                onChange={this.onEndDateChange}
+                                value={this.state.planned_end_date}
+                                clearIcon={null}
+                            />
+                            <div />
+                        </div>
+                    </div>
+                )}
+                <div>{!this.props.read_only && <button className="button">{this.props.nextStep}</button>}</div>
             </form>
         );
     }

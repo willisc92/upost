@@ -12,6 +12,11 @@ import { RecurringModal } from "../modals/RecurringModal";
 import { mapFrequencyToRRule, mapDayToRRule } from "../../utils/recurring";
 import { RRule } from "rrule";
 
+// TODO: Refactor this to just add a Post (single responsibility).
+// TODO: Add buttons to Add an Incentive to the Post OR Add an Event to the Post.
+// TODO: If adding incentive to post - post ID should be included in the redirect.
+// TODO: If adding event(s) to post - post ID should be included in the redirect.
+
 export class AddPostPage extends React.Component {
     constructor(props) {
         super(props);

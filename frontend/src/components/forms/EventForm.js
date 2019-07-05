@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import DateTimePicker from "react-datetime-picker";
 import { getCurrentUser } from "../../actions/auth";
-import { addDays } from "../../utils/recurring";
 
 export class EventForm extends React.Component {
     constructor(props) {
@@ -132,7 +131,7 @@ export class EventForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                <div>
+                <div className="input-group-column">
                     {!!this.props.eventError && <p className="form__error">Request failed...</p>}
                     {this.state.error && <p className="form__error">{this.state.error}</p>}
                     <p className="form__error">* - Fields required</p>

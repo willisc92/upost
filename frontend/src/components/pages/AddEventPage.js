@@ -5,6 +5,7 @@ import EventForm from "../forms/EventForm";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 
+// TODO:  Refactor this to be an add Event+Incentive Page, with the option for recurring submit from AddPostPage.
 class AddEventPage extends React.Component {
     constructor(props) {
         super(props);
@@ -19,7 +20,7 @@ class AddEventPage extends React.Component {
                     .startGetPost(post_id)
                     .then((post_res) => {
                         if (res.data.username !== post_res.data[0].user) {
-                            this.props.history.push(`/myPosts/${post_id}/events`);
+                            this.props.history.push(`/myChannels`);
                         }
                     })
                     .catch((err) => {
