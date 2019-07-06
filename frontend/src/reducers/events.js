@@ -9,6 +9,11 @@ export default (state = eventsDefaultState, action) => {
                 error: null,
                 loading: true
             };
+        case "CLEAR_EVENTS":
+            return {
+                ...state,
+                events: []
+            };
         case "SET_EVENTS":
             return {
                 ...state,

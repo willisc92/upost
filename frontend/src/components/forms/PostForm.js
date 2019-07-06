@@ -13,7 +13,6 @@ class PostForm extends React.Component {
             post_title: this.props.post ? this.props.post.post_title : "",
             poster_name: this.props.post ? this.props.post.poster_name : "",
             phone_number: this.props.post ? this.props.post.phone_number : "",
-            //cost: this.props.post ? (this.props.post.cost / 100).toString() : "0",
             email: this.props.post ? this.props.post.email : "",
             post_description: this.props.post ? this.props.post.post_description : "",
             deleted_flag: this.props.post ? this.props.post.deleted_flag : false,
@@ -84,19 +83,6 @@ class PostForm extends React.Component {
             this.setState(() => ({ phone_number }));
         }
     };
-
-    /*
-    onCostChange = (e) => {
-        const cost = e.target.value;
-        if (!!cost) {
-            if (cost.match(/^\d{1,}(\.\d{0,2})?$/)) {
-                this.setState(() => ({ cost }));
-            }
-        } else {
-            this.setState(() => ({ cost }));
-        }
-    };
-    */
 
     onEmailChange = (e) => {
         const email = e.target.value;
@@ -191,7 +177,6 @@ class PostForm extends React.Component {
                             post_title: this.state.post_title,
                             poster_name: this.state.poster_name,
                             phone_number: this.state.phone_number,
-                            cost: parseFloat(this.state.cost, 10) * 100,
                             email: this.state.email,
                             post_description: this.state.post_description,
                             deleted_flag: this.state.deleted_flag,
@@ -314,10 +299,7 @@ class PostForm extends React.Component {
                 )}
                 <div className="input-group">
                     <p className="form__label">Community *: </p>
-                    <select
-                        onChange={this.onCommunitySelectChange}
-                        defaultValue={this.props.post ? this.props.post.community : ""}
-                    >
+                    <select onChange={this.onCommunitySelectChange} value={this.state.community}>
                         <option key="empty" value="" />
                         {this.props.communities.map((community) => {
                             return (

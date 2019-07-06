@@ -18,17 +18,18 @@ class DietOption(models.Model):
 
 
 class IncentivePackage(models.Model):
-    incentive_package_id = models.AutoField(db_column = "incentive_package_id", primary_key=True);
-    post = models.ForeignKey(
-        "upost.Post", on_delete=models.CASCADE, related_name="post_incentives")
-    incentive_type = models.ForeignKey(
-        "upost.IncentiveChoice", on_delete=models.DO_NOTHING)
+    incentive_package_id = models.AutoField(db_column = "incentive_package_id", primary_key=True)
+    event = models.OneToOneField("upost.PostEvent", on_delete=models.CASCADE, related_name="event_incentive", null=True, blank=True)
+    post = models.OneToOneField(
+        "upost.Post", on_delete=models.CASCADE, related_name="post_incentive", null=True, blank=True)
+    incentive_type = models.ManyToManyField(
+        "upost.IncentiveChoice", db_table='incentive_package_types')
     ip_description = models.CharField(
         db_column='Ip_description', max_length=500)
     planned_start_date = models.DateTimeField(
-        db_column='Planned_start_datetime', null=False, blank=False)
+        db_column='Planned_start_datetime', null=True, blank=True) 
     planned_end_date = models.DateTimeField(
-        db_column='Planned_end_datetime', null=False, blank=False)
+        db_column='Planned_end_datetime', null=True, blank=True)
     diet_option = models.ManyToManyField(
         "upost.DietOption", db_table='incentive_package_diet_option'
     )

@@ -48,7 +48,7 @@ class EditEventsPage extends React.Component {
         const events = this.props.post.post_events;
 
         events.forEach((event) => {
-            if (event.planned_start_date > new Date()) {
+            if (new Date(event.planned_start_date) > new Date()) {
                 promises.push(this.props.deleteEvent(event.event_id));
             }
         });
@@ -66,9 +66,9 @@ class EditEventsPage extends React.Component {
         this.props.history.push(`/myPosts/${this.props.match.params.id}/edit`);
     };
 
-    addEditIncentives = () => {
-        this.props.history.push(`/myPosts/${this.props.match.params.id}/incentives`);
-    };
+    // addEditIncentives = () => {
+    //     this.props.history.push(`/myPosts/${this.props.match.params.id}/incentives`);
+    // };
 
     addNewEvent = () => {
         this.props.history.push(`/myPosts/${this.props.match.params.id}/addEvent`);
@@ -90,18 +90,18 @@ class EditEventsPage extends React.Component {
                         {!!menu && menu.length > 0 && (
                             <span>
                                 <button className="button" onClick={this.clearAllEvents}>
-                                    Clear all future events
+                                    Delete Future Events
                                 </button>{" "}
                             </span>
                         )}
                         <button className="button" onClick={this.addNewEvent}>
-                            Add a new event
+                            Add an Event
                         </button>{" "}
-                        <button className="button" onClick={this.addEditIncentives}>
+                        {/* <button className="button" onClick={this.addEditIncentives}>
                             Add/Edit Incentives
-                        </button>{" "}
+                        </button>{" "} */}
                         <button className="button" onClick={this.returnEditPosts}>
-                            Return to Edit Post
+                            Edit Post
                         </button>
                     </div>
                 </div>

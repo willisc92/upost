@@ -9,6 +9,12 @@
     }
 }
 
+.input-group-column {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: $m-size;
+}
+
 .input-group__item {
     margin-bottom: $s-size;
 
