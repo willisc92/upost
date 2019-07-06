@@ -321,7 +321,7 @@ class PostForm extends React.Component {
 const mapStateToProps = (state) => ({
     error: !!state.posts.error && state.posts.error.response.data,
     interests: !!state.userInterests && state.userInterests.userInterests,
-    communities: !!state.communities && state.communities.communities
+    communities: !!state.userCommunities && state.userCommunities.communities
 });
 
 const mapDispatchToProps = (dispatch) => ({
