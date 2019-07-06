@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from ..serializers.Incentive_Packages import IncentiveSerializer, IncentiveChoiceSerializer, DietOptionSerializer
 from ..models.Incentive_Packages import IncentivePackage, IncentiveChoice, DietOption
 from ..filters import IncentiveFilter
-from ..permissions import IsOwnerOrReadOnly, EventAccessPermission, IsAdminOrReadOnly
+from ..permissions import IsOwnerOrReadOnly, EventAccessPermission, IsAdminOrReadOnly, IncentiveAccessPermission
 from rest_framework import permissions
 
 
@@ -13,7 +13,7 @@ class IncentivePackageView(viewsets.ModelViewSet):
 
     permission_classes = (
         permissions.IsAuthenticated,
-        EventAccessPermission,
+        IncentiveAccessPermission,
     )
 
 

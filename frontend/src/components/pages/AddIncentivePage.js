@@ -19,7 +19,7 @@ class AddIncentivePage extends React.Component {
                     .startGetPost(post_id)
                     .then((post_res) => {
                         if (res.data.username !== post_res.data[0].user) {
-                            this.props.history.push(`/myPosts/${post_id}/incentives`);
+                            this.props.history.push(`/myChannels`);
                         }
                     })
                     .catch((err) => {
@@ -36,7 +36,7 @@ class AddIncentivePage extends React.Component {
 
         this.props
             .addIncentivePackage(incentive)
-            .then((res) => this.props.history.push(`/myPosts/${post_id}/incentives`))
+            .then((res) => this.props.history.push(`/myChannels/${this.props.post.channel}`))
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
             });
@@ -44,7 +44,7 @@ class AddIncentivePage extends React.Component {
 
     goBack = () => {
         const post_id = this.props.match.params.id;
-        this.props.history.push(`/myPosts/${post_id}/incentives`);
+        this.props.history.push(`/myPosts/${post_id}/edit`);
     };
 
     render() {
@@ -59,7 +59,7 @@ class AddIncentivePage extends React.Component {
                     </div>
                 </div>
                 <div className="content-container">
-                    <IncentiveForm onSubmit={this.onSubmit} post={this.props.match.params.id} />
+                    <IncentiveForm onSubmit={this.onSubmit} post={this.props.match.params.id} nextStep={"Save"} />
                     <button className="button" onClick={this.goBack}>
                         {" "}
                         Go Back{" "}

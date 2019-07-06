@@ -5,10 +5,6 @@ import { startGetDietOptions } from "../../actions/diet_options";
 import DateTimePicker from "react-datetime-picker";
 import { getCurrentUser } from "../../actions/auth";
 
-//TODO:  Update to match new serializer - where Incentives must be tied to either a post or an event.  The indicator should be passed down as a prop.
-//TODO:  Update form to be able to select multiple incentive types (was previously just one).
-//TODO:  Incentive dates should be passed down by an existing incentive (in case of edit incentive) OR from an event passed down as a prop.
-
 class IncentiveForm extends React.Component {
     constructor(props) {
         super(props);
@@ -124,7 +120,11 @@ class IncentiveForm extends React.Component {
             this.setState(() => ({ error: "Please select at least one incentive type." }));
         } else if (!this.state.ip_description) {
             this.setState(() => ({ error: "Please enter a brief description." }));
-        } else if (this.state.planned_end_date <= this.state.planned_start_date) {
+        } else if (
+            !!this.state.planned_end_date &&
+            !!this.state.planned_start_date &&
+            this.state.planned_end_date <= this.state.planned_start_date
+        ) {
             this.setState(() => ({ error: "End datetime must be after start datetime." }));
         } else if (this.state.incentive_type.includes("Food") && this.state.diet_option.length === 0) {
             this.setState(() => ({ error: "Must have at least one diet option selected" }));
@@ -143,8 +143,10 @@ class IncentiveForm extends React.Component {
                         planned_end_date: this.state.planned_end_date
                     };
                     this.props.onSubmit(payload);
+                    console.log(payload);
                 })
                 .catch((err) => {
+                    console.log(err);
                     console.log(JSON.stringify(err, null, 2));
                 });
         }
@@ -155,7 +157,7 @@ class IncentiveForm extends React.Component {
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 <div className="input-group-column">
                     {!!this.props.incentivePackageError && <p className="form__error">Request failed...</p>}
-                    {this.state.error && <p className="form__error">{this.state.error}</p>}
+                    {!!this.state.error && <p className="form__error">{this.state.error}</p>}
                     <p className="form__error">* - Fields required</p>
                 </div>
                 <div className="input-group">

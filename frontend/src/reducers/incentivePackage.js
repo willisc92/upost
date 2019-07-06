@@ -1,4 +1,4 @@
-const incentivePackageDefaultState = { loading: false, error: null };
+const incentivePackageDefaultState = { loading: false, error: null, incentivePackage: [] };
 
 export default (state = incentivePackageDefaultState, action) => {
     switch (action.type) {
@@ -18,6 +18,16 @@ export default (state = incentivePackageDefaultState, action) => {
                 ...state,
                 loading: false,
                 error: null
+            };
+        case "SET_INCENTIVE_PACKAGE":
+            return {
+                ...state,
+                incentivePackage: action.incentivePackage
+            };
+        case "CLEAR_INCENTIVE_PACKAGE":
+            return {
+                ...state,
+                incentivePackage: []
             };
         default:
             return state;

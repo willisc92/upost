@@ -55,6 +55,33 @@ export const deleteIncentivePackage = (id) => {
     };
 };
 
+export const setIncentivePackage = (incentivePackage) => ({
+    type: "SET_INCENTIVE_PACKAGE",
+    incentivePackage
+});
+
+export const startGetIncentivePackage = (id) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(incentivePackageStart());
+            API.get(`incentive-packages/${id}`)
+                .then((result) => {
+                    dispatch(setIncentivePackage(result.data));
+                    dispatch(incentivePackageSuccess());
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(incentivePackageFail(err));
+                    reject(err);
+                });
+        });
+    };
+};
+
+export const clearIncentivePackage = () => ({
+    type: "CLEAR_INCENTIVE_PACKAGE"
+});
+
 export const incentivePackageFail = (error) => ({
     type: "INCENTIVE_PACKAGE_FAIL",
     error

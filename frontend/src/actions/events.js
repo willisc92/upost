@@ -10,6 +10,10 @@ export const setEvents = (events) => ({
     events
 });
 
+export const clearEvents = () => ({
+    type: "CLEAR_EVENTS"
+});
+
 export const startSetEvent = (id) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {

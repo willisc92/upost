@@ -1,5 +1,5 @@
 from rest_framework import permissions
-from .models import Post
+from .models import Post, PostEvent
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
@@ -24,6 +24,18 @@ class EventAccessPermission(permissions.BasePermission):
             return True
 
         return request.user == Post.objects.get(pk=obj.post.pk).user
+
+
+class IncentiveAccessPermission(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        if (obj.post):
+            return request.user == Post.objects.get(pk=obj.post.pk).user
+
+        if (obj.event):
+            return request.user == Post.objects.get(pk=obj.event.post_id).user
 
 
 class IsAuthenticatedOrCreate(permissions.IsAuthenticated):

@@ -13,15 +13,16 @@ import AddChannelPage from "../components/pages/AddChannelPage";
 import InterestsPage from "../components/pages/InterestsPage";
 import MyChannelDetail from "../components/pages/MyChannelDetail";
 import EditChannelPage from "../components/pages/EditChannelPage";
-import AddPostPage from "../components/pages/AddPostPageV2";
+import AddPostPage from "../components/pages/AddPostPage";
 import EditPostPage from "../components/pages/EditPostPage";
 import ViewPostPage from "../components/pages/ViewPostPage";
 import ViewPostEventsPage from "../components/pages/ViewPostEventsPage";
 import EditEventsPage from "../components/pages/EditEventsPage";
 import ViewEventPage from "../components/pages/ViewEventPage";
-import AddEventPage from "../components/pages/AddEventPageV2";
+import AddEventPage from "../components/pages/AddEventPage";
 import EditEventPage from "../components/pages/EditEventPage";
-import EditIncentivesPage from "../components/pages/EditIncentivesPage";
+import AddEventIncentivePage from "../components/pages/AddEventIncentivePage";
+import EditEventIncentivePage from "../components/pages/EditEventIncentivePage";
 import AddIncentivePage from "../components/pages/AddIncentivePage";
 import EditIncentivePage from "../components/pages/EditIncentivePage";
 import { setAuthToken } from "../utils/API";
@@ -59,10 +60,19 @@ class AppRouter extends React.Component {
                                 component={EditEventPage}
                                 exact={true}
                             />
-                            <PrivateRoute path="/myPosts/:id/incentives" component={EditIncentivesPage} exact={true} />
+                            <PrivateRoute
+                                path="/myEvents/:id/addIncentive"
+                                component={AddEventIncentivePage}
+                                exact={true}
+                            />
+                            <PrivateRoute
+                                path="/myEvents/:id/editIncentive"
+                                component={EditEventIncentivePage}
+                                exact={true}
+                            />
                             <PrivateRoute path="/myPosts/:id/addIncentive" component={AddIncentivePage} exact={true} />
                             <PrivateRoute
-                                path="/myPosts/:id/incentives/:incentive_id/edit"
+                                path="/myPosts/:id/editIncentive"
                                 component={EditIncentivePage}
                                 exact={true}
                             />
