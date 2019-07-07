@@ -3,6 +3,10 @@
 const path = require("path"); // imports path
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
+
+const CDNLink = "https://dhfvlgaiwupcm.cloudfront.net";
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
@@ -50,13 +54,22 @@ module.exports = (env) => {
                 }
             ]
         }, // module used to setup loaders
-        plugins: [CSSExtract],
+        plugins: [
+            CSSExtract,
+            new HtmlWebpackPlugin({
+                alwaysWriteToDisk: true,
+                CDNLink: isProduction ? CDNLink : "",
+                inject: false,
+                template: "./src/index.html",
+                filename: path.join(__dirname, "..", "backend", "frontendapp", "templates", "frontend", "index.html")
+            }),
+            new HtmlWebpackHarddiskPlugin()
+        ],
         devtool: isProduction ? "source-map" : "inline-source-map", // enable source map in browser
         devServer: {
             contentBase: [
                 path.join(__dirname, "..", "backend", "frontendapp", "templates", "frontend"),
                 path.join(__dirname, "..", "backend", "frontendapp", "static", "frontend")
-                //path.join(__dirname, "public")
             ], // enable dev server
             historyApiFallback: true, // Allows for client-side routing - should return index.html for all 404's.
             publicPath: "/dist/",
