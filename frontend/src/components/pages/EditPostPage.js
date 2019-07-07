@@ -47,7 +47,11 @@ export class EditPostPage extends React.Component {
     };
 
     onEditIncentiveClick = () => {
-        this.props.history.push(`/myPosts/${this.props.match.params.id}/incentives`);
+        this.props.history.push(`/myPosts/${this.props.match.params.id}/editIncentive`);
+    };
+
+    onAddIncentiveClick = () => {
+        this.props.history.push(`/myPosts/${this.props.match.params.id}/addIncentive`);
     };
 
     onEditEventsClick = () => {
@@ -56,31 +60,39 @@ export class EditPostPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="page-header">
+            !!this.props.post && (
+                <div>
+                    <div className="page-header">
+                        <div className="content-container">
+                            <h1 className="page-header__title">
+                                Edit Post for <span>{this.props.post && this.props.post.post_title}</span>
+                            </h1>
+                            <button className="button" onClick={this.onEditEventsClick}>
+                                Add/Edit Events
+                            </button>{" "}
+                            {!!this.props.post.post_incentive ? (
+                                <button className="button" onClick={this.onEditIncentiveClick}>
+                                    Edit Incentive
+                                </button>
+                            ) : (
+                                <button className="button" onClick={this.onAddIncentiveClick}>
+                                    Add Incentive
+                                </button>
+                            )}
+                        </div>
+                    </div>
                     <div className="content-container">
-                        <h1 className="page-header__title">
-                            Edit Post for <span>{this.props.post && this.props.post.post_title}</span>
-                        </h1>
-                        <button className="button" onClick={this.onEditEventsClick}>
-                            Add/Edit Events
-                        </button>{" "}
-                        <button className="button" onClick={this.onEditIncentiveClick}>
-                            Add/Edit Incentives
-                        </button>
+                        {!!this.props.post && (
+                            <PostForm
+                                onSubmit={this.onSubmit}
+                                channel={this.props.post.channel}
+                                post={this.props.post}
+                                nextStep="Save Changes"
+                            />
+                        )}
                     </div>
                 </div>
-                <div className="content-container">
-                    {!!this.props.post && (
-                        <PostForm
-                            onSubmit={this.onSubmit}
-                            channel={this.props.post.channel}
-                            post={this.props.post}
-                            nextStep="Save Changes"
-                        />
-                    )}
-                </div>
-            </div>
+            )
         );
     }
 }

@@ -16,11 +16,14 @@ class EventSerializer(serializers.ModelSerializer):
             'capacity',
             'planned_start_date',
             'planned_end_date',
+            'event_incentive'
         )
         model = PostEvent
 
     post = serializers.PrimaryKeyRelatedField(
         read_only=False, many=False, queryset=Post.objects.all())
+    event_incentive = IncentiveSerializer(many=False, required=False)
+    
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -40,7 +43,7 @@ class PostSerializer(serializers.ModelSerializer):
             'community',
             'post_events',
             'picture',
-            'post_incentives'
+            'post_incentive'
         )
         model = Post
 
@@ -50,7 +53,7 @@ class PostSerializer(serializers.ModelSerializer):
     tags = serializers.PrimaryKeyRelatedField(
         many=True, queryset=Interest.objects.all())
     post_events = EventSerializer(many=True, required=False)
-    post_incentives = IncentiveSerializer(many=True, required=False)
+    post_incentive = IncentiveSerializer(many=False, required=False)
     post_title = serializers.CharField(max_length=50, validators=[
         UniqueValidator(message="Post title must be unique", queryset=Post.objects.all())])
     community = serializers.PrimaryKeyRelatedField(

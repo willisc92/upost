@@ -1,23 +1,20 @@
 import React from "react";
-import { editEvent } from "../../actions/events";
+import { addIncentivePackage } from "../../actions/incentivePackage";
 import { getCurrentUser } from "../../actions/auth";
-import EventForm from "../forms/EventForm";
+import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startSetEvent, clearEvents } from "../../actions/events";
 
-class EditEventPage extends React.Component {
+class AddEventIncentivePage extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            step: "Event"
-        };
     }
 
     componentWillMount() {
         this.props.clearPosts();
         this.props.clearEvents();
-        const event_id = this.props.match.params.event_id;
+        const event_id = this.props.match.params.id;
         getCurrentUser()
             .then((res) => {
                 this.props
@@ -43,68 +40,40 @@ class EditEventPage extends React.Component {
             });
     }
 
-    onSubmit = (updates) => {
-        const event_id = this.props.match.params.event_id;
-        const post_id = this.props.match.params.id;
-
+    onSubmit = (incentive) => {
+        const post_id = this.props.event.post;
         this.props
-            .editEvent(event_id, updates)
-            .then((res) => this.props.history.push(`/myPosts/${post_id}/events`))
+            .addIncentivePackage(incentive)
+            .then((res) => this.props.history.push(`/myPosts/${post_id}/events/`))
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
             });
     };
 
     goBack = () => {
-        const post_id = this.props.match.params.id;
-        this.props.history.push(`/myPosts/${post_id}/events`);
-    };
-
-    editIncentive = () => {
-        this.props.history.push(`/myEvents/${this.props.event.event_id}/editIncentive`);
-    };
-
-    addIncentive = () => {
-        this.props.history.push(`/myEvents/${this.props.event.event_id}/addIncentive`);
+        const event_id = this.props.match.params.id;
+        const post_id = this.props.event.post;
+        this.props.history.push(`/myPosts/${post_id}/events/${event_id}/edit`);
     };
 
     render() {
-        const event = this.props.event;
-        const read_only = !!event ? (new Date(event.planned_start_date) < new Date() ? true : false) : true;
-
         return (
-            !!event && (
+            !!this.props.event && (
                 <div>
                     <div className="page-header">
                         <div className="content-container">
                             <h1 className="page-header__title">
-                                Edit Event: <span>{event && event.event_title}</span>
+                                Add an Incentive Package to Event:{" "}
+                                <span>{this.props.event && this.props.event.event_title}</span>
                             </h1>
-                            <div className="page-header__actions">
-                                <span>
-                                    {!!event.event_incentive ? (
-                                        <button className="button" onClick={this.editIncentive}>
-                                            Edit Incentive
-                                        </button>
-                                    ) : (
-                                        !read_only && (
-                                            <button className="button" onClick={this.addIncentive}>
-                                                Add Incentive
-                                            </button>
-                                        )
-                                    )}
-                                </span>
-                            </div>
                         </div>
                     </div>
                     <div className="content-container">
-                        {read_only && <p className="form__error">Cannot Edit a Past/Ongoing Event</p>}
-                        <EventForm
-                            read_only={read_only}
-                            event={event}
+                        <IncentiveForm
                             onSubmit={this.onSubmit}
-                            nextStep={"Save and Return"}
-                            post={this.props.match.params.id}
+                            nextStep="Save"
+                            event={this.props.event}
+                            fromEvent={true}
                         />
                         <button className="button" onClick={this.goBack}>
                             {" "}
@@ -117,7 +86,7 @@ class EditEventPage extends React.Component {
     }
 }
 
-const mapStateToprops = (state) => ({
+const mapStateToProps = (state) => ({
     post: state.posts.posts[0],
     event: state.events.events.length !== 0 ? state.events.events : null
 });
@@ -125,12 +94,12 @@ const mapStateToprops = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
     clearEvents: () => dispatch(clearEvents()),
-    editEvent: (id, updates) => dispatch(editEvent(id, updates)),
+    addIncentivePackage: (incentive) => dispatch(addIncentivePackage(incentive)),
     startGetPost: (id) => dispatch(startGetPost(id)),
     startSetEvent: (id) => dispatch(startSetEvent(id))
 });
 
 export default connect(
-    mapStateToprops,
+    mapStateToProps,
     mapDispatchToProps
-)(EditEventPage);
+)(AddEventIncentivePage);
