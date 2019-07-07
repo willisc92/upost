@@ -3,7 +3,7 @@
 const path = require("path"); // imports path
 const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin"); // used to dynamically generate html file for dev and production (use cdn or not)
 const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
 
 const CDNLink = "https://dhfvlgaiwupcm.cloudfront.net";
