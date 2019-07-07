@@ -6,6 +6,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // used to dynamically generate html file for dev and production (use cdn or not)
 const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
 
+const applicationLink = "http://upost-env.z9ame8dp78.us-west-2.elasticbeanstalk.com";
 const CDNLink = "https://dhfvlgaiwupcm.cloudfront.net";
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
@@ -18,6 +19,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || "development";
 
 module.exports = (env) => {
     const isProduction = env === "production";
+    const isLocal = env === "local";
     const CSSExtract = new ExtractTextPlugin("styles.css");
 
     return {
@@ -63,7 +65,15 @@ module.exports = (env) => {
                 template: "./src/index.html",
                 filename: path.join(__dirname, "..", "backend", "frontendapp", "templates", "frontend", "index.html")
             }),
-            new HtmlWebpackHarddiskPlugin()
+            new HtmlWebpackHarddiskPlugin(),
+            new webpack.DefinePlugin({
+                CDNLink: isProduction ? JSON.stringify(CDNLink) : JSON.stringify(""),
+                APILink: isProduction
+                    ? JSON.stringify(applicationLink)
+                    : isLocal
+                    ? JSON.stringify("http://127.0.0.1:8080")
+                    : JSON.stringify("http://127.0.0.1:8000")
+            })
         ],
         devtool: isProduction ? "source-map" : "inline-source-map", // enable source map in browser
         devServer: {

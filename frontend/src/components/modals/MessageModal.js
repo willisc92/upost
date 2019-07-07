@@ -14,7 +14,7 @@ class MessageModal extends React.Component {
         return (
             <Modal className="modal" isOpen={this.props.isOpen} contentLabel="Message" closeTimeoutMS={200}>
                 <div className="modal__header">
-                    <img className="modal__logo" src="dist/images/logo.png" />
+                    <img className="modal__logo" src={CDNLink + "/dist/images/logo.png"} />
                     <div>
                         <p className="modal__header__label">{this.props.message}</p>
                     </div>

@@ -43,7 +43,7 @@ class LoginModal extends React.Component {
                 closeTimeoutMS={200}
             >
                 <div className="modal__header">
-                    <img className="modal__logo" src="dist/images/logo.png" />
+                    <img className="modal__logo" src={CDNLink + "/dist/images/logo.png"} />
                     <div>
                         <p className="modal__header__label">Login to Your U-post Account</p>
                         <p className="modal__header__sublabel">to continue</p>

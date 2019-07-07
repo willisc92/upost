@@ -68,7 +68,7 @@ class Header extends React.Component {
                     <div>
                         <SideBar />
                         <Link to="/">
-                            <img className="header__logo" src="dist/images/logo.png" />
+                            <img className="header__logo" src={CDNLink + "/dist/images/logo.png"} />
                         </Link>
                     </div>
                     {!!this.props.token ? (
