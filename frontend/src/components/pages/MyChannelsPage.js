@@ -2,7 +2,7 @@ import React from "react";
 import { getVisibleChannels } from "../../selectors/myChannels";
 import { connect } from "react-redux";
 import { startSetChannels } from "../../actions/channels";
-import { MyChannelsMenu } from "../MyChannelListItem";
+import { MyChannelsMenu } from "../ChannelListItem";
 import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";

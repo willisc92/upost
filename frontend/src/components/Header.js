@@ -5,6 +5,7 @@ import { logout } from "../actions/auth";
 import SignupModal from "../components/modals/SignupModal";
 import LoginModal from "../components/modals/LoginModal";
 import SideBar from "../components/SideBar";
+import { SearchBar } from "../components/SearchBar";
 
 class Header extends React.Component {
     constructor(props) {
@@ -71,6 +72,7 @@ class Header extends React.Component {
                             <img className="header__logo" src={CDNLink + "/dist/images/logo.png"} />
                         </Link>
                     </div>
+                    {!!this.props.token && <SearchBar history={this.props.history} />}
                     {!!this.props.token ? (
                         <div>
                             <Link className="button button--link" to="/myChannels">

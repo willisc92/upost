@@ -102,3 +102,27 @@ export const channelFail = (error) => ({
 export const channelSuccess = () => ({
     type: "CHANNEL_SUCCESS"
 });
+
+export const clearChannels = () => ({
+    type: "CLEAR_CHANNELS"
+});
+
+// Search Channels
+
+export const searchChannels = (text) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(channelStart());
+            API.get(`channels/?search=${text}`)
+                .then((result) => {
+                    dispatch(channelSuccess());
+                    dispatch(setChannels(result.data));
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(channelFail(err));
+                    reject(err);
+                });
+        });
+    };
+};

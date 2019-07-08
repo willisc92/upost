@@ -5,8 +5,6 @@ import { addPost } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
 import { getCurrentUser } from "../../actions/auth";
 
-// TODO: If adding incentive to post - post ID should be included in the redirect.
-
 export class AddPostPage extends React.Component {
     constructor(props) {
         super(props);

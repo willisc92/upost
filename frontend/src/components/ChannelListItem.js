@@ -2,13 +2,20 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-export const MyChannelListItem = ({ channel_id, channel_description, creation_date, channel_name, selected }) => {
+export const ChannelListItem = ({
+    channel_id,
+    channel_description,
+    creation_date,
+    channel_name,
+    selected,
+    pathName
+}) => {
     return (
         <div className={`menu-item ${selected ? "active" : ""}`}>
             <Link
                 className="polaroid"
                 to={{
-                    pathname: `/myChannels/${channel_id}`,
+                    pathname: pathName,
                     state: { channel_id, channel_description, creation_date, channel_name }
                 }}
             >
@@ -24,20 +31,38 @@ export const MyChannelListItem = ({ channel_id, channel_description, creation_da
     );
 };
 
-export default MyChannelListItem;
+export default ChannelListItem;
 
-export const MyChannelsMenu = (list, selected) =>
+export const BrowseChannelsMenu = (list, selected) =>
     list.map((el) => {
         const { channel_id, channel_description, creation_date, channel_name } = el;
 
         return (
-            <MyChannelListItem
+            <ChannelListItem
                 channel_id={channel_id}
                 channel_description={channel_description}
                 creation_date={creation_date}
                 channel_name={channel_name}
                 key={channel_id}
                 selected={selected}
+                pathName={`/channel/${channel_id}`}
+            />
+        );
+    });
+
+export const MyChannelsMenu = (list, selected) =>
+    list.map((el) => {
+        const { channel_id, channel_description, creation_date, channel_name } = el;
+
+        return (
+            <ChannelListItem
+                channel_id={channel_id}
+                channel_description={channel_description}
+                creation_date={creation_date}
+                channel_name={channel_name}
+                key={channel_id}
+                selected={selected}
+                pathName={`/myChannels/${channel_id}`}
             />
         );
     });
