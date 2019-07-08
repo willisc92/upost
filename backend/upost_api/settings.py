@@ -219,10 +219,20 @@ STATIC_URL = '/dist/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'dist')
 
 # WHITENOISE_ROOT = os.path.join(BASE_DIR, 'frontendapp', 'dist', 'root')  # serves assets at application root
+WHITENOISE_MAX_AGE = 3600
 
 
 # Media fields
 # https://docs.djangoproject.com/en/2.2/ref/models/fields/#imagefield
+
+if 'USE_S3' in os.environ:
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+    AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    DEFAULT_FILE_STORAGE = "upost_api.storage_backends.MediaStorage"
+    AWS_DEFAULT_ACL = None
 
 MEDIA_ROOT = 'upost/media/'
 MEDIA_URL = '/media/'
