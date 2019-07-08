@@ -26,6 +26,11 @@ export default (state = channelsDefaultState, action) => {
                 error: null,
                 loading: false
             };
+        case "CHANNEL_CLEAR":
+            return {
+                ...state,
+                channels: []
+            };
         default:
             return state;
     }

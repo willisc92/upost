@@ -251,3 +251,21 @@ export const postSuccess = () => ({
 export const clearPosts = () => ({
     type: "CLEAR_POSTS"
 });
+
+export const searchPosts = (text) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(postStart());
+            API.get(`posts/?search=${text}`)
+                .then((result) => {
+                    dispatch(postSuccess());
+                    dispatch(setPosts(result.data));
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(postFail(err));
+                    reject(err);
+                });
+        });
+    };
+};

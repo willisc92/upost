@@ -27,6 +27,7 @@ import EditEventIncentivePage from "../components/pages/EditEventIncentivePage";
 import AddIncentivePage from "../components/pages/AddIncentivePage";
 import EditIncentivePage from "../components/pages/EditIncentivePage";
 import ViewChannelPage from "../components/pages/ViewChannelPage";
+import SearchResultsPage from "../components/pages/SearchResultsPage";
 import { setAuthToken } from "../utils/API";
 
 export const history = createHistory();
@@ -81,6 +82,7 @@ class AppRouter extends React.Component {
                                 component={EditIncentivePage}
                                 exact={true}
                             />
+                            <PrivateRoute path="/searchResults/:text" component={SearchResultsPage} exact={true} />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>
