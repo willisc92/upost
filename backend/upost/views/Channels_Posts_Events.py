@@ -5,14 +5,19 @@ from ..serializers import *
 from rest_framework import permissions
 from ..permissions import IsOwnerOrReadOnly, EventAccessPermission
 from ..filters import EventFilter
+from rest_framework import filters
 
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class ContentChannel_View(viewsets.ModelViewSet):
     serializer_class = ContentChannelSerializer
     queryset = ContentChannel.objects.all()
     filterset_fields = ('user', 'channel_id', 'deleted_flag',)
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
+    search_fields = ('channel_name', 'channel_description',)
+
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -28,12 +33,16 @@ class Post_View(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     filterset_fields = ('post_id', 'channel_id', 'user',
                         'community', 'deleted_flag',)
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
+    search_fields = ('post_title', 'post_description', 'tags__interest_tag', 'community__community_name',)
+
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-    permission_classes = (
-        permissions.IsAuthenticated, IsOwnerOrReadOnly,)
+    # permission_classes = (
+    #     permissions.IsAuthenticated, IsOwnerOrReadOnly,)
+
 
 
 class Random_Post_view(viewsets.ModelViewSet):
