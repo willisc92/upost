@@ -18,8 +18,10 @@ class DietOption(models.Model):
 
 
 class IncentivePackage(models.Model):
-    incentive_package_id = models.AutoField(db_column = "incentive_package_id", primary_key=True)
-    event = models.OneToOneField("upost.PostEvent", on_delete=models.CASCADE, related_name="event_incentive", null=True, blank=True)
+    incentive_package_id = models.AutoField(
+        db_column="incentive_package_id", primary_key=True)
+    event = models.OneToOneField("upost.PostEvent", on_delete=models.CASCADE,
+                                 related_name="event_incentive", null=True, blank=True)
     post = models.OneToOneField(
         "upost.Post", on_delete=models.CASCADE, related_name="post_incentive", null=True, blank=True)
     incentive_type = models.ManyToManyField(
@@ -27,12 +29,22 @@ class IncentivePackage(models.Model):
     ip_description = models.CharField(
         db_column='Ip_description', max_length=500)
     planned_start_date = models.DateTimeField(
-        db_column='Planned_start_datetime', null=True, blank=True) 
+        db_column='Planned_start_datetime', null=True, blank=True)
     planned_end_date = models.DateTimeField(
         db_column='Planned_end_datetime', null=True, blank=True)
     diet_option = models.ManyToManyField(
         "upost.DietOption", db_table='incentive_package_diet_option'
     )
+    creation_date = models.DateField(
+        db_column='Creation_Date', auto_now_add=True)
+    deletion_date = models.DateField(
+        db_column='Deletion_Date', blank=True, null=True)
+    deleted_flag = models.BooleanField(
+        db_column='Deleted_Flag', default=False, blank=True)
+
+    def publish(self):
+        self.creation_date = timezone.now()
+        self.deleted_flag = False
 
     class Meta:
         db_table = 'incentive_package'

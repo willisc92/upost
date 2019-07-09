@@ -16,14 +16,16 @@ class EventSerializer(serializers.ModelSerializer):
             'capacity',
             'planned_start_date',
             'planned_end_date',
-            'event_incentive'
+            'event_incentive',
+            'deleted_flag',
+            'creation_date',
+            'deletion_date',
         )
         model = PostEvent
 
     post = serializers.PrimaryKeyRelatedField(
         read_only=False, many=False, queryset=Post.objects.all())
     event_incentive = IncentiveSerializer(many=False, required=False)
-    
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -43,7 +45,9 @@ class PostSerializer(serializers.ModelSerializer):
             'community',
             'post_events',
             'picture',
-            'post_incentive'
+            'post_incentive',
+            'creation_date',
+            'deletion_date',
         )
         model = Post
 

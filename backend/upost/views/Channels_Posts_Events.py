@@ -18,7 +18,6 @@ class ContentChannel_View(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
     search_fields = ('channel_name', 'channel_description',)
 
-
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -34,15 +33,14 @@ class Post_View(viewsets.ModelViewSet):
     filterset_fields = ('post_id', 'channel_id', 'user',
                         'community', 'deleted_flag',)
     filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
-    search_fields = ('post_title', 'post_description', 'tags__interest_tag', 'community__community_name',)
-
+    search_fields = ('post_title', 'post_description',
+                     'tags__interest_tag', 'community__community_name',)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-    # permission_classes = (
-    #     permissions.IsAuthenticated, IsOwnerOrReadOnly,)
-
+    permission_classes = (
+        permissions.IsAuthenticated, IsOwnerOrReadOnly,)
 
 
 class Random_Post_view(viewsets.ModelViewSet):
