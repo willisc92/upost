@@ -72,7 +72,8 @@ module.exports = (env) => {
                     ? JSON.stringify(applicationLink)
                     : isLocal
                     ? JSON.stringify("http://127.0.0.1:8080")
-                    : JSON.stringify("http://127.0.0.1:8000")
+                    : JSON.stringify("http://127.0.0.1:8000"),
+                isProduction
             })
         ],
         devtool: isProduction ? "source-map" : "inline-source-map", // enable source map in browser
