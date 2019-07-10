@@ -8,7 +8,6 @@ export class ChannelForm extends React.Component {
 
         this.state = {
             channel_name: this.props.channel ? this.props.channel.channel_name : "",
-            deleted_flag: this.props.channel ? this.props.channel.deleted_flag : false,
             channel_description: this.props.channel ? this.props.channel.channel_description : "",
             error: ""
         };
@@ -25,10 +24,6 @@ export class ChannelForm extends React.Component {
         } else {
             this.setState(() => ({ channel_name }));
         }
-    };
-
-    onDeletedFlagChange = (e) => {
-        this.setState((prevState) => ({ deleted_flag: !prevState.deleted_flag }));
     };
 
     onDescriptionChange = (e) => {
@@ -53,7 +48,6 @@ export class ChannelForm extends React.Component {
                 this.setState(() => ({ error: "" }));
                 this.props.onSubmit({
                     channel_name: this.state.channel_name,
-                    deleted_flag: this.state.deleted_flag,
                     channel_description: this.state.channel_description,
                     user: res.data.username
                 });
@@ -77,6 +71,7 @@ export class ChannelForm extends React.Component {
                         autoFocus
                         value={this.state.channel_name}
                         onChange={this.onNameChange}
+                        disabled={this.props.read_only}
                     />
                 </div>
                 <div className="input-group__item">
@@ -87,25 +82,10 @@ export class ChannelForm extends React.Component {
                         placeholder="Description"
                         value={this.state.channel_description}
                         onChange={this.onDescriptionChange}
+                        disabled={this.props.read_only}
                     />
                 </div>
-                <div className="input-group__item">
-                    <p>
-                        Visible <span />
-                        <span>
-                            <input
-                                type="checkbox"
-                                name="prop1"
-                                id="string"
-                                checked={!this.state.deleted_flag}
-                                onChange={this.onDeletedFlagChange}
-                            />
-                        </span>
-                    </p>
-                </div>
-                <div>
-                    <button className="button">Submit</button>
-                </div>
+                <div>{!this.props.read_only && <button className="button">Submit</button>}</div>
             </form>
         );
     }

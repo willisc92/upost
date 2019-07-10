@@ -11,7 +11,10 @@ class ViewPostPage extends React.Component {
         const post_id = this.props.match.params.id;
         this.props
             .startGetPost(post_id)
-            .then(() => {
+            .then((res) => {
+                if (res.data[0].deleted_flag) {
+                    this.props.history.push("/");
+                }
                 this.props.startGetChannel(this.props.post.channel).catch((err) => {
                     console.log("error in getting channel information", JSON.stringify(err, null, 2));
                 });

@@ -15,6 +15,11 @@
     }
 }
 
+.polaroid__inactive {
+    @extend .polaroid;
+    pointer-events: none;
+}
+
 .polaroid__text-wrapper {
     text-overflow: ellipsis;
     white-space: nowrap;

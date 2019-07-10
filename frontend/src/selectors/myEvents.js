@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export const getVisibleEvents = (post, { visible, sortBy, startDate, endDate, text }) => {
+export const getVisibleEvents = (post, { sortBy, startDate, endDate, text }, deleted_flag) => {
     if (!!post && !!post.post_events) {
         return post.post_events
             .filter((event) => {
@@ -8,7 +8,7 @@ export const getVisibleEvents = (post, { visible, sortBy, startDate, endDate, te
                 const event_endDate = moment(event.planned_end_date);
                 const startDateMatch = startDate ? startDate.isSameOrBefore(event_startDate, "day") : true;
                 const endDateMatch = endDate ? endDate.isSameOrAfter(event_endDate, "day") : true;
-                const visibleMatch = !post.deleted_flag == visible;
+                const visibleMatch = event.deleted_flag == deleted_flag;
                 const textMatch = event.event_title.toLowerCase().includes(text.toLowerCase());
                 return startDateMatch && endDateMatch && visibleMatch && textMatch;
             })

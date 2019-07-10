@@ -46,7 +46,7 @@ class AppRouter extends React.Component {
                     <div className="contentBody">
                         <Switch>
                             <Route path="/" component={DashboardPage} exact={true} />
-                            <PrivateRoute path="/myChannels" component={MyChannelsPage} exact={true} />
+                            <PrivateRoute path="/myChannels/" component={MyChannelsPage} exact={true} />
                             <PrivateRoute path="/myChannels/:id" component={MyChannelDetail} exact={true} />
                             <PrivateRoute path="/myChannels/:id/addPost" component={AddPostPage} exact={true} />
                             <PrivateRoute path="/myPosts/:id/edit" component={EditPostPage} exact={true} />

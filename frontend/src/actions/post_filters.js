@@ -4,12 +4,6 @@ export const setTextFilter = (text = "") => ({
     text
 });
 
-// SET_VISIBLE_FILTER
-export const setVisibleFilter = (visible = false) => ({
-    type: "SET_VISIBLE_FILTER",
-    visible
-});
-
 // SORT_BY_NAME
 export const sortByName = () => ({
     type: "SORT_BY_NAME"
@@ -31,6 +25,3 @@ export const setEndDate = (endDate) => ({
     type: "SET_END_DATE",
     endDate
 });
-
-//TODO: SET EVENT FILTER
-//TODO: SET INCENTIVE FILTER

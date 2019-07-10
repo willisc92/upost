@@ -36,16 +36,45 @@ export class EditChannelPage extends React.Component {
             .catch(() => {});
     };
 
+    goBack = () => {
+        const channel = this.props.match.params.id;
+        this.props.history.push(`/myChannels/${channel}`);
+    };
+
+    restore = () => {
+        const channel = this.props.match.params.id;
+        this.props.restoreChannel(channel).then(() => {
+            this.props
+                .startGetChannel(channel)
+                .then(() => {})
+                .catch((err) => {
+                    console.log(JSON.stringify(err, null, 2));
+                });
+        });
+    };
+
     render() {
+        const read_only = this.props.channel && this.props.channel.deleted_flag;
+
         return (
             <div>
                 <div className="page-header">
                     <div className="content-container">
                         <h1 className="page-header__title">Edit Channel</h1>
+                        {read_only && (
+                            <div>
+                                <h2 className="page-header__subtitle__red">
+                                    You must restore this Channel before editing.
+                                </h2>
+                            </div>
+                        )}
+                        <button className="button" onClick={this.goBack}>
+                            Go Back
+                        </button>{" "}
                     </div>
                 </div>
                 <div className="content-container">
-                    <ChannelForm onSubmit={this.onSubmit} channel={this.props.channel} />
+                    <ChannelForm onSubmit={this.onSubmit} channel={this.props.channel} read_only={read_only} />
                 </div>
             </div>
         );

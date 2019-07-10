@@ -1,7 +1,6 @@
 // Channels Filters Reducers
 const channelsFiltersReducerDefaultState = {
     text: "",
-    visible: true,
     sortBy: "name",
     startDate: null,
     endDate: null
@@ -13,11 +12,6 @@ export default (state = channelsFiltersReducerDefaultState, action) => {
             return {
                 ...state,
                 text: action.text
-            };
-        case "SET_VISIBLE_FILTER":
-            return {
-                ...state,
-                visible: action.visible
             };
         case "SORT_BY_NAME":
             return {

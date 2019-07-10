@@ -1,5 +1,6 @@
 import API, { setContentToForm, resetContentType } from "../utils/API";
 import { getCurrentUser } from "./auth";
+import moment from "moment";
 
 /**
  * POST_START.
@@ -172,7 +173,6 @@ export const addPost = (post) => {
                         resetContentType();
                     }
                     dispatch(postSuccess());
-                    dispatch(startSetMyPosts());
                     resolve(result);
                 })
                 .catch((err) => {
@@ -205,7 +205,6 @@ export const editPost = (id, updates) => {
                         resetContentType();
                     }
                     dispatch(postSuccess());
-                    dispatch(startSetMyPosts());
                     resolve(result);
                 })
                 .catch((err) => {
@@ -252,6 +251,12 @@ export const clearPosts = () => ({
     type: "CLEAR_POSTS"
 });
 
+/**
+ * searchPosts
+ * action dispatcher - searches for posts
+ * @param {string} text - text to search posts by
+ * @returns {Promise} to be handled
+ */
 export const searchPosts = (text) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
@@ -260,6 +265,62 @@ export const searchPosts = (text) => {
                 .then((result) => {
                     dispatch(postSuccess());
                     dispatch(setPosts(result.data));
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(postFail(err));
+                    reject(err);
+                });
+        });
+    };
+};
+
+/**
+ * deletePost
+ * action dispatcher - soft deletes a post
+ * @param {number} id - id of post to delete
+ * @param {Object} post - Post object to delete
+ * @returns {Promise} to be handled
+ */
+export const deletePost = (id) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(postStart());
+            const updates = {
+                deleted_flag: true,
+                deletion_date: moment().format("YYYY-MM-DD")
+            };
+            API.patch(`posts/${id}/`, updates)
+                .then((result) => {
+                    dispatch(postSuccess());
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(postFail(err));
+                    reject(err);
+                });
+        });
+    };
+};
+
+/**
+ * restorePost
+ * action dispatcher - restores a post
+ * @param {number} id - id of post to restore
+ * @param {Object} post - Post object to restore
+ * @returns {Promise} to be handled
+ */
+export const restorePost = (id) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(postStart());
+            const updates = {
+                deleted_flag: false,
+                deletion_date: null
+            };
+            API.patch(`posts/${id}/`, updates)
+                .then((result) => {
+                    dispatch(postSuccess());
                     resolve(result);
                 })
                 .catch((err) => {

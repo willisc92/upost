@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-export const MyPostSummary = ({ post, pathName, selected }) => {
+export const MyPostSummary = ({ post, pathName, selected, readOnly }) => {
     return (
         <div className={`menu-item ${selected ? "active" : ""}`}>
             <Link
-                className="polaroid"
+                className={readOnly ? "polaroid__inactive" : "polaroid"}
                 to={{
                     pathname: pathName,
                     state: { post }
@@ -27,14 +27,22 @@ export const MyPostSummary = ({ post, pathName, selected }) => {
 
 export default MyPostSummary;
 
-export const MyPostMenu = (list, selected) =>
+export const MyPostMenu = (list, selected, readOnly) =>
     list.map((el) => {
         return (
-            <MyPostSummary post={el} pathName={`/myPosts/${el.post_id}/edit`} key={el.post_id} selected={selected} />
+            <MyPostSummary
+                post={el}
+                pathName={`/myPosts/${el.post_id}/edit`}
+                key={el.post_id}
+                selected={selected}
+                readOnly={readOnly}
+            />
         );
     });
 
 export const BrowsePostMenu = (list, selected) =>
-    list.map((el) => {
-        return <MyPostSummary post={el} pathName={`/post/${el.post_id}`} key={el.post_id} selected={selected} />;
-    });
+    list
+        .filter((el) => !el.deleted_flag)
+        .map((el) => {
+            return <MyPostSummary post={el} pathName={`/post/${el.post_id}`} key={el.post_id} selected={selected} />;
+        });

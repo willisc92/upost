@@ -86,6 +86,11 @@ class AddEventPage extends React.Component {
         this.props.history.push(`/myPosts/${post_id}/events`);
     };
 
+    goToPost = () => {
+        const post_id = this.props.match.params.id;
+        this.props.history.push(`/myPosts/${post_id}/edit`);
+    };
+
     recurringSubmit = async (payload) => {
         await this.setState(() => ({
             rrule_payload: payload,
@@ -415,6 +420,8 @@ class AddEventPage extends React.Component {
     };
 
     render() {
+        const read_only = !!this.props.post && this.props.post.deleted_flag;
+
         return (
             <div>
                 <div className="page-header">
@@ -422,21 +429,32 @@ class AddEventPage extends React.Component {
                         <h1 className="page-header__title">
                             Add an Event to Post: <span>{this.props.post && this.props.post.post_title}</span>
                         </h1>
-                        <div className="page-header__actions">
-                            <span>
-                                <button className="button" onClick={this.goBack}>
-                                    See All Post Events
-                                </button>{" "}
-                                <button className="button" onClick={this.recurringOpen}>
-                                    Open Recurring Settings
-                                </button>{" "}
-                                {!!this.state.base_incentive && (
-                                    <button className="button" onClick={this.clearBaseIncentive}>
-                                        Clear Incentive
-                                    </button>
-                                )}
-                            </span>
-                        </div>
+                        {read_only ? (
+                            <div>
+                                <h2 className="page-header__subtitle__red">
+                                    You must restore the post of this event before adding.
+                                </h2>
+                                <button className="button" onClick={this.goToPost}>
+                                    Go to Post
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="page-header__actions">
+                                <span>
+                                    <button className="button" onClick={this.goBack}>
+                                        See All Post Events
+                                    </button>{" "}
+                                    <button className="button" onClick={this.recurringOpen}>
+                                        Open Recurring Settings
+                                    </button>{" "}
+                                    {!!this.state.base_incentive && (
+                                        <button className="button" onClick={this.clearBaseIncentive}>
+                                            Clear Incentive
+                                        </button>
+                                    )}
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="content-container">
@@ -446,11 +464,13 @@ class AddEventPage extends React.Component {
                         message={this.state.message}
                         closeMessageModal={this.handleMessageModalClose}
                     />
-                    <div className="input_group__item">
-                        <button className="button" onClick={this.toggleForms}>
-                            Open {this.state.step === "Event" ? "Incentive" : "Event"} Settings
-                        </button>
-                    </div>
+                    {read_only && (
+                        <div className="input_group__item">
+                            <button className="button" onClick={this.toggleForms}>
+                                Open {this.state.step === "Event" ? "Incentive" : "Event"} Settings
+                            </button>
+                        </div>
+                    )}
                     <div className="input_group__item">
                         <h3>{this.mapRRulesToText()}</h3>
                     </div>
@@ -463,7 +483,7 @@ class AddEventPage extends React.Component {
                         <div className="input_group__item">
                             <EventForm
                                 event={this.state.base_event}
-                                read_only={false}
+                                read_only={read_only}
                                 id="Event"
                                 post={this.props.match.params.id}
                                 description={!!this.props.post ? this.props.post.post_description : ""}
@@ -486,9 +506,11 @@ class AddEventPage extends React.Component {
                         </div>
                     )}
 
-                    <button className="button" onClick={this.submitAll}>
-                        Submit All
-                    </button>
+                    {!read_only && (
+                        <button className="button" onClick={this.submitAll}>
+                            Submit All
+                        </button>
+                    )}
 
                     <button
                         className="button__invisible"

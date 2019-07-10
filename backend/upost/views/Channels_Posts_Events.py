@@ -39,6 +39,9 @@ class Post_View(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+    # def put(self, request, *args, **kwargs):
+    #     return self.partial_update(request, *args, **kwargs)
+
     permission_classes = (
         permissions.IsAuthenticated, IsOwnerOrReadOnly,)
 

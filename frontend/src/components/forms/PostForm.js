@@ -15,7 +15,6 @@ class PostForm extends React.Component {
             phone_number: this.props.post ? this.props.post.phone_number : "",
             email: this.props.post ? this.props.post.email : "",
             post_description: this.props.post ? this.props.post.post_description : "",
-            deleted_flag: this.props.post ? this.props.post.deleted_flag : false,
             tags: this.props.post ? this.props.post.tags : [],
             error: "",
             channel: this.props.channel,
@@ -102,10 +101,6 @@ class PostForm extends React.Component {
         }
     };
 
-    onDeletedFlagChange = (e) => {
-        this.setState((prevState) => ({ deleted_flag: !prevState.deleted_flag }));
-    };
-
     onTagsChange = (e) => {
         let tags = [];
         const options = e.target.options;
@@ -163,7 +158,6 @@ class PostForm extends React.Component {
                         form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
                         form_data.append("email", this.state.email);
                         form_data.append("post_description", this.state.post_description);
-                        form_data.append("deleted_flag", this.state.deleted_flag);
                         form_data.append("community", this.state.community);
                         this.state.tags.forEach((tag) => {
                             form_data.append("tags", tag);
@@ -179,7 +173,6 @@ class PostForm extends React.Component {
                             phone_number: this.state.phone_number,
                             email: this.state.email,
                             post_description: this.state.post_description,
-                            deleted_flag: this.state.deleted_flag,
                             community: this.state.community,
                             tags: this.state.tags,
                             channel: this.state.channel
@@ -212,6 +205,7 @@ class PostForm extends React.Component {
                         autoFocus
                         value={this.state.post_title}
                         onChange={this.onTitleChange}
+                        disabled={this.props.read_only}
                     />
                 </div>
                 <div className="input-group">
@@ -222,6 +216,7 @@ class PostForm extends React.Component {
                         placeholder="Name"
                         value={this.state.poster_name}
                         onChange={this.onPosterNameChange}
+                        disabled={this.props.read_only}
                     />
                 </div>
                 <div className="input-group">
@@ -232,6 +227,7 @@ class PostForm extends React.Component {
                         placeholder="Phone Number"
                         value={this.state.phone_number}
                         onChange={this.onPhoneNumberChange}
+                        disabled={this.props.read_only}
                     />
                 </div>
                 <div className="input-group">
@@ -242,6 +238,7 @@ class PostForm extends React.Component {
                         placeholder="Email"
                         value={this.state.email}
                         onChange={this.onEmailChange}
+                        disabled={this.props.read_only}
                     />
                 </div>
                 <div className="input-group">
@@ -252,24 +249,13 @@ class PostForm extends React.Component {
                         placeholder="Description"
                         value={this.state.post_description}
                         onChange={this.onDescriptionChange}
+                        disabled={this.props.read_only}
                     />
-                </div>
-                <div>
-                    <p>
-                        Visible*: <span />
-                        <input
-                            type="checkbox"
-                            name="prop1"
-                            id="string"
-                            checked={!this.state.deleted_flag}
-                            onChange={this.onDeletedFlagChange}
-                        />
-                    </p>
                 </div>
                 <p>
                     Image upload:{" "}
                     {!!this.state.picture_preview && (
-                        <button className="button" onClick={this.clearPicture}>
+                        <button className="button" onClick={this.clearPicture} disabled={this.props.read_only}>
                             Clear Picture
                         </button>
                     )}{" "}
@@ -285,7 +271,12 @@ class PostForm extends React.Component {
                         <p className="form__label">
                             Interest Tags (Hold down "Control", or "Command" on a Mac, to select more than one.):{" "}
                         </p>
-                        <select multiple onChange={this.onTagsChange} value={this.state.tags}>
+                        <select
+                            multiple
+                            onChange={this.onTagsChange}
+                            value={this.state.tags}
+                            disabled={this.props.read_only}
+                        >
                             {this.props.interests.map((interest) => {
                                 return (
                                     <option key={interest.interest_tag} value={interest.interest_tag}>
@@ -299,7 +290,11 @@ class PostForm extends React.Component {
                 )}
                 <div className="input-group">
                     <p className="form__label">Community *: </p>
-                    <select onChange={this.onCommunitySelectChange} value={this.state.community}>
+                    <select
+                        onChange={this.onCommunitySelectChange}
+                        value={this.state.community}
+                        disabled={this.props.read_only}
+                    >
                         <option key="empty" value="" />
                         {this.props.communities.map((community) => {
                             return (
@@ -310,9 +305,11 @@ class PostForm extends React.Component {
                         })}
                     </select>
                 </div>
-                <div>
-                    <button className="button">{this.props.nextStep}</button>
-                </div>
+                {!this.props.read_only && (
+                    <div>
+                        <button className="button">{this.props.nextStep}</button>
+                    </div>
+                )}
             </form>
         );
     }

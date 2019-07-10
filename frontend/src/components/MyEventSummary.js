@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import DateRangeTag from "../components/DateRangeTag";
 
-export const MyEventSummary = ({ event, pathName, selected }) => {
+export const MyEventSummary = ({ event, pathName, selected, readOnly }) => {
     return (
         <div className={`menu-item ${selected ? "active" : ""}`}>
             <Link
-                className="polaroid"
+                className={readOnly ? "polaroid__inactive" : "polaroid"}
                 to={{
                     pathname: pathName,
                     state: { event }
@@ -24,7 +24,7 @@ export const MyEventSummary = ({ event, pathName, selected }) => {
 
 export default MyEventSummary;
 
-export const MyEventMenu = (list, selected) =>
+export const MyEventMenu = (list, selected, readOnly) =>
     list.map((el) => {
         return (
             <MyEventSummary
@@ -32,6 +32,7 @@ export const MyEventMenu = (list, selected) =>
                 pathName={`/myPosts/${el.post}/events/${el.event_id}/edit`}
                 key={el.event_id}
                 selected={selected}
+                readOnly={readOnly}
             />
         );
     });

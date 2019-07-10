@@ -34,21 +34,23 @@ export const ChannelListItem = ({
 export default ChannelListItem;
 
 export const BrowseChannelsMenu = (list, selected) =>
-    list.map((el) => {
-        const { channel_id, channel_description, creation_date, channel_name } = el;
+    list
+        .filter((el) => !el.deleted_flag)
+        .map((el) => {
+            const { channel_id, channel_description, creation_date, channel_name } = el;
 
-        return (
-            <ChannelListItem
-                channel_id={channel_id}
-                channel_description={channel_description}
-                creation_date={creation_date}
-                channel_name={channel_name}
-                key={channel_id}
-                selected={selected}
-                pathName={`/channel/${channel_id}`}
-            />
-        );
-    });
+            return (
+                <ChannelListItem
+                    channel_id={channel_id}
+                    channel_description={channel_description}
+                    creation_date={creation_date}
+                    channel_name={channel_name}
+                    key={channel_id}
+                    selected={selected}
+                    pathName={`/channel/${channel_id}`}
+                />
+            );
+        });
 
 export const MyChannelsMenu = (list, selected) =>
     list.map((el) => {
