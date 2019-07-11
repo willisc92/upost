@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import include, path, re_path
 from rest_framework import routers
 from upost.views import *
-from upost.views.User_Event_Channel_Relations import SubscribeView, AttendView  # not ideal but only works this way
+# not ideal but only works this way
+from upost.views.User_Event_Channel_Relations import SubscribeView, AttendView
 from django.conf import settings
 from django.conf.urls.static import static
 from frontendapp import urls as frontendapp_urls
@@ -41,7 +42,8 @@ router.register('incentive-choices',
                 IncentiveChoiceView, 'incentive-choice')
 router.register(
     'diet-options', DietOptionView, 'diet-option')
-router.register('user-subscriptions', UserAccountSubscriptionsView, 'user-subscription')
+router.register('user-subscriptions',
+                UserAccountSubscriptionsView, 'user-subscription')
 router.register('subscriptions', SubscribeView, 'subscription')
 router.register('user-attendance', UserAccountAttendsView, 'user-attend')
 router.register('attendance', AttendView, 'attend')
@@ -51,6 +53,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/me/', UserDetailView.as_view(), name='me'),
+    path('api/free-food/', Free_Food_Event_View.as_view(), name='free-food'),
     path('api/auth/', include('rest_framework_social_oauth2.urls')),
     re_path(r'', include(frontendapp_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

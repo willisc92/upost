@@ -464,7 +464,7 @@ class AddEventPage extends React.Component {
                         message={this.state.message}
                         closeMessageModal={this.handleMessageModalClose}
                     />
-                    {read_only && (
+                    {!read_only && (
                         <div className="input_group__item">
                             <button className="button" onClick={this.toggleForms}>
                                 Open {this.state.step === "Event" ? "Incentive" : "Event"} Settings

@@ -9,6 +9,7 @@ from rest_framework import filters
 
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django_filters.rest_framework import DjangoFilterBackend
+from datetime import datetime
 
 
 class ContentChannel_View(viewsets.ModelViewSet):
@@ -67,4 +68,17 @@ class Event_View(viewsets.ModelViewSet):
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
         EventAccessPermission,
+    )
+
+
+class Free_Food_Event_View(generics.ListAPIView):
+    serializer_class = EventSerializer
+    queryset = PostEvent.objects.filter(event_incentive__isnull=False,
+                                        event_incentive__incentive_type__in=[
+                                            "Food"],
+                                        event_incentive__planned_end_date__isnull=False,
+                                        event_incentive__planned_end_date__gte=datetime.now()).order_by('event_incentive__planned_start_date')
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
     )
