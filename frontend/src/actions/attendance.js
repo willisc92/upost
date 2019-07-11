@@ -18,7 +18,7 @@ export const setAttendance = (attendance) => {
  */
 export const startGetAttendance = () => {
     return (dispatch) => {
-        API.get(`user-attendance/${localStorage.getItem("user_id")}`)
+        API.get(`user-attendance/${localStorage.getItem("user_id")}/`)
             .then((result) => {
                 dispatch(setAttendance(result.data.attends));
             })
