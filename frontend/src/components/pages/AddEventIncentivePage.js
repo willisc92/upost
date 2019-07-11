@@ -56,7 +56,15 @@ class AddEventIncentivePage extends React.Component {
         this.props.history.push(`/myPosts/${post_id}/events/${event_id}/edit`);
     };
 
+    goToIncentive = () => {
+        const event_id = this.props.match.params.id;
+        this.props.history.push(`/myEvents/${event_id}/editIncentive`);
+    };
+
     render() {
+        const read_only = !!this.props.event && this.props.event.deleted_flag;
+        const existing_incentive = !!this.props.event && !!this.props.event.event_incentive;
+
         return (
             !!this.props.event && (
                 <div>
@@ -66,6 +74,30 @@ class AddEventIncentivePage extends React.Component {
                                 Add an Incentive Package to Event:{" "}
                                 <span>{this.props.event && this.props.event.event_title}</span>
                             </h1>
+                            {existing_incentive ? (
+                                <div>
+                                    <h2 className="page-header__subtitle__red">
+                                        There is already an existing incentive tied to this event.
+                                    </h2>
+                                    <button className="button" onClick={this.goToIncentive}>
+                                        Go to Incentive
+                                    </button>
+                                </div>
+                            ) : (
+                                read_only && (
+                                    <div>
+                                        <h2 className="page-header__subtitle__red">
+                                            The event this incentive will be tied to is deleted. Restore it before
+                                            adding an incentive.
+                                        </h2>
+                                    </div>
+                                )
+                            )}
+                            <div className="page-header__actions">
+                                <button className="button" onClick={this.goBack}>
+                                    Go to Event
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div className="content-container">
@@ -74,11 +106,8 @@ class AddEventIncentivePage extends React.Component {
                             nextStep="Save"
                             event={this.props.event}
                             fromEvent={true}
+                            read_only={read_only || existing_incentive}
                         />
-                        <button className="button" onClick={this.goBack}>
-                            {" "}
-                            Go Back{" "}
-                        </button>
                     </div>
                 </div>
             )

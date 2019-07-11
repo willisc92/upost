@@ -47,8 +47,14 @@ class AddIncentivePage extends React.Component {
         this.props.history.push(`/myPosts/${post_id}/edit`);
     };
 
+    goToIncentive = () => {
+        const post_id = this.props.match.params.id;
+        this.props.history.push(`/myPosts/${post_id}/editIncentive`);
+    };
+
     render() {
         const read_only = !!this.props.post && this.props.post.deleted_flag;
+        const existing_incentive = !!this.props.post && !!this.props.post.post_incentive;
 
         return (
             <div>
@@ -58,6 +64,14 @@ class AddIncentivePage extends React.Component {
                             Add an Incentive Package to Post:{" "}
                             <span>{this.props.post && this.props.post.post_title}</span>
                         </h1>
+                        {existing_incentive && (
+                            <div>
+                                <h2>This post already has an existing incentive</h2>
+                                <button className="button" onClick={this.goToIncentive}>
+                                    Go to Incentive
+                                </button>
+                            </div>
+                        )}
                         {read_only && (
                             <div>
                                 <h2 className="page-header__subtitle__red">
@@ -75,7 +89,7 @@ class AddIncentivePage extends React.Component {
                         onSubmit={this.onSubmit}
                         post={this.props.match.params.id}
                         nextStep={"Save"}
-                        read_only={read_only}
+                        read_only={read_only || existing_incentive}
                     />
                     {!read_only && (
                         <button className="button" onClick={this.goBack}>

@@ -4,7 +4,13 @@ import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startSetEvent, clearEvents } from "../../actions/events";
-import { startGetIncentivePackage, clearIncentivePackage, editIncentivePackage } from "../../actions/incentivePackage";
+import {
+    startGetIncentivePackage,
+    clearIncentivePackage,
+    editIncentivePackage,
+    deleteIncentivePackage,
+    restoreIncentivePackage
+} from "../../actions/incentivePackage";
 
 class EditEventIncentivePage extends React.Component {
     constructor(props) {
@@ -64,17 +70,45 @@ class EditEventIncentivePage extends React.Component {
         this.props.history.push(`/myPosts/${post_id}/events/${event_id}/edit`);
     };
 
+    deleteIncentive = () => {
+        const incentive_id = this.props.incentive.incentive_package_id;
+        this.props.deleteIncentivePackage(incentive_id).then(() => {
+            this.props
+                .startGetIncentivePackage(incentive_id)
+                .then(() => {})
+                .catch((err) => {
+                    console.log(JSON.stringify(err, null, 2));
+                });
+        });
+    };
+
+    restoreIncentive = () => {
+        const incentive_id = this.props.incentive.incentive_package_id;
+        this.props.restoreIncentivePackage(incentive_id).then(() => {
+            this.props
+                .startGetIncentivePackage(incentive_id)
+                .then(() => {})
+                .catch((err) => {
+                    console.log(JSON.stringify(err, null, 2));
+                });
+        });
+    };
+
     render() {
         const incentive = this.props.incentive;
-        const read_only = !!this.props.incentive
-            ? new Date(incentive.planned_start_date) < new Date()
+        const event = this.props.event;
+        const read_only_event = !!event && event.deleted_flag;
+        const read_only_incentive = !!incentive && incentive.deleted_flag;
+        const read_only_incentive_end = !!incentive
+            ? new Date(incentive.planned_end_date) < new Date()
                 ? true
                 : false
             : true;
+        const read_only = read_only_event || read_only_incentive || read_only_incentive_end;
 
         return (
-            !!this.props.event &&
-            !!this.props.incentive && (
+            !!event &&
+            !!incentive && (
                 <div>
                     <div className="page-header">
                         <div className="content-container">
@@ -82,10 +116,44 @@ class EditEventIncentivePage extends React.Component {
                                 Edit the Incentive Package to Event:{" "}
                                 <span>{this.props.event && this.props.event.event_title}</span>
                             </h1>
+                            <div className="page-header__actions">
+                                {read_only_event ? (
+                                    <div>
+                                        <h2 className="page-header__subtitle__red">
+                                            The event this incentive is tied to is deleted. Restore it to edit.
+                                        </h2>
+                                        <button className="button" onClick={this.goBack}>
+                                            Go To Event
+                                        </button>
+                                    </div>
+                                ) : read_only_incentive ? (
+                                    <div>
+                                        <h2 className="page-header__subtitle__red">
+                                            This incentive is deleted. Restore it to edit.
+                                        </h2>
+                                        <button className="button" onClick={this.restoreIncentive}>
+                                            Restore Incentive
+                                        </button>{" "}
+                                        <button className="button" onClick={this.goBack}>
+                                            Go To Event
+                                        </button>
+                                    </div>
+                                ) : read_only_incentive_end ? (
+                                    <h2 className="page-header__subtitle__red">Cannot edit a past incentive.</h2>
+                                ) : (
+                                    <div>
+                                        <button className="button" onClick={this.deleteIncentive}>
+                                            Delete Incentive
+                                        </button>{" "}
+                                        <button className="button" onClick={this.goBack}>
+                                            Go To Event
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     </div>
                     <div className="content-container">
-                        {read_only && <p className="form__error">Cannot Edit a Past/Ongoing Incentive</p>}
                         <IncentiveForm
                             onSubmit={this.onSubmit}
                             nextStep="Save"
@@ -93,10 +161,6 @@ class EditEventIncentivePage extends React.Component {
                             fromEvent={true}
                             read_only={read_only}
                         />
-                        <button className="button" onClick={this.goBack}>
-                            {" "}
-                            Go Back{" "}
-                        </button>
                     </div>
                 </div>
             )
@@ -117,7 +181,9 @@ const mapDispatchToProps = (dispatch) => ({
     editIncentivePackage: (id, incentive) => dispatch(editIncentivePackage(id, incentive)),
     startGetPost: (id) => dispatch(startGetPost(id)),
     startSetEvent: (id) => dispatch(startSetEvent(id)),
-    startGetIncentivePackage: (id) => dispatch(startGetIncentivePackage(id))
+    startGetIncentivePackage: (id) => dispatch(startGetIncentivePackage(id)),
+    restoreIncentivePackage: (id) => dispatch(restoreIncentivePackage(id)),
+    deleteIncentivePackage: (id) => dispatch(deleteIncentivePackage(id))
 });
 
 export default connect(
