@@ -1,5 +1,6 @@
 import React from "react";
-import { startGetChannel } from "../../actions/channels";
+import { startGetChannel, deleteChannel, restoreChannel } from "../../actions/channels";
+import { deletePost } from "../../actions/posts";
 import { connect } from "react-redux";
 import moment from "moment";
 import { MyPostMenu } from "../MyPostSummary";
@@ -52,8 +53,53 @@ export class MyChannelDetail extends React.Component {
         this.props.history.push(`/myChannels/edit/${channel_id}`);
     };
 
+    restoreChannel = (e) => {
+        const channel_id = this.props.match.params.id;
+        this.props
+            .restoreChannel(channel_id)
+            .then(() => {
+                this.props.history.push(`/myChannels/${channel_id}/`);
+            })
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
+    };
+
+    deleteChannel = (e) => {
+        const channel_id = this.props.match.params.id;
+        this.props
+            .deleteChannel(channel_id)
+            .then(() => {
+                this.props.history.push(`/myChannels/${channel_id}/`);
+            })
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
+    };
+
+    deleteAllPosts = (e) => {
+        let promises = [];
+        const posts = this.props.posts;
+
+        posts.forEach((post) => {
+            promises.push(this.props.deletePost(post.post_id));
+        });
+
+        const channel_id = this.props.match.params.id;
+
+        Promise.all(promises)
+            .then(() => {
+                this.props.startGetChannel(channel_id);
+            })
+            .catch((err) => {
+                console.log(err);
+                console.log(JSON.stringify(err, null, 2));
+            });
+    };
+
     render() {
-        const menu = this.props.posts && MyPostMenu(this.props.posts, this.state.selected);
+        const menu =
+            this.props.posts && MyPostMenu(this.props.posts, this.state.selected, this.props.channel.deleted_flag);
 
         return (
             <div>
@@ -70,20 +116,43 @@ export class MyChannelDetail extends React.Component {
                                 <h3>
                                     Creation Date: {moment(this.props.channel.creation_date).format("MMMM Do YYYY")}
                                 </h3>
+                                {this.props.channel.deleted_flag && (
+                                    <h3 className="page-header__subtitle__red">
+                                        Deletion Date: {moment(this.props.channel.deletion_date).format("MMMM Do YYYY")}{" "}
+                                        - Restore the Channel To Add/Edit Posts
+                                    </h3>
+                                )}
 
-                                <div>
-                                    <button className="button" onClick={this.handleAddPost}>
-                                        Add a new post
+                                {this.props.channel.deleted_flag ? (
+                                    <button className="button" onClick={this.restoreChannel}>
+                                        Restore Channel
                                     </button>
-                                    <span> </span>
-                                    <button
-                                        id={this.props.channel.channel_id}
-                                        className="button"
-                                        onClick={this.handleEditChannel}
-                                    >
-                                        Edit this channel
-                                    </button>
-                                </div>
+                                ) : (
+                                    <div>
+                                        <button className="button" onClick={this.handleAddPost}>
+                                            Add a new post
+                                        </button>{" "}
+                                        <button
+                                            id={this.props.channel.channel_id}
+                                            className="button"
+                                            onClick={this.handleEditChannel}
+                                        >
+                                            Edit this channel
+                                        </button>{" "}
+                                        <button
+                                            id={this.props.channel.channel_id}
+                                            className="button"
+                                            onClick={this.deleteChannel}
+                                        >
+                                            Delete this Channel
+                                        </button>{" "}
+                                        {!!menu && menu.length > 0 && (
+                                            <button className="button" onClick={this.deleteAllPosts}>
+                                                Delete All Posts
+                                            </button>
+                                        )}
+                                    </div>
+                                )}
                                 <div className="page-header__actions">
                                     <MyPostFilterSelector />
                                 </div>
@@ -118,13 +187,20 @@ const mapStateToProps = (state) => {
         loading: state.channels.loading,
         posts:
             state.channels.channels.length === 1
-                ? getVisiblePosts(state.channels.channels[0].channel_posts, state.postFilters)
+                ? getVisiblePosts(
+                      state.channels.channels[0].channel_posts,
+                      state.postFilters,
+                      state.channels.channels[0].deleted_flag
+                  )
                 : []
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    startGetChannel: (id) => dispatch(startGetChannel(id))
+    startGetChannel: (id) => dispatch(startGetChannel(id)),
+    deleteChannel: (id) => dispatch(deleteChannel(id)),
+    restoreChannel: (id) => dispatch(restoreChannel(id)),
+    deletePost: (id) => dispatch(deletePost(id))
 });
 
 export default connect(

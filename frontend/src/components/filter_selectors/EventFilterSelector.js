@@ -1,14 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { DateRangePicker } from "react-dates";
-import {
-    setVisibleFilter,
-    sortAscending,
-    sortDescending,
-    setStartDate,
-    setEndDate,
-    setTextFilter
-} from "../../actions/event_filters";
+import { sortAscending, sortDescending, setStartDate, setEndDate, setTextFilter } from "../../actions/event_filters";
 
 export class EventFilters extends React.Component {
     state = {
@@ -34,10 +27,6 @@ export class EventFilters extends React.Component {
         } else if (e.target.value === "descending") {
             this.props.sortDescending();
         }
-    };
-
-    handleCheckbox = (e) => {
-        this.props.setVisibleFilter(!this.props.filters.visible);
     };
 
     render() {
@@ -77,20 +66,6 @@ export class EventFilters extends React.Component {
                             isOutsideRange={() => false}
                         />
                     </div>
-                    <div className="input-group__item">
-                        <p>
-                            Visible{" "}
-                            <span>
-                                <input
-                                    type="checkbox"
-                                    name="prop1"
-                                    id="string"
-                                    checked={this.props.filters.visible}
-                                    onChange={this.handleCheckbox}
-                                />
-                            </span>
-                        </p>
-                    </div>
                 </div>
             </div>
         );
@@ -103,7 +78,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setTextFilter: (text) => dispatch(setTextFilter(text)),
-    setVisibleFilter: (visible) => dispatch(setVisibleFilter(visible)),
     sortAscending: () => dispatch(sortAscending()),
     sortDescending: () => dispatch(sortDescending()),
     setStartDate: (startDate) => dispatch(setStartDate(startDate)),

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import DateRangeTag from "../components/DateRangeTag";
 import moment from "moment";
 
 export const MyIncentiveSummary = ({ incentive, pathName, selected }) => {
@@ -13,13 +14,19 @@ export const MyIncentiveSummary = ({ incentive, pathName, selected }) => {
                 }}
             >
                 <div>
-                    <h3 className="polaroid__title">{incentive.ip_description}</h3>
-                    <p className="polaroid__description">
-                        Start Date: {moment(incentive.planned_start_date).format("llll")}
-                    </p>
-                    <p className="polaroid__description">
-                        End Date: {moment(incentive.planned_end_date).format("llll")}
-                    </p>
+                    <h3 className="polaroid__title">
+                        {incentive.ip_description}
+                        {incentive.deleted_flag && (
+                            <span className="polaroid__sub_title">
+                                {" "}
+                                (Deleted {moment(incentive.deletion_date).format("ddd, MMM D YYYY")})
+                            </span>
+                        )}
+                    </h3>
+                    <p className="polaroid__description">Type: {incentive.incentive_type}</p>
+                    {!!incentive.planned_start_date && !!incentive.planned_end_date && (
+                        <DateRangeTag startDate={event.planned_start_date} endDate={event.planned_end_date} />
+                    )}
                 </div>
             </Link>
         </div>
@@ -30,12 +37,15 @@ export default MyIncentiveSummary;
 
 export const MyIncentiveMenu = (list, selected) =>
     list.map((el) => {
+        let pathName;
+
+        if (!!el.post) {
+            pathName = `/myPosts/${el.post}/editIncentive`;
+        } else if (!!el.event) {
+            pathName = `/myEvents/${el.event}/editIncentive`;
+        }
+
         return (
-            <MyIncentiveSummary
-                incentive={el}
-                pathName={`/myPosts/${el.post}/incentives/${el.incentive_package_id}/edit`}
-                key={el.incentive_package_id}
-                selected={selected}
-            />
+            <MyIncentiveSummary incentive={el} pathName={pathName} key={el.incentive_package_id} selected={selected} />
         );
     });

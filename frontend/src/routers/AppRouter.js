@@ -28,6 +28,7 @@ import AddIncentivePage from "../components/pages/AddIncentivePage";
 import EditIncentivePage from "../components/pages/EditIncentivePage";
 import ViewChannelPage from "../components/pages/ViewChannelPage";
 import SearchResultsPage from "../components/pages/SearchResultsPage";
+import DeletedContentPage from "../components/pages/DeletedContentPage";
 import { setAuthToken } from "../utils/API";
 
 export const history = createHistory();
@@ -46,7 +47,7 @@ class AppRouter extends React.Component {
                     <div className="contentBody">
                         <Switch>
                             <Route path="/" component={DashboardPage} exact={true} />
-                            <PrivateRoute path="/myChannels" component={MyChannelsPage} exact={true} />
+                            <PrivateRoute path="/myChannels/" component={MyChannelsPage} exact={true} />
                             <PrivateRoute path="/myChannels/:id" component={MyChannelDetail} exact={true} />
                             <PrivateRoute path="/myChannels/:id/addPost" component={AddPostPage} exact={true} />
                             <PrivateRoute path="/myPosts/:id/edit" component={EditPostPage} exact={true} />
@@ -83,6 +84,7 @@ class AppRouter extends React.Component {
                                 exact={true}
                             />
                             <PrivateRoute path="/searchResults/:text" component={SearchResultsPage} exact={true} />
+                            <PrivateRoute path="/myDeletedContent" component={DeletedContentPage} exact={true} />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>

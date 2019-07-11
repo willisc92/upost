@@ -67,6 +67,8 @@ export class AddPostPage extends React.Component {
     };
 
     render() {
+        const read_only = !!this.props.channel && this.props.channel.deleted_flag;
+
         return (
             <div>
                 <div className="page-header">
@@ -74,9 +76,20 @@ export class AddPostPage extends React.Component {
                         <h1 className="page-header__title">
                             Add Post to Channel: <span>{this.props.channel && this.props.channel.channel_name}</span>
                         </h1>
-                        <button className="button" onClick={this.handleReturn}>
-                            Go Back
-                        </button>
+                        {read_only ? (
+                            <div>
+                                <h2 className="page-header__subtitle__red">
+                                    You must restore the Channel of this post before adding.
+                                </h2>
+                                <button className="button" onClick={this.handleReturn}>
+                                    Go to Channel
+                                </button>
+                            </div>
+                        ) : (
+                            <button className="button" onClick={this.handleReturn}>
+                                Go Back
+                            </button>
+                        )}
                     </div>
                 </div>
                 <div className="content-container">
@@ -86,19 +99,22 @@ export class AddPostPage extends React.Component {
                         onSubmit={this.onSubmit}
                         channel={this.props.match.params.id}
                         nextStep="Save Post and Return"
+                        read_only={read_only}
                     />
-                    <div className="input-group">
-                        <div className="input-group__item">
-                            <button className="button" onClick={this.onTriggerSaveAddEvent}>
-                                Save Post and Add Event
-                            </button>
+                    {!read_only && (
+                        <div className="input-group">
+                            <div className="input-group__item">
+                                <button className="button" onClick={this.onTriggerSaveAddEvent}>
+                                    Save Post and Add Event
+                                </button>
+                            </div>
+                            <div className="input-group__item">
+                                <button className="button" onClick={this.onTriggerSaveAddIncentive}>
+                                    Save Post and Add Incentive
+                                </button>
+                            </div>
                         </div>
-                        <div className="input-group__item">
-                            <button className="button" onClick={this.onTriggerSaveAddIncentive}>
-                                Save Post and Add Incentive
-                            </button>
-                        </div>
-                    </div>
+                    )}
                     <button
                         className="button__invisible"
                         type="submit"

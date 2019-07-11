@@ -7,6 +7,7 @@ import { setEvents, startSetEvent } from "../../actions/events";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 import { startGetAttendance, startAddAttendance, startDeleteAttendance } from "../../actions/attendance";
 import DateRangeTag from "../DateRangeTag";
+import { relativeTimeThreshold } from "moment";
 
 class ViewEventPage extends React.Component {
     checkPost = (post_id, event_id) => {
@@ -70,7 +71,10 @@ class ViewEventPage extends React.Component {
             // get the event from API
             this.props
                 .startSetEvent(event_id)
-                .then(() => {
+                .then((res) => {
+                    if (res.data.deleted_flag) {
+                        this.props.history.push("/");
+                    }
                     this.checkPost(this.props.event.post, event_id);
                 })
                 .catch((error) => {

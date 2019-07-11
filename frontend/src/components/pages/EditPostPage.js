@@ -1,5 +1,6 @@
 import React from "react";
-import { startGetPost, editPost, clearPosts } from "../../actions/posts";
+import { startGetPost, editPost, clearPosts, deletePost, restorePost } from "../../actions/posts";
+import { startGetChannel } from "../../actions/channels";
 import { connect } from "react-redux";
 import PostForm from "../forms/PostForm";
 import { getCurrentUser } from "../../actions/auth";
@@ -20,6 +21,12 @@ export class EditPostPage extends React.Component {
                         if (res.data.username !== post_res.data[0].user) {
                             this.props.history.push("/myChannels");
                         }
+                        this.props
+                            .startGetChannel(post_res.data[0].channel)
+                            .then(() => {})
+                            .catch((err) => {
+                                console.log(JSON.stringify(err, null, 2));
+                            });
                     })
                     .catch((err) => {
                         console.log(JSON.stringify(err, null, 2));
@@ -58,26 +65,84 @@ export class EditPostPage extends React.Component {
         this.props.history.push(`/myPosts/${this.props.match.params.id}/events`);
     };
 
+    deletePost = () => {
+        const id = this.props.post.post_id;
+        this.props
+            .deletePost(id)
+            .then(() => {
+                this.goToChannel();
+            })
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
+    };
+
+    restorePost = () => {
+        const id = this.props.post.post_id;
+        this.props
+            .restorePost(id)
+            .then(() => {
+                this.props.history.push(`/myPosts/${id}/edit`);
+            })
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
+    };
+
+    goToChannel = () => {
+        const channel = this.props.channel.channel_id;
+        this.props.history.push(`/myChannels/${channel}`);
+    };
+
     render() {
+        const read_only_channel = !!this.props.post && !!this.props.channel && this.props.channel.deleted_flag;
+        const read_only_post = !!this.props.post && this.props.post.deleted_flag;
+
         return (
-            !!this.props.post && (
+            !!this.props.post &&
+            !!this.props.channel && (
                 <div>
                     <div className="page-header">
                         <div className="content-container">
                             <h1 className="page-header__title">
                                 Edit Post for <span>{this.props.post && this.props.post.post_title}</span>
                             </h1>
-                            <button className="button" onClick={this.onEditEventsClick}>
-                                Add/Edit Events
-                            </button>{" "}
-                            {!!this.props.post.post_incentive ? (
-                                <button className="button" onClick={this.onEditIncentiveClick}>
-                                    Edit Incentive
-                                </button>
+                            {read_only_channel ? (
+                                <div>
+                                    <h2 className="page-header__subtitle__red">
+                                        You must restore the Channel of this post before editing.
+                                    </h2>
+                                    <button className="button" onClick={this.goToChannel}>
+                                        Go to Channel
+                                    </button>
+                                </div>
+                            ) : read_only_post ? (
+                                <div>
+                                    <h2 className="page-header__subtitle__red">
+                                        You must restore this post before editing.
+                                    </h2>
+                                    <button className="button" onClick={this.restorePost}>
+                                        Restore Post
+                                    </button>
+                                </div>
                             ) : (
-                                <button className="button" onClick={this.onAddIncentiveClick}>
-                                    Add Incentive
-                                </button>
+                                <div>
+                                    <button className="button" onClick={this.onEditEventsClick}>
+                                        Add/Edit Events
+                                    </button>{" "}
+                                    {!!this.props.post.post_incentive ? (
+                                        <button className="button" onClick={this.onEditIncentiveClick}>
+                                            Edit Incentive
+                                        </button>
+                                    ) : (
+                                        <button className="button" onClick={this.onAddIncentiveClick}>
+                                            Add Incentive
+                                        </button>
+                                    )}{" "}
+                                    <button className="button" onClick={this.deletePost}>
+                                        Delete Post
+                                    </button>
+                                </div>
                             )}
                         </div>
                     </div>
@@ -88,6 +153,7 @@ export class EditPostPage extends React.Component {
                                 channel={this.props.post.channel}
                                 post={this.props.post}
                                 nextStep="Save Changes"
+                                read_only={read_only_channel || read_only_post}
                             />
                         )}
                     </div>
@@ -99,13 +165,17 @@ export class EditPostPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     loading: state.posts.loading,
-    post: state.posts.posts[0]
+    post: state.posts.posts[0],
+    channel: state.channels.channels[0]
 });
 
 const mapDispatchToProps = (dispatch) => ({
+    startGetChannel: (channel_id) => dispatch(startGetChannel(channel_id)),
     clearPosts: () => dispatch(clearPosts()),
     startGetPost: (id) => dispatch(startGetPost(id)),
-    editPost: (id, updates) => dispatch(editPost(id, updates))
+    editPost: (id, updates) => dispatch(editPost(id, updates)),
+    deletePost: (id) => dispatch(deletePost(id)),
+    restorePost: (id) => dispatch(restorePost(id))
 });
 
 export default connect(

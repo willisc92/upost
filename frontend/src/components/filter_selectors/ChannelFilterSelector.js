@@ -1,15 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { DateRangePicker } from "react-dates";
-import {
-    setTextFilter,
-    setVisibleFilter,
-    sortByName,
-    sortByDate,
-    sortByVisible,
-    setStartDate,
-    setEndDate
-} from "../../actions/channel_filters";
+import { setTextFilter, sortByName, sortByDate, setStartDate, setEndDate } from "../../actions/channel_filters";
 
 export class ChannelFilters extends React.Component {
     state = {
@@ -35,10 +27,6 @@ export class ChannelFilters extends React.Component {
         } else if (e.target.value === "name") {
             this.props.sortByName();
         }
-    };
-
-    handleCheckbox = (e) => {
-        this.props.setVisibleFilter(!this.props.filters.visible);
     };
 
     render() {
@@ -77,20 +65,6 @@ export class ChannelFilters extends React.Component {
                             isOutsideRange={() => false}
                         />
                     </div>
-                    <div className="input-group__item">
-                        <p>
-                            Visible{" "}
-                            <span>
-                                <input
-                                    type="checkbox"
-                                    name="prop1"
-                                    id="string"
-                                    checked={this.props.filters.visible}
-                                    onChange={this.handleCheckbox}
-                                />
-                            </span>
-                        </p>
-                    </div>
                 </div>
             </div>
         );
@@ -103,7 +77,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     setTextFilter: (text) => dispatch(setTextFilter(text)),
-    setVisibleFilter: (visible) => dispatch(setVisibleFilter(visible)),
     sortByName: () => dispatch(sortByName()),
     sortByDate: () => dispatch(sortByDate()),
     setStartDate: (startDate) => dispatch(setStartDate(startDate)),

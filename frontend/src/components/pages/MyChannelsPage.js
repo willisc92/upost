@@ -31,51 +31,54 @@ export class MyChannelsPage extends React.Component {
         const menu = !!this.props.channels && MyChannelsMenu(this.props.channels, this.state.selected);
 
         return (
-            <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <h1 className="page-header__title">
-                            <span>{localStorage.getItem("first_name")}</span> - Channel Pages
-                        </h1>
-                        <div className="page-header__actions">
-                            <MyChannelFilterSelector />
-                            <button className="button" onClick={this.handleAddChannel}>
-                                Add a channel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div className="content-container">
-                    {this.props.loading === true ? (
-                        <p>Loading...</p>
-                    ) : (
-                        <div>
-                            <div>
-                                {this.props.length > 0 ? (
-                                    <ScrollMenu
-                                        data={menu}
-                                        arrowLeft={ArrowLeft}
-                                        arrowRight={ArrowRight}
-                                        selected={this.state.selected}
-                                        onSelect={this.onSelect}
-                                    />
-                                ) : (
-                                    <p>No channels to show</p>
-                                )}
+            menu && (
+                <div>
+                    <div className="page-header">
+                        <div className="content-container">
+                            <h1 className="page-header__title">
+                                <span>{localStorage.getItem("first_name")}</span> - Channels
+                            </h1>
+                            <div className="page-header__actions">
+                                <MyChannelFilterSelector />
+                                <button className="button" onClick={this.handleAddChannel}>
+                                    Add a channel
+                                </button>
                             </div>
                         </div>
-                    )}
+                    </div>
+                    <div className="content-container">
+                        {this.props.loading === true ? (
+                            <p>Loading...</p>
+                        ) : (
+                            <div>
+                                <div>
+                                    {menu.length > 0 ? (
+                                        <ScrollMenu
+                                            data={menu}
+                                            arrowLeft={ArrowLeft}
+                                            arrowRight={ArrowRight}
+                                            selected={this.state.selected}
+                                            onSelect={this.onSelect}
+                                        />
+                                    ) : (
+                                        <p>No channels to show</p>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )
         );
     }
 }
 
-const mapStateToProps = (state) => ({
-    channels: getVisibleChannels(state.channels.channels, state.channelFilters),
-    length: getVisibleChannels(state.channels.channels, state.channelFilters).length,
-    loading: state.channels.loading
-});
+const mapStateToProps = (state) => {
+    return {
+        channels: getVisibleChannels(state.channels.channels, state.channelFilters, false),
+        loading: state.channels.loading
+    };
+};
 
 const mapDispatchToProps = (dispatch) => ({
     startSetChannels: () => dispatch(startSetChannels())

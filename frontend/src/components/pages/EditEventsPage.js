@@ -8,6 +8,7 @@ import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
 import { deleteEvent } from "../../actions/events";
+import moment from "moment";
 
 class EditEventsPage extends React.Component {
     constructor(props) {
@@ -48,9 +49,7 @@ class EditEventsPage extends React.Component {
         const events = this.props.post.post_events;
 
         events.forEach((event) => {
-            if (new Date(event.planned_start_date) > new Date()) {
-                promises.push(this.props.deleteEvent(event.event_id));
-            }
+            promises.push(this.props.deleteEvent(event.event_id));
         });
 
         Promise.all(promises)
@@ -66,59 +65,72 @@ class EditEventsPage extends React.Component {
         this.props.history.push(`/myPosts/${this.props.match.params.id}/edit`);
     };
 
-    // addEditIncentives = () => {
-    //     this.props.history.push(`/myPosts/${this.props.match.params.id}/incentives`);
-    // };
-
     addNewEvent = () => {
         this.props.history.push(`/myPosts/${this.props.match.params.id}/addEvent`);
     };
 
     render() {
+        const readOnly = this.props.post && this.props.post.deleted_flag;
+
         const menu =
-            this.props.post && MyEventMenu(getVisibleEvents(this.props.post, this.props.filters), this.state.selected);
+            this.props.post &&
+            MyEventMenu(getVisibleEvents(this.props.post, this.props.filters, readOnly), this.state.selected, readOnly);
+
         return (
-            <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <h1 className="page-header__title">
-                            Add/Edit Events for <span>{this.props.post && this.props.post.post_title}</span>
-                        </h1>
-                        <div className="page-header__actions">
-                            <EventFilterSelector />
+            !!this.props.post && (
+                <div>
+                    <div className="page-header">
+                        <div className="content-container">
+                            <h1 className="page-header__title">
+                                Add/Edit Events for <span>{this.props.post && this.props.post.post_title}</span>
+                            </h1>
+                            {this.props.post.deleted_flag && (
+                                <div>
+                                    <h3 className="page-header__subtitle__red">
+                                        Post Deletion Date:{" "}
+                                        {moment(this.props.post.deletion_date).format("MMMM Do YYYY")} - Restore the
+                                        Post To Add/Edit Events
+                                    </h3>
+                                    <button className="button" onClick={this.returnEditPosts}>
+                                        Go to Post
+                                    </button>
+                                </div>
+                            )}
+                            <div className="page-header__actions">
+                                <EventFilterSelector />
+                            </div>
+                            {!this.props.post.deleted_flag && (
+                                <div>
+                                    <button className="button" onClick={this.addNewEvent}>
+                                        Add an Event
+                                    </button>{" "}
+                                    <button className="button" onClick={this.returnEditPosts}>
+                                        Edit Post
+                                    </button>{" "}
+                                    {!!menu && menu.length > 0 && (
+                                        <button className="button" onClick={this.clearAllEvents}>
+                                            Delete All Events
+                                        </button>
+                                    )}
+                                </div>
+                            )}
                         </div>
-                        {!!menu && menu.length > 0 && (
-                            <span>
-                                <button className="button" onClick={this.clearAllEvents}>
-                                    Delete Future Events
-                                </button>{" "}
-                            </span>
+                    </div>
+                    <div className="content-container">
+                        {!!menu && menu.length > 0 ? (
+                            <ScrollMenu
+                                data={menu}
+                                arrowLeft={ArrowLeft}
+                                arrowRight={ArrowRight}
+                                selected={this.state.selected}
+                                onSelect={this.onSelect}
+                            />
+                        ) : (
+                            <p>No Events to Show</p>
                         )}
-                        <button className="button" onClick={this.addNewEvent}>
-                            Add an Event
-                        </button>{" "}
-                        {/* <button className="button" onClick={this.addEditIncentives}>
-                            Add/Edit Incentives
-                        </button>{" "} */}
-                        <button className="button" onClick={this.returnEditPosts}>
-                            Edit Post
-                        </button>
                     </div>
                 </div>
-                <div className="content-container">
-                    {!!menu && menu.length > 0 ? (
-                        <ScrollMenu
-                            data={menu}
-                            arrowLeft={ArrowLeft}
-                            arrowRight={ArrowRight}
-                            selected={this.state.selected}
-                            onSelect={this.onSelect}
-                        />
-                    ) : (
-                        <p>No Events to Show</p>
-                    )}
-                </div>
-            </div>
+            )
         );
     }
 }

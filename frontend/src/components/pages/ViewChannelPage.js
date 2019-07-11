@@ -57,15 +57,19 @@ class ViewChannelPage extends React.Component {
                 </div>
                 <div className="content-container">
                     {!!this.props.channel &&
-                        this.props.channel.channel_posts.map((post) => {
-                            return (
-                                <MyPostSummary
-                                    post={post}
-                                    pathName={`/post/${post.post_id}`}
-                                    selected={this.state.selected}
-                                />
-                            );
-                        })}
+                        this.props.channel.channel_posts
+                            .filter((post) => {
+                                return !post.deleted_flag;
+                            })
+                            .map((post) => {
+                                return (
+                                    <MyPostSummary
+                                        post={post}
+                                        pathName={`/post/${post.post_id}`}
+                                        selected={this.state.selected}
+                                    />
+                                );
+                            })}
                 </div>
             </div>
         );

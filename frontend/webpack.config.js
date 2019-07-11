@@ -6,10 +6,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // used to dynamically generate html file for dev and production (use cdn or not)
 const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
 
-const applicationLink = "upostwebsite.com";
-//const CDNLink = "https://dhfvlgaiwupcm.cloudfront.net";
 const CDNLink = "https://d38wd43761mz0b.cloudfront.net";
-//const CDNLink = "https://www.upostwebsite.com";
 
 process.env.NODE_ENV = process.env.NODE_ENV || "development";
 

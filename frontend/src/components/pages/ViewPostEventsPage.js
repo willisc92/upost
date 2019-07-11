@@ -23,14 +23,21 @@ class ViewPostEventsPage extends React.Component {
         } else {
             // load post from API
             this.props.clearPosts();
-            this.props.startGetPost(post_id).catch((err) => {
-                console.log("error in getting post information", JSON.stringify(err, null, 2));
-            });
+            this.props
+                .startGetPost(post_id)
+                .then((res) => {
+                    if (res.data[0].deleted_flag) {
+                        this.props.history.push("/");
+                    }
+                })
+                .catch((err) => {
+                    console.log("error in getting post information", JSON.stringify(err, null, 2));
+                });
         }
     }
 
     render() {
-        const events = this.props.post && getVisibleEvents(this.props.post, this.props.filters);
+        const events = this.props.post && getVisibleEvents(this.props.post, this.props.filters, false);
         return (
             <div>
                 <div className="page-header">

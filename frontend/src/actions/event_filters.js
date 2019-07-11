@@ -1,9 +1,3 @@
-// SET_VISIBLE_FILTER
-export const setVisibleFilter = (visible = false) => ({
-    type: "SET_VISIBLE_FILTER",
-    visible
-});
-
 // SET_TEXT_FILTER
 export const setTextFilter = (text) => ({
     type: "SET_TEXT_FILTER",
