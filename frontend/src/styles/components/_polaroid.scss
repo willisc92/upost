@@ -27,6 +27,15 @@
 }
 
 .polaroid__title {
+    font-weight: 600;
+    margin: 0;
+    font-size: $font-size-medium;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.polaroid__sub_title {
+    font-weight: 450;
     margin: 0;
     font-size: $font-size-medium;
     text-decoration: none;

@@ -20,6 +20,9 @@ export class SideBar extends React.Component {
                 <a id="my_list" className="menu-item" href="/my_list">
                     My List
                 </a>
+                <a id="my_list" className="menu-item" href="/myDeletedContent">
+                    Recycle Bin
+                </a>
             </Menu>
         );
     }

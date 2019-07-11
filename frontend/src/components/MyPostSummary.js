@@ -14,7 +14,15 @@ export const MyPostSummary = ({ post, pathName, selected, readOnly }) => {
             >
                 <div className="polaroid__text-wrapper">
                     <img className="polaroid__image" src={post.picture} />
-                    <h3 className="polaroid__title">{post.post_title}</h3>
+                    <h3 className="polaroid__title">
+                        {post.post_title}{" "}
+                        {post.deleted_flag && (
+                            <span className="polaroid__sub_title">
+                                {" "}
+                                (Deleted {moment(post.deletion_date).format("ddd, MMM D YYYY")})
+                            </span>
+                        )}
+                    </h3>
                     <p className="polaroid__description">{post.post_description}</p>
                     <p className="polaroid__description">
                         Creation Date: {moment(post.post_timestamp).format("MMMM Do YYYY")}
