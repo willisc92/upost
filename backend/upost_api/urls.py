@@ -52,5 +52,5 @@ urlpatterns = [
     path('api/', include(router.urls)),
     path('api/me/', UserDetailView.as_view(), name='me'),
     path('api/auth/', include('rest_framework_social_oauth2.urls')),
-    re_path(r'', include(frontendapp_urls)),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    re_path(r'', include(frontendapp_urls))
+ ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

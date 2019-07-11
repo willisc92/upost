@@ -101,7 +101,7 @@ export const deleteEvent = (id) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(eventStart());
-            API.delete(`events/${id}`)
+            API.delete(`events/${id}/`)
                 .then((result) => {
                     dispatch(eventSuccess());
                     resolve(result);

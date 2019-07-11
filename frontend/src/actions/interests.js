@@ -25,7 +25,7 @@ export const startSetUserInterests = () => {
         return new Promise((resolve, reject) => {
             getCurrentUser()
                 .then((res) => {
-                    API.get(`user-interests/${res.data.id}`)
+                    API.get(`user-interests/${res.data.id}/`)
                         .then((result) => {
                             dispatch(setUserInterests(result.data.interests));
                             resolve(result);
