@@ -200,3 +200,26 @@ export const restoreEvent = (id) => {
         });
     };
 };
+
+/**
+ * getFreeFoodEvents
+ * action dispatcher
+ * @returns {Promise} to be handled
+ */
+export const getFreeFoodEvents = () => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(eventStart());
+            API.get(`free-food/`)
+                .then((result) => {
+                    dispatch(eventSuccess());
+                    dispatch(setEvents(result.data));
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(eventFail(err));
+                    reject(err);
+                });
+        });
+    };
+};

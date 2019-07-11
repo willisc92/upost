@@ -35,7 +35,7 @@
 }
 
 .polaroid__sub_title {
-    font-weight: 450;
+    font-weight: 500;
     margin: 0;
     font-size: $font-size-medium;
     text-decoration: none;
@@ -76,4 +76,9 @@
     display: block;
     height: 0;
     clear: both;
+}
+
+.polaroid__container {
+    display: flex;
+    flex-wrap: wrap;
 }

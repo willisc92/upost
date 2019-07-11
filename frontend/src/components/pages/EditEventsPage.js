@@ -2,14 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { getCurrentUser } from "../../actions/auth";
-import { MyEventMenu } from "../MyEventSummary";
-import ScrollMenu from "react-horizontal-scrolling-menu";
-import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
 import { deleteEvent } from "../../actions/events";
 import moment from "moment";
-
+import MyEventSummary from "../MyEventSummary";
 class EditEventsPage extends React.Component {
     constructor(props) {
         super(props);
@@ -71,10 +68,7 @@ class EditEventsPage extends React.Component {
 
     render() {
         const readOnly = this.props.post && this.props.post.deleted_flag;
-
-        const menu =
-            this.props.post &&
-            MyEventMenu(getVisibleEvents(this.props.post, this.props.filters, readOnly), this.state.selected, readOnly);
+        const events = this.props.post && getVisibleEvents(this.props.post, this.props.filters, readOnly);
 
         return (
             !!this.props.post && (
@@ -107,7 +101,7 @@ class EditEventsPage extends React.Component {
                                     <button className="button" onClick={this.returnEditPosts}>
                                         Edit Post
                                     </button>{" "}
-                                    {!!menu && menu.length > 0 && (
+                                    {!!events && events.length > 0 && (
                                         <button className="button" onClick={this.clearAllEvents}>
                                             Delete All Events
                                         </button>
@@ -117,17 +111,23 @@ class EditEventsPage extends React.Component {
                         </div>
                     </div>
                     <div className="content-container">
-                        {!!menu && menu.length > 0 ? (
-                            <ScrollMenu
-                                data={menu}
-                                arrowLeft={ArrowLeft}
-                                arrowRight={ArrowRight}
-                                selected={this.state.selected}
-                                onSelect={this.onSelect}
-                            />
-                        ) : (
-                            <p>No Events to Show</p>
-                        )}
+                        <div className="polaroid__container">
+                            {events.length > 0 ? (
+                                events.map((event) => {
+                                    return (
+                                        <MyEventSummary
+                                            event={event}
+                                            key={event.event_id}
+                                            pathName={`/myPosts/${event.post}/events/${event.event_id}/edit`}
+                                            readOnly={readOnly}
+                                            inHorizontalMenu={false}
+                                        />
+                                    );
+                                })
+                            ) : (
+                                <p>No Events to Show</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             )
