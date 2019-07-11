@@ -3,12 +3,10 @@ import { startGetChannel, deleteChannel, restoreChannel } from "../../actions/ch
 import { deletePost } from "../../actions/posts";
 import { connect } from "react-redux";
 import moment from "moment";
-import { MyPostMenu } from "../MyPostSummary";
 import MyPostFilterSelector from "../filter_selectors/PostFilterSelector";
 import { getVisiblePosts } from "../../selectors/myPosts";
 import { getCurrentUser } from "../../actions/auth";
-import ScrollMenu from "react-horizontal-scrolling-menu";
-import { ArrowRight, ArrowLeft } from "../menus/Arrow";
+import MyPostSummary from "../MyPostSummary";
 
 export class MyChannelDetail extends React.Component {
     constructor(props) {
@@ -98,8 +96,7 @@ export class MyChannelDetail extends React.Component {
     };
 
     render() {
-        const menu =
-            this.props.posts && MyPostMenu(this.props.posts, this.state.selected, this.props.channel.deleted_flag);
+        const posts = !!this.props.posts && this.props.posts;
 
         return (
             <div>
@@ -108,71 +105,71 @@ export class MyChannelDetail extends React.Component {
                         <h1 className="page-header__title">
                             Channel Page: <span>{this.props.channel.channel_name}</span>
                         </h1>
-                        {this.props.loading ? (
-                            <p>Loading...</p>
-                        ) : (
-                            <div>
-                                <h3>Description: {this.props.channel.channel_description}</h3>
-                                <h3>
-                                    Creation Date: {moment(this.props.channel.creation_date).format("MMMM Do YYYY")}
+                        <div>
+                            <h3>Description: {this.props.channel.channel_description}</h3>
+                            <h3>Creation Date: {moment(this.props.channel.creation_date).format("MMMM Do YYYY")}</h3>
+                            {this.props.channel.deleted_flag && (
+                                <h3 className="page-header__subtitle__red">
+                                    Deletion Date: {moment(this.props.channel.deletion_date).format("MMMM Do YYYY")} -
+                                    Restore the Channel To Add/Edit Posts
                                 </h3>
-                                {this.props.channel.deleted_flag && (
-                                    <h3 className="page-header__subtitle__red">
-                                        Deletion Date: {moment(this.props.channel.deletion_date).format("MMMM Do YYYY")}{" "}
-                                        - Restore the Channel To Add/Edit Posts
-                                    </h3>
-                                )}
+                            )}
 
-                                {this.props.channel.deleted_flag ? (
-                                    <button className="button" onClick={this.restoreChannel}>
-                                        Restore Channel
-                                    </button>
-                                ) : (
-                                    <div>
-                                        <button className="button" onClick={this.handleAddPost}>
-                                            Add a new post
-                                        </button>{" "}
-                                        <button
-                                            id={this.props.channel.channel_id}
-                                            className="button"
-                                            onClick={this.handleEditChannel}
-                                        >
-                                            Edit this channel
-                                        </button>{" "}
-                                        <button
-                                            id={this.props.channel.channel_id}
-                                            className="button"
-                                            onClick={this.deleteChannel}
-                                        >
-                                            Delete this Channel
-                                        </button>{" "}
-                                        {!!menu && menu.length > 0 && (
-                                            <button className="button" onClick={this.deleteAllPosts}>
-                                                Delete All Posts
-                                            </button>
-                                        )}
-                                    </div>
-                                )}
-                                <div className="page-header__actions">
-                                    <MyPostFilterSelector />
+                            {this.props.channel.deleted_flag ? (
+                                <button className="button" onClick={this.restoreChannel}>
+                                    Restore Channel
+                                </button>
+                            ) : (
+                                <div>
+                                    <button className="button" onClick={this.handleAddPost}>
+                                        Add a new post
+                                    </button>{" "}
+                                    <button
+                                        id={this.props.channel.channel_id}
+                                        className="button"
+                                        onClick={this.handleEditChannel}
+                                    >
+                                        Edit this channel
+                                    </button>{" "}
+                                    <button
+                                        id={this.props.channel.channel_id}
+                                        className="button"
+                                        onClick={this.deleteChannel}
+                                    >
+                                        Delete this Channel
+                                    </button>{" "}
+                                    {!!posts && posts.length > 0 && (
+                                        <button className="button" onClick={this.deleteAllPosts}>
+                                            Delete All Posts
+                                        </button>
+                                    )}
                                 </div>
+                            )}
+                            <div className="page-header__actions">
+                                <MyPostFilterSelector />
                             </div>
-                        )}
+                        </div>
                     </div>
                 </div>
-                {this.props.posts !== [] && (
+                {posts !== [] && (
                     <div className="content-container">
-                        {this.props.posts.length > 0 ? (
-                            <ScrollMenu
-                                data={menu}
-                                arrowLeft={ArrowLeft}
-                                arrowRight={ArrowRight}
-                                selected={this.state.selected}
-                                onSelect={this.onSelect}
-                            />
-                        ) : (
-                            <p> No posts </p>
-                        )}
+                        <div className="polaroid__container">
+                            {posts.length > 0 ? (
+                                posts.map((post) => {
+                                    return (
+                                        <MyPostSummary
+                                            post={post}
+                                            key={post.post_id}
+                                            pathName={`/myPosts/${post.post_id}/edit`}
+                                            readOnly={this.props.channel.deleted_flag}
+                                            inHorizontalMenu={false}
+                                        />
+                                    );
+                                })
+                            ) : (
+                                <p> No posts </p>
+                            )}
+                        </div>
                     </div>
                 )}
             </div>

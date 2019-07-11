@@ -1,5 +1,5 @@
 from rest_framework import generics, viewsets
-from ..models import ContentChannel, Post, PostEvent, Interest
+from ..models import ContentChannel, Post, PostEvent, Interest, CustomUser, Community
 from ..serializers import *
 
 from rest_framework import permissions
@@ -10,6 +10,8 @@ from rest_framework import filters
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django_filters.rest_framework import DjangoFilterBackend
 from datetime import datetime
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class ContentChannel_View(viewsets.ModelViewSet):
@@ -73,12 +75,24 @@ class Event_View(viewsets.ModelViewSet):
 
 class Free_Food_Event_View(generics.ListAPIView):
     serializer_class = EventSerializer
-    queryset = PostEvent.objects.filter(event_incentive__isnull=False,
-                                        event_incentive__incentive_type__in=[
-                                            "Food"],
-                                        event_incentive__planned_end_date__isnull=False,
-                                        event_incentive__planned_end_date__gte=datetime.now()).order_by('event_incentive__planned_start_date')
 
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
     )
+
+    # Returns future/ongoing events that have:
+    # Post related to user communities
+    # Containing an event FOOD incentive
+    # Has an end date time
+    # Has an ongoing/future incentive datetime
+    # Ordered by incentive start datetime
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        communities = Community.objects.filter(community_users=user)
+        queryset = PostEvent.objects.filter(post__community__in=communities.all(),
+                                            event_incentive__isnull=False,
+                                            event_incentive__incentive_type__in=[
+                                                "Food"],
+                                            event_incentive__planned_end_date__isnull=False,
+                                            event_incentive__planned_end_date__gte=datetime.now()).order_by('event_incentive__planned_start_date')
+        return queryset

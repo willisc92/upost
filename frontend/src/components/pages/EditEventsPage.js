@@ -9,7 +9,7 @@ import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
 import { deleteEvent } from "../../actions/events";
 import moment from "moment";
-
+import MyEventSummary from "../MyEventSummary";
 class EditEventsPage extends React.Component {
     constructor(props) {
         super(props);
@@ -71,6 +71,7 @@ class EditEventsPage extends React.Component {
 
     render() {
         const readOnly = this.props.post && this.props.post.deleted_flag;
+        const events = this.props.post && getVisibleEvents(this.props.post, this.props.filters, readOnly);
 
         const menu =
             this.props.post &&
@@ -117,17 +118,23 @@ class EditEventsPage extends React.Component {
                         </div>
                     </div>
                     <div className="content-container">
-                        {!!menu && menu.length > 0 ? (
-                            <ScrollMenu
-                                data={menu}
-                                arrowLeft={ArrowLeft}
-                                arrowRight={ArrowRight}
-                                selected={this.state.selected}
-                                onSelect={this.onSelect}
-                            />
-                        ) : (
-                            <p>No Events to Show</p>
-                        )}
+                        <div className="polaroid__container">
+                            {events.length > 0 ? (
+                                events.map((event) => {
+                                    return (
+                                        <MyEventSummary
+                                            event={event}
+                                            key={event.event_id}
+                                            pathName={`/myPosts/${event.post}/events/${event.event_id}/edit`}
+                                            readOnly={readOnly}
+                                            inHorizontalMenu={false}
+                                        />
+                                    );
+                                })
+                            ) : (
+                                <p>No Events to Show</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             )

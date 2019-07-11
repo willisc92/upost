@@ -2,10 +2,8 @@ import React from "react";
 import { getVisibleChannels } from "../../selectors/myChannels";
 import { connect } from "react-redux";
 import { startSetChannels } from "../../actions/channels";
-import { MyChannelsMenu } from "../ChannelListItem";
 import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
-import ScrollMenu from "react-horizontal-scrolling-menu";
-import { ArrowRight, ArrowLeft } from "../menus/Arrow";
+import ChannelListItem from "../ChannelListItem";
 
 export class MyChannelsPage extends React.Component {
     constructor(props) {
@@ -28,10 +26,10 @@ export class MyChannelsPage extends React.Component {
     };
 
     render() {
-        const menu = !!this.props.channels && MyChannelsMenu(this.props.channels, this.state.selected);
+        const channels = !!this.props.channels && this.props.channels;
 
         return (
-            menu && (
+            channels && (
                 <div>
                     <div className="page-header">
                         <div className="content-container">
@@ -47,25 +45,22 @@ export class MyChannelsPage extends React.Component {
                         </div>
                     </div>
                     <div className="content-container">
-                        {this.props.loading === true ? (
-                            <p>Loading...</p>
-                        ) : (
-                            <div>
-                                <div>
-                                    {menu.length > 0 ? (
-                                        <ScrollMenu
-                                            data={menu}
-                                            arrowLeft={ArrowLeft}
-                                            arrowRight={ArrowRight}
-                                            selected={this.state.selected}
-                                            onSelect={this.onSelect}
+                        <div className="polaroid__container">
+                            {channels.length > 0 ? (
+                                channels.map((channel) => {
+                                    return (
+                                        <ChannelListItem
+                                            channel={channel}
+                                            key={channel.channel_id}
+                                            pathName={`/myChannels/${channel.channel_id}`}
+                                            inHorizontalMenu={false}
                                         />
-                                    ) : (
-                                        <p>No channels to show</p>
-                                    )}
-                                </div>
-                            </div>
-                        )}
+                                    );
+                                })
+                            ) : (
+                                <p>No Channels</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             )
