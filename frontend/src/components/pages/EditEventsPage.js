@@ -2,9 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { getCurrentUser } from "../../actions/auth";
-import { MyEventMenu } from "../MyEventSummary";
-import ScrollMenu from "react-horizontal-scrolling-menu";
-import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
 import { deleteEvent } from "../../actions/events";
@@ -73,10 +70,6 @@ class EditEventsPage extends React.Component {
         const readOnly = this.props.post && this.props.post.deleted_flag;
         const events = this.props.post && getVisibleEvents(this.props.post, this.props.filters, readOnly);
 
-        const menu =
-            this.props.post &&
-            MyEventMenu(getVisibleEvents(this.props.post, this.props.filters, readOnly), this.state.selected, readOnly);
-
         return (
             !!this.props.post && (
                 <div>
@@ -108,7 +101,7 @@ class EditEventsPage extends React.Component {
                                     <button className="button" onClick={this.returnEditPosts}>
                                         Edit Post
                                     </button>{" "}
-                                    {!!menu && menu.length > 0 && (
+                                    {!!events && events.length > 0 && (
                                         <button className="button" onClick={this.clearAllEvents}>
                                             Delete All Events
                                         </button>
