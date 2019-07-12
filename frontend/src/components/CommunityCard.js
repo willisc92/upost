@@ -17,7 +17,14 @@ export class CommunityCard extends React.Component {
             fill={this.props.community.isSelected ? "red" : "grey"}
           />
         </svg>
-        <img className="polaroid__image" src={this.props.community.image} />
+        <img
+          className="polaroid__image"
+          src={
+            !!this.props.community.image
+              ? this.props.community.image
+              : CDNLink + "/dist/images/polaroid_default.png"
+          }
+        />
         <h3 className="polaroid__title">
           {this.props.community.community_name}
         </h3>

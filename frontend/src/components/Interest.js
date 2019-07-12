@@ -17,7 +17,14 @@ export class Interest extends React.Component {
             fill={this.props.interest.isSelected ? "red" : "grey"}
           />
         </svg>
-        <img className="polaroid__image" src={this.props.interest.image} />
+        <img
+          className="polaroid__image"
+          src={
+            !!this.props.interest.image
+              ? this.props.interest.image
+              : CDNLink + "/dist/images/polaroid_default.png"
+          }
+        />
         <h3 className="polaroid__title">{this.props.interest.interest_tag}</h3>
         <p className="polaroid__description">
           {this.props.interest.description}

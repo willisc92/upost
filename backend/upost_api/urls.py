@@ -49,11 +49,11 @@ router.register('user-attendance', UserAccountAttendsView, 'user-attend')
 router.register('attendance', AttendView, 'attend')
 
 
-urlpatterns = [
+urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     path('api/me/', UserDetailView.as_view(), name='me'),
     path('api/free-food/', Free_Food_Event_View.as_view(), name='free-food'),
     path('api/auth/', include('rest_framework_social_oauth2.urls')),
     re_path(r'', include(frontendapp_urls))
- ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+ ]

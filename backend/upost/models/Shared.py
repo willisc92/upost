@@ -8,8 +8,8 @@ from django.db import models
 
 class Interest(models.Model):
     interest_tag = models.CharField(db_column='Interest_tag', primary_key=True,
-                                    max_length=50)  # Field name made lowercase.
-    description = models.CharField(max_length=50, default="description")
+                                    max_length=80)  # Field name made lowercase.
+    description = models.CharField(max_length=150, default="description")
     image = models.ImageField(upload_to='interests', null=True)
 
     def __str__(self):
@@ -22,6 +22,8 @@ class Interest(models.Model):
 class Community(models.Model):
     community_name = models.CharField(
         db_column='community_name', primary_key=True, max_length=100)
+    description = models.CharField(max_length=150, default="description")
+    image = models.ImageField(upload_to='communities', null=True, blank=True)
 
     class Meta:
         db_table = 'community'

@@ -81,7 +81,7 @@ export class InterestsPage extends React.Component {
     this.props
       .startEditUserInterests(changes)
       .then(() => {
-        this.props.history.push("/");
+        this.props.history.push("/communities");
       })
       .catch((error) => {
         console.log("An error has occured with updating interests", error);

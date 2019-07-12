@@ -1,84 +1,84 @@
 .polaroid {
-    float: left;
-    position: relative;
-    cursor: pointer;
-    background: $light-grey;
-    padding: $s-size;
-    margin: $s-size;
-    width: 28rem;
-    color: $black;
-    border: 2px solid darken($light-grey, 7%);
-    text-decoration: None;
-    &:hover {
-        color: $red;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
-    }
+  float: left;
+  position: relative;
+  cursor: pointer;
+  background: $light-grey;
+  padding: $s-size;
+  margin: $s-size;
+  width: 28rem;
+  color: $black;
+  border: 1px solid black;
+  text-decoration: None;
+  &:hover {
+    color: $red;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+  }
 }
 
 .polaroid__inactive {
-    @extend .polaroid;
-    pointer-events: none;
+  @extend .polaroid;
+  pointer-events: none;
 }
 
 .polaroid__text-wrapper {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .polaroid__title {
-    font-weight: 600;
-    margin: 0;
-    font-size: $font-size-medium;
-    text-decoration: none;
-    word-break: break-all;
+  font-weight: 600;
+  margin: 0;
+  font-size: $font-size-medium;
+  text-decoration: none;
+  word-break: break-all;
 }
 
 .polaroid__sub_title {
-    font-weight: 500;
-    margin: 0;
-    font-size: $font-size-medium;
-    text-decoration: none;
-    word-break: break-all;
+  font-weight: 500;
+  margin: 0;
+  font-size: $font-size-medium;
+  text-decoration: none;
+  word-break: break-all;
 }
 
 .polaroid__description,
 .polaroid > div > div > p {
-    color: $dark-grey;
-    font-size: $font-size-small;
-    text-decoration: none;
-    word-break: break-all;
+  color: $dark-grey;
+  font-size: $font-size-small;
+  text-decoration: none;
+  word-break: break-all;
 }
 
 .polaroid__image {
-    object-fit: fill;
-    height: 16rem;
-    width: 100%;
-    background: $dark-grey;
+  object-fit: contain;
+  height: 16rem;
+  width: 100%;
+  background: black;
 }
 
 .polaroid__selector {
-    position: absolute;
-    height: 4.4rem;
-    width: 100%;
-    padding: 0;
-    margin: 0;
+  position: absolute;
+  height: 4.4rem;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .polaroid__circle {
-    transform: translate(88%, 50%);
+  transform: translate(88%, 50%);
 }
 
 // apply to remove the float property on elements
 .clearfix:after {
-    content: "";
-    visibility: hidden;
-    display: block;
-    height: 0;
-    clear: both;
+  content: "";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
 }
 
 .polaroid__container {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
