@@ -33,8 +33,13 @@ export class SideBar extends React.Component {
                 <RadiumLink id="food_mood" className="menu-item" to="/food_mood" onClick={() => this.closeMenu()}>
                     Food Mood
                 </RadiumLink>
-                <RadiumLink id="around_me" className="menu-item" to="/around_me" onClick={() => this.closeMenu()}>
-                    Around Me
+                <RadiumLink
+                    id="community_posts"
+                    className="menu-item"
+                    to="/community_posts"
+                    onClick={() => this.closeMenu()}
+                >
+                    My Communities
                 </RadiumLink>
                 <RadiumLink id="my_list" className="menu-item" to="/my_list" onClick={() => this.closeMenu()}>
                     My List

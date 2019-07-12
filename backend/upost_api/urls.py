@@ -58,6 +58,8 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
          name='non-interest-posts'),
     path('api/random-post/', Random_Non_Interest_Post_view.as_view(),
          name='random-post'),
+    path('api/community-posts/', Community_Post_view.as_view(),
+         name='community-posts'),
     path('api/auth/', include('rest_framework_social_oauth2.urls')),
     re_path(r'', include(frontendapp_urls))
 ]

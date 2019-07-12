@@ -331,6 +331,11 @@ export const restorePost = (id) => {
     };
 };
 
+/**
+ * getNonInterestPosts
+ * action dispatcher - gets posts that are NOT relavent to your interests
+ * @returns {Promise} to be handled
+ */
 export const getNonInterestPosts = () => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
@@ -350,11 +355,21 @@ export const getNonInterestPosts = () => {
     };
 };
 
+/**
+ * setNonInterestPosts
+ * action generator - sets posts not relavent to interests
+ * @returns {Object} Action object
+ */
 export const setNonInterestPosts = (nonInterestPosts) => ({
     type: "SET_NON_INTEREST_POSTS",
     nonInterestPosts
 });
 
+/**
+ * getRandomNonInterestPost
+ * action dispatcher - Gets a random post that is not relavent to interests
+ * @returns {Promise} Promise to handle
+ */
 export const getRandomNonInterestPost = () => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
@@ -362,6 +377,29 @@ export const getRandomNonInterestPost = () => {
             API.get(`random-post/`)
                 .then((result) => {
                     dispatch(postSuccess());
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(postFail(err));
+                    reject(err);
+                });
+        });
+    };
+};
+
+/**
+ * getCommunityPosts
+ * action dispatcher - Gets posts only according to interests
+ * @returns {Promise} Promise to handle
+ */
+export const getCommunityPosts = () => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(postStart());
+            API.get(`community-posts/`)
+                .then((result) => {
+                    dispatch(postSuccess());
+                    dispatch(setPosts(result.data));
                     resolve(result);
                 })
                 .catch((err) => {

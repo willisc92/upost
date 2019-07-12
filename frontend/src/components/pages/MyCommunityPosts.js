@@ -1,49 +1,46 @@
-import { getFreeFoodEvents } from "../../actions/events";
 import React from "react";
 import { connect } from "react-redux";
-import EventSummary from "../MyEventSummary";
+import { getCommunityPosts } from "../../actions/posts";
+import MyPostSummary from "../MyPostSummary";
 import { Link } from "react-router-dom";
 
-export class FreeFoodPage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
+export class MyCommunityPosts extends React.Component {
     componentDidMount() {
         this.props
-            .getFreeFoodEvents()
+            .getCommunityPosts()
             .then(() => {})
-            .catch((err) => console.log(JSON.stringify(err, null, 2)));
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
     }
 
     render() {
-        const events = !!this.props.events && this.props.events;
+        const posts = !!this.props.posts && this.props.posts;
 
         return (
-            events && (
+            posts && (
                 <div>
                     <div className="page-header">
                         <div className="content-container">
-                            <h1 className="page-header__title">Ongoing/Future Free Food Events in Your Communities</h1>
+                            <h1 className="page-header__title">Posts from your Communities</h1>
                         </div>
                     </div>
                     <div className="content-container">
                         <div className="polaroid__container">
-                            {events.length > 0 ? (
-                                events.map((event) => {
+                            {posts.length > 0 ? (
+                                posts.map((post) => {
                                     return (
-                                        <EventSummary
-                                            key={event.event_id}
-                                            event={event}
-                                            pathName={`/event/${event.event_id}`}
+                                        <MyPostSummary
+                                            key={post.post_id}
+                                            post={post}
+                                            pathName={`/post/${post.post_id}`}
                                             inHorizontalMenu={false}
                                         />
                                     );
                                 })
                             ) : (
                                 <h1>
-                                    There are no ongoing or upcoming free food events in your communities. Please check
-                                    again later or{" "}
+                                    There are no posts in any of your communities. Please check again later or{" "}
                                     <span>
                                         <Link className="link__inline" to="/communities">
                                             click here to edit your communities.
@@ -60,14 +57,14 @@ export class FreeFoodPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    events: state.events.events
+    posts: state.posts.posts
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getFreeFoodEvents: () => dispatch(getFreeFoodEvents())
+    getCommunityPosts: () => dispatch(getCommunityPosts())
 });
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(FreeFoodPage);
+)(MyCommunityPosts);

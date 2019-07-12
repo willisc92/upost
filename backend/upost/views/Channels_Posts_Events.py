@@ -130,3 +130,20 @@ class Random_Non_Interest_Post_view(generics.ListAPIView):
         if not queryset.all():
             queryset = Post.objects.all().order_by("?")[:1]
         return queryset
+
+
+class Community_Post_view(generics.ListAPIView):
+    serializer_class = PostSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    # Returns posts in user's community
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        communities = Community.objects.filter(community_users=user)
+        print(communities)
+        queryset = Post.objects.filter(
+            community__in=communities.all())
+        return queryset
