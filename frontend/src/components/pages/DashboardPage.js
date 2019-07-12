@@ -6,14 +6,58 @@ import { BrowsePostMenu } from "../MyPostSummary";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 import { Link } from "react-router-dom";
+import SignupModal from "../modals/SignupModal";
+import LoginModal from "../modals/LoginModal";
 
 export class DashboardPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected: 0
+            selected: 0,
+            loginOpen: false,
+            signupOpen: false,
+            error: undefined
         };
     }
+
+    handleLoginModalOpen = () => {
+        this.setState(() => {
+            return { loginOpen: true };
+        });
+    };
+
+    handleLoginModalClose = () => {
+        this.setState(() => {
+            return { loginOpen: false };
+        });
+    };
+
+    handleSignupModalClose = () => {
+        this.setState(() => {
+            return { signupOpen: false };
+        });
+    };
+
+    handleSignupModalOpen = () => {
+        this.setState(() => {
+            return { signupOpen: true };
+        });
+    };
+
+    closeLoginOpenSignupModal = () => {
+        this.handleLoginModalClose();
+        this.handleSignupModalOpen();
+    };
+
+    closeSignupOpenLoginModal = () => {
+        this.handleSignupModalClose();
+        this.handleLoginModalOpen();
+    };
+
+    handleSucessfulLogin = () => {
+        this.handleLoginModalClose();
+        this.props.history.push("/");
+    };
 
     componentDidMount() {
         this.props.clearInterests();
@@ -69,7 +113,21 @@ export class DashboardPage extends React.Component {
                 <div className="page-header">
                     <div className="content-container">
                         {!this.props.isAuthenticated ? (
-                            <h1 className="page-header__title">You must login.</h1>
+                            <h1 className="page-header__title">
+                                Welcome to <span>UPost</span>. Please
+                                <button className="button button--link" onClick={this.handleLoginModalOpen}>
+                                    <h1 className="page-header__title">
+                                        <span>login</span>
+                                    </h1>
+                                </button>
+                                or
+                                <button className="button button--link" onClick={this.handleSignupModalOpen}>
+                                    <h1 className="page-header__title">
+                                        <span>register</span>
+                                    </h1>
+                                </button>
+                                to use the site!
+                            </h1>
                         ) : (
                             <h1 className="page-header__title">
                                 Welcome, <span>{`${localStorage.getItem("first_name")}!`}</span>
@@ -81,7 +139,7 @@ export class DashboardPage extends React.Component {
                     {menus.length === 0 && (
                         <div>
                             <h1>
-                                There are currently no posts your interests.{" "}
+                                There are currently no posts matching your interests for your given communities.{" "}
                                 <span>
                                     <Link className="link__inline" to="/interests">
                                         Click here to Edit.
@@ -112,7 +170,7 @@ export class DashboardPage extends React.Component {
                     {nonInterestMenu.length > 0 && (
                         <div className="horizontal-menu_wrapper">
                             <div className="menu_header">
-                                <h1>Other Posts</h1>
+                                <h1>Other Posts in Your Communities</h1>
                             </div>
                             <ScrollMenu
                                 data={nonInterestMenu}
@@ -123,6 +181,19 @@ export class DashboardPage extends React.Component {
                             />
                         </div>
                     )}
+
+                    <SignupModal
+                        signupOpen={this.state.signupOpen}
+                        handleSignupClose={this.handleSignupModalClose}
+                        pageMove={this.moveToInterestPage}
+                        closeSignupOpenLoginModal={this.closeSignupOpenLoginModal}
+                    />
+                    <LoginModal
+                        loginOpen={this.state.loginOpen}
+                        handleLoginClose={this.handleLoginModalClose}
+                        closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
+                        handleSucessfulLogin={this.handleSucessfulLogin}
+                    />
                 </div>
             </div>
         );

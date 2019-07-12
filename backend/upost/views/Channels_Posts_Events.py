@@ -105,12 +105,13 @@ class Non_Interest_Post_View(generics.ListAPIView):
         permissions.IsAuthenticatedOrReadOnly,
     )
 
-    # Returns all posts that are NOT relavent to user interests
+    # Returns all posts that are NOT relavent to user interests but in user community.
     def get_queryset(self):
         user = CustomUser.objects.get(pk=self.request.user.pk)
+        communities = Community.objects.filter(community_users=user)
         interests = Interest.objects.filter(interests_users=user)
         queryset = Post.objects.exclude(
-            tags__in=interests.all()).order_by("?")
+            tags__in=interests.all()).filter(community__in=communities.all()).order_by("?")
         return queryset
 
 
@@ -121,12 +122,18 @@ class Random_Non_Interest_Post_view(generics.ListAPIView):
         permissions.IsAuthenticatedOrReadOnly,
     )
 
-    # Returns a random post
+    # Returns a random post not related to interests but within community.
+    # If it doesn't exist - returns a post in some other community but not relavent to interests.
+    # If that doesn't exist - just grabs a random post.
     def get_queryset(self):
         user = CustomUser.objects.get(pk=self.request.user.pk)
         interests = Interest.objects.filter(interests_users=user)
-        queryset = Post.objects.exclude(
+        communities = Community.objects.filter(community_users=user)
+        queryset = Post.objects.filter(community__in=communities.all()).exclude(
             tags__in=interests.all()).order_by("?")[:1]
+        if not queryset.all():
+            queryset = Post.objects.all().exclude(
+                tags__in=interests.all()).order_by("?")[:1]
         if not queryset.all():
             queryset = Post.objects.all().order_by("?")[:1]
         return queryset
@@ -143,7 +150,6 @@ class Community_Post_view(generics.ListAPIView):
     def get_queryset(self):
         user = CustomUser.objects.get(pk=self.request.user.pk)
         communities = Community.objects.filter(community_users=user)
-        print(communities)
         queryset = Post.objects.filter(
             community__in=communities.all())
         return queryset
