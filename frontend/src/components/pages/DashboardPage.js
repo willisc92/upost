@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getAllInterests, startSetUserInterests, clearInterests } from "../../actions/interests";
-import { startSetInterestRandomPosts } from "../../actions/posts";
+import { startSetInterestRandomPosts, getNonInterestPosts } from "../../actions/posts";
 import { BrowsePostMenu } from "../MyPostSummary";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";
+import { Link } from "react-router-dom";
 
 export class DashboardPage extends React.Component {
     constructor(props) {
@@ -20,6 +21,11 @@ export class DashboardPage extends React.Component {
             this.props.startSetUserInterests().then(() => {
                 this.props.startSetInterestRandomPosts(this.props.interests);
             });
+
+            this.props
+                .getNonInterestPosts()
+                .then(() => {})
+                .catch((err) => console.log(JSON.stringify(err, null, 2)));
         } else {
             this.props.getAllInterests().then(() => {
                 this.props.startSetInterestRandomPosts(this.props.interests);
@@ -46,11 +52,17 @@ export class DashboardPage extends React.Component {
         this.setState({ selected: key });
     };
 
+    goToInterests = () => {
+        this.props.history.push(`/interests`);
+    };
+
     render() {
         const menus = [];
         this.props.interestRandomPosts.forEach((element, i) => {
             menus.push(BrowsePostMenu(element.posts, this.state.selected));
         });
+
+        const nonInterestMenu = BrowsePostMenu(this.props.nonInterestPosts, this.state.selected);
 
         return (
             <div>
@@ -66,22 +78,51 @@ export class DashboardPage extends React.Component {
                     </div>
                 </div>
                 <div className="content-container">
+                    {menus.length === 0 && (
+                        <div>
+                            <h1>
+                                There are currently no posts your interests.{" "}
+                                <span>
+                                    <Link className="link__inline" to="/interests">
+                                        Click here to Edit.
+                                    </Link>
+                                </span>
+                            </h1>
+                        </div>
+                    )}
                     {this.props.interestRandomPosts.map((interestPosts, index) => {
                         return (
-                            <div key={interestPosts.tag} className="horizontal-menu_wrapper">
-                                <div className="menu_header">
-                                    <h1>{interestPosts.tag}</h1>
+                            menus[index].length > 0 && (
+                                <div key={interestPosts.tag} className="horizontal-menu_wrapper">
+                                    <div className="menu_header">
+                                        <h1>{interestPosts.tag}</h1>
+                                    </div>
+                                    <ScrollMenu
+                                        data={menus[index]}
+                                        arrowLeft={ArrowLeft}
+                                        arrowRight={ArrowRight}
+                                        selected={this.state.selected}
+                                        onSelect={this.onSelect}
+                                    />
                                 </div>
-                                <ScrollMenu
-                                    data={menus[index]}
-                                    arrowLeft={ArrowLeft}
-                                    arrowRight={ArrowRight}
-                                    selected={this.state.selected}
-                                    onSelect={this.onSelect}
-                                />
-                            </div>
+                            )
                         );
                     })}
+
+                    {nonInterestMenu.length > 0 && (
+                        <div className="horizontal-menu_wrapper">
+                            <div className="menu_header">
+                                <h1>Other Posts</h1>
+                            </div>
+                            <ScrollMenu
+                                data={nonInterestMenu}
+                                arrowLeft={ArrowLeft}
+                                arrowRight={ArrowRight}
+                                selected={this.state.selected}
+                                onSelect={this.onSelect}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
         );
@@ -92,7 +133,8 @@ const mapStateToProps = (state) => {
     return {
         isAuthenticated: !!state.auth.token,
         interests: state.userInterests.userInterests,
-        interestRandomPosts: state.posts.interestRandomPosts
+        interestRandomPosts: state.posts.interestRandomPosts,
+        nonInterestPosts: state.posts.nonInterestPosts
     };
 };
 
@@ -101,7 +143,8 @@ const mapDispatchToProps = (dispatch) => {
         clearInterests: () => dispatch(clearInterests()),
         getAllInterests: () => dispatch(getAllInterests()),
         startSetInterestRandomPosts: (interests) => dispatch(startSetInterestRandomPosts(interests)),
-        startSetUserInterests: () => dispatch(startSetUserInterests())
+        startSetUserInterests: () => dispatch(startSetUserInterests()),
+        getNonInterestPosts: () => dispatch(getNonInterestPosts())
     };
 };
 

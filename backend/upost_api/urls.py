@@ -54,6 +54,10 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     path('api/', include(router.urls)),
     path('api/me/', UserDetailView.as_view(), name='me'),
     path('api/free-food/', Free_Food_Event_View.as_view(), name='free-food'),
+    path('api/non-interest-posts/', Non_Interest_Post_View.as_view(),
+         name='non-interest-posts'),
+    path('api/random-post/', Random_Non_Interest_Post_view.as_view(),
+         name='random-post'),
     path('api/auth/', include('rest_framework_social_oauth2.urls')),
     re_path(r'', include(frontendapp_urls))
- ]
+]

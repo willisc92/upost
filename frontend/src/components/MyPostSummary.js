@@ -4,7 +4,7 @@ import moment from "moment";
 
 export const MyPostSummary = ({ post, pathName, selected, readOnly, inHorizontalMenu }) => {
     return (
-        <div className={inHorizontalMenu && `menu-item ${selected ? "active" : ""}`}>
+        <div className={inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""}>
             <Link
                 className={readOnly ? "polaroid__inactive" : "polaroid"}
                 to={{

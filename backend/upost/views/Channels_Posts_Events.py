@@ -96,3 +96,37 @@ class Free_Food_Event_View(generics.ListAPIView):
                                             event_incentive__planned_end_date__isnull=False,
                                             event_incentive__planned_end_date__gte=datetime.now()).order_by('event_incentive__planned_start_date')
         return queryset
+
+
+class Non_Interest_Post_View(generics.ListAPIView):
+    serializer_class = PostSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    # Returns all posts that are NOT relavent to user interests
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        interests = Interest.objects.filter(interests_users=user)
+        queryset = Post.objects.exclude(
+            tags__in=interests.all()).order_by("?")
+        return queryset
+
+
+class Random_Non_Interest_Post_view(generics.ListAPIView):
+    serializer_class = PostSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    # Returns a random post
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        interests = Interest.objects.filter(interests_users=user)
+        queryset = Post.objects.exclude(
+            tags__in=interests.all()).order_by("?")[:1]
+        if not queryset.all():
+            queryset = Post.objects.all().order_by("?")[:1]
+        return queryset

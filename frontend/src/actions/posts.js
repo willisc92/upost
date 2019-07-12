@@ -330,3 +330,44 @@ export const restorePost = (id) => {
         });
     };
 };
+
+export const getNonInterestPosts = () => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(postStart());
+            API.get(`non-interest-posts/`)
+                .then((result) => {
+                    dispatch(postSuccess());
+                    dispatch(setNonInterestPosts(result.data));
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(postFail(err));
+
+                    reject(err);
+                });
+        });
+    };
+};
+
+export const setNonInterestPosts = (nonInterestPosts) => ({
+    type: "SET_NON_INTEREST_POSTS",
+    nonInterestPosts
+});
+
+export const getRandomNonInterestPost = () => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(postStart());
+            API.get(`random-post/`)
+                .then((result) => {
+                    dispatch(postSuccess());
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(postFail(err));
+                    reject(err);
+                });
+        });
+    };
+};

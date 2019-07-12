@@ -4,7 +4,7 @@ import moment from "moment";
 
 export const ChannelListItem = ({ channel, selected, pathName, inHorizontalMenu }) => {
     return (
-        <div className={inHorizontalMenu && `menu-item ${selected ? "active" : ""}`}>
+        <div className={inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""}>
             <Link
                 className="polaroid"
                 to={{

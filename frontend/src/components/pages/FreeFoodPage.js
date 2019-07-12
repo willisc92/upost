@@ -28,7 +28,7 @@ export class FreeFoodPage extends React.Component {
                     </div>
                     <div className="content-container">
                         <div className="polaroid__container">
-                            {events.length > 0 &&
+                            {events.length > 0 ? (
                                 events.map((event) => {
                                     return (
                                         <EventSummary
@@ -38,7 +38,13 @@ export class FreeFoodPage extends React.Component {
                                             inHorizontalMenu={false}
                                         />
                                     );
-                                })}
+                                })
+                            ) : (
+                                <h1>
+                                    There are no ongoing or upcoming free food events in your communities. Please check
+                                    again later!
+                                </h1>
+                            )}
                         </div>
                     </div>
                 </div>

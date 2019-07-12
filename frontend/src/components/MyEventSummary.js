@@ -11,7 +11,7 @@ export const MyEventSummary = ({ event, pathName, selected, readOnly, inHorizont
             event.event_incentive.planned_end_date !== event.planned_end_date);
 
     return (
-        <div className={inHorizontalMenu && `menu-item ${selected ? "active" : ""}`}>
+        <div className={inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""}>
             <Link
                 className={readOnly ? "polaroid__inactive" : "polaroid"}
                 to={{

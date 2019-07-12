@@ -1,28 +1,47 @@
 import React from "react";
 import { slide as Menu } from "react-burger-menu";
+import { Link } from "react-router-dom";
+import Radium from "radium";
+
+let RadiumLink = Radium(Link);
 
 export class SideBar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            menuOpen: false
+        };
+    }
+
+    handleStateChange(state) {
+        this.setState({ menuOpen: state.isOpen });
+    }
+
+    closeMenu() {
+        this.setState({ menuOpen: false });
+    }
+
     render() {
         return (
-            <Menu>
-                <a id="home" className="menu-item" href="/">
+            <Menu isOpen={this.state.menuOpen} onStateChange={(state) => this.handleStateChange(state)}>
+                <RadiumLink id="home" className="menu-item" to="/" onClick={() => this.closeMenu()}>
                     Home
-                </a>
-                <a id="inspire_me" className="menu-item" href="/inspire_me">
+                </RadiumLink>
+                <RadiumLink id="inspire_me" className="menu-item" to="/inspire_me" onClick={() => this.closeMenu()}>
                     Inspire Me
-                </a>
-                <a id="food_mood" className="menu-item" href="/food_mood">
+                </RadiumLink>
+                <RadiumLink id="food_mood" className="menu-item" to="/food_mood" onClick={() => this.closeMenu()}>
                     Food Mood
-                </a>
-                <a id="around_me" className="menu-item" href="/around_me">
+                </RadiumLink>
+                <RadiumLink id="around_me" className="menu-item" to="/around_me" onClick={() => this.closeMenu()}>
                     Around Me
-                </a>
-                <a id="my_list" className="menu-item" href="/my_list">
+                </RadiumLink>
+                <RadiumLink id="my_list" className="menu-item" to="/my_list" onClick={() => this.closeMenu()}>
                     My List
-                </a>
-                <a id="my_list" className="menu-item" href="/myDeletedContent">
+                </RadiumLink>
+                <RadiumLink id="my_list" className="menu-item" to="/myDeletedContent" onClick={() => this.closeMenu()}>
                     Recycle Bin
-                </a>
+                </RadiumLink>
             </Menu>
         );
     }
