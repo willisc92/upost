@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-export const ChannelListItem = ({ channel, selected, pathName }) => {
+export const ChannelListItem = ({ channel, selected, pathName, inHorizontalMenu }) => {
     return (
-        <div className={`menu-item ${selected ? "active" : ""}`}>
+        <div className={inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""}>
             <Link
                 className="polaroid"
                 to={{
@@ -44,6 +44,7 @@ export const BrowseChannelsMenu = (list, selected) =>
                     key={el.channel_id}
                     selected={selected}
                     pathName={`/channel/${el.channel_id}`}
+                    inHorizontalMenu
                 />
             );
         });
@@ -56,6 +57,7 @@ export const MyChannelsMenu = (list, selected) =>
                 key={el.channel_id}
                 selected={selected}
                 pathName={`/myChannels/${el.channel_id}`}
+                inHorizontalMenu
             />
         );
     });

@@ -1,5 +1,5 @@
 from rest_framework import generics, viewsets
-from ..models import ContentChannel, Post, PostEvent, Interest
+from ..models import ContentChannel, Post, PostEvent, Interest, CustomUser, Community
 from ..serializers import *
 
 from rest_framework import permissions
@@ -9,6 +9,9 @@ from rest_framework import filters
 
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django_filters.rest_framework import DjangoFilterBackend
+from datetime import datetime
+from rest_framework.response import Response
+from rest_framework import status
 
 
 class ContentChannel_View(viewsets.ModelViewSet):
@@ -68,3 +71,85 @@ class Event_View(viewsets.ModelViewSet):
         permissions.IsAuthenticatedOrReadOnly,
         EventAccessPermission,
     )
+
+
+class Free_Food_Event_View(generics.ListAPIView):
+    serializer_class = EventSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    # Returns future/ongoing events that have:
+    # Post related to user communities
+    # Containing an event FOOD incentive
+    # Has an end date time
+    # Has an ongoing/future incentive datetime
+    # Ordered by incentive start datetime
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        communities = Community.objects.filter(community_users=user)
+        queryset = PostEvent.objects.filter(post__community__in=communities.all(),
+                                            event_incentive__isnull=False,
+                                            event_incentive__incentive_type__in=[
+                                                "Food"],
+                                            event_incentive__planned_end_date__isnull=False,
+                                            event_incentive__planned_end_date__gte=datetime.now()).order_by('event_incentive__planned_start_date')
+        return queryset
+
+
+class Non_Interest_Post_View(generics.ListAPIView):
+    serializer_class = PostSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    # Returns all posts that are NOT relavent to user interests but in user community.
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        communities = Community.objects.filter(community_users=user)
+        interests = Interest.objects.filter(interests_users=user)
+        queryset = Post.objects.exclude(
+            tags__in=interests.all()).filter(community__in=communities.all()).order_by("?")
+        return queryset
+
+
+class Random_Non_Interest_Post_view(generics.ListAPIView):
+    serializer_class = PostSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    # Returns a random post not related to interests but within community.
+    # If it doesn't exist - returns a post in some other community but not relavent to interests.
+    # If that doesn't exist - just grabs a random post.
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        interests = Interest.objects.filter(interests_users=user)
+        communities = Community.objects.filter(community_users=user)
+        queryset = Post.objects.filter(community__in=communities.all()).exclude(
+            tags__in=interests.all()).order_by("?")[:1]
+        if not queryset.all():
+            queryset = Post.objects.all().exclude(
+                tags__in=interests.all()).order_by("?")[:1]
+        if not queryset.all():
+            queryset = Post.objects.all().order_by("?")[:1]
+        return queryset
+
+
+class Community_Post_view(generics.ListAPIView):
+    serializer_class = PostSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    # Returns posts in user's community
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        communities = Community.objects.filter(community_users=user)
+        queryset = Post.objects.filter(
+            community__in=communities.all())
+        return queryset

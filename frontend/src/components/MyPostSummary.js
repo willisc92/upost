@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-export const MyPostSummary = ({ post, pathName, selected, readOnly }) => {
+export const MyPostSummary = ({ post, pathName, selected, readOnly, inHorizontalMenu }) => {
     return (
-        <div className={`menu-item ${selected ? "active" : ""}`}>
+        <div className={inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""}>
             <Link
                 className={readOnly ? "polaroid__inactive" : "polaroid"}
                 to={{
@@ -44,6 +44,7 @@ export const MyPostMenu = (list, selected, readOnly) =>
                 key={el.post_id}
                 selected={selected}
                 readOnly={readOnly}
+                inHorizontalMenu
             />
         );
     });
@@ -52,5 +53,13 @@ export const BrowsePostMenu = (list, selected) =>
     list
         .filter((el) => !el.deleted_flag)
         .map((el) => {
-            return <MyPostSummary post={el} pathName={`/post/${el.post_id}`} key={el.post_id} selected={selected} />;
+            return (
+                <MyPostSummary
+                    post={el}
+                    pathName={`/post/${el.post_id}`}
+                    key={el.post_id}
+                    selected={selected}
+                    inHorizontalMenu
+                />
+            );
         });

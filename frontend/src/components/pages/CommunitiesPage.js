@@ -23,13 +23,14 @@ export class CommunitiesPage extends React.Component {
     });
 
     for (let i = 0; i < communitiesWithSelected.length; i++) {
-      console.log(this.props);
+      // for (let j = 0; j < this.props.userCommunities.length; j++) {
       if (
         this.props.userCommunities.includes(
           communitiesWithSelected[i].community_name
         )
       ) {
         communitiesWithSelected[i].isSelected = true;
+        //  }
       }
     }
 
@@ -62,7 +63,6 @@ export class CommunitiesPage extends React.Component {
 
   changeIsSelected = (community_name) => {
     const selected = this.state.communities.map((community) => {
-      console.log(community);
       if (community.community_name === community_name) {
         community.isSelected = !community.isSelected;
         return community;
@@ -128,7 +128,7 @@ export class CommunitiesPage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userCommunities: state.userCommunities.communities
+    userCommunities: state.userCommunities.communities.community
   };
 };
 

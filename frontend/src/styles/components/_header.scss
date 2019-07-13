@@ -2,7 +2,7 @@
     overflow: hidden;
     background: $crimson-red;
     position: fixed;
-    z-index: 1000;
+    z-index: 999;
     width: 100%;
     top: 0;
 }
@@ -25,6 +25,9 @@
 .header__logo {
     height: 50px;
     width: 100px;
+}
+
+.header__logo_wrapper {
     margin-left: 60px;
     display: inline;
 }

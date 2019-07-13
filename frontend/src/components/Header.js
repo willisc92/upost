@@ -68,7 +68,7 @@ class Header extends React.Component {
                 <div className="header__content">
                     <div>
                         <SideBar />
-                        <Link to="/">
+                        <Link to="/" className="header__logo_wrapper">
                             <img className="header__logo" src={CDNLink + "/dist/images/logo.png"} />
                         </Link>
                     </div>

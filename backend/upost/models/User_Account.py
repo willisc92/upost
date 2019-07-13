@@ -25,7 +25,8 @@ class CustomUser(AbstractUser):
                                          default=0)  # Field name made lowercase.
     last_payment_date = models.DateField(db_column='Last_Payment_Date', blank=True,
                                          null=True)  # Field name made lowercase.
-    interests = models.ManyToManyField("upost.Interest", blank=True)
+    interests = models.ManyToManyField(
+        "upost.Interest", blank=True, related_name="interests_users")
     subscriptions = models.ManyToManyField(
         "upost.ContentChannel", through="upost.Subscribe")
     attends = models.ManyToManyField(
@@ -35,9 +36,9 @@ class CustomUser(AbstractUser):
     attendance_strikes = models.ManyToManyField("upost.PostEvent", through="upost.AttendanceStrike",
                                                 related_name="attendee_to_strike")
     views = models.ManyToManyField("upost.Post", through="upost.View")
-    # was incentive package before
     uses = models.ManyToManyField("upost.PostEvent", through="upost.UsedBy")
-    community = models.ManyToManyField("upost.Community", blank=True)
+    community = models.ManyToManyField(
+        "upost.Community", blank=True, related_name='community_users')
 
     is_superuser = models.NullBooleanField(default=False)
     is_staff = models.NullBooleanField(default=False)

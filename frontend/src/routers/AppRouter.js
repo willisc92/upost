@@ -29,6 +29,9 @@ import EditIncentivePage from "../components/pages/EditIncentivePage";
 import ViewChannelPage from "../components/pages/ViewChannelPage";
 import SearchResultsPage from "../components/pages/SearchResultsPage";
 import DeletedContentPage from "../components/pages/DeletedContentPage";
+import FreeFoodPage from "../components/pages/FreeFoodPage";
+import InspireMe from "../components/pages/InspireMe";
+import MyCommunityPosts from "../components/pages/MyCommunityPosts";
 import { setAuthToken } from "../utils/API";
 
 export const history = createHistory();
@@ -85,6 +88,9 @@ class AppRouter extends React.Component {
                             />
                             <PrivateRoute path="/searchResults/:text" component={SearchResultsPage} exact={true} />
                             <PrivateRoute path="/myDeletedContent" component={DeletedContentPage} exact={true} />
+                            <PrivateRoute path="/food_mood" component={FreeFoodPage} exact={true} />
+                            <PrivateRoute path="/inspire_me" component={InspireMe} exact={true} />
+                            <PrivateRoute path="/community_posts" component={MyCommunityPosts} exact={true} />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>
