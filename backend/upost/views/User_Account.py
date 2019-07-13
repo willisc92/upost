@@ -8,6 +8,10 @@ from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from ..permissions import IsAuthenticatedOrCreate
 from rest_framework import generics
+from django.utils.http import urlsafe_base64_decode
+from ..tokens import account_activation_token
+from django.utils.encoding import force_text
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -54,3 +58,17 @@ class UserAccountSubscriptionsView(viewsets.ModelViewSet):
 class UserAccountAttendsView(viewsets.ModelViewSet):
     serializer_class = UserAccountAttendsSerializer
     queryset = CustomUser.objects.all()
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = CustomUser.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        return HttpResponse('Thank you for your email confirmation. Now you can login')
+    else:
+        return HttpResponse('Activation link is invalid')

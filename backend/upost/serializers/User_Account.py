@@ -5,6 +5,11 @@ from ..models.Shared import Community
 from ..models.User_Event_Channel_Relations import Subscribe
 from django.contrib.auth.hashers import make_password
 from ..serializers.User_Event_Channel_Relations import SubscribeSerializerIdOnly
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from ..tokens import account_activation_token
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
@@ -29,6 +34,13 @@ class UserAccountSerializer(serializers.ModelSerializer):
             last_name=validated_data['last_name'],
             birth_date=validated_data['birth_date'],
         )
+        message = render_to_string('acc_active_email.html', {'user': user,
+            'domain': 'localhost:8000',
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user)
+            })
+        email = EmailMessage('Active your UPost Account', message, to=[validated_data['email'].strip(),])
+        email.send()
         return user
 
 

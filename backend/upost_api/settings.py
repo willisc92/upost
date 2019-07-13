@@ -239,3 +239,16 @@ MEDIA_URL = '/media/'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CSRF_COOKIE_NAME = "csrftoken"
+
+# Email fields
+
+EMAIL_BACKEND = 'django_ses.SESBackend'
+AWS_SES_REGION_NAME = 'us-west-2'
+AWS_SES_REGION_ENDPOINT = 'email.us-west-2.amazonaws.com'
+DEFAULT_FROM_EMAIL = 'noreply@upostwebsite.com'
+
+try:
+    from .local_settings import *
+except ImportError:
+    raise Exception(
+        "A local_settings.py file is required to run this project")

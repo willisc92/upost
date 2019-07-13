@@ -58,6 +58,7 @@ social-auth-core = "==3.2.0"
 wrapt = "==1.11.1"
 oauth2_provider = "==0.0"
 Pygments = "==2.4.1"
+django-ses = "*"
 
 [requires]
 python_version = "3.7"
