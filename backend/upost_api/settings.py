@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if 'SECRET_KEY' in os.environ:
+if 'IS_CLOUD_DEPLOYMENT' in os.environ:
     SECRET_KEY = os.environ['SECRET_KEY']
 else:
     try:
@@ -30,7 +30,7 @@ else:
     SECRET_KEY = S_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if 'RDS_HOSTNAME' in os.environ:
+if 'IS_CLOUD_DEPLOYMENT' in os.environ:
     DEUBG = False
 else:
     DEBUG = True
@@ -135,7 +135,7 @@ WSGI_APPLICATION = 'upost_api.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-if 'RDS_HOSTNAME' in os.environ:
+if 'IS_CLOUD_DEPLOYMENT' in os.environ:
     DATABASES = {
         'default': {
             # 'ENGINE': 'mysql.connector.django',
@@ -225,7 +225,7 @@ WHITENOISE_MAX_AGE = 3600
 # Media fields
 # https://docs.djangoproject.com/en/2.2/ref/models/fields/#imagefield
 
-if 'USE_S3' in os.environ:
+if 'IS_CLOUD_DEPLOYMENT' in os.environ:
     AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
     AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
     AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
@@ -245,10 +245,16 @@ CSRF_COOKIE_NAME = "csrftoken"
 EMAIL_BACKEND = 'django_ses.SESBackend'
 AWS_SES_REGION_NAME = 'us-west-2'
 AWS_SES_REGION_ENDPOINT = 'email.us-west-2.amazonaws.com'
-DEFAULT_FROM_EMAIL = 'noreply@upostwebsite.com'
+DEFAULT_FROM_EMAIL = 'UPost Team <noreply@upostwebsite.com>'
 
-try:
-    from .local_settings import *
-except ImportError:
-    raise Exception(
-        "A local_settings.py file is required to run this project")
+if 'IS_CLOUD_DEPLOYMENT' in os.environ:
+    DOMAIN_NAME = 'upostwebsite.com'
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+else:
+    try:
+        from .local_settings import *
+    except ImportError:
+        raise Exception(
+            "A local_settings.py file is required to run this project")
+    DOMAIN_NAME = 'localhost:8000'

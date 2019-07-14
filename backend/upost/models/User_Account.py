@@ -42,7 +42,6 @@ class CustomUser(AbstractUser):
 
     is_superuser = models.NullBooleanField(default=False)
     is_staff = models.NullBooleanField(default=False)
-    is_active = models.NullBooleanField(default=False)
 
     class Meta:
         db_table = 'CustomUser'

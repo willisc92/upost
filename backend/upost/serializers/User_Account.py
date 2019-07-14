@@ -10,6 +10,7 @@ from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from ..tokens import account_activation_token
+from upost_api.settings import DOMAIN_NAME
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
@@ -34,12 +35,14 @@ class UserAccountSerializer(serializers.ModelSerializer):
             last_name=validated_data['last_name'],
             birth_date=validated_data['birth_date'],
         )
+        user.is_active = False
+        user.save()
         message = render_to_string('acc_active_email.html', {'user': user,
-            'domain': 'localhost:8000',
+            'domain': DOMAIN_NAME,
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
             'token': account_activation_token.make_token(user)
             })
-        email = EmailMessage('Active your UPost Account', message, to=[validated_data['email'].strip(),])
+        email = EmailMessage('Activate your UPost Account', message, to=[validated_data['email'],])
         email.send()
         return user
 
