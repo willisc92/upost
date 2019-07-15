@@ -7,12 +7,16 @@ import LoadingPage from "./components/pages/LoadingPage";
 import "normalize.css/normalize.css";
 import "./styles/styles.scss";
 import "react-dates/lib/css/_datepicker.css";
+import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import theme from "./theme";
 
 const store = configureStore();
 
 const jsx = (
     <Provider store={store}>
-        <AppRouter />
+        <MuiThemeProvider theme={theme}>
+            <AppRouter />
+        </MuiThemeProvider>
     </Provider>
 ); // Use provider to setup the store in the root of the application that is used by all other components.
 

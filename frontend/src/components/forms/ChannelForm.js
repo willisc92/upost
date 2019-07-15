@@ -1,6 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getCurrentUser } from "../../actions/auth";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 
 export class ChannelForm extends React.Component {
     constructor(props) {
@@ -58,11 +61,13 @@ export class ChannelForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit}>
+                {/* <p className="form_error"> {this.props.error.channel_name[0]}</p> */}
+
                 {!!this.props.error && !!this.props.error.channel_name && (
-                    <p className="form_error"> {this.props.error.channel_name[0]}</p>
+                    <Typography color="error"> {this.props.error.channel_name[0]}</Typography>
                 )}
                 {this.state.error && <p className="form__error">{this.state.error}</p>}
-                <div className="input-group__item">
+                {/* <div className="input-group__item">
                     Channel Name:{" "}
                     <input
                         className="text-input"
@@ -73,9 +78,20 @@ export class ChannelForm extends React.Component {
                         onChange={this.onNameChange}
                         disabled={this.props.read_only}
                     />
+                </div>{" "} */}
+                <div className="input-group__item">
+                    <TextField
+                        label="Name"
+                        type="text"
+                        placeholder="Name"
+                        value={this.state.channel_name}
+                        onChange={this.onNameChange}
+                        disabled={this.props.read_only}
+                        required
+                    />
                 </div>
                 <div className="input-group__item">
-                    Channel Description:{" "}
+                    {/* Channel Description:{" "}
                     <textarea
                         className="text-input"
                         type="text"
@@ -83,9 +99,26 @@ export class ChannelForm extends React.Component {
                         value={this.state.channel_description}
                         onChange={this.onDescriptionChange}
                         disabled={this.props.read_only}
+                    /> */}
+                    <TextField
+                        label="Description"
+                        className="text-input"
+                        type="text"
+                        placeholder="Description"
+                        value={this.state.channel_description}
+                        onChange={this.onDescriptionChange}
+                        disabled={this.props.read_only}
+                        multiline
                     />
                 </div>
-                <div>{!this.props.read_only && <button className="button">Submit</button>}</div>
+                {/* <div>{!this.props.read_only && <button className="button">Submit</button>}</div> */}
+                <div>
+                    {!this.props.read_only && (
+                        <Button color="primary" variant="contained" type="submit">
+                            Submit
+                        </Button>
+                    )}
+                </div>
             </form>
         );
     }
