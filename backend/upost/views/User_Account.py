@@ -11,7 +11,7 @@ from rest_framework import generics
 from django.utils.http import urlsafe_base64_decode
 from ..tokens import account_activation_token
 from django.utils.encoding import force_text
-from django.http import HttpResponse
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -69,6 +69,6 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        return HttpResponse('Thank you for your email confirmation. Now you can login')
+        return JsonResponse({'message': 'successful activation'}, status=status.HTTP_200_OK)
     else:
-        return HttpResponse('Activation link is invalid')
+        return JsonResponse({'error': 'Activation link is invalid'}, status=status.HTTP_400_BAD_REQUEST)

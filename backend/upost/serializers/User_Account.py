@@ -39,6 +39,7 @@ class UserAccountSerializer(serializers.ModelSerializer):
         user.save()
         message = render_to_string('acc_active_email.html', {'user': user,
             'domain': DOMAIN_NAME,
+            'url': 'activate',
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
             'token': account_activation_token.make_token(user)
             })

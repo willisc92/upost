@@ -257,4 +257,4 @@ else:
     except ImportError:
         raise Exception(
             "A local_settings.py file is required to run this project")
-    DOMAIN_NAME = 'localhost:8000'
+    DOMAIN_NAME = 'localhost:8080'
