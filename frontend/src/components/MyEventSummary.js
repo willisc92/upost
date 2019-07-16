@@ -19,17 +19,17 @@ export const MyEventSummary = ({ event, pathName, selected, readOnly, inHorizont
                     state: { event }
                 }}
             >
-                <div>
-                    <h3 className="polaroid__title">
+                <div className="polaroid__text-wrapper">
+                    <h1 className="polaroid__title">
                         {event.event_title}
                         {event.deleted_flag && (
-                            <span className="polaroid__sub_title">
+                            <h2 className="polaroid__sub_title">
                                 {" "}
                                 (Deleted {moment(event.deletion_date).format("ddd, MMM D YYYY")})
-                            </span>
+                            </h2>
                         )}
-                    </h3>
-                    <p className="polaroid__description">{event.event_description}</p>
+                    </h1>
+                    <h3 className="polaroid__description">{event.event_description}</h3>
                     <h2 className="polaroid__sub_title">
                         Event {hasIncentive && !hasDifferentIncentiveTimes && "and Incentive "}From:
                     </h2>

@@ -5,6 +5,13 @@ from ..serializers import IncentiveSerializer
 
 
 class EventSerializer(serializers.ModelSerializer):
+    event_community = serializers.CharField(
+        read_only=True, source="post.community.community_name")
+    event_owner = serializers.CharField(
+        read_only=True, source="post.user")
+    post_deleted_flag = serializers.BooleanField(
+        read_only=True, source="post.deleted_flag")
+
     class Meta:
         fields = (
             'event_id',
@@ -20,6 +27,9 @@ class EventSerializer(serializers.ModelSerializer):
             'deleted_flag',
             'creation_date',
             'deletion_date',
+            'event_community',
+            'event_owner',
+            "post_deleted_flag"
         )
         model = PostEvent
 
@@ -29,6 +39,9 @@ class EventSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    channel_deleted_flag = serializers.BooleanField(
+        read_only=True, source="channel.deleted_flag")
+
     class Meta:
         fields = (
             'post_id',
@@ -48,6 +61,7 @@ class PostSerializer(serializers.ModelSerializer):
             'post_incentive',
             'creation_date',
             'deletion_date',
+            'channel_deleted_flag'
         )
         model = Post
 
