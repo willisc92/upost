@@ -72,6 +72,14 @@
     color: black;
 }
 
+.modal__text_button {
+    padding: auto;
+    margin: 0;
+    color: black;
+    text-align: left;
+    cursor: pointer;
+}
+
 .modal__buttons {
     align-items: center;
     display: flex;
@@ -79,5 +87,5 @@
 }
 
 .modal__button {
-    margin-right: $s-size;
+    margin: $s-size;
 }

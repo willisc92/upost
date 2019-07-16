@@ -90,7 +90,7 @@ export const authLogin = (username, password) => {
                         });
                 })
                 .catch((err) => {
-                    dispatch(authFail(err));
+                    dispatch(authFail({ error: err.response.data.error_description }));
                     reject(err);
                 });
         });
