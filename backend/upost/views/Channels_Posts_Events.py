@@ -67,10 +67,10 @@ class Event_View(viewsets.ModelViewSet):
     queryset = PostEvent.objects.all()
     filterset_class = EventFilter
 
-    permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
-        EventAccessPermission,
-    )
+    # permission_classes = (
+    #     permissions.IsAuthenticatedOrReadOnly,
+    #     EventAccessPermission,
+    # )
 
 
 class Free_Food_Event_View(generics.ListAPIView):

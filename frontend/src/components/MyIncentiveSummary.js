@@ -14,15 +14,15 @@ export const MyIncentiveSummary = ({ incentive, pathName, selected }) => {
                 }}
             >
                 <div>
-                    <h3 className="polaroid__title">
+                    <h1 className="polaroid__title">
                         {incentive.ip_description}
                         {incentive.deleted_flag && (
-                            <span className="polaroid__sub_title">
+                            <h2 className="polaroid__sub_title">
                                 {" "}
                                 (Deleted {moment(incentive.deletion_date).format("ddd, MMM D YYYY")})
-                            </span>
+                            </h2>
                         )}
-                    </h3>
+                    </h1>
                     <p className="polaroid__description">Type: {incentive.incentive_type}</p>
                     {!!incentive.planned_start_date && !!incentive.planned_end_date && (
                         <DateRangeTag startDate={event.planned_start_date} endDate={event.planned_end_date} />

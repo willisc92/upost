@@ -1,6 +1,5 @@
 import React from "react";
 import { startGetPost, editPost, clearPosts, deletePost, restorePost } from "../../actions/posts";
-import { startGetChannel } from "../../actions/channels";
 import { connect } from "react-redux";
 import PostForm from "../forms/PostForm";
 import { getCurrentUser } from "../../actions/auth";
@@ -21,12 +20,6 @@ export class EditPostPage extends React.Component {
                         if (res.data.username !== post_res.data[0].user) {
                             this.props.history.push("/myChannels");
                         }
-                        this.props
-                            .startGetChannel(post_res.data[0].channel)
-                            .then(() => {})
-                            .catch((err) => {
-                                console.log(JSON.stringify(err, null, 2));
-                            });
                     })
                     .catch((err) => {
                         console.log(JSON.stringify(err, null, 2));
@@ -90,17 +83,16 @@ export class EditPostPage extends React.Component {
     };
 
     goToChannel = () => {
-        const channel = this.props.channel.channel_id;
+        const channel = this.props.post.channel;
         this.props.history.push(`/myChannels/${channel}`);
     };
 
     render() {
-        const read_only_channel = !!this.props.post && !!this.props.channel && this.props.channel.deleted_flag;
+        const read_only_channel = !!this.props.post && this.props.post.channel_deleted_flag;
         const read_only_post = !!this.props.post && this.props.post.deleted_flag;
 
         return (
-            !!this.props.post &&
-            !!this.props.channel && (
+            !!this.props.post && (
                 <div>
                     <div className="page-header">
                         <div className="content-container">
@@ -165,12 +157,10 @@ export class EditPostPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     loading: state.posts.loading,
-    post: state.posts.posts[0],
-    channel: state.channels.channels[0]
+    post: state.posts.posts[0]
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startGetChannel: (channel_id) => dispatch(startGetChannel(channel_id)),
     clearPosts: () => dispatch(clearPosts()),
     startGetPost: (id) => dispatch(startGetPost(id)),
     editPost: (id, updates) => dispatch(editPost(id, updates)),

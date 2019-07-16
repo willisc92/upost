@@ -4,6 +4,7 @@ import { startGetIncentiveTypes } from "../../actions/incentive_types";
 import { startGetDietOptions } from "../../actions/diet_options";
 import DateTimePicker from "react-datetime-picker";
 import { getCurrentUser } from "../../actions/auth";
+import moment, { normalizeUnits } from "moment";
 
 class IncentiveForm extends React.Component {
     constructor(props) {
@@ -31,19 +32,21 @@ class IncentiveForm extends React.Component {
                 : "",
             planned_start_date:
                 !!this.props.incentivePackage && !!this.props.incentivePackage.planned_start_date
-                    ? new Date(this.props.incentivePackage.planned_start_date)
+                    ? moment(this.props.incentivePackage.planned_start_date).toDate()
                     : !!this.props.event && !!this.props.event.planned_start_date
-                    ? new Date(this.props.event.planned_start_date)
+                    ? moment(this.props.event.planned_start_date).toDate()
                     : !!this.props.fromEvent
-                    ? new Date()
+                    ? moment().toDate()
                     : null,
             planned_end_date:
                 !!this.props.incentivePackage && !!this.props.incentivePackage.planned_end_date
-                    ? new Date(this.props.incentivePackage.planned_end_date)
+                    ? moment(this.props.incentivePackage.planned_end_date).toDate()
                     : !!this.props.event && !!this.props.event.planned_end_date
-                    ? new Date(this.props.event.planned_end_date)
+                    ? moment(this.props.event.planned_end_date).toDate()
                     : !!this.props.fromEvent
-                    ? new Date(new Date().setHours(new Date().getHours() + 1))
+                    ? moment()
+                          .add(1, "hours")
+                          .toDate()
                     : null
         };
     }
