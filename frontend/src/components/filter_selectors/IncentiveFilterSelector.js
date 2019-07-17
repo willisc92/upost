@@ -1,14 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { DateRangePicker } from "react-dates";
-import {
-    setVisibleFilter,
-    setTypeFilter,
-    sortByDate,
-    sortByType,
-    setStartDate,
-    setEndDate
-} from "../../actions/incentive_filters";
+import { setTypeFilter, sortByDate, sortByType, setStartDate, setEndDate } from "../../actions/incentive_filters";
 import { startGetIncentiveTypes } from "../../actions/incentive_types";
 
 export class IncentiveFilters extends React.Component {
@@ -42,10 +35,6 @@ export class IncentiveFilters extends React.Component {
 
     onIncentiveTypeChange = (e) => {
         this.props.setTypeFilter(e.target.value);
-    };
-
-    handleCheckbox = (e) => {
-        this.props.setVisibleFilter(!this.props.filters.visible);
     };
 
     render() {
@@ -93,20 +82,6 @@ export class IncentiveFilters extends React.Component {
                             isOutsideRange={() => false}
                         />
                     </div>
-                    <div className="input-group__item">
-                        <p>
-                            Visible{" "}
-                            <span>
-                                <input
-                                    type="checkbox"
-                                    name="prop1"
-                                    id="string"
-                                    checked={this.props.filters.visible}
-                                    onChange={this.handleCheckbox}
-                                />
-                            </span>
-                        </p>
-                    </div>
                 </div>
             </div>
         );
@@ -121,7 +96,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     startGetIncentiveTypes: () => dispatch(startGetIncentiveTypes()),
     setTypeFilter: (type) => dispatch(setTypeFilter(type)),
-    setVisibleFilter: (visible) => dispatch(setVisibleFilter(visible)),
     sortByDate: () => dispatch(sortByDate()),
     sortByType: () => dispatch(sortByType()),
     setStartDate: (startDate) => dispatch(setStartDate(startDate)),

@@ -3,7 +3,6 @@ import { addIncentivePackage } from "../../actions/incentivePackage";
 import { getCurrentUser } from "../../actions/auth";
 import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
-import { startGetPost, clearPosts } from "../../actions/posts";
 import { startSetEvent, clearEvents } from "../../actions/events";
 
 class AddEventIncentivePage extends React.Component {
@@ -12,7 +11,6 @@ class AddEventIncentivePage extends React.Component {
     }
 
     componentWillMount() {
-        this.props.clearPosts();
         this.props.clearEvents();
         const event_id = this.props.match.params.id;
         getCurrentUser()
@@ -20,16 +18,9 @@ class AddEventIncentivePage extends React.Component {
                 this.props
                     .startSetEvent(event_id)
                     .then((event_res) => {
-                        this.props
-                            .startGetPost(event_res.data.post)
-                            .then((post_res) => {
-                                if (res.data.username !== post_res.data[0].user) {
-                                    this.props.history.push(`/myChannels`);
-                                }
-                            })
-                            .catch((err) => {
-                                console.log(JSOn.stringify(err, null, 2));
-                            });
+                        if (res.data.username !== event_res.data.event_owner) {
+                            this.props.history.push(`/myChannels`);
+                        }
                     })
                     .catch((err) => {
                         console.log(JSON.stringify(err, null, 2));
@@ -46,7 +37,7 @@ class AddEventIncentivePage extends React.Component {
             .addIncentivePackage(incentive)
             .then((res) => this.props.history.push(`/myPosts/${post_id}/events/`))
             .catch((err) => {
-                console.log(JSON.stringify(err, null, 2));
+                console.log(err);
             });
     };
 
@@ -116,15 +107,12 @@ class AddEventIncentivePage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    post: state.posts.posts[0],
     event: state.events.events.length !== 0 ? state.events.events : null
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    clearPosts: () => dispatch(clearPosts()),
     clearEvents: () => dispatch(clearEvents()),
     addIncentivePackage: (incentive) => dispatch(addIncentivePackage(incentive)),
-    startGetPost: (id) => dispatch(startGetPost(id)),
     startSetEvent: (id) => dispatch(startSetEvent(id))
 });
 
