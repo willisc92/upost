@@ -26,6 +26,11 @@
     overflow: hidden;
 }
 
+.polaroid__text-wrapper:hover {
+    overflow: visible
+}
+
+
 .polaroid__title {
     font-weight: 600;
     margin: 0;

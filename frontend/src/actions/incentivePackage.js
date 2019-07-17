@@ -69,7 +69,7 @@ export const deleteIncentivePackage = (id) => {
             dispatch(incentivePackageStart());
             const updates = {
                 deleted_flag: true,
-                deletion_date: moment().format("YYYY-MM-DD")
+                deletion_date: moment().toDate()
             };
             API.patch(`incentive-packages/${id}/`, updates)
                 .then((result) => {

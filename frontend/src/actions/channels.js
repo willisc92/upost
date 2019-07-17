@@ -192,7 +192,7 @@ export const deleteChannel = (id) => {
             dispatch(channelStart());
             const updates = {
                 deleted_flag: true,
-                deletion_date: moment().format("YYYY-MM-DD")
+                deletion_date: moment().toDate()
             };
             API.patch(`channels/${id}/`, updates)
                 .then((result) => {

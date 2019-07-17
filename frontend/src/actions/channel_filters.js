@@ -4,6 +4,11 @@ export const setTextFilter = (text = "") => ({
     text
 });
 
+// SET_BY_LAST_UPDATED
+export const sortByLastUpdated = () => ({
+    type: "SORT_BY_LAST_UPDATED"
+});
+
 // SORT_BY_NAME
 export const sortByName = () => ({
     type: "SORT_BY_NAME"
@@ -15,13 +20,13 @@ export const sortByDate = () => ({
 });
 
 // SET_START_DATE
-export const setStartDate = (startDate) => ({
+export const setStartDate = (startDate = null) => ({
     type: "SET_START_DATE",
     startDate
 });
 
 // SET_END_DATE
-export const setEndDate = (endDate) => ({
+export const setEndDate = (endDate = null) => ({
     type: "SET_END_DATE",
     endDate
 });

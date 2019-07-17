@@ -4,8 +4,6 @@ import { DateRangePicker } from "react-dates";
 import {
     setDefault,
     clearDates,
-    sortAscending,
-    sortDescending,
     setStartDate,
     setEndDate,
     setTextFilter,
@@ -13,7 +11,10 @@ import {
     setCommunityFilter,
     setHasIncentiveFilter,
     setIncentiveTypeFilter,
-    setDietOptionsFilter
+    setDietOptionsFilter,
+    sortByName,
+    sortByDate,
+    sortByLastUpdated
 } from "../../actions/event_filters";
 import { getAllCommunities } from "../../actions/communities";
 import { startGetDietOptions } from "../../actions/diet_options";
@@ -52,10 +53,13 @@ export class EventFilters extends React.Component {
     };
 
     onSortChange = (e) => {
-        if (e.target.value === "ascending") {
-            this.props.sortAscending();
-        } else if (e.target.value === "descending") {
-            this.props.sortDescending();
+        if (e.target.value === "name") {
+            this.props.sortByName();
+            this.props.clearDates();
+        } else if (e.target.value === "date") {
+            this.props.sortByDate();
+        } else if (e.target.value === "last_updated") {
+            this.props.sortByLastUpdated();
         }
     };
 
@@ -74,7 +78,7 @@ export class EventFilters extends React.Component {
     handleHasIncentiveChange = (e) => {
         const hasIncentive = e.target.value;
         this.props.setHasIncentiveFilter(hasIncentive);
-        if (hasIncentive === "noIncentive") {
+        if (hasIncentive === "noIncentive" || hasIncentive === "all") {
             this.props.setIncentiveTypeFilter("");
             this.props.setDietOptionsFilter("");
         }
@@ -89,8 +93,6 @@ export class EventFilters extends React.Component {
     };
 
     render() {
-        const foodSpecific = this.props.foodSpecific;
-
         return (
             <div>
                 <div className="input-group">
@@ -107,15 +109,16 @@ export class EventFilters extends React.Component {
                         </div>
                     </div>
                     <div className="input-group__column">
-                        Sort Dates:{" "}
+                        Sort By:{" "}
                         <div className="input-group__item">
                             <select
                                 className="select"
                                 defaultValue={this.props.filters.sortBy}
                                 onChange={this.onSortChange}
                             >
-                                <option value="ascending">Ascending</option>
-                                <option value="descending">Descending</option>
+                                <option value="name">Name</option>
+                                <option value="date">Creation Date</option>
+                                <option value="last_updated">Last Updated</option>
                             </select>
                         </div>
                     </div>
@@ -154,7 +157,7 @@ export class EventFilters extends React.Component {
                     </div>
                     {this.props.filters.dayFilter === "all" && (
                         <div className="input-group__column">
-                            Date Range:{" "}
+                            Event Date Range:{" "}
                             <div className="input-group__item">
                                 <DateRangePicker
                                     startDate={this.props.filters.startDate}
@@ -185,7 +188,7 @@ export class EventFilters extends React.Component {
                             </div>
                         </div>
                     )}
-                    {this.props.filters.hasIncentive !== "noIncentive" && !this.props.foodSpecific && (
+                    {this.props.filters.hasIncentive === "hasIncentive" && !this.props.foodSpecific && (
                         <div className="input-group__column">
                             Incentive Type:
                             <div className="input-group__item">
@@ -206,28 +209,27 @@ export class EventFilters extends React.Component {
                             </div>
                         </div>
                     )}
-                    {this.props.filters.incentiveType === "Food" ||
-                        (this.props.foodSpecific && (
-                            <div className="input-group__column">
-                                Diet Option:
-                                <div className="input-group__item">
-                                    <select
-                                        className="select"
-                                        defaultValue={this.props.filters.dietOption}
-                                        onChange={this.handleDietOptionChange}
-                                    >
-                                        <option value="">Show All</option>
-                                        {this.props.dietOptions.map((dietOption) => {
-                                            return (
-                                                <option key={dietOption} value={dietOption}>
-                                                    {dietOption}
-                                                </option>
-                                            );
-                                        })}
-                                    </select>
-                                </div>
+                    {(this.props.filters.incentiveType === "Food" || this.props.foodSpecific) && (
+                        <div className="input-group__column">
+                            Diet Option:
+                            <div className="input-group__item">
+                                <select
+                                    className="select"
+                                    defaultValue={this.props.filters.dietOption}
+                                    onChange={this.handleDietOptionChange}
+                                >
+                                    <option value="">Show All</option>
+                                    {this.props.dietOptions.map((dietOption) => {
+                                        return (
+                                            <option key={dietOption} value={dietOption}>
+                                                {dietOption}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
                             </div>
-                        ))}
+                        </div>
+                    )}
                 </div>
             </div>
         );
@@ -245,8 +247,9 @@ const mapDispatchToProps = (dispatch) => ({
     setDefault: () => dispatch(setDefault()),
     clearDates: () => dispatch(clearDates()),
     setTextFilter: (text) => dispatch(setTextFilter(text)),
-    sortAscending: () => dispatch(sortAscending()),
-    sortDescending: () => dispatch(sortDescending()),
+    sortByName: () => dispatch(sortByName()),
+    sortByDate: () => dispatch(sortByDate()),
+    sortByLastUpdated: () => dispatch(sortByLastUpdated()),
     setStartDate: (startDate) => dispatch(setStartDate(startDate)),
     setEndDate: (endDate) => dispatch(setEndDate(endDate)),
     setDayFilter: (dayFilter) => dispatch(setDayFilter(dayFilter)),

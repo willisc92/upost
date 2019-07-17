@@ -310,7 +310,7 @@ export const deletePost = (id) => {
             dispatch(postStart());
             const updates = {
                 deleted_flag: true,
-                deletion_date: moment().format("YYYY-MM-DD")
+                deletion_date: moment().toDate()
             };
             API.patch(`posts/${id}/`, updates)
                 .then((result) => {

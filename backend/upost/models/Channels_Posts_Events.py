@@ -7,9 +7,10 @@ from django.utils import timezone
 from django.urls import reverse
 from django.db import models
 from django.db.models import Avg
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
+from . import IncentivePackage
 
 
 class ContentChannel(models.Model):
@@ -20,12 +21,13 @@ class ContentChannel(models.Model):
         db_column='Channel_Name', max_length=50, unique=True)
     deleted_flag = models.BooleanField(db_column='Deleted_Flag', default=False,
                                        blank=True)
-    creation_date = models.DateField(
+    creation_date = models.DateTimeField(
         db_column='Creation_Date', auto_now_add=True)
-    deletion_date = models.DateField(
+    deletion_date = models.DateTimeField(
         db_column='Deletion_Date', blank=True, null=True)
     channel_description = models.CharField(
         db_column='Channel_Description', max_length=500, blank=True, null=True, default="")
+    last_updated = models.DateTimeField(auto_now=True)
 
     def publish(self):
         self.creation_date = timezone.now()
@@ -69,10 +71,9 @@ class Post(models.Model):
         "upost.Community", on_delete=models.DO_NOTHING, related_name="community_posts")
     picture = models.ImageField(
         null=True, blank=True, upload_to="post_images/")
-    creation_date = models.DateField(
-        db_column='Creation_Date', auto_now_add=True)
-    deletion_date = models.DateField(
+    deletion_date = models.DateTimeField(
         db_column='Deletion_Date', blank=True, null=True)
+    last_updated = models.DateTimeField(auto_now=True)
 
     def publish(self):
         self.creation_date = timezone.now()
@@ -103,12 +104,13 @@ class PostEvent(models.Model):
         db_column='Planned_start_datetime', null=False, blank=False)
     planned_end_date = models.DateTimeField(
         db_column='Planned_end_datetime', null=False, blank=False)
-    creation_date = models.DateField(
+    creation_date = models.DateTimeField(
         db_column='Creation_Date', auto_now_add=True)
-    deletion_date = models.DateField(
+    deletion_date = models.DateTimeField(
         db_column='Deletion_Date', blank=True, null=True)
     deleted_flag = models.BooleanField(
         db_column='Deleted_Flag', default=False, blank=True)
+    last_updated = models.DateTimeField(auto_now=True)
 
     def publish(self):
         self.creation_date = timezone.now()
@@ -132,14 +134,14 @@ def update_deleted_flags_on_channel_save(sender, instance, **kwargs):
     if instance.pk:
         old_Channel = ContentChannel.objects.get(pk=instance.pk)
         # Channel is "deleted" - delete all posts, events, and incentives tied to channel.
-        if old_Channel.deleted_flag == False and instance.deleted_flag == True:
+        if old_Channel.deleted_flag is False and instance.deleted_flag is True:
             for post in instance.channel_posts.all():
                 post.deleted_flag = instance.deleted_flag
                 post.deletion_date = instance.deletion_date
                 post.save()
 
         # If Channel is "restored" - restore all posts, events, and incentives tied to channel.
-        if old_Channel.deleted_flag == True and instance.deleted_flag == False:
+        if old_Channel.deleted_flag is True and instance.deleted_flag is False:
             for post in instance.channel_posts.all():
                 post.deleted_flag = instance.deleted_flag
                 post.deletion_date = None
@@ -151,7 +153,7 @@ def update_deleted_flags_on_post_save(sender, instance, **kwargs):
     if instance.pk:
         old_Post = Post.objects.get(pk=instance.pk)
         # Post is "deleted" - delete all events and incentive tied to post.
-        if old_Post.deleted_flag == False and instance.deleted_flag == True:
+        if old_Post.deleted_flag is False and instance.deleted_flag is True:
             for event in instance.post_events.all():
                 event.deleted_flag = instance.deleted_flag
                 event.deletion_date = instance.deletion_date
@@ -166,7 +168,7 @@ def update_deleted_flags_on_post_save(sender, instance, **kwargs):
                 pass
 
         # Post is "restored" - restore all events and incentive tied to post.
-        if old_Post.deleted_flag == True and instance.deleted_flag == False:
+        if old_Post.deleted_flag is True and instance.deleted_flag is False:
             for event in instance.post_events.all():
                 event.deleted_flag = instance.deleted_flag
                 event.deletion_date = None
@@ -186,7 +188,7 @@ def update_deleted_flags_on_event_save(sender, instance, **kwargs):
     if instance.pk:
         old_Event = PostEvent.objects.get(pk=instance.pk)
         # Event is "deleted" - delete incentive tied to event.
-        if old_Event.deleted_flag == False and instance.deleted_flag == True:
+        if old_Event.deleted_flag is False and instance.deleted_flag is True:
             try:
                 if instance.event_incentive:
                     incentive = instance.event_incentive
@@ -196,7 +198,7 @@ def update_deleted_flags_on_event_save(sender, instance, **kwargs):
             except ObjectDoesNotExist:
                 pass
         # Event is "restored" - restore incentive tied to event.
-        if old_Event.deleted_flag == True and instance.deleted_flag == False:
+        if old_Event.deleted_flag is True and instance.deleted_flag is False:
             try:
                 if instance.event_incentive:
                     incentive = instance.event_incentive
@@ -205,3 +207,64 @@ def update_deleted_flags_on_event_save(sender, instance, **kwargs):
                     incentive.save()
             except ObjectDoesNotExist:
                 pass
+
+
+@receiver(pre_save, sender=Post)
+def update_channel_update_timestamps(sender, instance, **kwargs):
+    # Check if this is an existing post
+    if instance.pk:
+        old_Post = Post.objects.get(pk=instance.pk)
+        # Check if save is a result of deleted_flag cascade
+        if old_Post.channel.deleted_flag is not instance.channel.deleted_flag:
+            pass
+        else:
+            old_Post.channel.save()
+    # This is a new event - save the post as well.
+    else:
+        instance.channel.save()
+
+
+@receiver(pre_save, sender=PostEvent)
+def update_post_update_timestamps(sender, instance, **kwargs):
+    # Check if this is an existing event
+    if instance.pk:
+        old_Event = PostEvent.objects.get(pk=instance.pk)
+        # Check if save is a result of deleted_flag cascade
+        if old_Event.post.deleted_flag is not instance.post.deleted_flag:
+            pass
+        else:
+            old_Event.post.save()
+    # This is a new event - save the post as well.
+    else:
+        instance.post.save()
+
+
+@receiver(pre_save, sender=IncentivePackage)
+def update_post_and_event_update_timestamps(sender, instance, **kwargs):
+
+    # Check if this is an existing incentive
+    if instance.pk:
+        old_Incentive = IncentivePackage.objects.get(pk=instance.pk)
+        old_event = old_Incentive.event
+        new_event = instance.event
+        old_post = old_Incentive.post
+        new_post = instance.post
+        # Check if incentive has event
+        if old_event and new_event:
+            # Check if signal is a result of event delete
+            if old_event.deleted_flag is not new_event.deleted_flag:
+                pass
+            else:
+                old_event.save()
+
+        # Check if it has a post
+        if old_post and new_post:
+            # Check if signal is a result of post delete
+            if old_post.deleted_flag is not new_post.deleted_flag:
+                pass
+            else:
+                old_post.save()
+
+    # This is a new incentive - update the event.
+    else:
+        instance.event.save()
