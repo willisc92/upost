@@ -5,6 +5,9 @@ from django.urls import reverse
 from upost_api.settings import DOMAIN_NAME
 
 from django_rest_passwordreset.signals import reset_password_token_created
+from oauth2_provider.models import AccessToken
+from django.db.models.signals import post_save
+from datetime import datetime
 
 
 @receiver(reset_password_token_created)
@@ -44,3 +47,9 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
     )
     msg.attach_alternative(email_plaintext_message, "text/html")
     msg.send()
+
+@receiver(post_save, sender=AccessToken, dispatch_uid="record_last_login")
+def record_login(sender, instance, created, **kwargs):
+    if created:
+        instance.user.last_login = datetime.now()
+        instance.user.save()

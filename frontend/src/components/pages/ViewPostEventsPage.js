@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
-import { startGetEvent } from "../../actions/events";
+import { startGetEvent, setEvents } from "../../actions/events";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
 import EventSummary from "../MyEventSummary";
@@ -20,7 +20,7 @@ class ViewPostEventsPage extends React.Component {
 
         // check to see if current post in store matches given id
         if (!!this.props.post && this.props.post.post_id === post_id) {
-            // pass
+            this.props.setEvents(this.props.post.post_events);
         } else {
             // load post from API
             this.props.clearPosts();
@@ -81,7 +81,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
     startGetPost: (id) => dispatch(startGetPost(id)),
-    startGetEvent: (id) => dispatch(startGetEvent(id))
+    startGetEvent: (id) => dispatch(startGetEvent(id)),
+    setEvents: (events) => dispatch(setEvents(events))
 });
 
 export default connect(

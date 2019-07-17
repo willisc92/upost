@@ -53,6 +53,7 @@ class IncentivePackage(models.Model):
 class IncentiveChoice(models.Model):
     incentive_name = models.CharField(
         db_column='incentive_name', primary_key=True, max_length=100)
+    incentive_image = models.ImageField(upload_to='incentives', null=True)
 
     class Meta:
         db_table = 'incentive_type'

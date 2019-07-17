@@ -7,7 +7,7 @@ import { setEvents, startSetEvent } from "../../actions/events";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 import { startGetAttendance, startAddAttendance, startDeleteAttendance } from "../../actions/attendance";
 import DateRangeTag from "../DateRangeTag";
-import { relativeTimeThreshold } from "moment";
+import IncentivePackage from "../IncentivePackage";
 
 class ViewEventPage extends React.Component {
     checkPost = (post_id, event_id) => {
@@ -106,6 +106,7 @@ class ViewEventPage extends React.Component {
     };
 
     render() {
+        console.log(this.props);
         return (
             <div>
                 <div className="page-header">
@@ -129,6 +130,9 @@ class ViewEventPage extends React.Component {
                                     </button>
                                 </div>
                                 <p>Description: {this.props.event.event_description}</p>
+                                {!!this.props.event.event_incentive && (
+                                    <IncentivePackage package={this.props.event.event_incentive} />
+                                )}
                             </div>
                         )}
                     </div>

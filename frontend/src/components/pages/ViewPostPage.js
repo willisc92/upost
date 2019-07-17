@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
+import IncentivePackage from "../IncentivePackage";
 
 class ViewPostPage extends React.Component {
     componentDidMount() {
@@ -58,6 +59,9 @@ class ViewPostPage extends React.Component {
                                 )}
                             </div>
                             <p>Description: {this.props.post.post_description}</p>
+                            {!!this.props.post.post_incentive && (
+                                <IncentivePackage package={this.props.post.post_incentive} />
+                            )}
                         </div>
                     )}
                     <div className="content-container-onethirds">
