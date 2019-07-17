@@ -29,6 +29,8 @@ export const getVisibleEvents = (
                         break;
                     case "tomorrow":
                         dayMatch = tomorrowMatch;
+                    default:
+                        dayMatch = true;
                 }
 
                 const visibleMatch = event.deleted_flag == deleted_flag;
@@ -58,10 +60,13 @@ export const getVisibleEvents = (
                 );
             })
             .sort((a, b) => {
-                if (sortBy === "ascending_date") {
-                    return a.planned_start_date < b.planned_start_date ? -1 : 1;
-                } else if (sortBy === "descending_date") {
-                    return a.planned_start_date < b.planned_start_date ? 1 : -1;
+                if (sortBy === "name") {
+                    return a.event_title.toLowerCase() < b.event_title.toLowerCase() ? -1 : 1;
+                }
+                if (sortBy === "date") {
+                    return moment(a.creation_date) < moment(b.creation_date) ? 1 : -1;
+                } else if (sortBy === "last_updated") {
+                    return moment(a.last_updated) < moment(b.last_updated) ? 1 : -1;
                 }
             });
     }

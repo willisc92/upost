@@ -9,24 +9,29 @@ export const setTextFilter = (text) => ({
     text
 });
 
-// SORT_BY_ASCENDING_DATE
-export const sortAscending = () => ({
-    type: "SORT_BY_ASCENDING_DATE"
+// SET_BY_LAST_UPDATED
+export const sortByLastUpdated = () => ({
+    type: "SORT_BY_LAST_UPDATED"
 });
 
-// SORT_BY_DESCENDING_DATE
-export const sortDescending = () => ({
-    type: "SORT_BY_DESCENDING_DATE"
+// SORT_BY_NAME
+export const sortByName = () => ({
+    type: "SORT_BY_NAME"
+});
+
+// SORT_BY_DATE
+export const sortByDate = () => ({
+    type: "SORT_BY_DATE"
 });
 
 // SET_START_DATE
-export const setStartDate = (startDate) => ({
+export const setStartDate = (startDate = null) => ({
     type: "SET_START_DATE",
     startDate
 });
 
 // SET_START_DATE
-export const setEndDate = (endDate) => ({
+export const setEndDate = (endDate = null) => ({
     type: "SET_END_DATE",
     endDate
 });

@@ -23,6 +23,11 @@ export default (state = channelsFiltersReducerDefaultState, action) => {
                 ...state,
                 sortBy: "date"
             };
+        case "SORT_BY_LAST_UPDATED":
+            return {
+                ...state,
+                sortBy: "last_updated"
+            };
         case "SET_START_DATE":
             return {
                 ...state,

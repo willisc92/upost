@@ -13,14 +13,18 @@ export class FreeFoodPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props
-            .getFreeFoodEvents()
+        let promises = [];
+        promises.push(this.props.setHasIncentiveFilter("all"));
+        promises.push(this.props.setIncentiveTypeFilter("Food"));
+        promises.push(this.props.setDietOptionsFilter(""));
+        Promise.all(promises)
             .then(() => {
-                this.props.dispatch(setHasIncentiveFilter(true));
-                this.props.dispatch(setIncentiveTypeFilter("Food"));
-                this.props.dispatch(setDietOptionsFilter(""));
+                this.props
+                    .getFreeFoodEvents()
+                    .then(() => {})
+                    .catch((err) => console.log(err));
             })
-            .catch((err) => console.log(JSON.stringify(err, null, 2)));
+            .catch((err) => console.log(err));
     }
 
     render() {

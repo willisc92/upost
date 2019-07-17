@@ -23,8 +23,11 @@ export const ChannelListItem = ({ channel, selected, pathName, inHorizontalMenu 
                         )}
                     </h3>
                     <p className="polaroid__description">{channel.channel_description}</p>
+                    <h2 className="polaroid__sub_title">Created:</h2>
+                    <p className="polaroid__description">{moment(channel.creation_date).format("MMMM Do YYYY")}</p>
+                    <h2 className="polaroid__sub_title">Updated:</h2>
                     <p className="polaroid__description">
-                        Creation Date: {moment(channel.creation_date).format("MMMM Do YYYY")}
+                        {moment(channel.last_updated).format("MMMM Do YYYY, h:mm a")}
                     </p>
                 </div>
             </Link>

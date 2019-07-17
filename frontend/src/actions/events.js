@@ -159,7 +159,7 @@ export const deleteEvent = (id) => {
             dispatch(eventStart());
             const updates = {
                 deleted_flag: true,
-                deletion_date: moment().format("YYYY-MM-DD")
+                deletion_date: moment().toDate()
             };
             API.patch(`events/${id}/`, updates)
                 .then((result) => {

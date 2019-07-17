@@ -29,7 +29,8 @@ class EventSerializer(serializers.ModelSerializer):
             'deletion_date',
             'event_community',
             'event_owner',
-            "post_deleted_flag"
+            "post_deleted_flag",
+            'last_updated'
         )
         model = PostEvent
 
@@ -59,9 +60,9 @@ class PostSerializer(serializers.ModelSerializer):
             'post_events',
             'picture',
             'post_incentive',
-            'creation_date',
             'deletion_date',
-            'channel_deleted_flag'
+            'channel_deleted_flag',
+            'last_updated'
         )
         model = Post
 
@@ -97,7 +98,8 @@ class ContentChannelSerializer(serializers.ModelSerializer):
             'creation_date',
             'deletion_date',
             'channel_description',
-            'channel_posts'
+            'channel_posts',
+            'last_updated'
         )
         model = ContentChannel
 
