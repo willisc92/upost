@@ -32,6 +32,7 @@ import DeletedContentPage from "../components/pages/DeletedContentPage";
 import FreeFoodPage from "../components/pages/FreeFoodPage";
 import InspireMe from "../components/pages/InspireMe";
 import MyCommunityPosts from "../components/pages/MyCommunityPosts";
+import AccountActivationPage from "../components/pages/AccountActivationPage";
 import { setAuthToken } from "../utils/API";
 
 export const history = createHistory();
@@ -91,6 +92,7 @@ class AppRouter extends React.Component {
                             <PrivateRoute path="/food_mood" component={FreeFoodPage} exact={true} />
                             <PrivateRoute path="/inspire_me" component={InspireMe} exact={true} />
                             <PrivateRoute path="/community_posts" component={MyCommunityPosts} exact={true} />
+                            <PublicRoute path="/activate/:uid/:token" component={AccountActivationPage} exact={true} />
                             <Route component={NotFoundPage} />
                         </Switch>
                     </div>

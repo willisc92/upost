@@ -153,6 +153,28 @@ export const startGetPost = (id) => {
 };
 
 /**
+ * GET_POST.
+ * from API gets a specific post, but does not add to store.  Does not dispatch any actions.
+ *
+ * @param {number} id post id to get
+ */
+export const getPost = (id) => {
+    return new Promise((resolve, reject) => {
+        API.get("posts/", {
+            params: {
+                post_id: id
+            }
+        })
+            .then((result) => {
+                resolve(result.data);
+            })
+            .catch((err) => {
+                reject(err);
+            });
+    });
+};
+
+/**
  * ADD_POST.
  * sends post request to API to add a new user created post.
  * upon sucessful post reloads user posts.

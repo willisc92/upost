@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
+import { startGetEvent } from "../../actions/events";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
 import EventSummary from "../MyEventSummary";
@@ -28,6 +29,8 @@ class ViewPostEventsPage extends React.Component {
                 .then((res) => {
                     if (res.data[0].deleted_flag) {
                         this.props.history.push("/");
+                    } else {
+                        this.props.startGetEvent(post_id);
                     }
                 })
                 .catch((err) => {
@@ -37,7 +40,7 @@ class ViewPostEventsPage extends React.Component {
     }
 
     render() {
-        const events = this.props.post && getVisibleEvents(this.props.post, this.props.filters, false);
+        const events = !!this.props.events && getVisibleEvents(this.props.events, this.props.filters, false);
         return (
             <div>
                 <div className="page-header">
@@ -71,12 +74,14 @@ class ViewPostEventsPage extends React.Component {
 
 const mapStateToProps = (state) => ({
     post: state.posts.posts[0],
-    filters: state.eventFilters
+    filters: state.eventFilters,
+    events: state.events.events
 });
 
 const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
-    startGetPost: (id) => dispatch(startGetPost(id))
+    startGetPost: (id) => dispatch(startGetPost(id)),
+    startGetEvent: (id) => dispatch(startGetEvent(id))
 });
 
 export default connect(

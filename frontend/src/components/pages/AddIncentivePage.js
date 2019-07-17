@@ -32,8 +32,6 @@ class AddIncentivePage extends React.Component {
     }
 
     onSubmit = (incentive) => {
-        const post_id = this.props.match.params.id;
-
         this.props
             .addIncentivePackage(incentive)
             .then((res) => this.props.history.push(`/myChannels/${this.props.post.channel}`))

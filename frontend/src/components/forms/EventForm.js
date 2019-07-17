@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import DateTimePicker from "react-datetime-picker";
 import { getCurrentUser } from "../../actions/auth";
+import moment from "moment";
 
 export class EventForm extends React.Component {
     constructor(props) {
@@ -19,10 +20,12 @@ export class EventForm extends React.Component {
                 ? this.props.description
                 : "",
             error: "",
-            startDate: !!this.props.event ? new Date(this.props.event.planned_start_date) : new Date(),
+            startDate: !!this.props.event ? moment(this.props.event.planned_start_date).toDate() : moment().toDate(),
             endDate: !!this.props.event
-                ? new Date(this.props.event.planned_end_date)
-                : new Date(new Date().setHours(new Date().getHours() + 1))
+                ? moment(this.props.event.planned_end_date).toDate()
+                : moment()
+                      .add(1, "hours")
+                      .toDate()
         };
     }
 

@@ -4,9 +4,10 @@ import { startGetPost, clearPosts } from "../../actions/posts";
 import { getCurrentUser } from "../../actions/auth";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
-import { deleteEvent } from "../../actions/events";
+import { deleteEvent, startGetEvent } from "../../actions/events";
 import moment from "moment";
 import MyEventSummary from "../MyEventSummary";
+
 class EditEventsPage extends React.Component {
     constructor(props) {
         super(props);
@@ -22,17 +23,24 @@ class EditEventsPage extends React.Component {
         getCurrentUser()
             .then((res) => {
                 this.props
-                    .startGetPost(post_id)
-                    .then((post_res) => {
-                        if (res.data.username !== post_res.data[0].user) {
-                            this.props.history.push("/myChannels");
-                        }
+                    .startGetEvent(post_id)
+                    .then(() => {
+                        this.props
+                            .startGetPost(post_id)
+                            .then((post_res) => {
+                                if (res.data.username !== post_res.data[0].user) {
+                                    this.props.history.push("/myChannels");
+                                }
+                            })
+                            .catch((err) => console.log(err));
                     })
                     .catch((err) => {
+                        console.log(err);
                         console.log(JSON.stringify(err, null, 2));
                     });
             })
             .catch((err) => {
+                console.log(err);
                 console.log(JSON.stringify(err, null, 2));
             });
     }
@@ -43,7 +51,8 @@ class EditEventsPage extends React.Component {
 
     clearAllEvents = () => {
         const promises = [];
-        const events = this.props.post.post_events;
+        const readOnly = !!this.props.post && this.props.post.deleted_flag;
+        const events = getVisibleEvents(this.props.events, this.props.filters, readOnly);
 
         events.forEach((event) => {
             promises.push(this.props.deleteEvent(event.event_id));
@@ -51,7 +60,7 @@ class EditEventsPage extends React.Component {
 
         Promise.all(promises)
             .then(() => {
-                this.props.startGetPost(this.props.match.params.id);
+                this.props.startGetEvent(this.props.match.params.id);
             })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
@@ -67,18 +76,18 @@ class EditEventsPage extends React.Component {
     };
 
     render() {
-        const readOnly = this.props.post && this.props.post.deleted_flag;
-        const events = this.props.post && getVisibleEvents(this.props.post, this.props.filters, readOnly);
+        const readOnly = !!this.props.post && this.props.post.deleted_flag;
+        const events = !!this.props.events && getVisibleEvents(this.props.events, this.props.filters, readOnly);
 
         return (
-            !!this.props.post && (
+            !!events && (
                 <div>
                     <div className="page-header">
                         <div className="content-container">
                             <h1 className="page-header__title">
                                 Add/Edit Events for <span>{this.props.post && this.props.post.post_title}</span>
                             </h1>
-                            {this.props.post.deleted_flag && (
+                            {readOnly && (
                                 <div>
                                     <h3 className="page-header__subtitle__red">
                                         Post Deletion Date:{" "}
@@ -93,7 +102,7 @@ class EditEventsPage extends React.Component {
                             <div className="page-header__actions">
                                 <EventFilterSelector />
                             </div>
-                            {!this.props.post.deleted_flag && (
+                            {!readOnly && (
                                 <div>
                                     <button className="button" onClick={this.addNewEvent}>
                                         Add an Event
@@ -138,12 +147,14 @@ class EditEventsPage extends React.Component {
 const mapStateToProps = (state) => ({
     filters: state.eventFilters,
     loading: state.posts.loading,
-    post: state.posts.posts[0]
+    post: state.posts.posts[0],
+    events: state.events.events
 });
 
 const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
     startGetPost: (id) => dispatch(startGetPost(id)),
+    startGetEvent: (id) => dispatch(startGetEvent(id)),
     deleteEvent: (id) => dispatch(deleteEvent(id))
 });
 

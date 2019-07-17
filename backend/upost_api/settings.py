@@ -57,7 +57,8 @@ INSTALLED_APPS = [
     'frontendapp',
     'oauth2_provider',
     'social_django',
-    'rest_framework_social_oauth2'
+    'rest_framework_social_oauth2',
+    'storages'
 ]
 
 SITE_ID = 1
@@ -257,4 +258,4 @@ else:
     except ImportError:
         raise Exception(
             "A local_settings.py file is required to run this project")
-    DOMAIN_NAME = 'localhost:8000'
+    DOMAIN_NAME = 'localhost:8080'

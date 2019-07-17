@@ -18,39 +18,27 @@ class EditEventIncentivePage extends React.Component {
     }
 
     componentDidMount() {
-        this.props.clearPosts();
         this.props.clearEvents();
         this.props.clearIncentivePackage();
 
         const event_id = this.props.match.params.id;
-        getCurrentUser()
-            .then((res) => {
-                this.props
-                    .startSetEvent(event_id)
-                    .then((event_res) => {
+        getCurrentUser().then((res) => {
+            this.props
+                .startSetEvent(event_id)
+                .then((event_res) => {
+                    if (res.data.username !== event_res.data.event_owner) {
+                        this.props.history.push(`/myChannels`);
+                    } else {
                         this.props
-                            .startGetPost(event_res.data.post)
-                            .then((post_res) => {
-                                if (res.data.username !== post_res.data[0].user || !event_res.data.event_incentive) {
-                                    this.props.history.push(`/myChannels`);
-                                } else {
-                                    this.props
-                                        .startGetIncentivePackage(event_res.data.event_incentive.incentive_package_id)
-                                        .then(() => {})
-                                        .catch((err) => console.log(JSON.stringify(err, null, 2)));
-                                }
-                            })
-                            .catch((err) => {
-                                console.log(JSON.stringify(err, null, 2));
-                            });
-                    })
-                    .catch((err) => {
-                        console.log(JSON.stringify(err, null, 2));
-                    });
-            })
-            .catch((err) => {
-                console.log(JSON.stringify(err, null, 2));
-            });
+                            .startGetIncentivePackage(event_res.data.event_incentive.incentive_package_id)
+                            .then(() => {})
+                            .catch((err) => console.log(JSON.stringify(err, null, 2)));
+                    }
+                })
+                .catch((err) => {
+                    console.log(JSON.stringify(err, null, 2));
+                });
+        });
     }
 
     onSubmit = (incentive) => {
@@ -60,7 +48,7 @@ class EditEventIncentivePage extends React.Component {
             .editIncentivePackage(incentive_id, incentive)
             .then((res) => this.props.history.push(`/myPosts/${post_id}/events/`))
             .catch((err) => {
-                console.log(JSON.stringify(err, null, 2));
+                console.log(err);
             });
     };
 
@@ -169,17 +157,14 @@ class EditEventIncentivePage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    post: state.posts.posts[0],
     event: state.events.events.length !== 0 ? state.events.events : null,
     incentive: state.incentivePackage.incentivePackage.length !== 0 ? state.incentivePackage.incentivePackage : null
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    clearPosts: () => dispatch(clearPosts()),
     clearEvents: () => dispatch(clearEvents()),
     clearIncentivePackage: () => dispatch(clearIncentivePackage()),
     editIncentivePackage: (id, incentive) => dispatch(editIncentivePackage(id, incentive)),
-    startGetPost: (id) => dispatch(startGetPost(id)),
     startSetEvent: (id) => dispatch(startSetEvent(id)),
     startGetIncentivePackage: (id) => dispatch(startGetIncentivePackage(id)),
     restoreIncentivePackage: (id) => dispatch(restoreIncentivePackage(id)),

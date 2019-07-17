@@ -136,7 +136,7 @@ export class DashboardPage extends React.Component {
                     </div>
                 </div>
                 <div className="content-container">
-                    {menus.length === 0 && (
+                    {this.props.isAuthenticated && menus.length === 0 && (
                         <div>
                             <h1>
                                 There are currently no posts matching your interests for your given communities.{" "}

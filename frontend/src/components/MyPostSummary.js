@@ -14,15 +14,15 @@ export const MyPostSummary = ({ post, pathName, selected, readOnly, inHorizontal
             >
                 <div className="polaroid__text-wrapper">
                     <img className="polaroid__image" src={post.picture} />
-                    <h3 className="polaroid__title">
+                    <h1 className="polaroid__title">
                         {post.post_title}{" "}
                         {post.deleted_flag && (
-                            <span className="polaroid__sub_title">
+                            <h2 className="polaroid__sub_title">
                                 {" "}
                                 (Deleted {moment(post.deletion_date).format("ddd, MMM D YYYY")})
-                            </span>
+                            </h2>
                         )}
-                    </h3>
+                    </h1>
                     <p className="polaroid__description">{post.post_description}</p>
                     <p className="polaroid__description">
                         Creation Date: {moment(post.post_timestamp).format("MMMM Do YYYY")}
