@@ -5,6 +5,7 @@
     z-index: 999;
     width: 100%;
     top: 0;
+    align-items: center;
 }
 
 .header__content {
@@ -28,7 +29,7 @@
 }
 
 .header__logo_wrapper {
-    margin-left: 60px;
+    margin-left: 50px;
     display: inline;
 }
 
@@ -43,4 +44,13 @@
 
 .contentBody {
     margin-top: 80px;
+}
+
+.header_mycontent_logo {
+    height: 60px;
+    width: 50px;
+}
+.links {
+    align-content: center;
+    display: flex;
 }

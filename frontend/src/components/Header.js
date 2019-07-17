@@ -79,24 +79,31 @@ class Header extends React.Component {
                         <SearchBar history={this.props.history} />
                     )}
                     {!!this.props.token ? (
-                        <div>
-                            <Link
+                        <div className="links">
+                            <button
                                 className="button button--link"
-                                to="/interests"
+                                onClick={() =>
+                                    this.props.history.push("/interests")
+                                }
                             >
                                 My Interests
-                            </Link>
-                            <Link
+                            </button>
+                            <button
                                 className="button button--link"
-                                to="/communities"
+                                onClick={() =>
+                                    this.props.history.push("/communities")
+                                }
                             >
                                 My Communities
-                            </Link>
+                            </button>
                             <Link
-                                className="button button--link"
+                                className="header__logo_wrapper"
                                 to="/myChannels"
                             >
-                                My Content
+                                <img
+                                    className="header_mycontent_logo"
+                                    src={CDNLink + "/dist/images/mycontent.png"}
+                                />
                             </Link>
                             <button
                                 className="button button--link"
