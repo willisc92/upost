@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { getCommunityPosts } from "../../actions/posts";
 import MyPostSummary from "../MyPostSummary";
 import { Link } from "react-router-dom";
+import PostFilterSelector from "../filter_selectors/PostFilterSelector";
+import { getVisiblePosts } from "../../selectors/myPosts";
 
 export class MyCommunityPosts extends React.Component {
     componentDidMount() {
@@ -15,7 +17,7 @@ export class MyCommunityPosts extends React.Component {
     }
 
     render() {
-        const posts = !!this.props.posts && this.props.posts;
+        const posts = !!this.props.posts && getVisiblePosts(this.props.posts, this.props.filters, false);
 
         return (
             posts && (
@@ -23,6 +25,9 @@ export class MyCommunityPosts extends React.Component {
                     <div className="page-header">
                         <div className="content-container">
                             <h1 className="page-header__title">Posts from your Communities</h1>
+                            <div className="page-header__actions">
+                                <PostFilterSelector />
+                            </div>
                         </div>
                     </div>
                     <div className="content-container">
@@ -40,7 +45,7 @@ export class MyCommunityPosts extends React.Component {
                                 })
                             ) : (
                                 <h1>
-                                    There are no posts in any of your communities. Please check again later or{" "}
+                                    There are no posts in your selected communities. Please check again later or{" "}
                                     <span>
                                         <Link className="link__inline" to="/communities">
                                             click here to edit your communities.
@@ -57,7 +62,8 @@ export class MyCommunityPosts extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    posts: state.posts.posts
+    posts: state.posts.posts,
+    filters: state.postFilters
 });
 
 const mapDispatchToProps = (dispatch) => ({

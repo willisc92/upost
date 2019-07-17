@@ -1,6 +1,6 @@
 // Event Filters Reducers
 const eventFiltersReducerDefaultState = {
-    sortBy: "ascending_date",
+    sortBy: "name",
     startDate: null,
     endDate: null,
     text: "",
@@ -26,15 +26,20 @@ export default (state = eventFiltersReducerDefaultState, action) => {
                 ...state,
                 text: action.text
             };
-        case "SORT_BY_ASCENDING_DATE":
+        case "SORT_BY_NAME":
             return {
                 ...state,
-                sortBy: "ascending_date"
+                sortBy: "name"
             };
-        case "SORT_BY_DESCENDING_DATE":
+        case "SORT_BY_LAST_UPDATED":
             return {
                 ...state,
-                sortBy: "descending_date"
+                sortBy: "last_updated"
+            };
+        case "SORT_BY_DATE":
+            return {
+                ...state,
+                sortBy: "date"
             };
         case "SET_START_DATE":
             return {

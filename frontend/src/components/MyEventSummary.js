@@ -20,15 +20,13 @@ export const MyEventSummary = ({ event, pathName, selected, readOnly, inHorizont
                 }}
             >
                 <div className="polaroid__text-wrapper">
-                    <h1 className="polaroid__title">
-                        {event.event_title}
-                        {event.deleted_flag && (
-                            <h2 className="polaroid__sub_title">
-                                {" "}
-                                (Deleted {moment(event.deletion_date).format("ddd, MMM D YYYY")})
-                            </h2>
-                        )}
-                    </h1>
+                    <h1 className="polaroid__title">{event.event_title}</h1>
+                    {event.deleted_flag && (
+                        <h2 className="polaroid__sub_title">
+                            {" "}
+                            (Deleted {moment(event.deletion_date).format("ddd, MMM D YYYY")})
+                        </h2>
+                    )}
                     <h3 className="polaroid__description">{event.event_description}</h3>
                     <h2 className="polaroid__sub_title">
                         Event {hasIncentive && !hasDifferentIncentiveTimes && "and Incentive "}From:
@@ -46,6 +44,12 @@ export const MyEventSummary = ({ event, pathName, selected, readOnly, inHorizont
                             Incentive Type(s): {event.event_incentive.incentive_type.join(", ")}
                         </p>
                     )}
+                    <h2 className="polaroid__sub_title">Created:</h2>
+                    <p className="polaroid__description">{moment(event.creation_date).format("MMMM Do YYYY")} </p>
+                    <h2 className="polaroid__sub_title">Updated:</h2>
+                    <p className="polaroid__description">
+                        {moment(event.last_updated).format("MMMM Do YYYY, h:mm a")}{" "}
+                    </p>
                 </div>
             </Link>
         </div>

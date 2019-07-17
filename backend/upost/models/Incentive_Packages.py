@@ -35,9 +35,9 @@ class IncentivePackage(models.Model):
     diet_option = models.ManyToManyField(
         "upost.DietOption", db_table='incentive_package_diet_option'
     )
-    creation_date = models.DateField(
+    creation_date = models.DateTimeField(
         db_column='Creation_Date', auto_now_add=True)
-    deletion_date = models.DateField(
+    deletion_date = models.DateTimeField(
         db_column='Deletion_Date', blank=True, null=True)
     deleted_flag = models.BooleanField(
         db_column='Deleted_Flag', default=False, blank=True)
