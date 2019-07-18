@@ -18,9 +18,10 @@ class PostForm extends React.Component {
             tags: this.props.post ? this.props.post.tags : [],
             error: "",
             channel: this.props.channel,
-            picture: null,
+            picture: this.props.post ? this.props.post.picture : null,
+            orig_picture: this.props.post ? this.props.post.picture : null,
             picture_preview: this.props.post ? this.props.post.picture : null,
-            community: !!this.props.post ? this.props.post.community : null
+            community: !!this.props.post ? this.props.post.community : ""
         };
     }
 
@@ -148,23 +149,44 @@ class PostForm extends React.Component {
             getCurrentUser()
                 .then((res) => {
                     this.setState(() => ({ error: "" }));
+                    // Checks if the picture was changed on load (for edit requests).
+                    const picture_changed = this.state.orig_picture !== this.state.picture;
+                    // If there is a picture...
                     if (!!this.state.picture) {
                         let form_data = new FormData();
-                        form_data.append("picture", this.state.picture);
-                        form_data.append("user", res.data.username);
-                        form_data.append("post_title", this.state.post_title);
-                        form_data.append("poster_name", this.state.poster_name);
-                        form_data.append("phone_number", this.state.phone_number);
-                        form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
-                        form_data.append("email", this.state.email);
-                        form_data.append("post_description", this.state.post_description);
-                        form_data.append("community", this.state.community);
-                        this.state.tags.forEach((tag) => {
-                            form_data.append("tags", tag);
-                        });
-                        form_data.append("channel", this.state.channel);
-                        this.props.onSubmit(form_data);
-                    } else {
+                        // If the picture changed from the existing one - submit as form data.
+                        if (picture_changed) {
+                            form_data.append("picture", this.state.picture);
+                            form_data.append("user", res.data.username);
+                            form_data.append("post_title", this.state.post_title);
+                            form_data.append("poster_name", this.state.poster_name);
+                            form_data.append("phone_number", this.state.phone_number);
+                            form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
+                            form_data.append("email", this.state.email);
+                            form_data.append("post_description", this.state.post_description);
+                            form_data.append("community", this.state.community);
+                            this.state.tags.forEach((tag) => {
+                                form_data.append("tags", tag);
+                            });
+                            form_data.append("channel", this.state.channel);
+                            this.props.onSubmit(form_data);
+                        } // Submit as a regular form but without picture as it didnt change
+                        else {
+                            let payload = {
+                                user: res.data.username,
+                                post_title: this.state.post_title,
+                                poster_name: this.state.poster_name,
+                                phone_number: this.state.phone_number,
+                                email: this.state.email,
+                                post_description: this.state.post_description,
+                                community: this.state.community,
+                                tags: this.state.tags,
+                                channel: this.state.channel
+                            };
+                            this.props.onSubmit(payload);
+                        }
+                    } // Submit as a regular form
+                    else {
                         let payload = {
                             picture: this.state.picture,
                             user: res.data.username,
@@ -181,7 +203,7 @@ class PostForm extends React.Component {
                     }
                 })
                 .catch((err) => {
-                    console.log(JSON.stringify(err, null, 2));
+                    console.log(err);
                 });
         }
     };

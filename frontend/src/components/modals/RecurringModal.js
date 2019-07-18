@@ -46,7 +46,7 @@ export class RecurringModal extends React.Component {
                     return day.isChecked;
                 })
                 .map((day) => {
-                    return day.value;
+                    return day.id;
                 })
         };
 

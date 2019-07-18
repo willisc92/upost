@@ -9,6 +9,10 @@ const postFiltersReducerDefaultState = {
 
 export default (state = postFiltersReducerDefaultState, action) => {
     switch (action.type) {
+        case "RESET_POST_FILTERS":
+            return {
+                ...postFiltersReducerDefaultState
+            };
         case "SET_TEXT_FILTER":
             return {
                 ...state,
