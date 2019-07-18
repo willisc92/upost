@@ -106,7 +106,9 @@ export class MyChannelDetail extends React.Component {
                             Channel Page: <span>{this.props.channel.channel_name}</span>
                         </h1>
                         <div>
-                            <h3>Description: {this.props.channel.channel_description}</h3>
+                            {!!this.props.channel.channel_description && (
+                                <h3>Description: {this.props.channel.channel_description}</h3>
+                            )}
                             <h3>Creation Date: {moment(this.props.channel.creation_date).format("MMMM Do YYYY")}</h3>
                             {this.props.channel.deleted_flag && (
                                 <h3 className="page-header__subtitle__red">

@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { DateRangePicker } from "react-dates";
 import {
-    setDefault,
     clearDates,
     setStartDate,
     setEndDate,
@@ -244,7 +243,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    setDefault: () => dispatch(setDefault()),
     clearDates: () => dispatch(clearDates()),
     setTextFilter: (text) => dispatch(setTextFilter(text)),
     sortByName: () => dispatch(sortByName()),

@@ -245,3 +245,27 @@ export const incrementCapacityStatus = (event) => ({
     type: "INCREMENT_CAPACITY_STATUS",
     event: { ...event, capacity_status: event.capacity_status + 1 }
 });
+
+/**
+ * searchEvents
+ * action dispatcher - searches for posts
+ * @param {string} text - text to search posts by
+ * @returns {Promise} to be handled
+ */
+export const searchEvents = (text) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(eventStart());
+            API.get(`events/?search=${text}`)
+                .then((result) => {
+                    dispatch(eventSuccess());
+                    dispatch(setEvents(result.data));
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(eventFail(err));
+                    reject(err);
+                });
+        });
+    };
+};

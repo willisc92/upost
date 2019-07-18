@@ -8,6 +8,10 @@ const channelsFiltersReducerDefaultState = {
 
 export default (state = channelsFiltersReducerDefaultState, action) => {
     switch (action.type) {
+        case "RESET_CHANNEL_FILTERS":
+            return {
+                ...channelsFiltersReducerDefaultState
+            };
         case "SET_TEXT_FILTER":
             return {
                 ...state,

@@ -28,15 +28,7 @@ class AddEventPage extends React.Component {
                 endSelection: "none",
                 numOccurences: 0,
                 endDate: null,
-                byweekday: [
-                    { id: 0, value: "0", label: "Monday", isChecked: false },
-                    { id: 1, value: "1", label: "Tuesday", isChecked: false },
-                    { id: 2, value: "2", label: "Wednesday", isChecked: false },
-                    { id: 3, value: "3", label: "Thursday", isChecked: false },
-                    { id: 4, value: "4", label: "Friday", isChecked: false },
-                    { id: 5, value: "5", label: "Saturday", isChecked: false },
-                    { id: 6, value: "6", label: "Sunday", isChecked: false }
-                ]
+                byweekday: null
             },
             rrule_event_starts: null,
             rrule_event_ends: null,
@@ -150,23 +142,23 @@ class AddEventPage extends React.Component {
                 }));
                 return null;
             } else {
+                payload.byweekday.map((day) => {
+                    return mapDayToRRule(day);
+                });
+
                 this.setState(() => ({
                     event_error: "",
                     rrule_event_starts: new RRule({
                         freq: mapFrequencyToRRule(payload.recurringFrequency),
                         dtstart: this.state.base_event.planned_start_date,
                         until: payload.endDate,
-                        byweekday: payload.byweekday.map((day) => {
-                            return mapDayToRRule(day);
-                        })
+                        byweekday: payload.byweekday.length === 0 ? null : payload.byweekday
                     }),
                     rrule_event_ends: new RRule({
                         freq: mapFrequencyToRRule(payload.recurringFrequency),
                         dtstart: this.state.base_event.planned_end_date,
                         until: payload.endDate,
-                        byweekday: payload.byweekday.map((day) => {
-                            return mapDayToRRule(day);
-                        })
+                        byweekday: payload.byweekday.length === 0 ? null : payload.byweekday
                     })
                 }));
             }
@@ -205,23 +197,22 @@ class AddEventPage extends React.Component {
                 }));
                 return null;
             } else {
+                payload.byweekday.map((day) => {
+                    return mapDayToRRule(day);
+                });
                 this.setState(() => ({
                     incentive_error: "",
                     rrule_incentive_starts: new RRule({
                         freq: mapFrequencyToRRule(payload.recurringFrequency),
                         dtstart: this.state.base_incentive.planned_start_date,
                         until: payload.endDate,
-                        byweekday: payload.byweekday.map((day) => {
-                            return mapDayToRRule(day);
-                        })
+                        byweekday: payload.byweekday.length === 0 ? null : payload.byweekday
                     }),
                     rrule_incentive_ends: new RRule({
                         freq: mapFrequencyToRRule(payload.recurringFrequency),
                         dtstart: this.state.base_incentive.planned_end_date,
                         until: payload.endDate,
-                        byweekday: payload.byweekday.map((day) => {
-                            return mapDayToRRule(day);
-                        })
+                        byweekday: payload.byweekday.length === 0 ? null : payload.byweekday
                     })
                 }));
             }

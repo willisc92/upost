@@ -130,7 +130,7 @@ export class RecurringForm extends React.Component {
         this.setState({ byweekday });
     };
 
-    handleCheckChieldElement = (event) => {
+    handleCheckChildElement = (event) => {
         let byweekday = this.state.byweekday;
         byweekday.forEach((day) => {
             if (day.value === event.target.value) day.isChecked = event.target.checked;
@@ -218,7 +218,7 @@ export class RecurringForm extends React.Component {
                                         {this.state.byweekday.map((day) => {
                                             return (
                                                 <CheckBox
-                                                    handleCheckChieldElement={this.handleCheckChieldElement}
+                                                    handleCheckChildElement={this.handleCheckChildElement}
                                                     {...day}
                                                     key={day.id}
                                                 />
