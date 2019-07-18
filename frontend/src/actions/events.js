@@ -223,3 +223,25 @@ export const getFreeFoodEvents = () => {
         });
     };
 };
+
+/**
+ * DECREMENT_CAPACITY_STATUS.
+ * action generator.
+ *
+ * @param {Object} event The event to decrement the capacity status for
+ */
+export const decrementCapacityStatus = (event) => ({
+    type: "DECREMENT_CAPACITY_STATUS",
+    event: { ...event, capacity_status: event.capacity_status - 1 }
+});
+
+/**
+ * INCREMENT_CAPACITY_STATUS.
+ * action generator.
+ *
+ * @param {Object} event The event to increment the capacity status for
+ */
+export const incrementCapacityStatus = (event) => ({
+    type: "INCREMENT_CAPACITY_STATUS",
+    event: { ...event, capacity_status: event.capacity_status + 1 }
+});

@@ -3,13 +3,28 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
-import { setEvents, startSetEvent } from "../../actions/events";
+import { setEvents, startSetEvent, decrementCapacityStatus, incrementCapacityStatus } from "../../actions/events";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 import { startGetAttendance, startAddAttendance, startDeleteAttendance } from "../../actions/attendance";
 import DateRangeTag from "../DateRangeTag";
 import IncentivePackage from "../IncentivePackage";
+import MessageModal from "../modals/MessageModal";
 
 class ViewEventPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            openMessageModal: false
+        };
+    }
+
+    closeMessageModal = () => {
+        this.setState(() => {
+            return { openMessageModal: false };
+        });
+    };
+
     checkPost = (post_id, event_id) => {
         // check to see if post is provided
         if (!!this.props.post) {
@@ -59,14 +74,8 @@ class ViewEventPage extends React.Component {
         const event_id = parseInt(this.props.match.params.id);
 
         // check to see if event is provided
-        if (
-            !!this.props.location.state &&
-            !!this.props.location.state.event &&
-            this.props.location.state.event.event_id === event_id
-        ) {
-            // add provided event to the store
-            this.props.setEvents(this.props.location.state.event);
-            this.checkPost(this.props.location.state.event.post, event_id);
+        if (!!this.props.event && this.props.event.event_id === event_id) {
+            // pass
         } else {
             // get the event from API
             this.props
@@ -95,9 +104,21 @@ class ViewEventPage extends React.Component {
 
     updateAttendance = () => {
         if (this.props.attendance.includes(this.props.event.event_id)) {
-            this.props.startDeleteAttendance(this.props.event.event_id);
+            this.props.startDeleteAttendance(this.props.event.event_id).then(() => {
+                this.props.decrementCapacityStatus(this.props.event);
+            });
         } else {
-            this.props.startAddAttendance(this.props.event.event_id);
+            this.props
+                .startAddAttendance(this.props.event.event_id)
+                .then(() => {
+                    this.props.incrementCapacityStatus(this.props.event);
+                })
+                .catch((error) => {
+                    console.log(JSON.stringify(error, null, 2));
+                    this.setState(() => {
+                        return { openMessageModal: true };
+                    });
+                });
         }
     };
 
@@ -106,6 +127,11 @@ class ViewEventPage extends React.Component {
     };
 
     render() {
+        const registered = !!this.props.event
+            ? !!this.props.attendance
+                ? this.props.attendance.includes(this.props.event.event_id)
+                : undefined
+            : undefined;
         return (
             <div>
                 <div className="page-header">
@@ -123,22 +149,21 @@ class ViewEventPage extends React.Component {
                                     <button
                                         className="button"
                                         onClick={this.updateAttendance}
-                                        disabled={this.props.event.capacity_status === "full"}
+                                        disabled={
+                                            this.props.event.capacity_status === this.props.event.capacity &&
+                                            !registered
+                                        }
                                     >
-                                        {!!this.props.attendance &&
-                                        !!this.props.event &&
-                                        this.props.attendance.includes(this.props.event.event_id)
-                                            ? "Unregister"
-                                            : "Register"}
+                                        {!!registered && registered ? "Unregister" : "Register"}
                                     </button>
                                 </div>
                                 {(!!this.props.event &&
-                                    (this.props.event.capacity_status === "full" && (
+                                    (this.props.event.capacity_status === this.props.event.capacity && (
                                         <p className="warning_message">
                                             The event has filled. You are no longer able to register.
                                         </p>
                                     ))) ||
-                                    (this.props.event.capacity_status === "almost_full" && (
+                                    (this.props.event.capacity_status >= this.props.event.capacity * 0.9 && (
                                         <p className="warning_message">
                                             The event is nearing capacity. Please register soon.
                                         </p>
@@ -198,6 +223,11 @@ class ViewEventPage extends React.Component {
                         )}
                     </div>
                 </div>
+                <MessageModal
+                    isOpen={this.state.openMessageModal}
+                    message="An error has occured with your registration please refresh the page and try again."
+                    closeMessageModal={this.closeMessageModal}
+                />
             </div>
         );
     }
@@ -221,7 +251,9 @@ const mapDispatchToProps = (dispatch) => ({
     startUpdateSubscriptions: (id) => dispatch(startUpdateSubscriptions(id)),
     startGetAttendance: () => dispatch(startGetAttendance()),
     startAddAttendance: (event_id) => dispatch(startAddAttendance(event_id)),
-    startDeleteAttendance: (event_id) => dispatch(startDeleteAttendance(event_id))
+    startDeleteAttendance: (event_id) => dispatch(startDeleteAttendance(event_id)),
+    decrementCapacityStatus: (event) => dispatch(decrementCapacityStatus(event)),
+    incrementCapacityStatus: (event) => dispatch(incrementCapacityStatus(event))
 });
 
 export default connect(

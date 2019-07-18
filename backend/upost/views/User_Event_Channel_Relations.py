@@ -42,11 +42,15 @@ class AttendView(viewsets.ModelViewSet):
             instance.delete()
         return Response(status=status.HTTP_200_OK)
 
-    def post(self, request):
-        event = request.data['event']
-        attendee = request.data['attendee']
-        if Attend.objects.filter(event=event).count() < PostEvent.objects.get(pk=event):
-            Attend.objects.create(event=event, attendee=attendee)
-            return Response(status=status.HTTP_200_OK)
+    def create(self, request, *args, **kwargs):
+        event = self.request.data['event']
+        attendee = self.request.data['attendee']
+        if Attend.objects.filter(event=event).count() < PostEvent.objects.get(pk=event).capacity:
+            serializer = AttendSerializer(data=self.request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)

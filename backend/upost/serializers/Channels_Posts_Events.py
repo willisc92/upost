@@ -41,12 +41,7 @@ class EventSerializer(serializers.ModelSerializer):
     event_incentive = IncentiveSerializer(many=False, required=False)
 
     def get_capacity_status(self, obj):
-        if obj.event_to_attend.count() >= obj.capacity:
-            return "full"
-        elif obj.event_to_attend.count() >= obj.capacity * 0.9:
-            return "almost_full"
-        else:
-            return "has_room"
+        return obj.event_to_attend.count()
 
 
 class PostSerializer(serializers.ModelSerializer):
