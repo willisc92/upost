@@ -106,7 +106,6 @@ class ViewEventPage extends React.Component {
     };
 
     render() {
-        console.log(this.props);
         return (
             <div>
                 <div className="page-header">
@@ -121,7 +120,11 @@ class ViewEventPage extends React.Component {
                             <div>
                                 <div className="post__title">
                                     <h1 className="post__header">{this.props.event.event_title}</h1>
-                                    <button className="button" onClick={this.updateAttendance}>
+                                    <button
+                                        className="button"
+                                        onClick={this.updateAttendance}
+                                        disabled={this.props.event.capacity_status === "full"}
+                                    >
                                         {!!this.props.attendance &&
                                         !!this.props.event &&
                                         this.props.attendance.includes(this.props.event.event_id)
@@ -129,6 +132,17 @@ class ViewEventPage extends React.Component {
                                             : "Register"}
                                     </button>
                                 </div>
+                                {(!!this.props.event &&
+                                    (this.props.event.capacity_status === "full" && (
+                                        <p className="warning_message">
+                                            The event has filled. You are no longer able to register.
+                                        </p>
+                                    ))) ||
+                                    (this.props.event.capacity_status === "almost_full" && (
+                                        <p className="warning_message">
+                                            The event is nearing capacity. Please register soon.
+                                        </p>
+                                    ))}
                                 <p>Description: {this.props.event.event_description}</p>
                                 {!!this.props.event.event_incentive && (
                                     <IncentivePackage package={this.props.event.event_incentive} />

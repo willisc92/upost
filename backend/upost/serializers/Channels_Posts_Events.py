@@ -11,6 +11,7 @@ class EventSerializer(serializers.ModelSerializer):
         read_only=True, source="post.user")
     post_deleted_flag = serializers.BooleanField(
         read_only=True, source="post.deleted_flag")
+    capacity_status = serializers.SerializerMethodField()
 
     class Meta:
         fields = (
@@ -29,14 +30,23 @@ class EventSerializer(serializers.ModelSerializer):
             'deletion_date',
             'event_community',
             'event_owner',
-            "post_deleted_flag",
-            'last_updated'
+            'post_deleted_flag',
+            'last_updated',
+            'capacity_status'
         )
         model = PostEvent
 
     post = serializers.PrimaryKeyRelatedField(
         read_only=False, many=False, queryset=Post.objects.all())
     event_incentive = IncentiveSerializer(many=False, required=False)
+
+    def get_capacity_status(self, obj):
+        if obj.event_to_attend.count() >= obj.capacity:
+            return "full"
+        elif obj.event_to_attend.count() >= obj.capacity * 0.9:
+            return "almost_full"
+        else:
+            return "has_room"
 
 
 class PostSerializer(serializers.ModelSerializer):
