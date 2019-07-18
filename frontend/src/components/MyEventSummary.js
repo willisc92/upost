@@ -71,3 +71,17 @@ export const MyEventMenu = (list, selected, readOnly) =>
             />
         );
     });
+
+export const BrowseEventMenu = (list, selected, readOnly = false) =>
+    list.map((el) => {
+        return (
+            <MyEventSummary
+                event={el}
+                pathName={`/event/${el.event_id}`}
+                key={el.event_id}
+                selected={selected}
+                readOnly={readOnly}
+                inHorizontalMenu
+            />
+        );
+    });

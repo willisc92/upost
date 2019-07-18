@@ -36,3 +36,8 @@ export const setEndDate = (endDate = null) => ({
     type: "SET_END_DATE",
     endDate
 });
+
+// RESET_POST_FILTERS
+export const resetPostFilters = () => ({
+    type: "RESET_POST_FILTERS"
+});

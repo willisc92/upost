@@ -37,13 +37,10 @@ class Post_View(viewsets.ModelViewSet):
                         'community', 'deleted_flag',)
     filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
     search_fields = ('post_title', 'post_description',
-                     'tags__interest_tag', 'community__community_name',)
+                     'tags__interest_tag', 'community__community_name', 'post_incentive__incentive_type__incentive_name', 'post_incentive__ip_description')
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
-    # def put(self, request, *args, **kwargs):
-    #     return self.partial_update(request, *args, **kwargs)
 
     permission_classes = (
         permissions.IsAuthenticated, IsOwnerOrReadOnly,)
@@ -66,11 +63,13 @@ class Event_View(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     queryset = PostEvent.objects.all()
     filterset_class = EventFilter
-
-    # permission_classes = (
-    #     permissions.IsAuthenticatedOrReadOnly,
-    #     EventAccessPermission,
-    # )
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
+    search_fields = ('event_title', 'event_description',
+                     'post__tags__interest_tag', 'event_incentive__incentive_type__incentive_name', 'event_incentive__ip_description', 'post__community__community_name',)
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        EventAccessPermission,
+    )
 
 
 class Free_Food_Event_View(generics.ListAPIView):

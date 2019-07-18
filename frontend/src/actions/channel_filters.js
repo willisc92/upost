@@ -30,3 +30,8 @@ export const setEndDate = (endDate = null) => ({
     type: "SET_END_DATE",
     endDate
 });
+
+// RESET_CHANNEL_FILTERS
+export const resetChannelFilters = () => ({
+    type: "RESET_CHANNEL_FILTERS"
+});

@@ -195,6 +195,9 @@ def update_post_and_event_update_timestamps(sender, instance, **kwargs):
             else:
                 old_post.save()
 
-    # This is a new incentive - update the event.
+    # This is a new incentive - update the event or post.
     else:
-        instance.event.save()
+        if instance.post:
+            instance.post.save()
+        if instance.event:
+            instance.event.save()

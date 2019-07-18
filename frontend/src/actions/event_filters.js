@@ -1,6 +1,6 @@
-// SET_DEFAULT
-export const setDefault = () => ({
-    type: "SET_DEFAULT"
+// RESET_EVENT_FILTERS
+export const resetEventFilters = () => ({
+    type: "RESET_EVENT_FILTERS"
 });
 
 // SET_TEXT_FILTER

@@ -13,8 +13,8 @@ const eventFiltersReducerDefaultState = {
 
 export default (state = eventFiltersReducerDefaultState, action) => {
     switch (action.type) {
-        case "SET_DEFAULT":
-            return state;
+        case "RESET_EVENT_FILTERS":
+            return { ...eventFiltersReducerDefaultState };
         case "CLEAR_DATES":
             return {
                 ...state,

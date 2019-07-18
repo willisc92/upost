@@ -54,82 +54,89 @@ export class PostFilters extends React.Component {
     };
 
     render() {
+        const communities =
+            !!this.props.communities &&
+            this.props.communities.map((community) => !!community.community_name && community.community_name);
+
         return (
-            <div>
-                <div className="input-group">
-                    <div className="input-group__column">
-                        Search:
-                        <div className="input-group__item">
-                            <input
-                                type="text"
-                                className="text-input"
-                                placeholder="Search Posts"
-                                value={this.props.filters.text}
-                                onChange={this.onTextChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="input-group__column">
-                        Filter Community:{" "}
-                        <div className="input-group__item">
-                            <select
-                                className="select"
-                                defaultValue={this.props.filters.community}
-                                onChange={this.onCommunitiesChange}
-                            >
-                                <option value="">Show All</option>
-                                {this.props.communities.map((community) => {
-                                    return (
-                                        <option key={community} value={community}>
-                                            {community}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        </div>
-                    </div>
-                    <div className="input-group__column">
-                        Sort by:{" "}
-                        <div className="input-group__item">
-                            <span>
-                                <select
-                                    className="select"
-                                    value={this.props.filters.sortBy}
-                                    onChange={this.onSortChange}
-                                >
-                                    <option value="date">Creation Date</option>
-                                    <option value="last_updated">Last Updated</option>
-                                    <option value="name">Name</option>
-                                </select>{" "}
-                            </span>
-                        </div>
-                    </div>
-                    {this.props.filters.sortBy !== "name" && (
+            !!this.props.filters &&
+            !!communities && (
+                <div>
+                    <div className="input-group">
                         <div className="input-group__column">
-                            Date Range:{" "}
+                            Search:
                             <div className="input-group__item">
-                                <DateRangePicker
-                                    startDate={this.props.filters.startDate}
-                                    endDate={this.props.filters.endDate}
-                                    onDatesChange={this.onDatesChange}
-                                    focusedInput={this.state.calenderFocused}
-                                    onFocusChange={this.onFocusChange}
-                                    showClearDates={true}
-                                    numberOfMonths={1}
-                                    isOutsideRange={() => false}
+                                <input
+                                    type="text"
+                                    className="text-input"
+                                    placeholder="Search Posts"
+                                    value={this.props.filters.text}
+                                    onChange={this.onTextChange}
                                 />
                             </div>
                         </div>
-                    )}
+                        <div className="input-group__column">
+                            Filter Community:{" "}
+                            <div className="input-group__item">
+                                <select
+                                    className="select"
+                                    defaultValue={this.props.filters.community}
+                                    onChange={this.onCommunitiesChange}
+                                >
+                                    <option value="">Show All</option>
+                                    {communities.map((community) => {
+                                        return (
+                                            <option key={community} value={community}>
+                                                {community}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                            </div>
+                        </div>
+                        <div className="input-group__column">
+                            Sort by:{" "}
+                            <div className="input-group__item">
+                                <span>
+                                    <select
+                                        className="select"
+                                        value={this.props.filters.sortBy}
+                                        onChange={this.onSortChange}
+                                    >
+                                        <option value="date">Creation Date</option>
+                                        <option value="last_updated">Last Updated</option>
+                                        <option value="name">Name</option>
+                                    </select>{" "}
+                                </span>
+                            </div>
+                        </div>
+                        {this.props.filters.sortBy !== "name" && (
+                            <div className="input-group__column">
+                                Date Range:{" "}
+                                <div className="input-group__item">
+                                    <DateRangePicker
+                                        startDate={this.props.filters.startDate}
+                                        endDate={this.props.filters.endDate}
+                                        onDatesChange={this.onDatesChange}
+                                        focusedInput={this.state.calenderFocused}
+                                        onFocusChange={this.onFocusChange}
+                                        showClearDates={true}
+                                        numberOfMonths={1}
+                                        isOutsideRange={() => false}
+                                    />
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
+            )
         );
     }
 }
 
 const mapStateToProps = (state) => ({
     filters: state.postFilters,
-    communities: state.userCommunities.communities.map((community) => community.community_name)
+    communities: state.userCommunities.communities
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -221,7 +221,7 @@ export const editPost = (id, updates) => {
                 setContentToForm();
             }
             dispatch(postStart());
-            API.put(`posts/${id}/`, updates)
+            API.patch(`posts/${id}/`, updates)
                 .then((result) => {
                     if (updates.toString() == "[object FormData]") {
                         resetContentType();
