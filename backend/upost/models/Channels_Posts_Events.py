@@ -15,7 +15,7 @@ from . import IncentivePackage
 
 class ContentChannel(models.Model):
     channel_id = models.AutoField(db_column='Channel_ID', primary_key=True)
-    user = models.ForeignKey('upost.CustomUser', models.DO_NOTHING,
+    user = models.ForeignKey('upost.CustomUser', on_delete=models.CASCADE,
                              db_column='USER_ID', related_name="channels")
     channel_name = models.CharField(
         db_column='Channel_Name', max_length=50, unique=True)
@@ -61,7 +61,7 @@ class Post(models.Model):
         db_column='Post_description', max_length=500)
     user = models.ForeignKey('upost.CustomUser', models.DO_NOTHING,
                              db_column='User_ID', related_name="user_posts")
-    channel = models.ForeignKey(ContentChannel, models.DO_NOTHING, db_column='Channel_ID',
+    channel = models.ForeignKey(ContentChannel, models.CASCADE, db_column='Channel_ID',
                                 related_name="channel_posts")
     post_timestamp = models.DateTimeField(auto_now_add=True)
     deleted_flag = models.BooleanField(

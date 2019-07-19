@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getAllInterests, startSetUserInterests, clearInterests } from "../../actions/interests";
+import { getAllInterests, startSetUserInterests } from "../../actions/interests";
 import { startSetInterestRandomPosts, getNonInterestPosts } from "../../actions/posts";
 import { BrowsePostMenu } from "../MyPostSummary";
 import ScrollMenu from "react-horizontal-scrolling-menu";
@@ -60,10 +60,9 @@ export class DashboardPage extends React.Component {
     };
 
     componentDidMount() {
-        this.props.clearInterests();
         if (this.props.isAuthenticated) {
             this.props.startSetUserInterests().then(() => {
-                this.props.startSetInterestRandomPosts(this.props.interests);
+                this.props.startSetInterestRandomPosts(this.props.userInterests);
             });
 
             this.props
@@ -71,23 +70,28 @@ export class DashboardPage extends React.Component {
                 .then(() => {})
                 .catch((err) => console.log(JSON.stringify(err, null, 2)));
         } else {
-            this.props.getAllInterests().then(() => {
+            if (this.props.interests.length === 0) {
+                this.props.getAllInterests().then(() => {
+                    this.props.startSetInterestRandomPosts(this.props.interests);
+                });
+            } else {
                 this.props.startSetInterestRandomPosts(this.props.interests);
-            });
+            }
         }
     }
 
     componentWillReceiveProps(newProps) {
         if (newProps.isAuthenticated !== this.props.isAuthenticated) {
-            this.props.clearInterests();
             if (newProps.isAuthenticated) {
                 this.props.startSetUserInterests().then(() => {
-                    this.props.startSetInterestRandomPosts(this.props.interests);
+                    this.props.startSetInterestRandomPosts(this.props.userInterests);
                 });
-            } else {
+            } else if (this.props.interests.length === 0) {
                 this.props.getAllInterests().then(() => {
                     this.props.startSetInterestRandomPosts(this.props.interests);
                 });
+            } else {
+                this.props.startSetInterestRandomPosts(this.props.interests);
             }
         }
     }
@@ -139,7 +143,7 @@ export class DashboardPage extends React.Component {
                     {this.props.isAuthenticated && menus.length === 0 && (
                         <div>
                             <h1>
-                                There are currently no posts matching your interests for your given communities.{" "}
+                                There are currently no posts matching your interests for your given communities.
                                 <span>
                                     <Link className="link__inline" to="/interests">
                                         Click here to Edit.
@@ -203,7 +207,8 @@ export class DashboardPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         isAuthenticated: !!state.auth.token,
-        interests: state.userInterests.userInterests,
+        interests: state.interests.interests,
+        userInterests: state.interests.userInterests,
         interestRandomPosts: state.posts.interestRandomPosts,
         nonInterestPosts: state.posts.nonInterestPosts
     };
@@ -211,7 +216,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        clearInterests: () => dispatch(clearInterests()),
         getAllInterests: () => dispatch(getAllInterests()),
         startSetInterestRandomPosts: (interests) => dispatch(startSetInterestRandomPosts(interests)),
         startSetUserInterests: () => dispatch(startSetUserInterests()),

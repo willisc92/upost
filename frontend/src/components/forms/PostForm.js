@@ -26,12 +26,14 @@ class PostForm extends React.Component {
     }
 
     componentDidMount() {
-        this.props
-            .getInterests()
-            .then(() => {})
-            .catch((error) => {
-                console.log(JSON.stringify(error, null, 2));
-            });
+        if (this.props.interests.length === 0) {
+            this.props
+                .getAllInterests()
+                .then(() => {})
+                .catch((error) => {
+                    console.log(JSON.stringify(error, null, 2));
+                });
+        }
         this.props
             .getAllCommunities()
             .then(() => {})
@@ -339,13 +341,13 @@ class PostForm extends React.Component {
 
 const mapStateToProps = (state) => ({
     error: !!state.posts.error && state.posts.error.response.data,
-    interests: !!state.userInterests && state.userInterests.userInterests,
+    interests: state.interests.interests,
     communities: !!state.userCommunities && state.userCommunities.communities
 });
 
 const mapDispatchToProps = (dispatch) => ({
     getAllCommunities: () => dispatch(getAllCommunities()),
-    getInterests: () => dispatch(getAllInterests())
+    getAllInterests: () => dispatch(getAllInterests())
 });
 
 export default connect(

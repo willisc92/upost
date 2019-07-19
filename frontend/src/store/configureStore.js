@@ -26,7 +26,7 @@ export default () => {
             postFilters: postFiltersReducer,
             eventFilters: eventFilterReducer,
             channels: channelsReducer,
-            userInterests: interestsReducer,
+            interests: interestsReducer,
             posts: postReducer,
             userCommunities: communityReducer,
             events: eventReducer,
