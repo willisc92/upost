@@ -4,12 +4,14 @@ import { getCurrentUser } from "../../actions/auth";
 import EventForm from "../forms/EventForm";
 import { connect } from "react-redux";
 import { startSetEvent, clearEvents, deleteEvent, restoreEvent } from "../../actions/events";
+import MessageModal from "../modals/MessageModal";
 
 class EditEventPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: "Event"
+            step: "Event",
+            openMessageModal: false
         };
     }
 
@@ -35,6 +37,12 @@ class EditEventPage extends React.Component {
             });
     }
 
+    closeMessageModal = () => {
+        this.setState(() => {
+            return { openMessageModal: false };
+        });
+    };
+
     onSubmit = (updates) => {
         const event_id = this.props.match.params.event_id;
         const post_id = this.props.match.params.id;
@@ -44,6 +52,10 @@ class EditEventPage extends React.Component {
             .then((res) => this.props.history.push(`/myPosts/${post_id}/events`))
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
+                // dispaly error message
+                this.setState(() => {
+                    return { openMessageModal: true };
+                });
             });
     };
 
@@ -162,6 +174,11 @@ class EditEventPage extends React.Component {
                             post={this.props.match.params.id}
                         />
                     </div>
+                    <MessageModal
+                        isOpen={this.state.openMessageModal}
+                        message="An error has ocured with editing your event. Please refresh the page and try again."
+                        closeMessageModal={this.closeMessageModal}
+                    />
                 </div>
             )
         );

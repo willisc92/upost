@@ -1,5 +1,5 @@
 from rest_framework import generics, viewsets
-from ..models import ContentChannel, Post, PostEvent, Interest, CustomUser, Community
+from ..models import ContentChannel, Post, PostEvent, Interest, CustomUser, Community, Attend
 from ..serializers import *
 
 from rest_framework import permissions
@@ -65,11 +65,22 @@ class Event_View(viewsets.ModelViewSet):
     filterset_class = EventFilter
     filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
     search_fields = ('event_title', 'event_description',
-                     'post__tags__interest_tag', 'event_incentive__incentive_type__incentive_name', 'event_incentive__ip_description', 'post__community__community_name',)
+                     'post__tags__interest_tag', 'event_incentive__incentive_type__incentive_name',
+                     'event_incentive__ip_description', 'post__community__community_name',)
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
         EventAccessPermission,
     )
+
+    def update(self, request, pk=None):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if serializer.get_capacity_status(instance) > instance.capacity:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
 
 
 class Free_Food_Event_View(generics.ListAPIView):

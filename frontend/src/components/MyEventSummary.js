@@ -60,8 +60,10 @@ export class MyEventSummary extends React.Component {
                         <p className="polaroid__description">{moment(event.creation_date).format("MMMM Do YYYY")} </p>
                         <h2 className="polaroid__sub_title">Updated:</h2>
                         <p className="polaroid__description">
-                            {moment(event.last_updated).format("MMMM Do YYYY, h:mm a")}{" "}
+                            {moment(event.last_updated).format("MMMM Do YYYY, h:mm a")}
                         </p>
+                        <h2 className="polaroid__sub_title">Capacity:</h2>
+                        <p className="polaroid__description">{`${event.capacity_status}/${event.capacity}`}</p>
                     </div>
                 </Link>
             </div>
