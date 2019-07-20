@@ -34,7 +34,11 @@ class AddIncentivePage extends React.Component {
     onSubmit = (incentive) => {
         this.props
             .addIncentivePackage(incentive)
-            .then((res) => this.props.history.push(`/myChannels/${this.props.post.channel}`))
+            .then((res) =>
+                this.props.history.push(
+                    `/myChannels/${this.props.post.channel}`
+                )
+            )
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
             });
@@ -52,7 +56,8 @@ class AddIncentivePage extends React.Component {
 
     render() {
         const read_only = !!this.props.post && this.props.post.deleted_flag;
-        const existing_incentive = !!this.props.post && !!this.props.post.post_incentive;
+        const existing_incentive =
+            !!this.props.post && !!this.props.post.post_incentive;
 
         return (
             <div>
@@ -60,12 +65,19 @@ class AddIncentivePage extends React.Component {
                     <div className="content-container">
                         <h1 className="page-header__title">
                             Add an Incentive Package to Post:{" "}
-                            <span>{this.props.post && this.props.post.post_title}</span>
+                            <span>
+                                {this.props.post && this.props.post.post_title}
+                            </span>
                         </h1>
                         {existing_incentive && (
                             <div>
-                                <h2>This post already has an existing incentive</h2>
-                                <button className="button" onClick={this.goToIncentive}>
+                                <h2>
+                                    This post already has an existing incentive
+                                </h2>
+                                <button
+                                    className="button"
+                                    onClick={this.goToIncentive}
+                                >
                                     Go to Incentive
                                 </button>
                             </div>
@@ -73,9 +85,13 @@ class AddIncentivePage extends React.Component {
                         {read_only && (
                             <div>
                                 <h2 className="page-header__subtitle__red">
-                                    The post that this incentive will be tied to is deleted and must be restored first.
+                                    The post that this incentive will be tied to
+                                    is deleted and must be restored first.
                                 </h2>
-                                <button className="button" onClick={this.goBack}>
+                                <button
+                                    className="button"
+                                    onClick={this.goBack}
+                                >
                                     Go to Post
                                 </button>
                             </div>
@@ -106,7 +122,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
-    addIncentivePackage: (incentive) => dispatch(addIncentivePackage(incentive)),
+    addIncentivePackage: (incentive) =>
+        dispatch(addIncentivePackage(incentive)),
     startGetPost: (id) => dispatch(startGetPost(id))
 });
 

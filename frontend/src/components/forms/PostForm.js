@@ -14,7 +14,9 @@ class PostForm extends React.Component {
             poster_name: this.props.post ? this.props.post.poster_name : "",
             phone_number: this.props.post ? this.props.post.phone_number : "",
             email: this.props.post ? this.props.post.email : "",
-            post_description: this.props.post ? this.props.post.post_description : "",
+            post_description: this.props.post
+                ? this.props.post.post_description
+                : "",
             tags: this.props.post ? this.props.post.tags : [],
             error: "",
             channel: this.props.channel,
@@ -53,7 +55,9 @@ class PostForm extends React.Component {
         const post_title = e.target.value;
         if (!!post_title) {
             if (post_title.length > 50) {
-                this.setState({ error: "Must have a post name 50 characters or less" });
+                this.setState({
+                    error: "Must have a post name 50 characters or less"
+                });
             } else {
                 this.setState(() => ({ post_title }));
             }
@@ -66,7 +70,9 @@ class PostForm extends React.Component {
         const poster_name = e.target.value;
         if (!!poster_name) {
             if (poster_name.length > 50) {
-                this.setState({ error: "Poster name must be 50 characters or less" });
+                this.setState({
+                    error: "Poster name must be 50 characters or less"
+                });
             } else {
                 this.setState(() => ({ poster_name }));
             }
@@ -95,7 +101,9 @@ class PostForm extends React.Component {
         const post_description = e.target.value;
         if (!!post_description) {
             if (post_description.length > 500) {
-                this.setState({ error: "Post description must be 500 characters or less" });
+                this.setState({
+                    error: "Post description must be 500 characters or less"
+                });
             } else {
                 this.setState(() => ({ post_description }));
             }
@@ -132,13 +140,17 @@ class PostForm extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         if (!this.state.community) {
-            this.setState(() => ({ error: "Please select a commmunity from the dropdown menu." }));
+            this.setState(() => ({
+                error: "Please select a commmunity from the dropdown menu."
+            }));
         } else if (!this.state.post_title) {
             this.setState(() => ({ error: "Please provide a post title" }));
         } else if (!this.state.poster_name) {
             this.setState(() => ({ error: "Please provide a poster name" }));
         } else if (!this.state.phone_number) {
-            this.setState(() => ({ error: "Please provide a post phone number" }));
+            this.setState(() => ({
+                error: "Please provide a post phone number"
+            }));
         } else if (!this.state.email) {
             this.setState(() => ({ error: "Please provide a email" }));
         } else if (!validator.isEmail(this.state.email)) {
@@ -146,13 +158,16 @@ class PostForm extends React.Component {
         } else if (!this.state.post_description) {
             this.setState(() => ({ error: "Please provide a description" }));
         } else if (this.state.tags.length === 0) {
-            this.setState(() => ({ error: "Please provide at least one tag for the post" }));
+            this.setState(() => ({
+                error: "Please provide at least one tag for the post"
+            }));
         } else {
             getCurrentUser()
                 .then((res) => {
                     this.setState(() => ({ error: "" }));
                     // Checks if the picture was changed on load (for edit requests).
-                    const picture_changed = this.state.orig_picture !== this.state.picture;
+                    const picture_changed =
+                        this.state.orig_picture !== this.state.picture;
                     // If there is a picture...
                     if (!!this.state.picture) {
                         let form_data = new FormData();
@@ -160,12 +175,27 @@ class PostForm extends React.Component {
                         if (picture_changed) {
                             form_data.append("picture", this.state.picture);
                             form_data.append("user", res.data.username);
-                            form_data.append("post_title", this.state.post_title);
-                            form_data.append("poster_name", this.state.poster_name);
-                            form_data.append("phone_number", this.state.phone_number);
-                            form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
+                            form_data.append(
+                                "post_title",
+                                this.state.post_title
+                            );
+                            form_data.append(
+                                "poster_name",
+                                this.state.poster_name
+                            );
+                            form_data.append(
+                                "phone_number",
+                                this.state.phone_number
+                            );
+                            form_data.append(
+                                "cost",
+                                parseFloat(this.state.cost, 10) * 100
+                            );
                             form_data.append("email", this.state.email);
-                            form_data.append("post_description", this.state.post_description);
+                            form_data.append(
+                                "post_description",
+                                this.state.post_description
+                            );
                             form_data.append("community", this.state.community);
                             this.state.tags.forEach((tag) => {
                                 form_data.append("tags", tag);
@@ -215,9 +245,14 @@ class PostForm extends React.Component {
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 <div>
                     {!!this.props.error && !!this.props.error.post_title && (
-                        <p className="form__error"> {this.props.error.post_title[0]}</p>
+                        <p className="form__error">
+                            {" "}
+                            {this.props.error.post_title[0]}
+                        </p>
                     )}
-                    {this.state.error && <p className="form__error">{this.state.error}</p>}
+                    {this.state.error && (
+                        <p className="form__error">{this.state.error}</p>
+                    )}
                     <p className="form__error">* - Fields required</p>
                 </div>
                 <div className="input-group">
@@ -279,21 +314,34 @@ class PostForm extends React.Component {
                 <p>
                     Image upload:{" "}
                     {!!this.state.picture_preview && (
-                        <button className="button" onClick={this.clearPicture} disabled={this.props.read_only}>
+                        <button
+                            className="button"
+                            onClick={this.clearPicture}
+                            disabled={this.props.read_only}
+                        >
                             Clear Picture
                         </button>
                     )}{" "}
                 </p>
                 {!!this.state.picture_preview ? (
-                    <img className="post_image" src={this.state.picture_preview} />
+                    <img
+                        className="post_image"
+                        src={this.state.picture_preview}
+                    />
                 ) : (
                     <p>No image uploaded.</p>
                 )}
-                <input type="file" id="image" accept="image/png, image/jpeg" onChange={this.handleImageChange} />
+                <input
+                    type="file"
+                    id="image"
+                    accept="image/png, image/jpeg"
+                    onChange={this.handleImageChange}
+                />
                 {!!this.props.interests && (
                     <div className="input-group">
                         <p className="form__label">
-                            Interest Tags (Hold down "Control", or "Command" on a Mac, to select more than one.):{" "}
+                            Interest Tags (Hold down "Control", or "Command" on
+                            a Mac, to select more than one.):{" "}
                         </p>
                         <select
                             multiple
@@ -303,7 +351,10 @@ class PostForm extends React.Component {
                         >
                             {this.props.interests.map((interest) => {
                                 return (
-                                    <option key={interest.interest_tag} value={interest.interest_tag}>
+                                    <option
+                                        key={interest.interest_tag}
+                                        value={interest.interest_tag}
+                                    >
                                         {" "}
                                         {interest.interest_tag}{" "}
                                     </option>
@@ -322,7 +373,10 @@ class PostForm extends React.Component {
                         <option key="empty" value="" />
                         {this.props.communities.map((community) => {
                             return (
-                                <option key={community.community_name} value={community.community_name}>
+                                <option
+                                    key={community.community_name}
+                                    value={community.community_name}
+                                >
                                     {community.community_name}
                                 </option>
                             );
@@ -331,7 +385,9 @@ class PostForm extends React.Component {
                 </div>
                 {!this.props.read_only && (
                     <div>
-                        <button className="button">{this.props.nextStep}</button>
+                        <button className="button">
+                            {this.props.nextStep}
+                        </button>
                     </div>
                 )}
             </form>
@@ -342,7 +398,7 @@ class PostForm extends React.Component {
 const mapStateToProps = (state) => ({
     error: !!state.posts.error && state.posts.error.response.data,
     interests: state.interests.interests,
-    communities: !!state.userCommunities && state.userCommunities.communities
+    communities: state.communities.communities
 });
 
 const mapDispatchToProps = (dispatch) => ({

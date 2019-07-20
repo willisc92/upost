@@ -9,8 +9,13 @@ import { getCurrentUser } from "./auth";
  */
 
 export const setCommunities = (communities) => ({
-  type: "SET_COMMUNITIES",
-  communities
+    type: "SET_COMMUNITIES",
+    communities
+});
+
+export const setUserCommunities = (userCommunities) => ({
+    type: "SET_USER_COMMUNITIES",
+    userCommunities
 });
 
 /**
@@ -18,40 +23,27 @@ export const setCommunities = (communities) => ({
  * @returns {promise}
  */
 export const getMyCommunities = () => {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      getCurrentUser()
-        .then((res) => {
-          API.get(`user-communities/${res.data.id}/`)
-            .then((result) => {
-              dispatch(communitySuccess());
-              dispatch(setCommunities(result.data));
-              resolve(result);
-            })
-            .catch((error) => {
-              dispatch(communityFail(error));
-              reject(error);
-            });
-        })
-        .catch((err) => {
-          console.log(JSON.stringify(err));
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            getCurrentUser()
+                .then((res) => {
+                    API.get(`user-communities/${res.data.id}/`)
+                        .then((result) => {
+                            dispatch(communitySuccess());
+                            dispatch(setUserCommunities(result.data));
+                            resolve(result);
+                        })
+                        .catch((error) => {
+                            dispatch(communityFail(error));
+                            reject(error);
+                        });
+                })
+                .catch((err) => {
+                    console.log(JSON.stringify(err));
+                });
         });
-    });
-  };
+    };
 };
-
-/**
- * EDIT_USER_COMMUNITIES.
- * action generator.
- * updates the store with the changed user communities.
- *
- * @param {string[]} communities edited communities
- * @returns {Object} object to update communities
- */
-export const editUserCommunities = (communities) => ({
-  type: "EDIT_USER_COMMUNITIES",
-  communities
-});
 
 /**
  * START_EDIT_USER_COMMUNITIES.
@@ -62,27 +54,30 @@ export const editUserCommunities = (communities) => ({
  * @returns {Promise}
  */
 export const startEditUserCommunities = (communities) => {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      getCurrentUser()
-        .then((res) => {
-          API.put(`user-communities/${res.data.id}/`, {
-            community: communities
-          })
-            .then((result) => {
-              dispatch(editUserCommunities(communities));
-              resolve(true);
-            })
-            .catch((error) => {
-              console.log("error in updating user communities", error);
-              reject(error);
-            });
-        })
-        .catch((err) => {
-          console.log(JSON.stringify(err, null, 2));
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            getCurrentUser()
+                .then((res) => {
+                    API.put(`user-communities/${res.data.id}/`, {
+                        community: communities
+                    })
+                        .then((result) => {
+                            dispatch(setUserCommunities(communities));
+                            resolve(true);
+                        })
+                        .catch((error) => {
+                            console.log(
+                                "error in updating user communities",
+                                error
+                            );
+                            reject(error);
+                        });
+                })
+                .catch((err) => {
+                    console.log(JSON.stringify(err, null, 2));
+                });
         });
-    });
-  };
+    };
 };
 
 /**
@@ -92,27 +87,27 @@ export const startEditUserCommunities = (communities) => {
  * @returns {Promise}
  */
 export const getAllCommunities = () => {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      API.get("communities/")
-        .then((result) => {
-          dispatch(communitySuccess());
-          dispatch(setCommunities(result.data));
-          resolve(result);
-        })
-        .catch((error) => {
-          dispatch(communityFail(error));
-          reject(error);
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            API.get("communities/")
+                .then((result) => {
+                    dispatch(communitySuccess());
+                    dispatch(setCommunities(result.data));
+                    resolve(result);
+                })
+                .catch((error) => {
+                    dispatch(communityFail(error));
+                    reject(error);
+                });
         });
-    });
-  };
+    };
 };
 
 export const communityFail = (error) => ({
-  type: "COMMUNITY_FAIL",
-  error
+    type: "COMMUNITY_FAIL",
+    error
 });
 
 export const communitySuccess = () => ({
-  type: "COMMUNITY_SUCCESS"
+    type: "COMMUNITY_SUCCESS"
 });

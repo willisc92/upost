@@ -28,7 +28,7 @@ export default () => {
             channels: channelsReducer,
             interests: interestsReducer,
             posts: postReducer,
-            userCommunities: communityReducer,
+            communities: communityReducer,
             events: eventReducer,
             incentiveTypes: incentiveTypeReducer,
             dietOptions: dietOptionsReducer,

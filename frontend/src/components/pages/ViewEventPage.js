@@ -3,9 +3,21 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
-import { setEvents, startSetEvent, decrementCapacityStatus, incrementCapacityStatus } from "../../actions/events";
-import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
-import { startGetAttendance, startAddAttendance, startDeleteAttendance } from "../../actions/attendance";
+import {
+    setEvents,
+    startSetEvent,
+    decrementCapacityStatus,
+    incrementCapacityStatus
+} from "../../actions/events";
+import {
+    startGetSubscriptions,
+    startUpdateSubscriptions
+} from "../../actions/subscriptions";
+import {
+    startGetAttendance,
+    startAddAttendance,
+    startDeleteAttendance
+} from "../../actions/attendance";
 import DateRangeTag from "../DateRangeTag";
 import IncentivePackage from "../IncentivePackage";
 import MessageModal from "../modals/MessageModal";
@@ -51,7 +63,10 @@ class ViewEventPage extends React.Component {
         this.props
             .startGetPost(post_id)
             .catch((err) => {
-                console.log("error in getting post information", JSON.stringify(err, null, 2));
+                console.log(
+                    "error in getting post information",
+                    JSON.stringify(err, null, 2)
+                );
             })
             .then(() => {
                 this.checkChannel();
@@ -60,12 +75,18 @@ class ViewEventPage extends React.Component {
 
     checkChannel = () => {
         // check to see if channel is provided
-        if (!!this.props.channel && this.props.channel.channel_id === this.props.post.channel) {
+        if (
+            !!this.props.channel &&
+            this.props.channel.channel_id === this.props.post.channel
+        ) {
             // pass
         } else {
             // get channel from API
             this.props.startGetChannel(this.props.post.channel).catch((err) => {
-                console.log("error in getting channel information", JSON.stringify(err, null, 2));
+                console.log(
+                    "error in getting channel information",
+                    JSON.stringify(err, null, 2)
+                );
             });
         }
     };
@@ -87,7 +108,10 @@ class ViewEventPage extends React.Component {
                     this.checkPost(this.props.event.post, event_id);
                 })
                 .catch((error) => {
-                    console.log("error in getting event information", JSON.stringify(error, null, 2));
+                    console.log(
+                        "error in getting event information",
+                        JSON.stringify(error, null, 2)
+                    );
                 });
         }
 
@@ -104,9 +128,11 @@ class ViewEventPage extends React.Component {
 
     updateAttendance = () => {
         if (this.props.attendance.includes(this.props.event.event_id)) {
-            this.props.startDeleteAttendance(this.props.event.event_id).then(() => {
-                this.props.decrementCapacityStatus(this.props.event);
-            });
+            this.props
+                .startDeleteAttendance(this.props.event.event_id)
+                .then(() => {
+                    this.props.decrementCapacityStatus(this.props.event);
+                });
         } else {
             this.props
                 .startAddAttendance(this.props.event.event_id)
@@ -141,36 +167,62 @@ class ViewEventPage extends React.Component {
                 </div>
                 <div className="content-container-split">
                     <div className="content-container-twothirds">
-                        {!!this.props.post && <img className="post-image" src={this.props.post.picture} />}
+                        {!!this.props.post && (
+                            <img
+                                className="post-image"
+                                src={
+                                    !!this.props.post.picture
+                                        ? this.props.post.picture
+                                        : CDNLink +
+                                          "/dist/images/polaroid_default.png"
+                                }
+                            />
+                        )}
                         {!!this.props.event && (
                             <div>
                                 <div className="post__title">
-                                    <h1 className="post__header">{this.props.event.event_title}</h1>
+                                    <h1 className="post__header">
+                                        {this.props.event.event_title}
+                                    </h1>
                                     <button
                                         className="button"
                                         onClick={this.updateAttendance}
                                         disabled={
-                                            this.props.event.capacity_status === this.props.event.capacity &&
+                                            this.props.event.capacity_status ===
+                                                this.props.event.capacity &&
                                             !registered
                                         }
                                     >
-                                        {!!registered && registered ? "Unregister" : "Register"}
+                                        {!!registered && registered
+                                            ? "Unregister"
+                                            : "Register"}
                                     </button>
                                 </div>
                                 {(!!this.props.event &&
-                                    (this.props.event.capacity_status === this.props.event.capacity && (
+                                    (this.props.event.capacity_status ===
+                                        this.props.event.capacity && (
                                         <p className="warning_message">
-                                            The event has filled. You are no longer able to register.
+                                            The event has filled. You are no
+                                            longer able to register.
                                         </p>
                                     ))) ||
-                                    (this.props.event.capacity_status >= this.props.event.capacity * 0.9 && (
+                                    (this.props.event.capacity_status >=
+                                        this.props.event.capacity * 0.9 && (
                                         <p className="warning_message">
-                                            The event is nearing capacity. Please register soon.
+                                            The event is nearing capacity.
+                                            Please register soon.
                                         </p>
                                     ))}
-                                <p>Description: {this.props.event.event_description}</p>
+                                <p>
+                                    Description:{" "}
+                                    {this.props.event.event_description}
+                                </p>
                                 {!!this.props.event.event_incentive && (
-                                    <IncentivePackage package={this.props.event.event_incentive} />
+                                    <IncentivePackage
+                                        package={
+                                            this.props.event.event_incentive
+                                        }
+                                    />
                                 )}
                             </div>
                         )}
@@ -180,13 +232,24 @@ class ViewEventPage extends React.Component {
                             <div>
                                 <Link
                                     className="post__link"
-                                    to={{ pathname: `/channel/${this.props.channel.channel_id}` }}
+                                    to={{
+                                        pathname: `/channel/${
+                                            this.props.channel.channel_id
+                                        }`
+                                    }}
                                 >
-                                    <h2 className="post__header2">{this.props.channel.channel_name}</h2>
+                                    <h2 className="post__header2">
+                                        {this.props.channel.channel_name}
+                                    </h2>
                                 </Link>
                                 {!!this.props.subscriptions && (
-                                    <button className="button" onClick={this.updateSubscriptions}>
-                                        {this.props.subscriptions.includes(this.props.channel.channel_id)
+                                    <button
+                                        className="button"
+                                        onClick={this.updateSubscriptions}
+                                    >
+                                        {this.props.subscriptions.includes(
+                                            this.props.channel.channel_id
+                                        )
                                             ? "Unsubscribe"
                                             : "Subscribe"}
                                     </button>
@@ -195,9 +258,13 @@ class ViewEventPage extends React.Component {
                         )}
                         {!!this.props.event && (
                             <div>
-                                <h2 className="post__header2">Date and Time:</h2>
+                                <h2 className="post__header2">
+                                    Date and Time:
+                                </h2>
                                 <DateRangeTag
-                                    startDate={this.props.event.planned_start_date}
+                                    startDate={
+                                        this.props.event.planned_start_date
+                                    }
                                     endDate={this.props.event.planned_end_date}
                                 />
                                 <div className="post__infobox">
@@ -216,8 +283,12 @@ class ViewEventPage extends React.Component {
                         )}
                         {!!this.props.post && (
                             <div>
-                                <h2 className="post__header2">Contact Information</h2>
-                                <p>{`Phone Number: ${this.props.post.phone_number}`}</p>
+                                <h2 className="post__header2">
+                                    Contact Information
+                                </h2>
+                                <p>{`Phone Number: ${
+                                    this.props.post.phone_number
+                                }`}</p>
                                 <p>{`Email: ${this.props.post.email}`}</p>
                             </div>
                         )}
@@ -251,8 +322,10 @@ const mapDispatchToProps = (dispatch) => ({
     startUpdateSubscriptions: (id) => dispatch(startUpdateSubscriptions(id)),
     startGetAttendance: () => dispatch(startGetAttendance()),
     startAddAttendance: (event_id) => dispatch(startAddAttendance(event_id)),
-    startDeleteAttendance: (event_id) => dispatch(startDeleteAttendance(event_id)),
-    decrementCapacityStatus: (event) => dispatch(decrementCapacityStatus(event)),
+    startDeleteAttendance: (event_id) =>
+        dispatch(startDeleteAttendance(event_id)),
+    decrementCapacityStatus: (event) =>
+        dispatch(decrementCapacityStatus(event)),
     incrementCapacityStatus: (event) => dispatch(incrementCapacityStatus(event))
 });
 
