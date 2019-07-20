@@ -42,13 +42,13 @@ def password_reset_token_created(sender, instance, reset_password_token, *args, 
         # title:
         "Password Reset for UPost Account",
         # message:
-        email_html_message,
+        email_plaintext_message,
         # from:
-        "noreply@upostwebsite.com",
+        "UPost Team <noreply@upostwebsite.com>",
         # to:
         [reset_password_token.user.email]
     )
-    msg.attach_alternative(email_plaintext_message, "text/html")
+    msg.attach_alternative(email_html_message, "text/html")
     msg.send()
 
 
