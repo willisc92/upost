@@ -72,9 +72,10 @@ class Event_View(viewsets.ModelViewSet):
         EventAccessPermission,
     )
 
-    def update(self, request, pk=None):
+    def partial_update(self, request, pk=None):
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         if serializer.get_capacity_status(instance) > instance.capacity:
             return Response(status=status.HTTP_400_BAD_REQUEST)

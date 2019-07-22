@@ -124,11 +124,11 @@ export class EditPostPage extends React.Component {
                                     </button>{" "}
                                     {!!this.props.post.post_incentive ? (
                                         <button className="button" onClick={this.onEditIncentiveClick}>
-                                            Edit Incentive
+                                            Edit Post Incentive
                                         </button>
                                     ) : (
                                         <button className="button" onClick={this.onAddIncentiveClick}>
-                                            Add Incentive
+                                            Add Incentive to Post
                                         </button>
                                     )}{" "}
                                     <button className="button" onClick={this.deletePost}>
