@@ -51,11 +51,19 @@ class Random_Post_view(viewsets.ModelViewSet):
     queryset = Post.objects.all()
 
     def get_queryset(self):
+        communities = None
+        if self.request.user.pk:
+            user = CustomUser.objects.get(pk=self.request.user.pk)
+            communities = Community.objects.filter(community_users=user)
         queryset = self.queryset
         interest_param = self.request.query_params.get('interest')
         if interest_param is not None:
-            queryset = queryset.filter(tags__interest_tag=interest_param).order_by('?')[
-                :4]  # get 4 objects
+            if communities is None:
+                queryset = queryset.filter(tags__interest_tag=interest_param).order_by('?')[
+                    :4]  # get 4 objects
+            else:
+                queryset = queryset.filter(tags__interest_tag=interest_param, community__in=communities.all()).order_by('?')[
+                    :4]  # get 4 objects
         return queryset
 
 

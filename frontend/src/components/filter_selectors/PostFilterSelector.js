@@ -55,11 +55,9 @@ export class PostFilters extends React.Component {
 
     render() {
         const communities =
-            !!this.props.communities &&
-            this.props.communities.map(
-                (community) =>
-                    !!community.community_name && community.community_name
-            );
+            !!this.props.communities && this.props.communities !== []
+                ? this.props.communities.map((community) => !!community.community_name && community.community_name)
+                : [];
 
         return (
             !!this.props.filters &&
@@ -89,10 +87,7 @@ export class PostFilters extends React.Component {
                                     <option value="">Show All</option>
                                     {communities.map((community) => {
                                         return (
-                                            <option
-                                                key={community}
-                                                value={community}
-                                            >
+                                            <option key={community} value={community}>
                                                 {community}
                                             </option>
                                         );
@@ -109,12 +104,8 @@ export class PostFilters extends React.Component {
                                         value={this.props.filters.sortBy}
                                         onChange={this.onSortChange}
                                     >
-                                        <option value="date">
-                                            Creation Date
-                                        </option>
-                                        <option value="last_updated">
-                                            Last Updated
-                                        </option>
+                                        <option value="date">Creation Date</option>
+                                        <option value="last_updated">Last Updated</option>
                                         <option value="name">Name</option>
                                     </select>{" "}
                                 </span>
@@ -128,9 +119,7 @@ export class PostFilters extends React.Component {
                                         startDate={this.props.filters.startDate}
                                         endDate={this.props.filters.endDate}
                                         onDatesChange={this.onDatesChange}
-                                        focusedInput={
-                                            this.state.calenderFocused
-                                        }
+                                        focusedInput={this.state.calenderFocused}
                                         onFocusChange={this.onFocusChange}
                                         showClearDates={true}
                                         numberOfMonths={1}

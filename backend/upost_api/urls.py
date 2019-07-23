@@ -62,8 +62,9 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
     path('api/community-posts/', Community_Post_view.as_view(),
          name='community-posts'),
     path('api/auth/', include('rest_framework_social_oauth2.urls')),
-    re_path(r'^api/password_reset/', include('django_rest_passwordreset.urls', namespace='password_reset')),
+    re_path(r'^api/password_reset/',
+            include('django_rest_passwordreset.urls', namespace='password_reset')),
     re_path(r'api/activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        activate, name='activate'),
+            activate, name='activate'),
     re_path(r'', include(frontendapp_urls))
 ]
