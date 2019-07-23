@@ -72,6 +72,11 @@
     color: black;
 }
 
+.modal__text > span {
+    color: $red;
+    cursor: pointer;
+}
+
 .modal__text_button {
     padding: auto;
     margin: 0;

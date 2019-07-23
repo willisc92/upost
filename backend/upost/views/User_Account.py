@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from ..serializers.User_Account import (UserAccountSerializer, UserAccountSubscriptionsSerializer, UserDetailSerializer,
-                                        UserAccountAttendsSerializer)
+                                        UserAccountAttendsSerializer, send_activation_email)
 from ..models.User_Account import CustomUser
 from rest_framework.response import Response
 from rest_framework import status
@@ -12,6 +12,7 @@ from django.utils.http import urlsafe_base64_decode
 from ..tokens import account_activation_token
 from django.utils.encoding import force_text
 from django.http import JsonResponse
+from django.views import View
 
 
 # Create your views here.
@@ -72,3 +73,13 @@ def activate(request, uidb64, token):
         return JsonResponse({'message': 'successful activation'}, status=status.HTTP_200_OK)
     else:
         return JsonResponse({'error': 'Activation link is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SendActivationEmailView(View):
+    def get(self, request):
+        try:
+            user = CustomUser.objects.get(username=request.GET.get('username'))
+            send_activation_email(user)
+            return JsonResponse({'message': 'email sent'}, status=status.HTTP_200_OK)
+        except CustomUser.DoesNotExist:
+            return JsonResponse({'error': 'user does not exist'}, status=status.HTTP_400_BAD_REQUEST)

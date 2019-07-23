@@ -70,5 +70,6 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
             include('django_rest_passwordreset.urls', namespace='password_reset')),
     re_path(r'api/activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
             activate, name='activate'),
+    path('api/activation-email/', SendActivationEmailView.as_view(), name="activation_email"),
     re_path(r'', include(frontendapp_urls))
 ]

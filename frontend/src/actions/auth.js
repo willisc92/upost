@@ -102,6 +102,7 @@ export const authSignup = (user) => {
         return new Promise((resolve, reject) => {
             API.post("accounts/", user)
                 .then((res) => {
+                    localStorage.setItem("username", user.username);
                     resolve(res);
                 })
                 .catch((error) => {
@@ -142,6 +143,7 @@ export const passwordResetRequest = (email) => {
             email
         })
             .then((result) => {
+                localStorage.setItem("email", email);
                 resolve(result);
             })
             .catch((error) => {
@@ -162,5 +164,11 @@ export const passwordResetConfirm = (token, password) => {
             .catch((error) => {
                 reject(error);
             });
+    });
+};
+
+export const resendActivationEmail = () => {
+    API.get("activation-email/", {
+        params: { username: localStorage.getItem("username") }
     });
 };

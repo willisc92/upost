@@ -59,6 +59,10 @@ class LoginModal extends React.Component {
         });
     };
 
+    resendEmail = () => {
+        passwordResetRequest(localStorage.getItem("email"));
+    };
+
     render() {
         return (
             <Modal
@@ -88,6 +92,9 @@ class LoginModal extends React.Component {
                             <p className="modal__text">A recovery email has been sent.</p>
                             <p className="modal__text">
                                 Please check your email to proceed. If no message appears please check your spam inbox
+                            </p>
+                            <p className="modal__text">
+                                click <span onClick={this.resendEmail}>here</span> to resend the email.
                             </p>
                         </div>
                     ) : (

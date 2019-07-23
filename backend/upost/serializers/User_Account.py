@@ -54,18 +54,7 @@ class UserAccountSerializer(serializers.ModelSerializer):
         )
         user.is_active = False
         user.save()
-        context = {'current_user': user,
-            'domain': DOMAIN_NAME,
-            'url': 'activate',
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': account_activation_token.make_token(user)
-        }
-        email_html_message = render_to_string('email/acc_active_email.html', context)
-        email_plaintext_message = render_to_string('email/acc_active_email.txt', context)
-        msg = EmailMultiAlternatives('Activate your UPost Account', email_plaintext_message,
-            'UPost team <noreply@upostwebsite.com>', to=[validated_data['email'],])
-        msg.attach_alternative(email_html_message, 'text/html')
-        msg.send()
+        send_activation_email(user)
         return user
 
 
@@ -93,3 +82,18 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ('first_name', 'last_name', 'email',
                   'username', 'channels', 'community', 'id')
+
+
+def send_activation_email(user):
+    context = {
+            'domain': DOMAIN_NAME,
+            'url': 'activate',
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user)
+        }
+    email_html_message = render_to_string('email/acc_active_email.html', context)
+    email_plaintext_message = render_to_string('email/acc_active_email.txt', context)
+    msg = EmailMultiAlternatives('Activate your UPost Account', email_plaintext_message,
+        'UPost team <noreply@upostwebsite.com>', to=[user.email, ])
+    msg.attach_alternative(email_html_message, 'text/html')
+    msg.send()
