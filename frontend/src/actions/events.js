@@ -225,6 +225,29 @@ export const getFreeFoodEvents = () => {
 };
 
 /**
+ * getAttendingEvents
+ * action dispatcher
+ * @returns {Promise} to be handled
+ */
+export const getAttendingEvents = () => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(eventStart());
+            API.get(`events-attending/`)
+                .then((result) => {
+                    dispatch(eventSuccess());
+                    dispatch(setEvents(result.data));
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(eventFail(err));
+                    reject(err);
+                });
+        });
+    };
+};
+
+/**
  * DECREMENT_CAPACITY_STATUS.
  * action generator.
  *

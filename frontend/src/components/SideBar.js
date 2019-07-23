@@ -41,8 +41,16 @@ export class SideBar extends React.Component {
                 >
                     My Communities
                 </RadiumLink>
-                <RadiumLink id="my_list" className="menu-item" to="/my_list" onClick={() => this.closeMenu()}>
-                    My List
+                <RadiumLink
+                    id="my_subscriptions"
+                    className="menu-item"
+                    to="/my_subscriptions"
+                    onClick={() => this.closeMenu()}
+                >
+                    My Subscriptions
+                </RadiumLink>
+                <RadiumLink id="my_attending" className="menu-item" to="/my_attending" onClick={() => this.closeMenu()}>
+                    Events I'm Attending
                 </RadiumLink>
                 <RadiumLink id="my_list" className="menu-item" to="/myDeletedContent" onClick={() => this.closeMenu()}>
                     Recycle Bin
