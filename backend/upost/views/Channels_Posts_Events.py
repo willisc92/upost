@@ -77,7 +77,18 @@ class Event_View(viewsets.ModelViewSet):
         serializer = self.get_serializer(
             instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
-        if serializer.get_capacity_status(instance) > instance.capacity:
+        if 'capacity' in request.data and serializer.get_capacity_status(instance) > int(request.data['capacity']):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
+
+    def update(self, request, pk=None):
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if serializer.get_capacity_status(instance) > int(request.data['capacity']):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             serializer.save()
