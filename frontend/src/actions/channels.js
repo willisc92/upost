@@ -233,3 +233,26 @@ export const restoreChannel = (id) => {
         });
     };
 };
+
+/**
+ * getSubscriptions
+ * action dispatcher - Gets channels user is subscribed to
+ * @returns {Promise} to be handled
+ */
+export const getSubscriptions = () => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(channelStart());
+            API.get("my_subscriptions/")
+                .then((result) => {
+                    dispatch(channelSuccess());
+                    dispatch(setChannels(result.data));
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(channelFail(err));
+                    reject(err);
+                });
+        });
+    };
+};

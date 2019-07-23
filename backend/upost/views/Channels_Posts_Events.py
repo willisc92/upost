@@ -1,5 +1,5 @@
 from rest_framework import generics, viewsets
-from ..models import ContentChannel, Post, PostEvent, Interest, CustomUser, Community, Attend
+from ..models import ContentChannel, Post, PostEvent, Interest, CustomUser, Community, Attend, Subscribe
 from ..serializers import *
 
 from rest_framework import permissions
@@ -171,4 +171,37 @@ class Community_Post_view(generics.ListAPIView):
         communities = Community.objects.filter(community_users=user)
         queryset = Post.objects.filter(
             community__in=communities.all())
+        return queryset
+
+
+class Attending_Events_View(generics.ListAPIView):
+    serializer_class = EventSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    # Returns events that user is attending.
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        attends = Attend.objects.filter(attendee=user)
+        queryset = PostEvent.objects.filter(
+            event_to_attend__in=attends.all())
+        return queryset
+
+
+class MySubscriptions_View(generics.ListAPIView):
+    serializer_class = ContentChannelSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    # Returns channels that user is subscribed to.
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        subscribes = Subscribe.objects.filter(
+            community_member=user, unsubscribe_date__isnull=True)
+        queryset = ContentChannel.objects.filter(
+            channel_subscription__in=subscribes.all())
         return queryset

@@ -17,6 +17,7 @@ export class FreeFoodPage extends React.Component {
         promises.push(this.props.setHasIncentiveFilter("all"));
         promises.push(this.props.setIncentiveTypeFilter("Food"));
         promises.push(this.props.setDietOptionsFilter(""));
+
         Promise.all(promises)
             .then(() => {
                 this.props
