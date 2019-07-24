@@ -8,6 +8,10 @@ const channelsFiltersReducerDefaultState = {
 
 export default (state = channelsFiltersReducerDefaultState, action) => {
     switch (action.type) {
+        case "RESET_CHANNEL_FILTERS":
+            return {
+                ...channelsFiltersReducerDefaultState
+            };
         case "SET_TEXT_FILTER":
             return {
                 ...state,
@@ -22,6 +26,11 @@ export default (state = channelsFiltersReducerDefaultState, action) => {
             return {
                 ...state,
                 sortBy: "date"
+            };
+        case "SORT_BY_LAST_UPDATED":
+            return {
+                ...state,
+                sortBy: "last_updated"
             };
         case "SET_START_DATE":
             return {

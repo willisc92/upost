@@ -153,6 +153,28 @@ export const startGetPost = (id) => {
 };
 
 /**
+ * GET_POST.
+ * from API gets a specific post, but does not add to store.  Does not dispatch any actions.
+ *
+ * @param {number} id post id to get
+ */
+export const getPost = (id) => {
+    return new Promise((resolve, reject) => {
+        API.get("posts/", {
+            params: {
+                post_id: id
+            }
+        })
+            .then((result) => {
+                resolve(result.data);
+            })
+            .catch((err) => {
+                reject(err);
+            });
+    });
+};
+
+/**
  * ADD_POST.
  * sends post request to API to add a new user created post.
  * upon sucessful post reloads user posts.
@@ -199,7 +221,7 @@ export const editPost = (id, updates) => {
                 setContentToForm();
             }
             dispatch(postStart());
-            API.put(`posts/${id}/`, updates)
+            API.patch(`posts/${id}/`, updates)
                 .then((result) => {
                     if (updates.toString() == "[object FormData]") {
                         resetContentType();
@@ -288,7 +310,7 @@ export const deletePost = (id) => {
             dispatch(postStart());
             const updates = {
                 deleted_flag: true,
-                deletion_date: moment().format("YYYY-MM-DD")
+                deletion_date: moment().toDate()
             };
             API.patch(`posts/${id}/`, updates)
                 .then((result) => {

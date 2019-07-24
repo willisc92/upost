@@ -5,6 +5,14 @@ from ..serializers import IncentiveSerializer
 
 
 class EventSerializer(serializers.ModelSerializer):
+    event_community = serializers.CharField(
+        read_only=True, source="post.community.community_name")
+    event_owner = serializers.CharField(
+        read_only=True, source="post.user")
+    post_deleted_flag = serializers.BooleanField(
+        read_only=True, source="post.deleted_flag")
+    capacity_status = serializers.SerializerMethodField()
+
     class Meta:
         fields = (
             'event_id',
@@ -20,6 +28,11 @@ class EventSerializer(serializers.ModelSerializer):
             'deleted_flag',
             'creation_date',
             'deletion_date',
+            'event_community',
+            'event_owner',
+            'post_deleted_flag',
+            'last_updated',
+            'capacity_status'
         )
         model = PostEvent
 
@@ -27,8 +40,14 @@ class EventSerializer(serializers.ModelSerializer):
         read_only=False, many=False, queryset=Post.objects.all())
     event_incentive = IncentiveSerializer(many=False, required=False)
 
+    def get_capacity_status(self, obj):
+        return obj.event_to_attend.count()
+
 
 class PostSerializer(serializers.ModelSerializer):
+    channel_deleted_flag = serializers.BooleanField(
+        read_only=True, source="channel.deleted_flag")
+
     class Meta:
         fields = (
             'post_id',
@@ -46,8 +65,9 @@ class PostSerializer(serializers.ModelSerializer):
             'post_events',
             'picture',
             'post_incentive',
-            'creation_date',
             'deletion_date',
+            'channel_deleted_flag',
+            'last_updated'
         )
         model = Post
 
@@ -83,7 +103,8 @@ class ContentChannelSerializer(serializers.ModelSerializer):
             'creation_date',
             'deletion_date',
             'channel_description',
-            'channel_posts'
+            'channel_posts',
+            'last_updated'
         )
         model = ContentChannel
 

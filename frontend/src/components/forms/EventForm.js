@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import DateTimePicker from "react-datetime-picker";
 import { getCurrentUser } from "../../actions/auth";
+import moment from "moment";
 
 export class EventForm extends React.Component {
     constructor(props) {
@@ -19,10 +20,13 @@ export class EventForm extends React.Component {
                 ? this.props.description
                 : "",
             error: "",
-            startDate: !!this.props.event ? new Date(this.props.event.planned_start_date) : new Date(),
+            startDate: !!this.props.event ? moment(this.props.event.planned_start_date).toDate() : moment().toDate(),
             endDate: !!this.props.event
-                ? new Date(this.props.event.planned_end_date)
-                : new Date(new Date().setHours(new Date().getHours() + 1))
+                ? moment(this.props.event.planned_end_date).toDate()
+                : moment()
+                      .add(1, "hours")
+                      .toDate(),
+            capacity_status: !!this.props.event ? this.props.event.capacity_status : 0
         };
     }
 
@@ -67,7 +71,14 @@ export class EventForm extends React.Component {
 
     onCapacityChange = (e) => {
         const capacity = e.target.value;
-        this.setState(() => ({ capacity }));
+        if (capacity < this.state.capacity_status) {
+            this.setState(() => ({
+                error:
+                    "Capacity cannot be decreased past the current number of registered attendees. Please cancel the event to downsize."
+            }));
+        } else {
+            this.setState(() => ({ capacity }));
+        }
     };
 
     onCostChange = (e) => {
@@ -181,6 +192,7 @@ export class EventForm extends React.Component {
                         min="0"
                     />
                 </div>
+                <p>{`Currently there are ${this.state.capacity_status} attendee(s) registered for this event`}</p>
                 <div className="input-group">
                     <p className="form__label"> Cost ($)*: </p>
                     <input

@@ -5,12 +5,15 @@ from ..models.Shared import Community
 from ..models.User_Event_Channel_Relations import Subscribe
 from django.contrib.auth.hashers import make_password
 from ..serializers.User_Event_Channel_Relations import SubscribeSerializerIdOnly
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from ..tokens import account_activation_token
 from upost_api.settings import DOMAIN_NAME
+from django.contrib.auth import password_validation
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
@@ -23,6 +26,20 @@ class UserAccountSerializer(serializers.ModelSerializer):
         many=True, queryset=ContentChannel.objects.all(), required=False)
     community = serializers.PrimaryKeyRelatedField(
         many=True, required=False, queryset=Community.objects.all())
+
+    def validate_password(self, data):
+        try:
+            password_validation.validate_password(data)
+        except ValidationError as e:
+            raise serializers.ValidationError(e.messages)
+        return data
+
+    def validate_email(self, data):
+        try:
+            validate_email(data)
+        except ValidationError as e:
+            raise serializers.ValidationError(e.messages)
+        return data
 
     def create(self, validated_data):  # for POST to hash passwords
         user = CustomUser.objects.create(
@@ -37,13 +54,7 @@ class UserAccountSerializer(serializers.ModelSerializer):
         )
         user.is_active = False
         user.save()
-        message = render_to_string('acc_active_email.html', {'user': user,
-            'domain': DOMAIN_NAME,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': account_activation_token.make_token(user)
-            })
-        email = EmailMessage('Activate your UPost Account', message, to=[validated_data['email'],])
-        email.send()
+        send_activation_email(user)
         return user
 
 
@@ -71,3 +82,18 @@ class UserDetailSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ('first_name', 'last_name', 'email',
                   'username', 'channels', 'community', 'id')
+
+
+def send_activation_email(user):
+    context = {
+            'domain': DOMAIN_NAME,
+            'url': 'activate',
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user)
+        }
+    email_html_message = render_to_string('email/acc_active_email.html', context)
+    email_plaintext_message = render_to_string('email/acc_active_email.txt', context)
+    msg = EmailMultiAlternatives('Activate your UPost Account', email_plaintext_message,
+        'UPost team <noreply@upostwebsite.com>', to=[user.email, ])
+    msg.attach_alternative(email_html_message, 'text/html')
+    msg.send()

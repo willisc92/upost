@@ -28,15 +28,7 @@ class AddEventPage extends React.Component {
                 endSelection: "none",
                 numOccurences: 0,
                 endDate: null,
-                byweekday: [
-                    { id: 0, value: "0", label: "Monday", isChecked: false },
-                    { id: 1, value: "1", label: "Tuesday", isChecked: false },
-                    { id: 2, value: "2", label: "Wednesday", isChecked: false },
-                    { id: 3, value: "3", label: "Thursday", isChecked: false },
-                    { id: 4, value: "4", label: "Friday", isChecked: false },
-                    { id: 5, value: "5", label: "Saturday", isChecked: false },
-                    { id: 6, value: "6", label: "Sunday", isChecked: false }
-                ]
+                byweekday: null
             },
             rrule_event_starts: null,
             rrule_event_ends: null,
@@ -67,18 +59,22 @@ class AddEventPage extends React.Component {
             });
     }
 
-    toggleForms = () => {
-        if (this.state.step === "Event") {
-            this.setState({
-                step: "Incentive"
-            });
-        }
+    toggleForms = async () => {
+        // if (this.state.step === "Event") {
+        //     this.submitButtonRef.click();
 
-        if (this.state.step === "Incentive") {
-            this.setState({
-                step: "Event"
-            });
-        }
+        //     // this.setState({
+        //     //     step: "Incentive"
+        //     // });
+        // }
+
+        // if (this.state.step === "Incentive") {
+        // this.submitButtonRef.click();
+
+        this.setState({
+            step: "Event"
+        });
+        // }
     };
 
     goBack = () => {
@@ -118,6 +114,31 @@ class AddEventPage extends React.Component {
         }));
     };
 
+    clearBaseEvent = () => {
+        this.setState(() => ({
+            base_event: null,
+            step: "Event",
+            rrule_event_starts: null,
+            rrule_event_ends: null,
+            message_open: true,
+            message: "Event Cleared"
+        }));
+    };
+
+    clearBaseEventandIncentive = () => {
+        this.setState(() => ({
+            base_event: null,
+            step: "Event",
+            rrule_event_starts: null,
+            rrule_event_ends: null,
+            base_incentive: null,
+            rrule_incentive_starts: null,
+            rrule_incentive_ends: null,
+            message_open: true,
+            message: "Event and Incentive Cleared"
+        }));
+    };
+
     generateEventRule = (payload) => {
         if (payload.recurringFrequency === "none") {
             this.setState(() => ({
@@ -150,23 +171,23 @@ class AddEventPage extends React.Component {
                 }));
                 return null;
             } else {
+                payload.byweekday.map((day) => {
+                    return mapDayToRRule(day);
+                });
+
                 this.setState(() => ({
                     event_error: "",
                     rrule_event_starts: new RRule({
                         freq: mapFrequencyToRRule(payload.recurringFrequency),
                         dtstart: this.state.base_event.planned_start_date,
                         until: payload.endDate,
-                        byweekday: payload.byweekday.map((day) => {
-                            return mapDayToRRule(day);
-                        })
+                        byweekday: payload.byweekday.length === 0 ? null : payload.byweekday
                     }),
                     rrule_event_ends: new RRule({
                         freq: mapFrequencyToRRule(payload.recurringFrequency),
                         dtstart: this.state.base_event.planned_end_date,
                         until: payload.endDate,
-                        byweekday: payload.byweekday.map((day) => {
-                            return mapDayToRRule(day);
-                        })
+                        byweekday: payload.byweekday.length === 0 ? null : payload.byweekday
                     })
                 }));
             }
@@ -205,23 +226,22 @@ class AddEventPage extends React.Component {
                 }));
                 return null;
             } else {
+                payload.byweekday.map((day) => {
+                    return mapDayToRRule(day);
+                });
                 this.setState(() => ({
                     incentive_error: "",
                     rrule_incentive_starts: new RRule({
                         freq: mapFrequencyToRRule(payload.recurringFrequency),
                         dtstart: this.state.base_incentive.planned_start_date,
                         until: payload.endDate,
-                        byweekday: payload.byweekday.map((day) => {
-                            return mapDayToRRule(day);
-                        })
+                        byweekday: payload.byweekday.length === 0 ? null : payload.byweekday
                     }),
                     rrule_incentive_ends: new RRule({
                         freq: mapFrequencyToRRule(payload.recurringFrequency),
                         dtstart: this.state.base_incentive.planned_end_date,
                         until: payload.endDate,
-                        byweekday: payload.byweekday.map((day) => {
-                            return mapDayToRRule(day);
-                        })
+                        byweekday: payload.byweekday.length === 0 ? null : payload.byweekday
                     })
                 }));
             }
@@ -230,6 +250,15 @@ class AddEventPage extends React.Component {
 
     submitAll = async () => {
         await this.setState(() => ({
+            finished: true
+        }));
+
+        this.submitButtonRef.click();
+    };
+
+    submitWithoutSaving = async () => {
+        await this.setState(() => ({
+            step: "Event",
             finished: true
         }));
 
@@ -337,22 +366,25 @@ class AddEventPage extends React.Component {
                 base_event: data
             }));
             this.generateEventRule(this.state.rrule_payload);
+
             if (this.state.finished === false) {
                 this.setState(() => ({
                     messageOpen: true,
-                    message: "Event Draft Saved"
+                    message: "Event Draft Saved",
+                    step: "Incentive"
                 }));
             }
         } else if (this.state.step === "Incentive") {
             await this.setState(() => ({
                 base_incentive: data
             }));
-
             this.generateIncentiveRule(this.state.rrule_payload);
+
             if (this.state.finished === false) {
                 this.setState(() => ({
                     messageOpen: true,
-                    message: "Incentive Draft Saved"
+                    message: "Incentive Draft Saved",
+                    step: "Event"
                 }));
             }
         }
@@ -420,15 +452,23 @@ class AddEventPage extends React.Component {
     };
 
     render() {
+        console.log(this.state);
         const read_only = !!this.props.post && this.props.post.deleted_flag;
 
         return (
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page-header__title">
-                            Add an Event to Post: <span>{this.props.post && this.props.post.post_title}</span>
-                        </h1>
+                        {this.state.step === "Event" && (
+                            <h1 className="page-header__title">
+                                Add an Event to Post: <span>{this.props.post && this.props.post.post_title}</span>
+                            </h1>
+                        )}
+                        {this.state.step === "Incentive" && (
+                            <h1 className="page-header__title">
+                                Add an Incentive to the Event <span>(Optional)</span>
+                            </h1>
+                        )}
                         {read_only ? (
                             <div>
                                 <h2 className="page-header__subtitle__red">
@@ -441,17 +481,19 @@ class AddEventPage extends React.Component {
                         ) : (
                             <div className="page-header__actions">
                                 <span>
+                                    {this.state.step === "Incentive" && (
+                                        <React.Fragment>
+                                            <button className="button" onClick={this.toggleForms}>
+                                                Go back
+                                            </button>{" "}
+                                        </React.Fragment>
+                                    )}
                                     <button className="button" onClick={this.goBack}>
                                         See All Post Events
                                     </button>{" "}
                                     <button className="button" onClick={this.recurringOpen}>
                                         Open Recurring Settings
                                     </button>{" "}
-                                    {!!this.state.base_incentive && (
-                                        <button className="button" onClick={this.clearBaseIncentive}>
-                                            Clear Incentive
-                                        </button>
-                                    )}
                                 </span>
                             </div>
                         )}
@@ -466,9 +508,27 @@ class AddEventPage extends React.Component {
                     />
                     {!read_only && (
                         <div className="input_group__item">
-                            <button className="button" onClick={this.toggleForms}>
-                                Open {this.state.step === "Event" ? "Incentive" : "Event"} Settings
-                            </button>
+                            {!!this.state.base_incentive && (
+                                <React.Fragment>
+                                    <button className="button" onClick={this.clearBaseIncentive}>
+                                        Clear Incentive
+                                    </button>{" "}
+                                </React.Fragment>
+                            )}
+                            {!!this.state.base_event && this.state.step === "Event" && (
+                                <React.Fragment>
+                                    <button className="button" onClick={this.clearBaseEvent}>
+                                        Clear Event
+                                    </button>{" "}
+                                </React.Fragment>
+                            )}
+                            {!!this.state.base_event && !!this.state.base_incentive && (
+                                <React.Fragment>
+                                    <button className="button" onClick={this.clearBaseEventandIncentive}>
+                                        Clear Event and Incentive
+                                    </button>{" "}
+                                </React.Fragment>
+                            )}
                         </div>
                     )}
                     <div className="input_group__item">
@@ -488,7 +548,7 @@ class AddEventPage extends React.Component {
                                 post={this.props.match.params.id}
                                 description={!!this.props.post ? this.props.post.post_description : ""}
                                 onSubmit={this.onSubmit}
-                                nextStep="Save Event Draft"
+                                nextStep="Continue"
                             />
                         </div>
                     )}
@@ -499,17 +559,27 @@ class AddEventPage extends React.Component {
                                 description={!!this.props.post ? this.props.post.post_description : ""}
                                 incentivePackage={this.state.base_incentive}
                                 onSubmit={this.onSubmit}
-                                nextStep="Save Incentive Draft"
+                                nextStep="Save Incentive and Go Back"
                                 event={this.state.base_event}
                                 fromEvent={true}
                             />
                         </div>
                     )}
 
-                    {!read_only && (
-                        <button className="button" onClick={this.submitAll}>
-                            Submit All
-                        </button>
+                    {!read_only && !!this.state.base_event && (
+                        <React.Fragment>
+                            <button className="button" onClick={this.submitAll}>
+                                Save and Submit All
+                            </button>{" "}
+                        </React.Fragment>
+                    )}
+
+                    {this.state.step === "Incentive" && (
+                        <React.Fragment>
+                            <button className="button" onClick={this.submitWithoutSaving}>
+                                Skip Incentive and Submit
+                            </button>
+                        </React.Fragment>
                     )}
 
                     <button

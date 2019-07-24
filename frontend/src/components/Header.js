@@ -69,25 +69,61 @@ class Header extends React.Component {
                     <div>
                         <SideBar />
                         <Link to="/" className="header__logo_wrapper">
-                            <img className="header__logo" src={CDNLink + "/dist/images/logo.png"} />
+                            <img
+                                className="header__logo"
+                                src={CDNLink + "/dist/images/logo.png"}
+                            />
                         </Link>
                     </div>
-                    {!!this.props.token && <SearchBar history={this.props.history} />}
+                    {!!this.props.token && (
+                        <SearchBar history={this.props.history} />
+                    )}
                     {!!this.props.token ? (
-                        <div>
-                            <Link className="button button--link" to="/myChannels">
-                                My Content
+                        <div className="links">
+                            <button
+                                className="button button--link"
+                                onClick={() =>
+                                    this.props.history.push("/interests")
+                                }
+                            >
+                                My Interests
+                            </button>
+                            <button
+                                className="button button--link"
+                                onClick={() =>
+                                    this.props.history.push("/communities")
+                                }
+                            >
+                                My Communities
+                            </button>
+                            <Link
+                                className="header__logo_wrapper"
+                                to="/myChannels"
+                            >
+                                <img
+                                    className="header_mycontent_logo"
+                                    src={CDNLink + "/dist/images/mycontent.png"}
+                                />
                             </Link>
-                            <button className="button button--link" onClick={this.props.logout}>
+                            <button
+                                className="button button--link"
+                                onClick={this.props.logout}
+                            >
                                 Logout
                             </button>
                         </div>
                     ) : (
                         <div>
-                            <button className="button button--link" onClick={this.handleLoginModalOpen}>
+                            <button
+                                className="button button--link"
+                                onClick={this.handleLoginModalOpen}
+                            >
                                 Login
                             </button>
-                            <button className="button button--link" onClick={this.handleSignupModalOpen}>
+                            <button
+                                className="button button--link"
+                                onClick={this.handleSignupModalOpen}
+                            >
                                 Signup
                             </button>
                         </div>

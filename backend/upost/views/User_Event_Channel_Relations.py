@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from ..serializers.User_Event_Channel_Relations import SubscribeSerializer, AttendSerializer
 from ..models.User_Event_Channel_Relations import Subscribe, Attend
-from ..models.Channels_Posts_Events import ContentChannel
+from ..models.Channels_Posts_Events import ContentChannel, PostEvent
 from ..models.User_Account import CustomUser
 from datetime import datetime
 from rest_framework.response import Response
@@ -41,3 +41,16 @@ class AttendView(viewsets.ModelViewSet):
             instance = instance[0]
             instance.delete()
         return Response(status=status.HTTP_200_OK)
+
+    def create(self, request, *args, **kwargs):
+        event = self.request.data['event']
+        attendee = self.request.data['attendee']
+        if Attend.objects.filter(event=event).count() < PostEvent.objects.get(pk=event).capacity:
+            serializer = AttendSerializer(data=self.request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)

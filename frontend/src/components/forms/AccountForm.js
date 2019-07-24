@@ -11,10 +11,7 @@ export class AccountForm extends React.Component {
             maxDate: new Date(),
             minDate: new Date(1900, 1, 1),
             birthDate: null,
-            isLoaded: false,
-            interests: [],
-            error: undefined,
-            selectedInterests: []
+            error: undefined
         };
     }
 
@@ -28,34 +25,10 @@ export class AccountForm extends React.Component {
         this.setState(() => ({ calendarFocused: focused }));
     };
 
-    componentDidMount() {
-        API.get("interests/").then(
-            (result) => {
-                const interests = result.data.map((interest) => {
-                    return { value: interest.interest_tag, label: interest.interest_tag };
-                });
-                this.setState({
-                    isLoaded: true,
-                    interests: interests
-                });
-            },
-
-            (error) => {
-                this.setState({
-                    isLoaded: true,
-                    error
-                });
-            }
-        );
-    }
-
     onSubmit = (e) => {
         e.preventDefault();
         this.props.onSubmit({
             formInput: e.target,
-            interests: this.state.selectedInterests.map((interest) => {
-                return interest.value;
-            }),
             birthDate: this.state.birthDate
         });
     };

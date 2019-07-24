@@ -3,19 +3,19 @@ import { editEvent } from "../../actions/events";
 import { getCurrentUser } from "../../actions/auth";
 import EventForm from "../forms/EventForm";
 import { connect } from "react-redux";
-import { startGetPost, clearPosts } from "../../actions/posts";
 import { startSetEvent, clearEvents, deleteEvent, restoreEvent } from "../../actions/events";
+import MessageModal from "../modals/MessageModal";
 
 class EditEventPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            step: "Event"
+            step: "Event",
+            openMessageModal: false
         };
     }
 
     componentWillMount() {
-        this.props.clearPosts();
         this.props.clearEvents();
         const event_id = this.props.match.params.event_id;
         getCurrentUser()
@@ -23,19 +23,12 @@ class EditEventPage extends React.Component {
                 this.props
                     .startSetEvent(event_id)
                     .then((event_res) => {
-                        this.props
-                            .startGetPost(event_res.data.post)
-                            .then((post_res) => {
-                                if (res.data.username !== post_res.data[0].user) {
-                                    this.props.history.push(`/myChannels`);
-                                }
-                            })
-                            .catch((err) => {
-                                console.log(err);
-                                console.log(JSON.stringify(err, null, 2));
-                            });
+                        if (event_res.data.event_owner !== res.data.username) {
+                            this.props.history.push(`/myChannels`);
+                        }
                     })
                     .catch((err) => {
+                        console.log(err);
                         console.log(JSON.stringify(err, null, 2));
                     });
             })
@@ -43,6 +36,12 @@ class EditEventPage extends React.Component {
                 console.log(JSON.stringify(err, null, 2));
             });
     }
+
+    closeMessageModal = () => {
+        this.setState(() => {
+            return { openMessageModal: false };
+        });
+    };
 
     onSubmit = (updates) => {
         const event_id = this.props.match.params.event_id;
@@ -53,6 +52,10 @@ class EditEventPage extends React.Component {
             .then((res) => this.props.history.push(`/myPosts/${post_id}/events`))
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
+                // dispaly error message
+                this.setState(() => {
+                    return { openMessageModal: true };
+                });
             });
     };
 
@@ -101,16 +104,14 @@ class EditEventPage extends React.Component {
     };
 
     render() {
-        const event = this.props.event;
-        const post = this.props.post;
+        const event = !Array.isArray(this.props.event) && this.props.event;
         const read_only_past_event = !!event ? (new Date(event.planned_end_date) < new Date() ? true : false) : true;
-        const post_read_only = !!post && post.deleted_flag;
+        const post_read_only = !!event && event.post_deleted_flag;
         const event_read_only = !!event && event.deleted_flag;
         const read_only = read_only_past_event || post_read_only || event_read_only;
 
         return (
-            !!event &&
-            !!post && (
+            !!event && (
                 <div>
                     <div className="page-header">
                         <div className="content-container">
@@ -173,28 +174,30 @@ class EditEventPage extends React.Component {
                             post={this.props.match.params.id}
                         />
                     </div>
+                    <MessageModal
+                        isOpen={this.state.openMessageModal}
+                        message="An error has ocured with editing your event. Please refresh the page and try again."
+                        closeMessageModal={this.closeMessageModal}
+                    />
                 </div>
             )
         );
     }
 }
 
-const mapStateToprops = (state) => ({
-    post: state.posts.posts[0],
-    event: state.events.events.length !== 0 ? state.events.events : null
+const mapStateToProps = (state) => ({
+    event: !!state.events.events && state.events.events
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    clearPosts: () => dispatch(clearPosts()),
     clearEvents: () => dispatch(clearEvents()),
     editEvent: (id, updates) => dispatch(editEvent(id, updates)),
-    startGetPost: (id) => dispatch(startGetPost(id)),
     startSetEvent: (id) => dispatch(startSetEvent(id)),
     restoreEvent: (id) => dispatch(restoreEvent(id)),
     deleteEvent: (id) => dispatch(deleteEvent(id))
 });
 
 export default connect(
-    mapStateToprops,
+    mapStateToProps,
     mapDispatchToProps
 )(EditEventPage);

@@ -10,6 +10,11 @@
     text-decoration: none;
 }
 
+.button:disabled {
+    background: $grey;
+    color: $dark-grey;
+}
+
 .button--centered {
     @extend .button;
     display: block;

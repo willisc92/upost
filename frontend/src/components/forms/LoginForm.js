@@ -30,7 +30,7 @@ export class LoginForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                {!!this.props.error && <p className="form__error">Request failed.</p>}
+                {!!this.props.error && <p className="form__error">{this.props.error.error}</p>}
                 <input
                     className="text-input"
                     type="text"

@@ -192,7 +192,7 @@ export const deleteChannel = (id) => {
             dispatch(channelStart());
             const updates = {
                 deleted_flag: true,
-                deletion_date: moment().format("YYYY-MM-DD")
+                deletion_date: moment().toDate()
             };
             API.patch(`channels/${id}/`, updates)
                 .then((result) => {
@@ -224,6 +224,29 @@ export const restoreChannel = (id) => {
             API.patch(`channels/${id}/`, updates)
                 .then((result) => {
                     dispatch(channelSuccess());
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(channelFail(err));
+                    reject(err);
+                });
+        });
+    };
+};
+
+/**
+ * getSubscriptions
+ * action dispatcher - Gets channels user is subscribed to
+ * @returns {Promise} to be handled
+ */
+export const getSubscriptions = () => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(channelStart());
+            API.get("my_subscriptions/")
+                .then((result) => {
+                    dispatch(channelSuccess());
+                    dispatch(setChannels(result.data));
                     resolve(result);
                 })
                 .catch((err) => {

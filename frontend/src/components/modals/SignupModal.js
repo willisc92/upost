@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import Modal from "react-modal";
 import AccountForm from "../forms/AccountForm";
 import emailValidator from "email-validator";
-import { authFail, authSignup, authLogin } from "../../actions/auth";
+import { authFail, authSignup, authLogin, resendActivationEmail } from "../../actions/auth";
 
 class SignupModal extends React.Component {
     constructor(props) {
@@ -88,6 +88,10 @@ class SignupModal extends React.Component {
             });
     };
 
+    resendEmail = () => {
+        resendActivationEmail();
+    };
+
     render() {
         return (
             <Modal
@@ -108,7 +112,10 @@ class SignupModal extends React.Component {
                     <div>
                         <p className="modal__text">A confirmation email has been sent.</p>
                         <p className="modal__text">
-                            Please check your email to proceed. If no message appears please check your spam inbox
+                            Please check your email to proceed. If no message appears please check your spam inbox.
+                        </p>
+                        <p className="modal__text">
+                            click <span onClick={this.resendEmail}>here</span> to resend the email.
                         </p>
                     </div>
                 ) : (

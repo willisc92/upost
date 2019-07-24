@@ -10,7 +10,8 @@ class IncentiveSerializer(serializers.ModelSerializer):
 
     post = serializers.PrimaryKeyRelatedField(
         read_only=False, many=False, queryset=Post.objects.all(), allow_null=True)
-    event = serializers.PrimaryKeyRelatedField(read_only=False, many=False, queryset=PostEvent.objects.all(), allow_null=True)
+    event = serializers.PrimaryKeyRelatedField(read_only=False, many=False, queryset=PostEvent.objects.all(),
+        allow_null=True)
     diet_option = serializers.PrimaryKeyRelatedField(
         many=True, queryset=DietOption.objects.all(), required=False)
     incentive_type = serializers.PrimaryKeyRelatedField(

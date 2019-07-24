@@ -40,7 +40,7 @@ export const startSetEvent = (id) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
             dispatch(eventStart());
-            API.get(`events/${id}`)
+            API.get(`events/${id}/`)
                 .then((result) => {
                     dispatch(eventSuccess());
                     dispatch(setEvents(result.data));
@@ -159,7 +159,7 @@ export const deleteEvent = (id) => {
             dispatch(eventStart());
             const updates = {
                 deleted_flag: true,
-                deletion_date: moment().format("YYYY-MM-DD")
+                deletion_date: moment().toDate()
             };
             API.patch(`events/${id}/`, updates)
                 .then((result) => {
@@ -211,6 +211,75 @@ export const getFreeFoodEvents = () => {
         return new Promise((resolve, reject) => {
             dispatch(eventStart());
             API.get(`free-food/`)
+                .then((result) => {
+                    dispatch(eventSuccess());
+                    dispatch(setEvents(result.data));
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(eventFail(err));
+                    reject(err);
+                });
+        });
+    };
+};
+
+/**
+ * getAttendingEvents
+ * action dispatcher
+ * @returns {Promise} to be handled
+ */
+export const getAttendingEvents = () => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(eventStart());
+            API.get(`events-attending/`)
+                .then((result) => {
+                    dispatch(eventSuccess());
+                    dispatch(setEvents(result.data));
+                    resolve(result);
+                })
+                .catch((err) => {
+                    dispatch(eventFail(err));
+                    reject(err);
+                });
+        });
+    };
+};
+
+/**
+ * DECREMENT_CAPACITY_STATUS.
+ * action generator.
+ *
+ * @param {Object} event The event to decrement the capacity status for
+ */
+export const decrementCapacityStatus = (event) => ({
+    type: "DECREMENT_CAPACITY_STATUS",
+    event: { ...event, capacity_status: event.capacity_status - 1 }
+});
+
+/**
+ * INCREMENT_CAPACITY_STATUS.
+ * action generator.
+ *
+ * @param {Object} event The event to increment the capacity status for
+ */
+export const incrementCapacityStatus = (event) => ({
+    type: "INCREMENT_CAPACITY_STATUS",
+    event: { ...event, capacity_status: event.capacity_status + 1 }
+});
+
+/**
+ * searchEvents
+ * action dispatcher - searches for posts
+ * @param {string} text - text to search posts by
+ * @returns {Promise} to be handled
+ */
+export const searchEvents = (text) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            dispatch(eventStart());
+            API.get(`events/?search=${text}`)
                 .then((result) => {
                     dispatch(eventSuccess());
                     dispatch(setEvents(result.data));

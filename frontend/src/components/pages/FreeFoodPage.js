@@ -1,8 +1,11 @@
 import { getFreeFoodEvents } from "../../actions/events";
+import { setHasIncentiveFilter, setIncentiveTypeFilter, setDietOptionsFilter } from "../../actions/event_filters";
 import React from "react";
 import { connect } from "react-redux";
 import EventSummary from "../MyEventSummary";
 import { Link } from "react-router-dom";
+import EventFilterSelector from "../filter_selectors/EventFilterSelector";
+import { getVisibleEvents } from "../../selectors/myEvents";
 
 export class FreeFoodPage extends React.Component {
     constructor(props) {
@@ -10,23 +13,35 @@ export class FreeFoodPage extends React.Component {
     }
 
     componentDidMount() {
-        this.props
-            .getFreeFoodEvents()
-            .then(() => {})
-            .catch((err) => console.log(JSON.stringify(err, null, 2)));
+        let promises = [];
+        promises.push(this.props.setHasIncentiveFilter("all"));
+        promises.push(this.props.setIncentiveTypeFilter("Food"));
+        promises.push(this.props.setDietOptionsFilter(""));
+
+        Promise.all(promises)
+            .then(() => {
+                this.props
+                    .getFreeFoodEvents()
+                    .then(() => {})
+                    .catch((err) => console.log(err));
+            })
+            .catch((err) => console.log(err));
     }
 
     render() {
-        const events = !!this.props.events && this.props.events;
-
+        const events = !!this.props.events && getVisibleEvents(this.props.events, this.props.filters, false);
         return (
             events && (
                 <div>
                     <div className="page-header">
                         <div className="content-container">
                             <h1 className="page-header__title">Ongoing/Future Free Food Events in Your Communities</h1>
+                            <div className="page-header__actions">
+                                <EventFilterSelector foodSpecific={true} />
+                            </div>
                         </div>
                     </div>
+
                     <div className="content-container">
                         <div className="polaroid__container">
                             {events.length > 0 ? (
@@ -60,11 +75,15 @@ export class FreeFoodPage extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    events: state.events.events
+    events: state.events.events,
+    filters: state.eventFilters
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    getFreeFoodEvents: () => dispatch(getFreeFoodEvents())
+    getFreeFoodEvents: () => dispatch(getFreeFoodEvents()),
+    setHasIncentiveFilter: (hasIncentive) => dispatch(setHasIncentiveFilter(hasIncentive)),
+    setIncentiveTypeFilter: (incentiveType) => dispatch(setIncentiveTypeFilter(incentiveType)),
+    setDietOptionsFilter: (dietOption) => dispatch(setDietOptionsFilter(dietOption))
 });
 
 export default connect(

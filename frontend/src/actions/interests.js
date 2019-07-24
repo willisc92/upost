@@ -2,6 +2,19 @@ import API from "../utils/API";
 import { getCurrentUser } from "./auth";
 
 /**
+ * SET_INTERESTS.
+ * action generator.
+ * adds the interest options to the store.
+ *
+ * @param {string[]} interests interest to store
+ * @returns {Object} object to set interests
+ */
+export const setInterests = (interests) => ({
+    type: "SET_INTERESTS",
+    interests
+});
+
+/**
  * SET_USER_INTERESTS.
  * action generator.
  * adds the user's interests to the store.
@@ -43,19 +56,6 @@ export const startSetUserInterests = () => {
 };
 
 /**
- * EDIT_USER_INTERESTS.
- * action generator.
- * updates the store with the changed user interests.
- *
- * @param {string[]} userInterests edited interests
- * @returns {Object} object to update interests
- */
-export const editUserInterests = (userInterests) => ({
-    type: "EDIT_USER_INTERESTS",
-    userInterests
-});
-
-/**
  * START_EDIT_USER_INTERESTS.
  * sends put request to API with updated user interests.
  * upon sucessful put saves edited interests to store.
@@ -72,7 +72,7 @@ export const startEditUserInterests = (userInterests) => {
                         interests: userInterests
                     })
                         .then((result) => {
-                            dispatch(editUserInterests(userInterests));
+                            dispatch(setUserInterests(userInterests));
                             resolve(true);
                         })
                         .catch((error) => {
@@ -98,7 +98,7 @@ export const getAllInterests = () => {
         return new Promise((resolve, reject) => {
             API.get(`interests/`)
                 .then((result) => {
-                    dispatch(setUserInterests(result.data));
+                    dispatch(setInterests(result.data));
                     resolve(true);
                 })
                 .catch((error) => {
@@ -108,13 +108,3 @@ export const getAllInterests = () => {
         });
     };
 };
-
-/**
- * CLEAR_INTERESTS.
- * Dispatches clear interest action.
- *
- * @returns {Object} to clear interests.
- */
-export const clearInterests = () => ({
-    type: "CLEAR_INTERESTS"
-});

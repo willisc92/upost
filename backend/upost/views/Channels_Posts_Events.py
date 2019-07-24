@@ -1,5 +1,5 @@
 from rest_framework import generics, viewsets
-from ..models import ContentChannel, Post, PostEvent, Interest, CustomUser, Community
+from ..models import ContentChannel, Post, PostEvent, Interest, CustomUser, Community, Attend, Subscribe
 from ..serializers import *
 
 from rest_framework import permissions
@@ -37,13 +37,10 @@ class Post_View(viewsets.ModelViewSet):
                         'community', 'deleted_flag',)
     filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
     search_fields = ('post_title', 'post_description',
-                     'tags__interest_tag', 'community__community_name',)
+                     'tags__interest_tag', 'community__community_name', 'post_incentive__incentive_type__incentive_name', 'post_incentive__ip_description')
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
-    # def put(self, request, *args, **kwargs):
-    #     return self.partial_update(request, *args, **kwargs)
 
     permission_classes = (
         permissions.IsAuthenticated, IsOwnerOrReadOnly,)
@@ -54,11 +51,19 @@ class Random_Post_view(viewsets.ModelViewSet):
     queryset = Post.objects.all()
 
     def get_queryset(self):
+        communities = None
+        if self.request.user.pk:
+            user = CustomUser.objects.get(pk=self.request.user.pk)
+            communities = Community.objects.filter(community_users=user)
         queryset = self.queryset
         interest_param = self.request.query_params.get('interest')
         if interest_param is not None:
-            queryset = queryset.filter(tags__interest_tag=interest_param).order_by('?')[
-                :4]  # get 4 objects
+            if communities is None:
+                queryset = queryset.filter(tags__interest_tag=interest_param).order_by('?')[
+                    :4]  # get 4 objects
+            else:
+                queryset = queryset.filter(tags__interest_tag=interest_param, community__in=communities.all()).order_by('?')[
+                    :4]  # get 4 objects
         return queryset
 
 
@@ -66,11 +71,36 @@ class Event_View(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     queryset = PostEvent.objects.all()
     filterset_class = EventFilter
-
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
+    search_fields = ('event_title', 'event_description',
+                     'post__tags__interest_tag', 'event_incentive__incentive_type__incentive_name',
+                     'event_incentive__ip_description', 'post__community__community_name',)
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
         EventAccessPermission,
     )
+
+    def partial_update(self, request, pk=None):
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        if 'capacity' in request.data and serializer.get_capacity_status(instance) > int(request.data['capacity']):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
+
+    def update(self, request, pk=None):
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if serializer.get_capacity_status(instance) > int(request.data['capacity']):
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            serializer.save()
+            return Response(status=status.HTTP_202_ACCEPTED)
 
 
 class Free_Food_Event_View(generics.ListAPIView):
@@ -152,4 +182,37 @@ class Community_Post_view(generics.ListAPIView):
         communities = Community.objects.filter(community_users=user)
         queryset = Post.objects.filter(
             community__in=communities.all())
+        return queryset
+
+
+class Attending_Events_View(generics.ListAPIView):
+    serializer_class = EventSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    # Returns events that user is attending.
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        attends = Attend.objects.filter(attendee=user)
+        queryset = PostEvent.objects.filter(
+            event_to_attend__in=attends.all())
+        return queryset
+
+
+class MySubscriptions_View(generics.ListAPIView):
+    serializer_class = ContentChannelSerializer
+
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+    )
+
+    # Returns channels that user is subscribed to.
+    def get_queryset(self):
+        user = CustomUser.objects.get(pk=self.request.user.pk)
+        subscribes = Subscribe.objects.filter(
+            community_member=user, unsubscribe_date__isnull=True)
+        queryset = ContentChannel.objects.filter(
+            channel_subscription__in=subscribes.all())
         return queryset

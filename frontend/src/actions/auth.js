@@ -90,7 +90,7 @@ export const authLogin = (username, password) => {
                         });
                 })
                 .catch((err) => {
-                    dispatch(authFail(err));
+                    dispatch(authFail({ error: err.response.data.error_description }));
                     reject(err);
                 });
         });
@@ -102,22 +102,19 @@ export const authSignup = (user) => {
         return new Promise((resolve, reject) => {
             API.post("accounts/", user)
                 .then((res) => {
-                    // const token = res.data.token;
-                    // const expirationDate = moment() + 3600 * 1000;
-                    // localStorage.setItem("token", token);
-                    // localStorage.setItem("first_name", res.data.first_name);
-                    // localStorage.setItem("last_name", res.data.last_name);
-                    // localStorage.setItem("user_id", res.data.user_id);
-                    // localStorage.setItem("expirationDate", expirationDate);
-                    // localStorage.setItem("user_name", res.data.username);
-                    // setAuthToken(token);
-                    // dispatch(authSuccess(token));
-                    // dispatch(checkAuthTimeout(3600));
+                    localStorage.setItem("username", user.username);
                     resolve(res);
                 })
                 .catch((error) => {
-                    dispatch(authFail(error.response.request.response));
-                    reject(error.response.request.response);
+                    let message = error.response.data;
+                    if (!!message.non_field_errors) {
+                        message = { email: ["A user with that email already exists"] };
+                        dispatch(authFail(message));
+                        reject(message);
+                    } else {
+                        dispatch(authFail(message));
+                        reject(message);
+                    }
                 });
         });
     };
@@ -138,4 +135,40 @@ export const authCheckState = () => {
             dispatch(logout());
         }
     };
+};
+
+export const passwordResetRequest = (email) => {
+    return new Promise((resolve, reject) => {
+        API.post("password_reset/", {
+            email
+        })
+            .then((result) => {
+                localStorage.setItem("email", email);
+                resolve(result);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+
+export const passwordResetConfirm = (token, password) => {
+    return new Promise((resolve, reject) => {
+        API.post("password_reset/confirm/", {
+            token,
+            password
+        })
+            .then((result) => {
+                resolve(result);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+};
+
+export const resendActivationEmail = () => {
+    API.get("activation-email/", {
+        params: { username: localStorage.getItem("username") }
+    });
 };

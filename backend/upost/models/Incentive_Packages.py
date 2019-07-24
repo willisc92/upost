@@ -35,9 +35,9 @@ class IncentivePackage(models.Model):
     diet_option = models.ManyToManyField(
         "upost.DietOption", db_table='incentive_package_diet_option'
     )
-    creation_date = models.DateField(
+    creation_date = models.DateTimeField(
         db_column='Creation_Date', auto_now_add=True)
-    deletion_date = models.DateField(
+    deletion_date = models.DateTimeField(
         db_column='Deletion_Date', blank=True, null=True)
     deleted_flag = models.BooleanField(
         db_column='Deleted_Flag', default=False, blank=True)
@@ -53,6 +53,7 @@ class IncentivePackage(models.Model):
 class IncentiveChoice(models.Model):
     incentive_name = models.CharField(
         db_column='incentive_name', primary_key=True, max_length=100)
+    incentive_image = models.ImageField(upload_to='incentives', null=True)
 
     class Meta:
         db_table = 'incentive_type'

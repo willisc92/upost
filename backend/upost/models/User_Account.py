@@ -10,6 +10,7 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+from django.core.exceptions import NON_FIELD_ERRORS
 
 
 class CustomUser(AbstractUser):
@@ -45,6 +46,7 @@ class CustomUser(AbstractUser):
 
     class Meta:
         db_table = 'CustomUser'
+        unique_together = ('email',)
 
     def calculate_avg_rating(self):
         return self.user_posts.post_event.ratings.all().aggregate(Avg('event_rating'))

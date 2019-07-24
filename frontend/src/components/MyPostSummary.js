@@ -2,9 +2,19 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 
-export const MyPostSummary = ({ post, pathName, selected, readOnly, inHorizontalMenu }) => {
+export const MyPostSummary = ({
+    post,
+    pathName,
+    selected,
+    readOnly,
+    inHorizontalMenu
+}) => {
     return (
-        <div className={inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""}>
+        <div
+            className={
+                inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""
+            }
+        >
             <Link
                 className={readOnly ? "polaroid__inactive" : "polaroid"}
                 to={{
@@ -13,19 +23,37 @@ export const MyPostSummary = ({ post, pathName, selected, readOnly, inHorizontal
                 }}
             >
                 <div className="polaroid__text-wrapper">
-                    <img className="polaroid__image" src={post.picture} />
-                    <h3 className="polaroid__title">
-                        {post.post_title}{" "}
-                        {post.deleted_flag && (
-                            <span className="polaroid__sub_title">
-                                {" "}
-                                (Deleted {moment(post.deletion_date).format("ddd, MMM D YYYY")})
-                            </span>
-                        )}
-                    </h3>
-                    <p className="polaroid__description">{post.post_description}</p>
+                    <img
+                        className="polaroid__image"
+                        src={
+                            !!post.picture
+                                ? post.picture
+                                : CDNLink + "/dist/images/polaroid_default.png"
+                        }
+                    />
+                    <h1 className="polaroid__title">{post.post_title} </h1>
+                    {post.deleted_flag && (
+                        <h2 className="polaroid__sub_title">
+                            {" "}
+                            (Deleted{" "}
+                            {moment(post.deletion_date).format(
+                                "ddd, MMM D YYYY"
+                            )}
+                            )
+                        </h2>
+                    )}
                     <p className="polaroid__description">
-                        Creation Date: {moment(post.post_timestamp).format("MMMM Do YYYY")}
+                        {post.post_description}
+                    </p>
+                    <h2 className="polaroid__sub_title">Created:</h2>
+                    <p className="polaroid__description">
+                        {moment(post.post_timestamp).format("MMMM Do YYYY")}
+                    </p>
+                    <h2 className="polaroid__sub_title">Updated:</h2>
+                    <p className="polaroid__description">
+                        {moment(post.last_updated).format(
+                            "MMMM Do YYYY, h:mm a"
+                        )}
                     </p>
                 </div>
             </Link>

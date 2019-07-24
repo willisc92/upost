@@ -5,7 +5,6 @@ import channelFiltersReducer from "../reducers/channel_filters";
 import channelsReducer from "../reducers/channels";
 import postFiltersReducer from "../reducers/post_filters";
 import eventFilterReducer from "../reducers/event_filters";
-import incentiveFiltersReducer from "../reducers/incentive_filters";
 import postReducer from "../reducers/posts";
 import eventReducer from "../reducers/events";
 import interestsReducer from "../reducers/interests";
@@ -19,27 +18,26 @@ import attendanceReducer from "../reducers/attendance";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default () => {
-  // Store creation
-  const store = createStore(
-    combineReducers({
-      auth: authReducer,
-      channelFilters: channelFiltersReducer,
-      postFilters: postFiltersReducer,
-      eventFilters: eventFilterReducer,
-      incentiveFilters: incentiveFiltersReducer,
-      channels: channelsReducer,
-      userInterests: interestsReducer,
-      posts: postReducer,
-      userCommunities: communityReducer,
-      events: eventReducer,
-      incentiveTypes: incentiveTypeReducer,
-      dietOptions: dietOptionsReducer,
-      incentivePackage: incentivePackageReducer,
-      subscriptions: subscriptionsReducer,
-      attendance: attendanceReducer
-    }),
-    composeEnhancers(applyMiddleware(thunk))
-  );
+    // Store creation
+    const store = createStore(
+        combineReducers({
+            auth: authReducer,
+            channelFilters: channelFiltersReducer,
+            postFilters: postFiltersReducer,
+            eventFilters: eventFilterReducer,
+            channels: channelsReducer,
+            interests: interestsReducer,
+            posts: postReducer,
+            communities: communityReducer,
+            events: eventReducer,
+            incentiveTypes: incentiveTypeReducer,
+            dietOptions: dietOptionsReducer,
+            incentivePackage: incentivePackageReducer,
+            subscriptions: subscriptionsReducer,
+            attendance: attendanceReducer
+        }),
+        composeEnhancers(applyMiddleware(thunk))
+    );
 
-  return store;
+    return store;
 };

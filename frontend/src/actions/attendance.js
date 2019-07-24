@@ -47,13 +47,16 @@ export const deleteAttendance = (event_id) => {
  */
 export const startDeleteAttendance = (event_id) => {
     return (dispatch) => {
-        API.delete("attendance/", { data: { event_id, attendee: localStorage.getItem("user_id") } })
-            .then(() => {
-                dispatch(deleteAttendance(event_id));
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        return new Promise((resolve, reject) => {
+            API.delete("attendance/", { data: { event_id, attendee: localStorage.getItem("user_id") } })
+                .then(() => {
+                    dispatch(deleteAttendance(event_id));
+                    resolve(true);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
     };
 };
 
@@ -77,12 +80,15 @@ export const addAttendance = (event_id) => {
  */
 export const startAddAttendance = (event_id) => {
     return (dispatch) => {
-        API.post("attendance/", { event: event_id, attendee: localStorage.getItem("user_id") })
-            .then(() => {
-                dispatch(addAttendance(event_id));
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        return new Promise((resolve, reject) => {
+            API.post("attendance/", { event: event_id, attendee: localStorage.getItem("user_id") })
+                .then(() => {
+                    dispatch(addAttendance(event_id));
+                    resolve(true);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
     };
 };

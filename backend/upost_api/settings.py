@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_rest_passwordreset',
     # 'rest_auth',
     # 'rest_framework.authtoken',
     'corsheaders',
@@ -57,7 +58,8 @@ INSTALLED_APPS = [
     'frontendapp',
     'oauth2_provider',
     'social_django',
-    'rest_framework_social_oauth2'
+    'rest_framework_social_oauth2',
+    'storages'
 ]
 
 SITE_ID = 1
@@ -92,19 +94,33 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'oauth2_provider.middleware.OAuth2TokenMiddleware'
-]
+if 'IS_CLOUD_DEPLOYMENT' in os.environ:
+    MIDDLEWARE = [
+        'corsheaders.middleware.CorsMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'oauth2_provider.middleware.OAuth2TokenMiddleware'
+    ]
+else:
+    MIDDLEWARE = [
+        'corsheaders.middleware.CorsMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'oauth2_provider.middleware.OAuth2TokenMiddleware'
+    ]
 
 AUTH_USER_MODEL = 'upost.CustomUser'
 
@@ -202,7 +218,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -257,4 +273,4 @@ else:
     except ImportError:
         raise Exception(
             "A local_settings.py file is required to run this project")
-    DOMAIN_NAME = 'localhost:8000'
+    DOMAIN_NAME = 'localhost:8080'

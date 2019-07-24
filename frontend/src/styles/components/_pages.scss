@@ -1,5 +1,8 @@
 .post-image {
     width: 100%;
+    object-fit: contain;
+    background: black;
+    max-height: 50rem;
 }
 
 .post-image:not([src]) {
@@ -42,4 +45,8 @@
 .post__link {
     text-decoration: none;
     color: inherit;
+}
+
+.warning_message {
+    color: $crimson-red;
 }

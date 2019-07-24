@@ -71,8 +71,8 @@ class Subscribe(models.Model):
         db_column='Subscription_Date', auto_now_add=True)
     unsubscribe_date = models.DateField(db_column='Unsubscribe_date', blank=True,
                                         null=True)  # Field name made lowercase.
-    channel = models.ForeignKey("upost.ContentChannel", models.DO_NOTHING,
-                                db_column='Channel_ID')  # Field name made lowercase.
+    channel = models.ForeignKey("upost.ContentChannel", models.CASCADE,
+                                db_column='Channel_ID', related_name="channel_subscription")  # Field name made lowercase.
     community_member = models.ForeignKey('upost.CustomUser', models.DO_NOTHING,
                                          db_column='Community_Member_ID')  # Field name made lowercase.
 

@@ -22,6 +22,7 @@ from upost.views.User_Event_Channel_Relations import SubscribeView, AttendView
 from django.conf import settings
 from django.conf.urls.static import static
 from frontendapp import urls as frontendapp_urls
+#from django.views.decorators.csrf import csrf_exempt
 
 router = routers.DefaultRouter()
 # naming scheme: register('link_name', viewSet, 'base_name')
@@ -60,8 +61,15 @@ urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + [
          name='random-post'),
     path('api/community-posts/', Community_Post_view.as_view(),
          name='community-posts'),
+    path('api/events-attending/', Attending_Events_View.as_view(),
+         name='events-attending'),
+    path('api/my_subscriptions/',
+         MySubscriptions_View.as_view(), name="my-subscriptions"),
     path('api/auth/', include('rest_framework_social_oauth2.urls')),
-    re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        activate, name='activate'),
+    re_path(r'^api/password_reset/',
+            include('django_rest_passwordreset.urls', namespace='password_reset')),
+    re_path(r'api/activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+            activate, name='activate'),
+    path('api/activation-email/', SendActivationEmailView.as_view(), name="activation_email"),
     re_path(r'', include(frontendapp_urls))
 ]

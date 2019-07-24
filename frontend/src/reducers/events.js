@@ -31,6 +31,16 @@ export default (state = eventsDefaultState, action) => {
                 error: null,
                 loading: false
             };
+        case "DECREMENT_CAPACITY_STATUS":
+            return {
+                ...state,
+                events: action.event
+            };
+        case "INCREMENT_CAPACITY_STATUS":
+            return {
+                ...state,
+                events: action.event
+            };
         default:
             return state;
     }

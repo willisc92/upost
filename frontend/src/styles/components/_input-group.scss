@@ -17,9 +17,10 @@
 
 .input-group__item {
     margin-bottom: $s-size;
+    padding-right: $s-size;
 
     @media (min-width: $desktop-breakpoint) {
-        margin: 0 $s-size 0 0;
+        margin: 0;
     }
 }
 
