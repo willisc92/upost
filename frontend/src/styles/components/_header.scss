@@ -6,11 +6,14 @@
     width: 100%;
     top: 0;
     align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .header__content {
     align-items: center;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     padding: $s-size 0;
 }
@@ -29,7 +32,11 @@
 }
 
 .header__logo_wrapper {
-    margin-left: 50px;
+    margin-left: 100px;
+    display: inline;
+}
+
+.header__logo_wrapper__no_margin {
     display: inline;
 }
 
