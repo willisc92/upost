@@ -10,5 +10,9 @@ export default createMuiTheme({
         secondary: {
             main: grey[700]
         }
+    },
+    typography: {
+        fontSize: 20,
+        fontFamilty: "Helvetica, Arial, sans-serif"
     }
 });
