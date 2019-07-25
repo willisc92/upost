@@ -8,7 +8,7 @@ export default createMuiTheme({
             main: red[900]
         },
         secondary: {
-            main: grey[700]
+            main: grey[300]
         }
     },
     typography: {

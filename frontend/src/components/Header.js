@@ -1,11 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { logout } from "../actions/auth";
 import SignupModal from "../components/modals/SignupModal";
 import LoginModal from "../components/modals/LoginModal";
-import SideBar from "../components/SideBar";
-import { SearchBar } from "../components/SearchBar";
+import Drawer from "./Drawer";
+import { SearchBar } from "./SearchBar";
+import { Button, AppBar } from "@material-ui/core";
+import { MyAccountMenu } from "./MyAccountMenu";
 
 class Header extends React.Component {
     constructor(props) {
@@ -64,84 +65,59 @@ class Header extends React.Component {
 
     render() {
         return (
-            <header className="header">
-                <div className="header__content">
-                    <div>
-                        <SideBar />
-                        <Link to="/" className="header__logo_wrapper">
-                            <img
-                                className="header__logo"
-                                src={CDNLink + "/dist/images/logo.png"}
-                            />
-                        </Link>
-                    </div>
-                    {!!this.props.token && (
-                        <SearchBar history={this.props.history} />
-                    )}
-                    {!!this.props.token ? (
-                        <div className="links">
-                            <button
-                                className="button button--link"
-                                onClick={() =>
-                                    this.props.history.push("/interests")
-                                }
-                            >
-                                My Interests
-                            </button>
-                            <button
-                                className="button button--link"
-                                onClick={() =>
-                                    this.props.history.push("/communities")
-                                }
-                            >
-                                My Communities
-                            </button>
-                            <Link
-                                className="header__logo_wrapper"
-                                to="/myChannels"
-                            >
-                                <img
-                                    className="header_mycontent_logo"
-                                    src={CDNLink + "/dist/images/mycontent.png"}
-                                />
-                            </Link>
-                            <button
-                                className="button button--link"
-                                onClick={this.props.logout}
-                            >
-                                Logout
-                            </button>
-                        </div>
-                    ) : (
+            <div className="header">
+                <AppBar position="static" color="primary">
+                    <div className="header__content">
                         <div>
-                            <button
-                                className="button button--link"
-                                onClick={this.handleLoginModalOpen}
-                            >
-                                Login
-                            </button>
-                            <button
-                                className="button button--link"
-                                onClick={this.handleSignupModalOpen}
-                            >
-                                Signup
-                            </button>
+                            <Drawer history={this.props.history} />
                         </div>
-                    )}
-                </div>
-                <SignupModal
-                    signupOpen={this.state.signupOpen}
-                    handleSignupClose={this.handleSignupModalClose}
-                    pageMove={this.moveToInterestPage}
-                    closeSignupOpenLoginModal={this.closeSignupOpenLoginModal}
-                />
-                <LoginModal
-                    loginOpen={this.state.loginOpen}
-                    handleLoginClose={this.handleLoginModalClose}
-                    closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
-                    handleSucessfulLogin={this.handleSucessfulLogin}
-                />
-            </header>
+                        {!!this.props.token && <SearchBar history={this.props.history} />}
+                        {!!this.props.token ? (
+                            <div>
+                                <Button
+                                    variant="text"
+                                    onClick={() => {
+                                        this.props.history.push("/myChannels");
+                                    }}
+                                >
+                                    <img
+                                        className="header_mycontent_logo"
+                                        src={CDNLink + "/dist/images/mycontent.png"}
+                                    />
+                                    My Content
+                                </Button>
+                                <MyAccountMenu history={this.props.history} />
+                                <Button variant="text" onClick={this.props.logout}>
+                                    <i className="material-icons">exit_to_app</i>
+                                    Logout
+                                </Button>
+                            </div>
+                        ) : (
+                            <div>
+                                <Button variant="text" onClick={this.handleLoginModalOpen}>
+                                    <i className="material-icons">exit_to_app</i> Login
+                                </Button>
+                                <Button variant="text" onClick={this.handleSignupModalOpen}>
+                                    <i className="material-icons">person_add</i>
+                                    Signup
+                                </Button>
+                            </div>
+                        )}
+                    </div>
+                    <SignupModal
+                        signupOpen={this.state.signupOpen}
+                        handleSignupClose={this.handleSignupModalClose}
+                        pageMove={this.moveToInterestPage}
+                        closeSignupOpenLoginModal={this.closeSignupOpenLoginModal}
+                    />
+                    <LoginModal
+                        loginOpen={this.state.loginOpen}
+                        handleLoginClose={this.handleLoginModalClose}
+                        closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
+                        handleSucessfulLogin={this.handleSucessfulLogin}
+                    />
+                </AppBar>
+            </div>
         );
     }
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import MessageModal from "./modals/MessageModal";
+import { Box, IconButton, Input } from "@material-ui/core";
 
 export class SearchBar extends React.Component {
     constructor(props) {
@@ -46,18 +47,21 @@ export class SearchBar extends React.Component {
                     closeMessageModal={this.closeMessageModal}
                     isOpen={this.state.message_rendered}
                 />
-                <form className="searchbar" onSubmit={this.onSubmit}>
-                    <input
-                        className="text-input"
-                        type="text"
-                        placeholder="Search"
-                        value={this.state.text}
-                        onChange={this.onTextChange}
-                    />
-                    <button className="button">
-                        <i className="material-icons">search</i>
-                    </button>
-                </form>
+                <Box bgcolor="white" pl={2} boxShadow={3}>
+                    <form onSubmit={this.onSubmit}>
+                        <Input
+                            type="search"
+                            placeholder="Search"
+                            disableUnderline
+                            value={this.state.text}
+                            onChange={this.onTextChange}
+                            style={{ width: 500 }}
+                        />
+                        <IconButton color="primary" type="submit">
+                            <i className="material-icons">search</i>
+                        </IconButton>
+                    </form>
+                </Box>
             </div>
         );
     }
