@@ -61,24 +61,10 @@ export class ChannelForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit}>
-                {/* <p className="form_error"> {this.props.error.channel_name[0]}</p> */}
-
                 {!!this.props.error && !!this.props.error.channel_name && (
                     <Typography color="error"> {this.props.error.channel_name[0]}</Typography>
                 )}
-                {this.state.error && <p className="form__error">{this.state.error}</p>}
-                {/* <div className="input-group__item">
-                    Channel Name:{" "}
-                    <input
-                        className="text-input"
-                        type="text"
-                        placeholder="Name"
-                        autoFocus
-                        value={this.state.channel_name}
-                        onChange={this.onNameChange}
-                        disabled={this.props.read_only}
-                    />
-                </div>{" "} */}
+                {this.state.error && <Typography color="error">{this.state.error}</Typography>}
                 <div className="input-group__item">
                     <TextField
                         label="Name"
@@ -91,15 +77,6 @@ export class ChannelForm extends React.Component {
                     />
                 </div>
                 <div className="input-group__item">
-                    {/* Channel Description:{" "}
-                    <textarea
-                        className="text-input"
-                        type="text"
-                        placeholder="Description"
-                        value={this.state.channel_description}
-                        onChange={this.onDescriptionChange}
-                        disabled={this.props.read_only}
-                    /> */}
                     <TextField
                         label="Description"
                         className="text-input"
@@ -111,7 +88,6 @@ export class ChannelForm extends React.Component {
                         multiline
                     />
                 </div>
-                {/* <div>{!this.props.read_only && <button className="button">Submit</button>}</div> */}
                 <div>
                     {!this.props.read_only && (
                         <Button color="primary" variant="contained" type="submit">
