@@ -36,6 +36,7 @@ import AccountActivationPage from "../components/pages/AccountActivationPage";
 import PasswordResetPage from "../components/pages/PasswordResetPage";
 import MyAttendingPage from "../components/pages/MyAttendingPage";
 import MySubscriptionsPage from "../components/pages/MySubscriptionsPage";
+import Overlay from "../components/Overlay";
 
 import { setAuthToken } from "../utils/API";
 
@@ -51,58 +52,67 @@ class AppRouter extends React.Component {
         return (
             <Router history={history}>
                 <div>
-                    <Header history={history} />
-                    <div className="contentBody">
-                        <Switch>
-                            <Route path="/" component={DashboardPage} exact={true} />
-                            <PrivateRoute path="/myChannels/" component={MyChannelsPage} exact={true} />
-                            <PrivateRoute path="/myChannels/:id" component={MyChannelDetail} exact={true} />
-                            <PrivateRoute path="/myChannels/:id/addPost" component={AddPostPage} exact={true} />
-                            <PrivateRoute path="/myPosts/:id/edit" component={EditPostPage} exact={true} />
-                            <PrivateRoute path="/post/:id" component={ViewPostPage} exact={true} />
-                            <PrivateRoute path="/post-events/:id" component={ViewPostEventsPage} exact={true} />
-                            <PrivateRoute path="/event/:id" component={ViewEventPage} exact={true} />
-                            <PrivateRoute path="/myChannels/edit/:id" component={EditChannelPage} exact={true} />
-                            <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
-                            <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
-                            />
-                            <PrivateRoute path="/communities" component={CommunitiesPage} exact={true} />
-                            <PrivateRoute path="/myPosts/:id/events" component={EditEventsPage} exact={true} />
-                            <PrivateRoute path="/myPosts/:id/addEvent" component={AddEventPage} exact={true} />
-                            <PrivateRoute path="/channel/:id/" component={ViewChannelPage} exact={true} />
-                            <PrivateRoute
-                                path="/myPosts/:id/events/:event_id/edit"
-                                component={EditEventPage}
-                                exact={true}
-                            />
-                            <PrivateRoute
-                                path="/myEvents/:id/addIncentive"
-                                component={AddEventIncentivePage}
-                                exact={true}
-                            />
-                            <PrivateRoute
-                                path="/myEvents/:id/editIncentive"
-                                component={EditEventIncentivePage}
-                                exact={true}
-                            />
-                            <PrivateRoute path="/myPosts/:id/addIncentive" component={AddIncentivePage} exact={true} />
-                            <PrivateRoute
-                                path="/myPosts/:id/editIncentive"
-                                component={EditIncentivePage}
-                                exact={true}
-                            />
-                            <PrivateRoute path="/searchResults/:text" component={SearchResultsPage} exact={true} />
-                            <PrivateRoute path="/myDeletedContent" component={DeletedContentPage} exact={true} />
-                            <PrivateRoute path="/food_mood" component={FreeFoodPage} exact={true} />
-                            <PrivateRoute path="/inspire_me" component={InspireMe} exact={true} />
-                            <PrivateRoute path="/community_posts" component={MyCommunityPosts} exact={true} />
-                            <PrivateRoute path="/my_attending" component={MyAttendingPage} exact={true} />
-                            <PrivateRoute path="/my_subscriptions" component={MySubscriptionsPage} exact={true} />
-                            <PublicRoute path="/activate/:uid/:token" component={AccountActivationPage} exact={true} />
-                            <PublicRoute path="/password_reset/:token" component={PasswordResetPage} exact={true} />
-                            <Route component={NotFoundPage} />
-                        </Switch>
-                    </div>
+                    <Overlay history={history}>
+                        <div className="contentBody">
+                            <Switch>
+                                <Route path="/" component={DashboardPage} exact={true} />
+                                <PrivateRoute path="/myChannels/" component={MyChannelsPage} exact={true} />
+                                <PrivateRoute path="/myChannels/:id" component={MyChannelDetail} exact={true} />
+                                <PrivateRoute path="/myChannels/:id/addPost" component={AddPostPage} exact={true} />
+                                <PrivateRoute path="/myPosts/:id/edit" component={EditPostPage} exact={true} />
+                                <PrivateRoute path="/post/:id" component={ViewPostPage} exact={true} />
+                                <PrivateRoute path="/post-events/:id" component={ViewPostEventsPage} exact={true} />
+                                <PrivateRoute path="/event/:id" component={ViewEventPage} exact={true} />
+                                <PrivateRoute path="/myChannels/edit/:id" component={EditChannelPage} exact={true} />
+                                <PrivateRoute path="/addChannel" component={AddChannelPage} exact={true} />
+                                <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
+                                />
+                                <PrivateRoute path="/communities" component={CommunitiesPage} exact={true} />
+                                <PrivateRoute path="/myPosts/:id/events" component={EditEventsPage} exact={true} />
+                                <PrivateRoute path="/myPosts/:id/addEvent" component={AddEventPage} exact={true} />
+                                <PrivateRoute path="/channel/:id/" component={ViewChannelPage} exact={true} />
+                                <PrivateRoute
+                                    path="/myPosts/:id/events/:event_id/edit"
+                                    component={EditEventPage}
+                                    exact={true}
+                                />
+                                <PrivateRoute
+                                    path="/myEvents/:id/addIncentive"
+                                    component={AddEventIncentivePage}
+                                    exact={true}
+                                />
+                                <PrivateRoute
+                                    path="/myEvents/:id/editIncentive"
+                                    component={EditEventIncentivePage}
+                                    exact={true}
+                                />
+                                <PrivateRoute
+                                    path="/myPosts/:id/addIncentive"
+                                    component={AddIncentivePage}
+                                    exact={true}
+                                />
+                                <PrivateRoute
+                                    path="/myPosts/:id/editIncentive"
+                                    component={EditIncentivePage}
+                                    exact={true}
+                                />
+                                <PrivateRoute path="/searchResults/:text" component={SearchResultsPage} exact={true} />
+                                <PrivateRoute path="/myDeletedContent" component={DeletedContentPage} exact={true} />
+                                <PrivateRoute path="/food_mood" component={FreeFoodPage} exact={true} />
+                                <PrivateRoute path="/inspire_me" component={InspireMe} exact={true} />
+                                <PrivateRoute path="/community_posts" component={MyCommunityPosts} exact={true} />
+                                <PrivateRoute path="/my_attending" component={MyAttendingPage} exact={true} />
+                                <PrivateRoute path="/my_subscriptions" component={MySubscriptionsPage} exact={true} />
+                                <PublicRoute
+                                    path="/activate/:uid/:token"
+                                    component={AccountActivationPage}
+                                    exact={true}
+                                />
+                                <PublicRoute path="/password_reset/:token" component={PasswordResetPage} exact={true} />
+                                <Route component={NotFoundPage} />
+                            </Switch>
+                        </div>
+                    </Overlay>
                 </div>
             </Router>
         );
