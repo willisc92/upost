@@ -4,6 +4,8 @@ import Modal from "react-modal";
 import AccountForm from "../forms/AccountForm";
 import emailValidator from "email-validator";
 import { authFail, authSignup, authLogin, resendActivationEmail } from "../../actions/auth";
+import { WhiteRedButton } from "../Buttons";
+import Typography from "@material-ui/core/Typography";
 
 class SignupModal extends React.Component {
     constructor(props) {
@@ -104,19 +106,27 @@ class SignupModal extends React.Component {
                 <div className="modal__header">
                     <img className="modal__logo" src={CDNLink + "/dist/images/logo.png"} />
                     <div>
-                        <p className="modal__header__label">Create Your U-post Account</p>
-                        <p className="modal__header__sublabel">to continue</p>
+                        <Typography variant="h6" style={{ textAlign: "left" }}>
+                            Create Your U-Post Account
+                        </Typography>
+                        <Typography variant="h6" style={{ textAlign: "left" }}>
+                            to continue
+                        </Typography>
                     </div>
                 </div>
                 {this.state.successfulCreation ? (
                     <div>
-                        <p className="modal__text">A confirmation email has been sent.</p>
-                        <p className="modal__text">
+                        <Typography>A confirmation email has been sent.</Typography>
+                        <Typography>
                             Please check your email to proceed. If no message appears please check your spam inbox.
-                        </p>
-                        <p className="modal__text">
-                            click <span onClick={this.resendEmail}>here</span> to resend the email.
-                        </p>
+                        </Typography>
+                        <Typography>
+                            click{" "}
+                            <Typography color="primary" component="span" onClick={this.resendEmail}>
+                                here
+                            </Typography>{" "}
+                            to resend the email.
+                        </Typography>
                     </div>
                 ) : (
                     <div>
@@ -126,12 +136,12 @@ class SignupModal extends React.Component {
                             id="signup"
                         />
                         <div className="modal__buttons">
-                            <button className="button modal__button" type="submit" form="signup">
+                            <WhiteRedButton className="button modal__button" type="submit" form="signup">
                                 Sign Up
-                            </button>
-                            <button className="button" onClick={this.props.closeSignupOpenLoginModal}>
+                            </WhiteRedButton>
+                            <WhiteRedButton className="button" onClick={this.props.closeSignupOpenLoginModal}>
                                 Login instead
-                            </button>
+                            </WhiteRedButton>
                         </div>
                     </div>
                 )}

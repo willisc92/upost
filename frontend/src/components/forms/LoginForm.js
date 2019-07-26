@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { authLogin } from "../../actions/auth";
+import TextField from "@material-ui/core/TextField";
 
 export class LoginForm extends React.Component {
     constructor(props) {
@@ -31,20 +32,23 @@ export class LoginForm extends React.Component {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 {!!this.props.error && <p className="form__error">{this.props.error.error}</p>}
-                <input
-                    className="text-input"
-                    type="text"
-                    placeholder="Username"
+                <TextField
+                    label="Username"
+                    color="primary"
+                    variant="outlined"
+                    margin="normal"
                     autoFocus
                     value={this.state.username}
                     onChange={this.onUserNameChange}
                 />
-                <input
-                    className="text-input"
+                <TextField
+                    label="Password"
+                    color="primary"
+                    variant="outlined"
+                    margin="normal"
                     type="password"
                     value={this.state.password}
                     onChange={this.onPasswordChange}
-                    placeholder="Password"
                 />
             </form>
         );

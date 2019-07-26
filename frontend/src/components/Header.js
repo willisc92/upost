@@ -6,6 +6,7 @@ import LoginModal from "./modals/LoginModal";
 import { SearchBar } from "./SearchBar";
 import { Button, AppBar } from "@material-ui/core";
 import { MyAccountMenu } from "./MyAccountMenu";
+import { WhiteButton } from "../components/Buttons";
 
 class Header extends React.Component {
     constructor(props) {
@@ -68,7 +69,7 @@ class Header extends React.Component {
                 {!!this.props.token && <SearchBar history={this.props.history} />}
                 {!!this.props.token ? (
                     <div>
-                        <Button
+                        <WhiteButton
                             variant="text"
                             onClick={() => {
                                 this.props.history.push("/myChannels");
@@ -76,22 +77,22 @@ class Header extends React.Component {
                         >
                             <img className="header_mycontent_logo" src={CDNLink + "/dist/images/mycontent.png"} />
                             My Content
-                        </Button>
+                        </WhiteButton>
                         <MyAccountMenu history={this.props.history} />
-                        <Button variant="text" onClick={this.props.logout}>
+                        <WhiteButton variant="text" onClick={this.props.logout}>
                             <i className="material-icons">exit_to_app</i>
                             Logout
-                        </Button>
+                        </WhiteButton>
                     </div>
                 ) : (
                     <div>
-                        <Button variant="text" onClick={this.handleLoginModalOpen}>
+                        <WhiteButton variant="text" onClick={this.handleLoginModalOpen}>
                             <i className="material-icons">exit_to_app</i> Login
-                        </Button>
-                        <Button variant="text" onClick={this.handleSignupModalOpen}>
+                        </WhiteButton>
+                        <WhiteButton variant="text" onClick={this.handleSignupModalOpen}>
                             <i className="material-icons">person_add</i>
                             Signup
-                        </Button>
+                        </WhiteButton>
                     </div>
                 )}
                 <SignupModal

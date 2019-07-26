@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import DatePicker from "react-date-picker";
-import API from "../../utils/API";
+import TextField from "@material-ui/core/TextField";
 
 export class AccountForm extends React.Component {
     constructor(props) {
@@ -45,11 +45,14 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <input
-                    type="text"
-                    className="text-input"
+                <TextField
+                    required
+                    label="Username (150 characters or fewer)"
+                    margin="normal"
+                    color="primary"
+                    variant="outlined"
+                    autoFocus
                     name="username"
-                    placeholder="Username* (150 characters or fewer)"
                 />
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.email &&
@@ -60,7 +63,15 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <input type="text" className="text-input" name="email" placeholder="Email*" />
+                <TextField
+                    required
+                    name="email"
+                    required
+                    label="Email*"
+                    margin="normal"
+                    color="primary"
+                    variant="outlined"
+                />
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.first_name &&
                     this.props.auth.error.first_name.map((error) => {
@@ -70,8 +81,15 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <input type="text" className="text-input" name="firstName" placeholder="First Name*" />
-                <input type="text" className="text-input" name="middleName" placeholder="Middle Name" />
+                <TextField
+                    required
+                    label="First Name"
+                    margin="normal"
+                    color="primary"
+                    variant="outlined"
+                    name="firstName"
+                />
+                <TextField label="Middle Name" margin="normal" color="primary" variant="outlined" name="middleName" />
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.last_name &&
                     this.props.auth.error.last_name.map((error) => {
@@ -81,7 +99,14 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <input type="text" className="text-input" name="lastName" placeholder="Last Name*" />
+                <TextField
+                    required
+                    label="Last Name"
+                    margin="normal"
+                    color="primary"
+                    variant="outlined"
+                    name="lastName"
+                />
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.birth_date &&
                     this.props.auth.error.birth_date.map((error) => {
@@ -110,17 +135,23 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <input
+                <TextField
+                    required
                     type="password"
-                    className="text-input"
+                    label={`Password (At least ${this.props.minPasswordLength}) characters)`}
+                    margin="normal"
+                    color="primary"
+                    variant="outlined"
                     name="password"
-                    placeholder={`Password* (At least ${this.props.minPasswordLength} characters)`}
                 />
-                <input
+                <TextField
+                    required
                     type="password"
-                    className="text-input"
+                    label="Password Confirmation"
+                    margin="normal"
+                    color="primary"
+                    variant="outlined"
                     name="passwordConfirmation"
-                    placeholder="Password Confirmation*"
                 />
             </form>
         );
