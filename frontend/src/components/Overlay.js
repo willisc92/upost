@@ -193,7 +193,7 @@ export default (props) => {
                     <ListItem
                         button
                         onClick={() => {
-                            props.history.push("/community_my_subscriptions");
+                            props.history.push("/my_subscriptions");
                         }}
                     >
                         <ListItemIcon>
