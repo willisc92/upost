@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import { WhiteButton } from "../components/Buttons";
 
 export const MyAccountMenu = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -16,10 +17,10 @@ export const MyAccountMenu = (props) => {
 
     return (
         <React.Fragment>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+            <WhiteButton aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                 <i className="material-icons">perm_identity</i>
                 My Account
-            </Button>
+            </WhiteButton>
             <Menu id="simple-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
                 <MenuItem onClick={handleClose} disableGutters>
                     <Button variant="text" onClick={() => props.history.push("/interests")} fullWidth>

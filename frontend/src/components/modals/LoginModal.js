@@ -5,6 +5,8 @@ import RecoveryForm from "../forms/RecoveryForm";
 import { connect } from "react-redux";
 import { authFail, authLogin, passwordResetRequest } from "../../actions/auth";
 import emailValidator from "email-validator";
+import { WhiteRedButton } from "../Buttons";
+import Typography from "@material-ui/core/Typography";
 
 class LoginModal extends React.Component {
     constructor(props) {
@@ -76,53 +78,66 @@ class LoginModal extends React.Component {
                     <img className="modal__logo" src={CDNLink + "/dist/images/logo.png"} />
                     {this.state.passwordRecovery ? (
                         <div>
-                            <p className="modal__header__label">Find Your Email</p>
-                            <p className="modal__header__sublabel">Enter your account email</p>
+                            <Typography variant="h6" style={{ textAlign: "left" }}>
+                                Find Your Email
+                            </Typography>
+                            <Typography variant="h6" style={{ textAlign: "left" }}>
+                                Enter your account email
+                            </Typography>
                         </div>
                     ) : (
                         <div>
-                            <p className="modal__header__label">Login to Your U-post Account</p>
-                            <p className="modal__header__sublabel">to continue</p>
+                            <Typography variant="h6" style={{ textAlign: "left" }}>
+                                Login to your U-post Account
+                            </Typography>
+                            <Typography variant="h6" style={{ textAlign: "left" }}>
+                                to continue
+                            </Typography>
                         </div>
                     )}
                 </div>
                 {this.state.passwordRecovery ? (
                     this.state.passwordRecoveryEmailSent ? (
                         <div>
-                            <p className="modal__text">A recovery email has been sent.</p>
-                            <p className="modal__text">
+                            <Typography>A recovery email has been sent.</Typography>
+                            <Typography>
                                 Please check your email to proceed. If no message appears please check your spam inbox
-                            </p>
-                            <p className="modal__text">
-                                click <span onClick={this.resendEmail}>here</span> to resend the email.
-                            </p>
+                            </Typography>
+                            <Typography>
+                                click{" "}
+                                <Typography
+                                    onClick={this.resendEmail}
+                                    color="primary"
+                                    style={{ display: "inline-block" }}
+                                    component="span"
+                                >
+                                    here
+                                </Typography>{" "}
+                                to resend the email.
+                            </Typography>
                         </div>
                     ) : (
                         <div>
                             <RecoveryForm onSubmit={this.recoveryOnSubmit} id="recovery" />
-                            <p className="modal__text_button" onClick={this.changePasswordRecovery}>
-                                Return to Login
-                            </p>
+                            <Typography onClick={this.changePasswordRecovery}>Return to Login</Typography>
                             <div className="modal_buttons">
-                                <button className="button modal__button" type="submit" form="recovery">
+                                <WhiteRedButton className="button modal__button" type="submit" form="recovery">
                                     Send Email
-                                </button>
+                                </WhiteRedButton>
                             </div>
                         </div>
                     )
                 ) : (
                     <div>
                         <LoginForm onSubmit={this.loginOnSubmit} id="login" />
-                        <p className="modal__text_button" onClick={this.changePasswordRecovery}>
-                            Forgot Password?
-                        </p>
+                        <Typography onClick={this.changePasswordRecovery}>Forgot Password?</Typography>
                         <div className="modal__buttons">
-                            <button className="button modal__button" type="submit" form="login">
+                            <WhiteRedButton color="primary" type="submit" form="login">
                                 Login
-                            </button>
-                            <button className="button" onClick={this.props.closeLoginOpenSignupModal}>
+                            </WhiteRedButton>
+                            <WhiteRedButton className="button" onClick={this.props.closeLoginOpenSignupModal}>
                                 Create Account
-                            </button>
+                            </WhiteRedButton>
                         </div>
                     </div>
                 )}

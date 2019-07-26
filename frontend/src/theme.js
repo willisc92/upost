@@ -5,7 +5,7 @@ import grey from "@material-ui/core/colors/grey";
 export default createMuiTheme({
     palette: {
         primary: {
-            main: red[900]
+            main: "#ee0000"
         },
         secondary: {
             main: grey[300]

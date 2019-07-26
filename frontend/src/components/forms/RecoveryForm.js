@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import TextField from "@material-ui/core/TextField";
 
 export class LoginForm extends React.Component {
     constructor(props) {
@@ -24,10 +25,11 @@ export class LoginForm extends React.Component {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 {!!this.props.error && <p className="form__error">{this.props.error.error}</p>}
-                <input
-                    className="text-input"
-                    type="text"
-                    placeholder="Email"
+                <TextField
+                    label="Email"
+                    color="primary"
+                    variant="outlined"
+                    margin="normal"
                     autoFocus
                     value={this.state.email}
                     onChange={this.onEmailChange}
