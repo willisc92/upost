@@ -1,61 +1,47 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import {
+    PolaroidHeader,
+    PolaroidBody,
+    PolaroidSubHeader,
+    PolaroidImage,
+    useStyles
+} from "../components/PolaroidComponents";
 
-export const MyPostSummary = ({
-    post,
-    pathName,
-    selected,
-    readOnly,
-    inHorizontalMenu
-}) => {
+export const MyPostSummary = ({ post, pathName, selected, readOnly, inHorizontalMenu }) => {
+    const classes = useStyles();
+
     return (
-        <div
-            className={
-                inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""
-            }
-        >
+        <div className={inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""}>
             <Link
-                className={readOnly ? "polaroid__inactive" : "polaroid"}
+                className="link"
                 to={{
                     pathname: pathName,
                     state: { post }
                 }}
             >
-                <div className="polaroid__text-wrapper">
-                    <img
-                        className="polaroid__image"
-                        src={
-                            !!post.picture
-                                ? post.picture
-                                : CDNLink + "/dist/images/polaroid_default.png"
-                        }
-                    />
-                    <h1 className="polaroid__title">{post.post_title} </h1>
-                    {post.deleted_flag && (
-                        <h2 className="polaroid__sub_title">
-                            {" "}
-                            (Deleted{" "}
-                            {moment(post.deletion_date).format(
-                                "ddd, MMM D YYYY"
+                <Card className={classes.card}>
+                    <CardActionArea className={classes.cardActionArea}>
+                        <PolaroidImage image={post.picture} />
+                        <CardContent>
+                            <PolaroidHeader header={post.post_title} />
+                            {post.deleted_flag && (
+                                <PolaroidSubHeader
+                                    subheader={`(Deleted ${moment(post.deletion_date).format("ddd, MMM D YYYY")})`}
+                                />
                             )}
-                            )
-                        </h2>
-                    )}
-                    <p className="polaroid__description">
-                        {post.post_description}
-                    </p>
-                    <h2 className="polaroid__sub_title">Created:</h2>
-                    <p className="polaroid__description">
-                        {moment(post.post_timestamp).format("MMMM Do YYYY")}
-                    </p>
-                    <h2 className="polaroid__sub_title">Updated:</h2>
-                    <p className="polaroid__description">
-                        {moment(post.last_updated).format(
-                            "MMMM Do YYYY, h:mm a"
-                        )}
-                    </p>
-                </div>
+                            <PolaroidBody body={post.post_description} />
+                            <PolaroidSubHeader subheader="Created:" />
+                            <PolaroidBody body={moment(post.post_timestamp).format("MMMM Do YYYY")} />
+                            <PolaroidSubHeader subheader="Updated:" />
+                            <PolaroidBody body={moment(post.last_updated).format("MMMM Do YYYY, h:mm a")} />
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
             </Link>
         </div>
     );

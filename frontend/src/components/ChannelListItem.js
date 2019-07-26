@@ -1,35 +1,40 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import { PolaroidHeader, PolaroidBody, PolaroidSubHeader, useStyles } from "../components/PolaroidComponents";
 
 export const ChannelListItem = ({ channel, selected, pathName, inHorizontalMenu }) => {
+    const classes = useStyles();
+
     return (
         <div className={inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""}>
             <Link
-                className="polaroid"
+                className="link"
                 to={{
                     pathname: pathName,
                     state: { channel }
                 }}
             >
-                <div className="polaroid__text-wrapper">
-                    <h3 className="polaroid__title">
-                        {channel.channel_name}{" "}
-                        {channel.deleted_flag && (
-                            <span className="polaroid__sub_title">
-                                {" "}
-                                (Deleted {moment(channel.deletion_date).format("ddd, MMM D YYYY")})
-                            </span>
-                        )}
-                    </h3>
-                    <p className="polaroid__description">{channel.channel_description}</p>
-                    <h2 className="polaroid__sub_title">Created:</h2>
-                    <p className="polaroid__description">{moment(channel.creation_date).format("MMMM Do YYYY")}</p>
-                    <h2 className="polaroid__sub_title">Updated:</h2>
-                    <p className="polaroid__description">
-                        {moment(channel.last_updated).format("MMMM Do YYYY, h:mm a")}
-                    </p>
-                </div>
+                <Card className={classes.card}>
+                    <CardActionArea className={classes.cardActionArea}>
+                        <CardContent>
+                            <PolaroidHeader header={channel.channel_name} />
+                            {channel.deleted_flag && (
+                                <PolaroidSubHeader
+                                    subheader={`Deleted ${moment(channel.deletion_date).format("ddd, MMM D YYYY")}`}
+                                />
+                            )}
+                            <PolaroidBody body={channel.channel_description} />
+                            <PolaroidSubHeader subheader="Created:" />
+                            <PolaroidBody body={moment(channel.creation_date).format("MMMM Do YYYY")} />
+                            <PolaroidSubHeader subheader="Updated:" />
+                            <PolaroidBody body={moment(channel.last_updated).format("MMMM Do YYYY, h:mm a")} />
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
             </Link>
         </div>
     );

@@ -1,18 +1,17 @@
 .polaroid {
     float: left;
     position: relative;
-    cursor: pointer;
-    background: $light-grey;
-    padding: $s-size;
-    margin: $s-size;
-    width: 28rem;
-    color: $black;
-    border: 1px solid black;
-    text-decoration: None;
-    &:hover {
-        color: $red;
-        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
-    }
+    //cursor: pointer;
+    //background: $light-grey;
+    padding: $xs-size;
+    margin: $xs-size;
+    //color: $black;
+    //border: 1px solid black;
+    //text-decoration: None;
+    //&:hover {
+    //color: $red;
+    //box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+    //}
 }
 
 .polaroid__inactive {
@@ -27,9 +26,8 @@
 }
 
 .polaroid__text-wrapper:hover {
-    overflow: visible
+    overflow: visible;
 }
-
 
 .polaroid__title {
     font-weight: 600;
@@ -69,6 +67,7 @@
     width: 100%;
     padding: 0;
     margin: 0;
+    z-index: 1;
 }
 
 .polaroid__circle {
