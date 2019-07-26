@@ -7,6 +7,10 @@ import { getVisibleEvents } from "../../selectors/myEvents";
 import { deleteEvent, startGetEvent } from "../../actions/events";
 import moment from "moment";
 import MyEventSummary from "../MyEventSummary";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 class EditEventsPage extends React.Component {
     constructor(props) {
@@ -81,64 +85,74 @@ class EditEventsPage extends React.Component {
 
         return (
             !!events && (
-                <div>
-                    <div className="page-header">
-                        <div className="content-container">
-                            <h1 className="page-header__title">
-                                Add/Edit Events for <span>{this.props.post && this.props.post.post_title}</span>
-                            </h1>
+                <Box>
+                    <Box bgcolor="secondary.main" py={3}>
+                        <Container fixed>
+                            <Typography variant="h1" display="inline" gutterBottom>
+                                Events for:{" "}
+                            </Typography>
+                            <Typography variant="h1" display="inline" color="primary" gutterBottom>
+                                {this.props.post && this.props.post.post_title}
+                            </Typography>
                             {readOnly && (
-                                <div>
-                                    <h3 className="page-header__subtitle__red">
+                                <Box>
+                                    <Typography variant="h3" color="error" gutterBottom>
                                         Post Deletion Date:{" "}
-                                        {moment(this.props.post.deletion_date).format("MMMM Do YYYY")} - Restore the
-                                        Post To Add/Edit Events
-                                    </h3>
-                                    <button className="button" onClick={this.returnEditPosts}>
+                                        {moment(this.props.post.deletion_date).format("MMMM Do YYYY")}
+                                    </Typography>
+                                    <Typography variant="h3" color="error" gutterBottom>
+                                        {" "}
+                                        Restore the Post To Add/Edit Events
+                                    </Typography>
+                                    <Button color="primary" variant="contained" onClick={this.returnEditPosts}>
                                         Go to Post
-                                    </button>
-                                </div>
+                                    </Button>
+                                </Box>
                             )}
                             <div className="page-header__actions">
                                 <EventFilterSelector />
                             </div>
                             {!readOnly && (
                                 <div>
-                                    <button className="button" onClick={this.addNewEvent}>
+                                    <Button color="primary" variant="contained" onClick={this.addNewEvent}>
                                         Add an Event
-                                    </button>{" "}
-                                    <button className="button" onClick={this.returnEditPosts}>
+                                    </Button>{" "}
+                                    <Button color="primary" variant="contained" onClick={this.returnEditPosts}>
                                         Edit Post
-                                    </button>{" "}
+                                    </Button>{" "}
                                     {!!events && events.length > 0 && (
-                                        <button className="button" onClick={this.clearAllEvents}>
+                                        <Button color="primary" variant="contained" onClick={this.clearAllEvents}>
                                             Delete All Events
-                                        </button>
+                                        </Button>
                                     )}
                                 </div>
                             )}
-                        </div>
-                    </div>
-                    <div className="content-container">
-                        <div className="polaroid__container">
-                            {events.length > 0 ? (
-                                events.map((event) => {
-                                    return (
-                                        <MyEventSummary
-                                            event={event}
-                                            key={event.event_id}
-                                            pathName={`/myPosts/${event.post}/events/${event.event_id}/edit`}
-                                            readOnly={readOnly}
-                                            inHorizontalMenu={false}
-                                        />
-                                    );
-                                })
-                            ) : (
-                                <p>No Events to Show</p>
-                            )}
-                        </div>
-                    </div>
-                </div>
+                        </Container>
+                    </Box>
+                    <Box paddingTop={2}>
+                        <Container fixed>
+                            <div className="polaroid__container">
+                                {events.length > 0 ? (
+                                    events.map((event) => {
+                                        return (
+                                            <MyEventSummary
+                                                event={event}
+                                                key={event.event_id}
+                                                pathName={`/myPosts/${event.post}/events/${event.event_id}/edit`}
+                                                readOnly={readOnly}
+                                                inHorizontalMenu={false}
+                                            />
+                                        );
+                                    })
+                                ) : (
+                                    <Typography color="error" variant="h4">
+                                        No Events to Show
+                                    </Typography>
+                                )}
+                            </div>
+                        </Container>
+                    </Box>
+                </Box>
             )
         );
     }

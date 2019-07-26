@@ -63,7 +63,7 @@ export class ChannelFilters extends React.Component {
                     </Box>
                 </Box>
                 <Box display="flex" flexDirection="column" paddingRight={1}>
-                    <Typography>Sort by:</Typography>
+                    <Typography>Sort By:</Typography>
                     <Box bgcolor="white">
                         <Select
                             autoWidth

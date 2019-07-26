@@ -100,12 +100,14 @@ export class EditPostPage extends React.Component {
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
                         <Container fixed>
-                            <Typography variant="h1" display="inline" gutterBottom>
-                                Edit Post:{" "}
-                            </Typography>
-                            <Typography variant="h1" display="inline" color="error" gutterBottom>
-                                {this.props.post && this.props.post.post_title}
-                            </Typography>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h1" display="inline" gutterBottom>
+                                    Edit Post:{" "}
+                                </Typography>
+                                <Typography variant="h1" display="inline" color="primary" gutterBottom>
+                                    {this.props.post && this.props.post.post_title}
+                                </Typography>
+                            </Box>
                             {read_only_channel ? (
                                 <Box>
                                     <Typography variant="h2" color="error" gutterBottom>

@@ -189,7 +189,7 @@ export class MyChannelDetail extends React.Component {
                                     })
                                 ) : (
                                     <Typography color="error" variant="h4">
-                                        No Channels
+                                        No Posts
                                     </Typography>
                                 )}
                             </div>

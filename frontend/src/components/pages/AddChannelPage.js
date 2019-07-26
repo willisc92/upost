@@ -5,6 +5,7 @@ import { addChannel } from "../../actions/channels";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
 
 export class AddChannelPage extends React.Component {
     constructor(props) {
@@ -14,10 +15,14 @@ export class AddChannelPage extends React.Component {
     onSubmit = (channel) => {
         this.props
             .addChannel(channel)
-            .then(() => this.props.history.push("/myChannels"))
+            .then(() => this.goBack())
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
             });
+    };
+
+    goBack = () => {
+        this.props.history.push("/myChannels");
     };
 
     render() {
@@ -25,9 +30,12 @@ export class AddChannelPage extends React.Component {
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
                     <Container fixed>
-                        <Typography variant="h1" color="primary">
+                        <Typography variant="h1" color="primary" gutterBottom>
                             Add a Channel
                         </Typography>
+                        <Button color="primary" variant="contained" onClick={this.goBack}>
+                            Go Back
+                        </Button>
                     </Container>
                 </Box>
                 <Container fixed>
