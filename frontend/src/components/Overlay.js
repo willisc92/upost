@@ -16,6 +16,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Header from "./Header";
 import Icon from "@material-ui/core/Icon";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -115,6 +116,9 @@ export default (props) => {
                         >
                             <MenuIcon />
                         </IconButton>
+                        <Link to="/">
+                            <img className="header__logo" src={CDNLink + "/dist/images/logo.png"} />
+                        </Link>
                     </Toolbar>
                     <Header history={props.history} />
                 </div>
@@ -189,7 +193,7 @@ export default (props) => {
                     <ListItem
                         button
                         onClick={() => {
-                            props.history.push("/community_my_subscriptions");
+                            props.history.push("/my_subscriptions");
                         }}
                     >
                         <ListItemIcon>

@@ -7,6 +7,10 @@ import MyPostFilterSelector from "../filter_selectors/PostFilterSelector";
 import { getVisiblePosts } from "../../selectors/myPosts";
 import { getCurrentUser } from "../../actions/auth";
 import MyPostSummary from "../MyPostSummary";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 export class MyChannelDetail extends React.Component {
     constructor(props) {
@@ -47,7 +51,7 @@ export class MyChannelDetail extends React.Component {
     };
 
     handleEditChannel = (e) => {
-        const channel_id = e.target.id;
+        const channel_id = this.props.match.params.id;
         this.props.history.push(`/myChannels/edit/${channel_id}`);
     };
 
@@ -100,79 +104,97 @@ export class MyChannelDetail extends React.Component {
 
         return (
             <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <h1 className="page-header__title">
-                            Channel Page: <span>{this.props.channel.channel_name}</span>
-                        </h1>
-                        <div>
-                            {!!this.props.channel.channel_description && (
-                                <h3>Description: {this.props.channel.channel_description}</h3>
-                            )}
-                            <h3>Creation Date: {moment(this.props.channel.creation_date).format("MMMM Do YYYY")}</h3>
-                            {this.props.channel.deleted_flag && (
-                                <h3 className="page-header__subtitle__red">
-                                    Deletion Date: {moment(this.props.channel.deletion_date).format("MMMM Do YYYY")} -
-                                    Restore the Channel To Add/Edit Posts
-                                </h3>
-                            )}
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
+                        <Box paddingBottom={2}>
+                            <Typography variant="h1" display="inline" gutterBottom>
+                                Channel Page:{" "}
+                            </Typography>
+                            <Typography variant="h1" display="inline" color="primary" gutterBottom>
+                                {this.props.channel.channel_name}
+                            </Typography>
+                        </Box>
+                        {!!this.props.channel.channel_description && (
+                            <Typography variant="h2" gutterBottom>
+                                Description: {this.props.channel.channel_description}
+                            </Typography>
+                        )}
+                        <Typography variant="h3" gutterBottom>
+                            Creation Date: {moment(this.props.channel.creation_date).format("MMMM Do YYYY")}
+                        </Typography>
+                        {this.props.channel.deleted_flag && (
+                            <Typography variant="h3" color="error" gutterBottom>
+                                Deletion Date: {moment(this.props.channel.deletion_date).format("MMMM Do YYYY")} -
+                                Restore the Channel To Add/Edit Posts
+                            </Typography>
+                        )}
 
-                            {this.props.channel.deleted_flag ? (
-                                <button className="button" onClick={this.restoreChannel}>
-                                    Restore Channel
-                                </button>
-                            ) : (
-                                <div>
-                                    <button className="button" onClick={this.handleAddPost}>
-                                        Add a new post
-                                    </button>{" "}
-                                    <button
-                                        id={this.props.channel.channel_id}
+                        {this.props.channel.deleted_flag ? (
+                            <Button color="primary" variant="contained" onClick={this.restoreChannel}>
+                                Restore Channel
+                            </Button>
+                        ) : (
+                            <div>
+                                <Button color="primary" variant="contained" onClick={this.handleAddPost}>
+                                    Add a new post
+                                </Button>{" "}
+                                <Button
+                                    id={this.props.channel.channel_id}
+                                    color="primary"
+                                    variant="contained"
+                                    onClick={this.handleEditChannel}
+                                >
+                                    Edit this channel
+                                </Button>{" "}
+                                <Button
+                                    id={this.props.channel.channel_id}
+                                    color="primary"
+                                    variant="contained"
+                                    onClick={this.deleteChannel}
+                                >
+                                    Delete this Channel
+                                </Button>{" "}
+                                {!!posts && posts.length > 0 && (
+                                    <Button
+                                        color="primary"
+                                        variant="contained"
                                         className="button"
-                                        onClick={this.handleEditChannel}
+                                        onClick={this.deleteAllPosts}
                                     >
-                                        Edit this channel
-                                    </button>{" "}
-                                    <button
-                                        id={this.props.channel.channel_id}
-                                        className="button"
-                                        onClick={this.deleteChannel}
-                                    >
-                                        Delete this Channel
-                                    </button>{" "}
-                                    {!!posts && posts.length > 0 && (
-                                        <button className="button" onClick={this.deleteAllPosts}>
-                                            Delete All Posts
-                                        </button>
-                                    )}
-                                </div>
-                            )}
-                            <div className="page-header__actions">
-                                <MyPostFilterSelector />
+                                        Delete All Posts
+                                    </Button>
+                                )}
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        )}
+                        <Box marginTop={2}>
+                            <MyPostFilterSelector />
+                        </Box>
+                    </Container>
+                </Box>
                 {posts !== [] && (
-                    <div className="content-container">
-                        <div className="polaroid__container">
-                            {posts.length > 0 ? (
-                                posts.map((post) => {
-                                    return (
-                                        <MyPostSummary
-                                            post={post}
-                                            key={post.post_id}
-                                            pathName={`/myPosts/${post.post_id}/edit`}
-                                            readOnly={this.props.channel.deleted_flag}
-                                            inHorizontalMenu={false}
-                                        />
-                                    );
-                                })
-                            ) : (
-                                <p> No posts </p>
-                            )}
-                        </div>
-                    </div>
+                    <Box paddingTop={2}>
+                        <Container fixed>
+                            <div className="polaroid__container">
+                                {posts.length > 0 ? (
+                                    posts.map((post) => {
+                                        return (
+                                            <MyPostSummary
+                                                post={post}
+                                                key={post.post_id}
+                                                pathName={`/myPosts/${post.post_id}/edit`}
+                                                readOnly={this.props.channel.deleted_flag}
+                                                inHorizontalMenu={false}
+                                            />
+                                        );
+                                    })
+                                ) : (
+                                    <Typography color="error" variant="h4">
+                                        No Channels
+                                    </Typography>
+                                )}
+                            </div>
+                        </Container>
+                    </Box>
                 )}
             </div>
         );

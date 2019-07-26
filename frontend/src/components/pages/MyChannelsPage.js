@@ -4,6 +4,10 @@ import { connect } from "react-redux";
 import { startSetChannels } from "../../actions/channels";
 import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
 import ChannelListItem from "../ChannelListItem";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 export class MyChannelsPage extends React.Component {
     constructor(props) {
@@ -30,39 +34,53 @@ export class MyChannelsPage extends React.Component {
 
         return (
             channels && (
-                <div>
-                    <div className="page-header">
-                        <div className="content-container">
-                            <h1 className="page-header__title">
-                                <span>{localStorage.getItem("first_name")}</span> - Channels
-                            </h1>
-                            <div className="page-header__actions">
+                <React.Fragment>
+                    <Box bgcolor="secondary.main" py={3}>
+                        <Container fixed>
+                            <Typography variant="h1" color="primary" display="inline">
+                                {localStorage.getItem("first_name")} -
+                            </Typography>
+                            <Typography variant="h1" display="inline">
+                                {" "}
+                                Channels
+                            </Typography>
+
+                            <Box marginTop={2}>
                                 <MyChannelFilterSelector />
-                                <button className="button" onClick={this.handleAddChannel}>
+                                <Button
+                                    color="primary"
+                                    size="large"
+                                    variant="contained"
+                                    onClick={this.handleAddChannel}
+                                >
                                     Add a channel
-                                </button>
+                                </Button>
+                            </Box>
+                        </Container>
+                    </Box>
+                    <Box paddingTop={2}>
+                        <Container fixed>
+                            <div className="polaroid__container">
+                                {channels.length > 0 ? (
+                                    channels.map((channel) => {
+                                        return (
+                                            <ChannelListItem
+                                                channel={channel}
+                                                key={channel.channel_id}
+                                                pathName={`/myChannels/${channel.channel_id}`}
+                                                inHorizontalMenu={false}
+                                            />
+                                        );
+                                    })
+                                ) : (
+                                    <Typography color="error" variant="h4">
+                                        No Channels
+                                    </Typography>
+                                )}
                             </div>
-                        </div>
-                    </div>
-                    <div className="content-container">
-                        <div className="polaroid__container">
-                            {channels.length > 0 ? (
-                                channels.map((channel) => {
-                                    return (
-                                        <ChannelListItem
-                                            channel={channel}
-                                            key={channel.channel_id}
-                                            pathName={`/myChannels/${channel.channel_id}`}
-                                            inHorizontalMenu={false}
-                                        />
-                                    );
-                                })
-                            ) : (
-                                <p>No Channels</p>
-                            )}
-                        </div>
-                    </div>
-                </div>
+                        </Container>
+                    </Box>
+                </React.Fragment>
             )
         );
     }

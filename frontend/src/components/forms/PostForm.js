@@ -5,6 +5,14 @@ import { getAllCommunities } from "../../actions/communities";
 import { getAllInterests } from "../../actions/interests";
 import { getCurrentUser } from "../../actions/auth";
 
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Input from "@material-ui/core/Input";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+
 class PostForm extends React.Component {
     constructor(props) {
         super(props);
@@ -14,9 +22,7 @@ class PostForm extends React.Component {
             poster_name: this.props.post ? this.props.post.poster_name : "",
             phone_number: this.props.post ? this.props.post.phone_number : "",
             email: this.props.post ? this.props.post.email : "",
-            post_description: this.props.post
-                ? this.props.post.post_description
-                : "",
+            post_description: this.props.post ? this.props.post.post_description : "",
             tags: this.props.post ? this.props.post.tags : [],
             error: "",
             channel: this.props.channel,
@@ -113,13 +119,16 @@ class PostForm extends React.Component {
     };
 
     onTagsChange = (e) => {
+        const { options } = e.target;
+
         let tags = [];
-        const options = e.target.options;
+
         for (let i = 0, l = options.length; i < l; i++) {
             if (options[i].selected) {
                 tags.push(options[i].value);
             }
         }
+
         this.setState(() => ({ tags }));
     };
 
@@ -166,8 +175,7 @@ class PostForm extends React.Component {
                 .then((res) => {
                     this.setState(() => ({ error: "" }));
                     // Checks if the picture was changed on load (for edit requests).
-                    const picture_changed =
-                        this.state.orig_picture !== this.state.picture;
+                    const picture_changed = this.state.orig_picture !== this.state.picture;
                     // If there is a picture...
                     if (!!this.state.picture) {
                         let form_data = new FormData();
@@ -175,27 +183,12 @@ class PostForm extends React.Component {
                         if (picture_changed) {
                             form_data.append("picture", this.state.picture);
                             form_data.append("user", res.data.username);
-                            form_data.append(
-                                "post_title",
-                                this.state.post_title
-                            );
-                            form_data.append(
-                                "poster_name",
-                                this.state.poster_name
-                            );
-                            form_data.append(
-                                "phone_number",
-                                this.state.phone_number
-                            );
-                            form_data.append(
-                                "cost",
-                                parseFloat(this.state.cost, 10) * 100
-                            );
+                            form_data.append("post_title", this.state.post_title);
+                            form_data.append("poster_name", this.state.poster_name);
+                            form_data.append("phone_number", this.state.phone_number);
+                            form_data.append("cost", parseFloat(this.state.cost, 10) * 100);
                             form_data.append("email", this.state.email);
-                            form_data.append(
-                                "post_description",
-                                this.state.post_description
-                            );
+                            form_data.append("post_description", this.state.post_description);
                             form_data.append("community", this.state.community);
                             this.state.tags.forEach((tag) => {
                                 form_data.append("tags", tag);
@@ -243,152 +236,156 @@ class PostForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                <div>
-                    {!!this.props.error && !!this.props.error.post_title && (
-                        <p className="form__error">
-                            {" "}
+                {!!this.props.error && !!this.props.error.post_title && (
+                    <Box paddingBottom={3}>
+                        <Typography color="error" variant="h2">
                             {this.props.error.post_title[0]}
-                        </p>
-                    )}
-                    {this.state.error && (
-                        <p className="form__error">{this.state.error}</p>
-                    )}
-                    <p className="form__error">* - Fields required</p>
-                </div>
-                <div className="input-group">
-                    <p className="form__label">Post Title*: </p>
-                    <input
-                        className="text-input"
+                        </Typography>
+                    </Box>
+                )}
+                {this.state.error && (
+                    <Box paddingBottom={3}>
+                        <Typography color="error" variant="h2">
+                            {this.state.error}
+                        </Typography>
+                    </Box>
+                )}
+                <Box>
+                    <TextField
+                        required
+                        label="Post Title"
                         type="text"
-                        placeholder="Title"
                         autoFocus
                         value={this.state.post_title}
                         onChange={this.onTitleChange}
                         disabled={this.props.read_only}
                     />
-                </div>
-                <div className="input-group">
-                    <p className="form__label">Poster Name*: </p>
-                    <input
-                        className="text-input"
-                        type="text"
+                </Box>
+                <Box>
+                    <TextField
+                        required
+                        label="Poster Name"
                         placeholder="Name"
                         value={this.state.poster_name}
                         onChange={this.onPosterNameChange}
                         disabled={this.props.read_only}
                     />
-                </div>
-                <div className="input-group">
-                    <p className="form__label">Phone Number (10-digit)*: </p>
-                    <input
-                        className="text-input"
-                        type="text"
+                </Box>
+                <Box>
+                    <TextField
+                        required
+                        label="Phone Number"
                         placeholder="Phone Number"
                         value={this.state.phone_number}
                         onChange={this.onPhoneNumberChange}
                         disabled={this.props.read_only}
                     />
-                </div>
-                <div className="input-group">
-                    <p className="form__label">Email*: </p>
-                    <input
-                        className="text-input"
-                        type="text"
+                </Box>
+                <Box>
+                    <TextField
+                        required
+                        label="Email"
                         placeholder="Email"
                         value={this.state.email}
                         onChange={this.onEmailChange}
                         disabled={this.props.read_only}
                     />
-                </div>
-                <div className="input-group">
-                    <p className="form__label">Description*: </p>
-                    <textarea
-                        className="textarea"
-                        type="text"
+                </Box>
+                <Box>
+                    <TextField
+                        label="Description"
+                        required
                         placeholder="Description"
                         value={this.state.post_description}
                         onChange={this.onDescriptionChange}
                         disabled={this.props.read_only}
+                        multiline
                     />
-                </div>
-                <p>
-                    Image upload:{" "}
+                </Box>
+                <Box>
+                    <Box paddingRight={2}>
+                        <Typography display="inline">Image upload: </Typography>
+                        {!this.state.picture_preview && (
+                            <Typography display="inline" color="error">
+                                No image uploaded
+                            </Typography>
+                        )}
+                    </Box>
                     {!!this.state.picture_preview && (
-                        <button
-                            className="button"
-                            onClick={this.clearPicture}
-                            disabled={this.props.read_only}
-                        >
-                            Clear Picture
-                        </button>
-                    )}{" "}
-                </p>
-                {!!this.state.picture_preview ? (
-                    <img
-                        className="post_image"
-                        src={this.state.picture_preview}
+                        <React.Fragment>
+                            <Box>
+                                <img className="post_image" src={this.state.picture_preview} />
+                            </Box>
+                            <Button
+                                onClick={this.clearPicture}
+                                disabled={this.props.read_only}
+                                color="primary"
+                                variant="contained"
+                            >
+                                Clear Picture
+                            </Button>
+                        </React.Fragment>
+                    )}
+                </Box>
+
+                <Box>
+                    <Input
+                        type="file"
+                        id="image"
+                        accept="image/png, image/jpeg"
+                        onChange={this.handleImageChange}
+                        disableUnderline
                     />
-                ) : (
-                    <p>No image uploaded.</p>
-                )}
-                <input
-                    type="file"
-                    id="image"
-                    accept="image/png, image/jpeg"
-                    onChange={this.handleImageChange}
-                />
+                </Box>
                 {!!this.props.interests && (
-                    <div className="input-group">
-                        <p className="form__label">
-                            Interest Tags (Hold down "Control", or "Command" on
-                            a Mac, to select more than one.):{" "}
-                        </p>
-                        <select
+                    <Box display="flex">
+                        <Box paddingRight={2}>
+                            <Typography>Interest Tags:</Typography>
+                        </Box>
+                        <Select
                             multiple
+                            native
                             onChange={this.onTagsChange}
                             value={this.state.tags}
                             disabled={this.props.read_only}
+                            required
                         >
                             {this.props.interests.map((interest) => {
                                 return (
-                                    <option
-                                        key={interest.interest_tag}
-                                        value={interest.interest_tag}
-                                    >
-                                        {" "}
-                                        {interest.interest_tag}{" "}
+                                    <option key={interest.interest_tag} value={interest.interest_tag}>
+                                        {interest.interest_tag}
                                     </option>
                                 );
                             })}
-                        </select>
-                    </div>
+                        </Select>
+                    </Box>
                 )}
-                <div className="input-group">
-                    <p className="form__label">Community *: </p>
-                    <select
+                <Box display="flex">
+                    <Box paddingRight={2}>
+                        <Typography>Community *: </Typography>
+                    </Box>
+                    <Select
+                        inputProps={{ required: true }}
                         onChange={this.onCommunitySelectChange}
                         value={this.state.community}
                         disabled={this.props.read_only}
                     >
-                        <option key="empty" value="" />
+                        <MenuItem key="empty" value="" />
                         {this.props.communities.map((community) => {
                             return (
-                                <option
-                                    key={community.community_name}
-                                    value={community.community_name}
-                                >
+                                <MenuItem key={community.community_name} value={community.community_name}>
                                     {community.community_name}
-                                </option>
+                                </MenuItem>
                             );
                         })}
-                    </select>
-                </div>
+                    </Select>
+                </Box>
                 {!this.props.read_only && (
-                    <div>
-                        <button className="button">
+                    <Box>
+                        <Button color="primary" variant="contained" type="submit">
                             {this.props.nextStep}
-                        </button>
-                    </div>
+                        </Button>
+                    </Box>
                 )}
             </form>
         );
