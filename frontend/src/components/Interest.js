@@ -1,35 +1,41 @@
 import React from "react";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardContent from "@material-ui/core/CardContent";
+import {
+    PolaroidHeader,
+    PolaroidBody,
+    PolaroidImage,
+    useStyles,
+    PinnedSVG,
+    UnpinnedSVG
+} from "../components/PolaroidComponents";
 
-export class Interest extends React.Component {
-    onClick = () => {
-        this.props.changeIsSelected(this.props.interest.interest_tag);
+export const Interest = (props) => {
+    const onClick = () => {
+        props.changeIsSelected(props.interest.interest_tag);
     };
 
-    render() {
-        return (
-            <div className="polaroid" onClick={this.onClick}>
-                <svg className="polaroid__selector">
-                    <circle
-                        className="polaroid__circle"
-                        cx={0}
-                        cy={0}
-                        r={22}
-                        fill={this.props.interest.isSelected ? "red" : "grey"}
-                    />
-                </svg>
-                <img
-                    className="polaroid__image"
-                    src={
-                        !!this.props.interest.image
-                            ? this.props.interest.image
-                            : CDNLink + "/dist/images/polaroid_default.png"
-                    }
-                />
-                <h3 className="polaroid__title">{this.props.interest.interest_tag}</h3>
-                <p className="polaroid__description">{this.props.interest.description}</p>
-            </div>
-        );
-    }
-}
+    const classes = useStyles();
+
+    return (
+        <div className="polaroid" onClick={onClick}>
+            {props.interest.isSelected ? (
+                <PinnedSVG className={classes.icon} color="primary" />
+            ) : (
+                <UnpinnedSVG className={classes.icon} color="primary" />
+            )}
+            <Card className={classes.card}>
+                <CardActionArea className={classes.cardActionArea}>
+                    <PolaroidImage image={props.interest.image} />
+                    <CardContent>
+                        <PolaroidHeader header={props.interest.interest_tag} />
+                        <PolaroidBody body={props.interest.description} />
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+        </div>
+    );
+};
 
 export default Interest;
