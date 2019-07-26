@@ -58,6 +58,7 @@ export class ChannelFilters extends React.Component {
                             value={this.props.filters.text}
                             onChange={this.onTextChange}
                             style={{ width: 250 }}
+                            disableUnderline
                         />
                     </Box>
                 </Box>
@@ -70,6 +71,7 @@ export class ChannelFilters extends React.Component {
                             value={this.props.filters.sortBy}
                             onChange={this.onSortChange}
                             variant="outlined"
+                            disableUnderline
                         >
                             <MenuItem value="date">Creation Date</MenuItem>
                             <MenuItem value="last_updated">Last Updated</MenuItem>
@@ -78,7 +80,7 @@ export class ChannelFilters extends React.Component {
                     </Box>
                 </Box>
                 {this.props.filters.sortBy !== "name" && (
-                    <Box display="flex" flexDirection="column" paddingRight={1}>
+                    <Box display="flex" flexDirection="column">
                         <Typography>Date Range:</Typography>
                         <DateRangePicker
                             startDate={this.props.filters.startDate}

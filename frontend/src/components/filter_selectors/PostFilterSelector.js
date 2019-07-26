@@ -78,6 +78,7 @@ export class PostFilters extends React.Component {
                                 value={this.props.filters.text}
                                 onChange={this.onTextChange}
                                 style={{ width: 250 }}
+                                disableUnderline
                             />
                         </Box>
                     </Box>
@@ -88,6 +89,7 @@ export class PostFilters extends React.Component {
                                 value={this.props.filters.community}
                                 onChange={this.onCommunitiesChange}
                                 className="select"
+                                disableUnderline
                             >
                                 <MenuItem value="">Show All</MenuItem>
                                 {communities.map((community) => {
@@ -103,7 +105,12 @@ export class PostFilters extends React.Component {
                     <Box display="flex" flexDirection="column" paddingRight={1}>
                         <Typography>Sort By:</Typography>
                         <Box bgcolor="white">
-                            <Select className="select" value={this.props.filters.sortBy} onChange={this.onSortChange}>
+                            <Select
+                                className="select"
+                                value={this.props.filters.sortBy}
+                                onChange={this.onSortChange}
+                                disableUnderline
+                            >
                                 <MenuItem value="date">Creation Date</MenuItem>
                                 <MenuItem value="last_updated">Last Updated</MenuItem>
                                 <MenuItem value="name">Name</MenuItem>
