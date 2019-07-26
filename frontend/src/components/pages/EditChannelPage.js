@@ -3,6 +3,10 @@ import ChannelForm from "../forms/ChannelForm";
 import { connect } from "react-redux";
 import { editChannel, startGetChannel } from "../../actions/channels";
 import { getCurrentUser } from "../../actions/auth";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
 
 export class EditChannelPage extends React.Component {
     constructor(props) {
@@ -57,26 +61,28 @@ export class EditChannelPage extends React.Component {
         const read_only = this.props.channel && this.props.channel.deleted_flag;
 
         return (
-            <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <h1 className="page-header__title">Edit Channel</h1>
+            <React.Fragment>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
+                        <Typography variant="h1" color="primary" gutterBottom>
+                            Edit Channnel
+                        </Typography>
                         {read_only && (
-                            <div>
-                                <h2 className="page-header__subtitle__red">
-                                    You must restore this Channel before editing.
-                                </h2>
-                            </div>
+                            <Typography variant="h2" color="error" gutterBottom>
+                                You must restore this Channel before editing.
+                            </Typography>
                         )}
-                        <button className="button" onClick={this.goBack}>
+                        <Button color="primary" variant="contained" onClick={this.goBack}>
                             Go Back
-                        </button>{" "}
-                    </div>
-                </div>
-                <div className="content-container">
-                    <ChannelForm onSubmit={this.onSubmit} channel={this.props.channel} read_only={read_only} />
-                </div>
-            </div>
+                        </Button>
+                    </Container>
+                </Box>
+                <Container fixed>
+                    <Box py={3}>
+                        <ChannelForm onSubmit={this.onSubmit} channel={this.props.channel} read_only={read_only} />
+                    </Box>
+                </Container>
+            </React.Fragment>
         );
     }
 }

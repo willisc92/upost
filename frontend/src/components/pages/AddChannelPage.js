@@ -2,9 +2,9 @@ import React from "react";
 import ChannelForm from "../forms/ChannelForm";
 import { connect } from "react-redux";
 import { addChannel } from "../../actions/channels";
-import { Typography } from "@material-ui/core/Typography";
-import { Container } from "@material-ui/core/Container";
-import { Box } from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 export class AddChannelPage extends React.Component {
     constructor(props) {
@@ -31,7 +31,7 @@ export class AddChannelPage extends React.Component {
                     </Container>
                 </Box>
                 <Container fixed>
-                    <Box>
+                    <Box py={3}>
                         <ChannelForm onSubmit={this.onSubmit} />
                     </Box>
                 </Container>

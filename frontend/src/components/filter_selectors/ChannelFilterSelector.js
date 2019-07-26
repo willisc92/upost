@@ -9,6 +9,11 @@ import {
     setEndDate,
     sortByLastUpdated
 } from "../../actions/channel_filters";
+import Select from "@material-ui/core/Select";
+import Box from "@material-ui/core/Box";
+import Input from "@material-ui/core/Input";
+import MenuItem from "@material-ui/core/MenuItem";
+import Typography from "@material-ui/core/Typography";
 
 export class ChannelFilters extends React.Component {
     state = {
@@ -42,49 +47,52 @@ export class ChannelFilters extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="input-group">
-                    <div className="input-group__column">
-                        Search:
-                        <div className="input-group__item">
-                            <input
-                                type="text"
-                                className="text-input"
-                                placeholder="Search Channels"
-                                value={this.props.filters.text}
-                                onChange={this.onTextChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="input-group__column">
-                        Sort by:{" "}
-                        <div className="input-group__item">
-                            <select className="select" value={this.props.filters.sortBy} onChange={this.onSortChange}>
-                                <option value="date">Creation Date</option>
-                                <option value="last_updated">Last Updated</option>
-                                <option value="name">Name</option>
-                            </select>
-                        </div>
-                    </div>
-                    {this.props.filters.sortBy !== "name" && (
-                        <div className="input-group__column">
-                            Date Range:{" "}
-                            <div className="input-group__item">
-                                <DateRangePicker
-                                    startDate={this.props.filters.startDate}
-                                    endDate={this.props.filters.endDate}
-                                    onDatesChange={this.onDatesChange}
-                                    focusedInput={this.state.calenderFocused}
-                                    onFocusChange={this.onFocusChange}
-                                    showClearDates={true}
-                                    numberOfMonths={1}
-                                    isOutsideRange={() => false}
-                                />
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </div>
+            <Box display="flex" flexDirection="row" py={2}>
+                <Box display="flex" flexDirection="column" paddingRight={1}>
+                    <Typography>Search:</Typography>
+                    <Box bgcolor="white">
+                        <Input
+                            type="text"
+                            className="text-input"
+                            placeholder="Search Channels"
+                            value={this.props.filters.text}
+                            onChange={this.onTextChange}
+                            style={{ width: 250 }}
+                        />
+                    </Box>
+                </Box>
+                <Box display="flex" flexDirection="column" paddingRight={1}>
+                    <Typography>Sort by:</Typography>
+                    <Box bgcolor="white">
+                        <Select
+                            autoWidth
+                            className="select"
+                            value={this.props.filters.sortBy}
+                            onChange={this.onSortChange}
+                            variant="outlined"
+                        >
+                            <MenuItem value="date">Creation Date</MenuItem>
+                            <MenuItem value="last_updated">Last Updated</MenuItem>
+                            <MenuItem value="name">Name</MenuItem>
+                        </Select>
+                    </Box>
+                </Box>
+                {this.props.filters.sortBy !== "name" && (
+                    <Box display="flex" flexDirection="column" paddingRight={1}>
+                        <Typography>Date Range:</Typography>
+                        <DateRangePicker
+                            startDate={this.props.filters.startDate}
+                            endDate={this.props.filters.endDate}
+                            onDatesChange={this.onDatesChange}
+                            focusedInput={this.state.calenderFocused}
+                            onFocusChange={this.onFocusChange}
+                            showClearDates={true}
+                            numberOfMonths={1}
+                            isOutsideRange={() => false}
+                        />
+                    </Box>
+                )}
+            </Box>
         );
     }
 }

@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getCurrentUser } from "../../actions/auth";
-import { Button } from "@material-ui/core/Button";
-import { TextField } from "@material-ui/core/TextField";
-import { Typography } from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 
 export class ChannelForm extends React.Component {
     constructor(props) {
@@ -62,9 +63,20 @@ export class ChannelForm extends React.Component {
         return (
             <form className="form" onSubmit={this.onSubmit}>
                 {!!this.props.error && !!this.props.error.channel_name && (
-                    <Typography color="error"> {this.props.error.channel_name[0]}</Typography>
+                    <Box paddingBottom={3}>
+                        <Typography color="error" variant="h2">
+                            {this.props.error.channel_name[0]}
+                        </Typography>
+                    </Box>
                 )}
-                {this.state.error && <Typography color="error">{this.state.error}</Typography>}
+                {this.state.error && (
+                    <Box paddingBottom={3}>
+                        <Typography color="error" variant="h2">
+                            {this.state.error}
+                        </Typography>
+                    </Box>
+                )}
+
                 <div className="input-group__item">
                     <TextField
                         label="Name"

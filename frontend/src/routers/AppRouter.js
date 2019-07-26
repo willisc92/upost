@@ -7,7 +7,6 @@ import PublicRoute from "./PublicRoute";
 import MyChannelsPage from "../components/pages/MyChannelsPage";
 import { connect } from "react-redux";
 import { authCheckState } from "../actions/auth";
-import Header from "../components/Header";
 import NotFoundPage from "../components/pages/NotFoundPage";
 import AddChannelPage from "../components/pages/AddChannelPage";
 import InterestsPage from "../components/pages/InterestsPage";
