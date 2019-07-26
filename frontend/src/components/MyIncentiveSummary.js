@@ -9,33 +9,7 @@ import { PolaroidHeader, PolaroidBody, PolaroidSubHeader, useStyles } from "../c
 
 export const MyIncentiveSummary = ({ incentive, pathName, selected }) => {
     const classes = useStyles();
-    /*
-    return (
-        <div className={`menu-item ${selected ? "active" : ""}`}>
-            <Link
-                className="polaroid"
-                to={{
-                    pathname: pathName,
-                    state: { incentive }
-                }}
-            >
-                <div>
-                    <h1 className="polaroid__title">{incentive.ip_description}</h1>
-                    {incentive.deleted_flag && (
-                        <h2 className="polaroid__sub_title">
-                            {" "}
-                            (Deleted {moment(incentive.deletion_date).format("ddd, MMM D YYYY")})
-                        </h2>
-                    )}
-                    <p className="polaroid__description">Type: {incentive.incentive_type}</p>
-                    {!!incentive.planned_start_date && !!incentive.planned_end_date && (
-                        <DateRangeTag startDate={incentive.planned_start_date} endDate={incentive.planned_end_date} />
-                    )}
-                </div>
-            </Link>
-        </div>
-    );
-    */
+
     return (
         <div className={`menu-item ${selected ? "active" : ""}`}>
             <Link

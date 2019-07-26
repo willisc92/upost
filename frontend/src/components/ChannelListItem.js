@@ -7,39 +7,6 @@ import CardContent from "@material-ui/core/CardContent";
 import { PolaroidHeader, PolaroidBody, PolaroidSubHeader, useStyles } from "../components/PolaroidComponents";
 
 export const ChannelListItem = ({ channel, selected, pathName, inHorizontalMenu }) => {
-    /*
-    return (
-        <div className={inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""}>
-            <Link
-                className="polaroid"
-                to={{
-                    pathname: pathName,
-                    state: { channel }
-                }}
-            >
-                <div className="polaroid__text-wrapper">
-                    <h3 className="polaroid__title">
-                        {channel.channel_name}{" "}
-                        {channel.deleted_flag && (
-                            <span className="polaroid__sub_title">
-                                {" "}
-                                (Deleted {moment(channel.deletion_date).format("ddd, MMM D YYYY")})
-                            </span>
-                        )}
-                    </h3>
-                    <p className="polaroid__description">{channel.channel_description}</p>
-                    <h2 className="polaroid__sub_title">Created:</h2>
-                    <p className="polaroid__description">{moment(channel.creation_date).format("MMMM Do YYYY")}</p>
-                    <h2 className="polaroid__sub_title">Updated:</h2>
-                    <p className="polaroid__description">
-                        {moment(channel.last_updated).format("MMMM Do YYYY, h:mm a")}
-                    </p>
-                </div>
-            </Link>
-        </div>
-    );
-    */
-
     const classes = useStyles();
 
     return (

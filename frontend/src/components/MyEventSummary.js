@@ -21,52 +21,6 @@ export const MyEventSummary = ({ event, pathName, selected, readOnly, inHorizont
             event.event_incentive.planned_end_date !== event.planned_end_date);
     const classes = useStyles();
 
-    /*
-    return (
-        <div className={inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""}>
-            <Link
-                className={readOnly ? "polaroid__inactive" : "polaroid"}
-                to={{
-                    pathname: pathName
-                }}
-                onClick={onClick}
-            >
-                <div className="polaroid__text-wrapper">
-                    <h1 className="polaroid__title">{event.event_title}</h1>
-                    {event.deleted_flag && (
-                        <h2 className="polaroid__sub_title">
-                            {" "}
-                            (Deleted {moment(event.deletion_date).format("ddd, MMM D YYYY")})
-                        </h2>
-                    )}
-                    <h3 className="polaroid__description">{event.event_description}</h3>
-                    <h2 className="polaroid__sub_title">
-                        Event {hasIncentive && !hasDifferentIncentiveTimes && "and Incentive "}From:
-                    </h2>
-                    <DateRangeTag startDate={event.planned_start_date} endDate={event.planned_end_date} />
-                    {hasDifferentIncentiveTimes && <h2 className="polaroid__sub_title">Incentives Valid from: </h2>}
-                    {hasDifferentIncentiveTimes && (
-                        <DateRangeTag
-                            startDate={event.event_incentive.planned_start_date}
-                            endDate={event.event_incentive.planned_end_date}
-                        />
-                    )}
-                    {hasIncentive && (
-                        <p className="polaroid__description">
-                            Incentive Type(s): {event.event_incentive.incentive_type.join(", ")}
-                        </p>
-                    )}
-                    <h2 className="polaroid__sub_title">Created:</h2>
-                    <p className="polaroid__description">{moment(event.creation_date).format("MMMM Do YYYY")} </p>
-                    <h2 className="polaroid__sub_title">Updated:</h2>
-                    <p className="polaroid__description">{moment(event.last_updated).format("MMMM Do YYYY, h:mm a")}</p>
-                    <h2 className="polaroid__sub_title">Capacity:</h2>
-                    <p className="polaroid__description">{`${event.capacity_status}/${event.capacity}`}</p>
-                </div>
-            </Link>
-        </div>
-    );
-    */
     return (
         <div className={inHorizontalMenu ? `menu-item ${selected ? "active" : ""}` : ""}>
             <Link
