@@ -3,6 +3,10 @@ import { startGetPost, editPost, clearPosts, deletePost, restorePost } from "../
 import { connect } from "react-redux";
 import PostForm from "../forms/PostForm";
 import { getCurrentUser } from "../../actions/auth";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
 
 export class EditPostPage extends React.Component {
     constructor(props) {
@@ -94,61 +98,66 @@ export class EditPostPage extends React.Component {
         return (
             !!this.props.post && (
                 <div>
-                    <div className="page-header">
-                        <div className="content-container">
-                            <h1 className="page-header__title">
-                                Edit Post for <span>{this.props.post && this.props.post.post_title}</span>
-                            </h1>
+                    <Box bgcolor="secondary.main" py={3}>
+                        <Container fixed>
+                            <Typography variant="h1" display="inline" gutterBottom>
+                                Edit Post:{" "}
+                            </Typography>
+                            <Typography variant="h1" display="inline" color="error" gutterBottom>
+                                {this.props.post && this.props.post.post_title}
+                            </Typography>
                             {read_only_channel ? (
-                                <div>
-                                    <h2 className="page-header__subtitle__red">
+                                <Box>
+                                    <Typography variant="h2" color="error" gutterBottom>
                                         You must restore the Channel of this post before editing.
-                                    </h2>
-                                    <button className="button" onClick={this.goToChannel}>
+                                    </Typography>
+                                    <Button color="primary" variant="contained" onClick={this.goToChannel}>
                                         Go to Channel
-                                    </button>
-                                </div>
+                                    </Button>
+                                </Box>
                             ) : read_only_post ? (
-                                <div>
-                                    <h2 className="page-header__subtitle__red">
+                                <Box>
+                                    <Typography variant="h2" color="error" gutterBottom>
                                         You must restore this post before editing.
-                                    </h2>
-                                    <button className="button" onClick={this.restorePost}>
+                                    </Typography>
+                                    <Button color="primary" variant="contained" onClick={this.restorePost}>
                                         Restore Post
-                                    </button>
-                                </div>
+                                    </Button>
+                                </Box>
                             ) : (
-                                <div>
-                                    <button className="button" onClick={this.onEditEventsClick}>
+                                <Box>
+                                    <Button color="primary" variant="contained" onClick={this.onEditEventsClick}>
                                         Add/Edit Events
-                                    </button>{" "}
+                                    </Button>{" "}
                                     {!!this.props.post.post_incentive ? (
-                                        <button className="button" onClick={this.onEditIncentiveClick}>
+                                        <Button color="primary" variant="contained" onClick={this.onEditIncentiveClick}>
                                             Edit Post Incentive
-                                        </button>
+                                        </Button>
                                     ) : (
-                                        <button className="button" onClick={this.onAddIncentiveClick}>
+                                        <Button color="primary" variant="contained" onClick={this.onAddIncentiveClick}>
                                             Add Incentive to Post
-                                        </button>
+                                        </Button>
                                     )}{" "}
-                                    <button className="button" onClick={this.deletePost}>
+                                    <Button color="primary" variant="contained" onClick={this.deletePost}>
                                         Delete Post
-                                    </button>
-                                </div>
+                                    </Button>
+                                </Box>
                             )}
-                        </div>
-                    </div>
-                    <div className="content-container">
-                        {!!this.props.post && (
-                            <PostForm
-                                onSubmit={this.onSubmit}
-                                channel={this.props.post.channel}
-                                post={this.props.post}
-                                nextStep="Save Changes"
-                                read_only={read_only_channel || read_only_post}
-                            />
-                        )}
-                    </div>
+                        </Container>
+                    </Box>
+                    <Container fixed>
+                        <Box py={3}>
+                            {!!this.props.post && (
+                                <PostForm
+                                    onSubmit={this.onSubmit}
+                                    channel={this.props.post.channel}
+                                    post={this.props.post}
+                                    nextStep="Save Changes"
+                                    read_only={read_only_channel || read_only_post}
+                                />
+                            )}
+                        </Box>
+                    </Container>
                 </div>
             )
         );

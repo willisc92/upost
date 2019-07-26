@@ -61,53 +61,55 @@ export class ChannelForm extends React.Component {
 
     render() {
         return (
-            <form className="form" onSubmit={this.onSubmit}>
-                {!!this.props.error && !!this.props.error.channel_name && (
-                    <Box paddingBottom={3}>
-                        <Typography color="error" variant="h2">
-                            {this.props.error.channel_name[0]}
-                        </Typography>
-                    </Box>
-                )}
-                {this.state.error && (
-                    <Box paddingBottom={3}>
-                        <Typography color="error" variant="h2">
-                            {this.state.error}
-                        </Typography>
-                    </Box>
-                )}
-
-                <div className="input-group__item">
-                    <TextField
-                        label="Name"
-                        type="text"
-                        placeholder="Name"
-                        value={this.state.channel_name}
-                        onChange={this.onNameChange}
-                        disabled={this.props.read_only}
-                        required
-                    />
-                </div>
-                <div className="input-group__item">
-                    <TextField
-                        label="Description"
-                        className="text-input"
-                        type="text"
-                        placeholder="Description"
-                        value={this.state.channel_description}
-                        onChange={this.onDescriptionChange}
-                        disabled={this.props.read_only}
-                        multiline
-                    />
-                </div>
-                <div>
-                    {!this.props.read_only && (
-                        <Button color="primary" variant="contained" type="submit">
-                            Submit
-                        </Button>
+            <div>
+                <form className="form" onSubmit={this.onSubmit}>
+                    {!!this.props.error && !!this.props.error.channel_name && (
+                        <Box paddingBottom={3}>
+                            <Typography color="error" variant="h2">
+                                {this.props.error.channel_name[0]}
+                            </Typography>
+                        </Box>
                     )}
-                </div>
-            </form>
+                    {this.state.error && (
+                        <Box paddingBottom={3}>
+                            <Typography color="error" variant="h2">
+                                {this.state.error}
+                            </Typography>
+                        </Box>
+                    )}
+
+                    <Box py={2}>
+                        <TextField
+                            label="Name"
+                            type="text"
+                            placeholder="Name"
+                            value={this.state.channel_name}
+                            onChange={this.onNameChange}
+                            disabled={this.props.read_only}
+                            required
+                        />
+                    </Box>
+                    <Box py={2}>
+                        <TextField
+                            label="Description"
+                            className="text-input"
+                            type="text"
+                            placeholder="Description"
+                            value={this.state.channel_description}
+                            onChange={this.onDescriptionChange}
+                            disabled={this.props.read_only}
+                            multiline
+                        />
+                    </Box>
+                    {!this.props.read_only && (
+                        <Box>
+                            <Button color="primary" variant="contained" type="submit">
+                                Submit
+                            </Button>
+                        </Box>
+                    )}
+                </form>
+            </div>
         );
     }
 }

@@ -65,7 +65,7 @@ export class EditChannelPage extends React.Component {
                 <Box bgcolor="secondary.main" py={3}>
                     <Container fixed>
                         <Typography variant="h1" color="primary" gutterBottom>
-                            Edit Channnel
+                            Edit Channel
                         </Typography>
                         {read_only && (
                             <Typography variant="h2" color="error" gutterBottom>

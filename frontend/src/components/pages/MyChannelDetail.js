@@ -51,7 +51,7 @@ export class MyChannelDetail extends React.Component {
     };
 
     handleEditChannel = (e) => {
-        const channel_id = e.target.id;
+        const channel_id = this.props.match.params.id;
         this.props.history.push(`/myChannels/edit/${channel_id}`);
     };
 

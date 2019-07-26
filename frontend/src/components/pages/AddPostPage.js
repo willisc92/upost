@@ -4,6 +4,10 @@ import { connect } from "react-redux";
 import { addPost } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
 import { getCurrentUser } from "../../actions/auth";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Button from "@material-ui/core/Button";
 
 export class AddPostPage extends React.Component {
     constructor(props) {
@@ -71,59 +75,74 @@ export class AddPostPage extends React.Component {
 
         return (
             <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <h1 className="page-header__title">
-                            Add Post to Channel: <span>{this.props.channel && this.props.channel.channel_name}</span>
-                        </h1>
-                        {read_only ? (
-                            <div>
-                                <h2 className="page-header__subtitle__red">
-                                    You must restore the Channel of this post before adding.
-                                </h2>
-                                <button className="button" onClick={this.handleReturn}>
-                                    Go to Channel
-                                </button>
-                            </div>
-                        ) : (
-                            <button className="button" onClick={this.handleReturn}>
-                                Go Back
-                            </button>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
+                        <Box display="flex" flexDirection="column">
+                            <Box paddingBottom={1}>
+                                <Typography variant="h1" display="inline" gutterBottom>
+                                    Add Post to:{" "}
+                                </Typography>
+                                <Typography variant="h1" display="inline" color="error" gutterBottom>
+                                    {this.props.channel && this.props.channel.channel_name}
+                                </Typography>
+                            </Box>
+                            {read_only ? (
+                                <Box>
+                                    <Typography variant="h2" color="error" gutterBottom>
+                                        You must restore the Channel of this post before adding.
+                                    </Typography>
+                                    <Button color="primary" variant="contained" onClick={this.handleReturn}>
+                                        Go to Channel
+                                    </Button>
+                                </Box>
+                            ) : (
+                                <Box>
+                                    <Button color="primary" variant="contained" onClick={this.handleReturn}>
+                                        Go Back
+                                    </Button>
+                                </Box>
+                            )}
+                        </Box>
+                    </Container>
+                </Box>
+                <Container fixed>
+                    <Box py={3}>
+                        {!!this.state.error && <p className="form__error">{this.state.error}</p>}
+                        <PostForm
+                            id="Post"
+                            onSubmit={this.onSubmit}
+                            channel={this.props.match.params.id}
+                            nextStep="Save Post and Return"
+                            read_only={read_only}
+                        />
+                        {!read_only && (
+                            <Box display="flex" flexDirection="column">
+                                <Box paddingBottom={2}>
+                                    <Button color="primary" variant="contained" onClick={this.onTriggerSaveAddEvent}>
+                                        Save Post and Add Event
+                                    </Button>
+                                </Box>
+                                <Box>
+                                    <Button
+                                        color="primary"
+                                        variant="contained"
+                                        onClick={this.onTriggerSaveAddIncentive}
+                                    >
+                                        Save Post and Add Incentive
+                                    </Button>
+                                </Box>
+                            </Box>
                         )}
-                    </div>
-                </div>
-                <div className="content-container">
-                    {!!this.state.error && <p className="form__error">{this.state.error}</p>}
-                    <PostForm
-                        id="Post"
-                        onSubmit={this.onSubmit}
-                        channel={this.props.match.params.id}
-                        nextStep="Save Post and Return"
-                        read_only={read_only}
-                    />
-                    {!read_only && (
-                        <div className="input-group">
-                            <div className="input-group__item">
-                                <button className="button" onClick={this.onTriggerSaveAddEvent}>
-                                    Save Post and Add Event
-                                </button>
-                            </div>
-                            <div className="input-group__item">
-                                <button className="button" onClick={this.onTriggerSaveAddIncentive}>
-                                    Save Post and Add Incentive
-                                </button>
-                            </div>
-                        </div>
-                    )}
-                    <button
-                        className="button__invisible"
-                        type="submit"
-                        form="Post"
-                        ref={(node) => {
-                            this.submitButtonRef = node;
-                        }}
-                    />
-                </div>
+                        <button
+                            className="button__invisible"
+                            type="submit"
+                            form="Post"
+                            ref={(node) => {
+                                this.submitButtonRef = node;
+                            }}
+                        />
+                    </Box>
+                </Container>
             </div>
         );
     }
