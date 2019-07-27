@@ -107,7 +107,11 @@ export class AddPostPage extends React.Component {
                 </Box>
                 <Container fixed>
                     <Box py={3}>
-                        {!!this.state.error && <p className="form__error">{this.state.error}</p>}
+                        {!!this.state.error && (
+                            <Typography gutterBottom variant="h3" color="error">
+                                {this.state.error}
+                            </Typography>
+                        )}
                         <PostForm
                             id="Post"
                             onSubmit={this.onSubmit}

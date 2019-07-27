@@ -6,6 +6,12 @@ import DateTimePicker from "react-datetime-picker";
 import { getCurrentUser } from "../../actions/auth";
 import moment, { normalizeUnits } from "moment";
 
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Select from "@material-ui/core/Select";
+
 class IncentiveForm extends React.Component {
     constructor(props) {
         super(props);
@@ -105,13 +111,17 @@ class IncentiveForm extends React.Component {
         }));
     };
 
-    onStartDateChange = (planned_start_date) => {
+    onStartDateChange = (e) => {
+        const planned_start_date = new Date(e.target.value);
+
         this.setState(() => ({
             planned_start_date
         }));
     };
 
-    onEndDateChange = (planned_end_date) => {
+    onEndDateChange = (e) => {
+        const planned_end_date = new Date(e.target.value);
+
         this.setState(() => ({
             planned_end_date
         }));
@@ -158,49 +168,91 @@ class IncentiveForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                <div className="input-group-column">
-                    {!!this.props.incentivePackageError && <p className="form__error">Request failed...</p>}
-                    {!!this.state.error && <p className="form__error">{this.state.error}</p>}
-                    <p className="form__error">* - Fields required</p>
-                </div>
-                <div className="input-group">
-                    <p className="form__label">Description*: </p>
-                    <textarea
-                        className="textarea"
-                        type="text"
+                <Box paddingBottom={3}>
+                    {!!this.props.incentivePackageError && (
+                        <Typography color="error" gutterBottom>
+                            Request failed...
+                        </Typography>
+                    )}
+                    {!!this.state.error && (
+                        <Typography color="error" gutterBottom>
+                            {this.state.error}
+                        </Typography>
+                    )}
+                </Box>
+                <Box>
+                    <TextField
+                        required
+                        autoFocus
+                        label="Incentive Description"
                         placeholder="Description"
                         value={this.state.ip_description}
                         onChange={this.onDescriptionChange}
                         disabled={this.props.read_only}
                     />
-                </div>
-                <div className="input-group">
-                    <p className="form__label">
-                        Incentive Type* (Hold down "Control", or "Command" on a Mac, to select more than one.):{" "}
-                    </p>
-                    <select
-                        multiple
-                        disabled={this.props.read_only}
-                        onChange={this.onIncentiveTypeChange}
-                        value={this.state.incentive_type}
-                    >
-                        <option key="empty" value="" />
-                        {this.props.incentiveTypes.map((incentiveType) => {
-                            return (
-                                <option key={incentiveType.incentive_name} value={incentiveType.incentive_name}>
-                                    {incentiveType.incentive_name}
-                                </option>
-                            );
-                        })}
-                    </select>
-                </div>
-                {this.state.incentive_type.includes("Food") && (
-                    <div className="input-group">
-                        <p className="form__label">
-                            Diet Options* (Hold down "Control", or "Command" on a Mac, to select more than one.):{" "}
-                        </p>
-                        <select
+                </Box>
+                {!!this.state.fromEvent && (
+                    <React.Fragment>
+                        <Box>
+                            <TextField
+                                required
+                                label="Start Date"
+                                type="datetime-local"
+                                placeholder="Start Date"
+                                disabled={this.props.read_only}
+                                onChange={this.onStartDateChange}
+                                value={moment(this.state.planned_start_date)
+                                    .format("YYYY-MM-DDTHH:mm")
+                                    .toString()}
+                            />
+                        </Box>
+                        <Box>
+                            <TextField
+                                required
+                                label="End Date"
+                                type="datetime-local"
+                                placeholder="End Date"
+                                disabled={this.props.read_only}
+                                onChange={this.onEndDateChange}
+                                value={moment(this.state.planned_end_date)
+                                    .format("YYYY-MM-DDTHH:mm")
+                                    .toString()}
+                            />
+                        </Box>
+                    </React.Fragment>
+                )}
+                {!!this.props.incentiveTypes && (
+                    <Box display="flex">
+                        <Box paddingRight={2}>
+                            <Typography>Incentive Types:</Typography>
+                        </Box>
+                        <Select
+                            required
+                            native
                             multiple
+                            disabled={this.props.read_only}
+                            onChange={this.onIncentiveTypeChange}
+                            value={this.state.incentive_type}
+                        >
+                            <option key="empty" value="" />
+                            {this.props.incentiveTypes.map((incentiveType) => {
+                                return (
+                                    <option key={incentiveType.incentive_name} value={incentiveType.incentive_name}>
+                                        {incentiveType.incentive_name}
+                                    </option>
+                                );
+                            })}
+                        </Select>
+                    </Box>
+                )}
+                {this.state.incentive_type.includes("Food") && (
+                    <Box display="flex">
+                        <Box paddingRight={2}>
+                            <Typography>Diet Options:</Typography>
+                        </Box>
+                        <Select
+                            multiple
+                            native
                             onChange={this.onDietOptionsChange}
                             value={this.state.diet_option}
                             disabled={this.props.read_only}
@@ -212,34 +264,17 @@ class IncentiveForm extends React.Component {
                                     </option>
                                 );
                             })}
-                        </select>
-                    </div>
+                        </Select>
+                    </Box>
                 )}
-                {!!this.state.fromEvent && (
-                    <div>
-                        <div className="input-group">
-                            <p className="form__label">Start Date*:</p>
-                            <DateTimePicker
-                                disabled={this.props.read_only}
-                                onChange={this.onStartDateChange}
-                                value={this.state.planned_start_date}
-                                clearIcon={null}
-                            />
-                            <div />
-                        </div>
-                        <div className="input-group">
-                            <p className="form__label">End Date*:</p>
-                            <DateTimePicker
-                                disabled={this.props.read_only}
-                                onChange={this.onEndDateChange}
-                                value={this.state.planned_end_date}
-                                clearIcon={null}
-                            />
-                            <div />
-                        </div>
-                    </div>
-                )}
-                <div>{!this.props.read_only && <button className="button">{this.props.nextStep}</button>}</div>
+
+                <div>
+                    {!this.props.read_only && (
+                        <Button color="primary" variant="contained" type="submit">
+                            {this.props.nextStep}
+                        </Button>
+                    )}
+                </div>
             </form>
         );
     }
