@@ -5,8 +5,8 @@ import RecoveryForm from "../forms/RecoveryForm";
 import { connect } from "react-redux";
 import { authFail, authLogin, passwordResetRequest } from "../../actions/auth";
 import emailValidator from "email-validator";
-import { WhiteRedButton } from "../Buttons";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 class LoginModal extends React.Component {
     constructor(props) {
@@ -121,9 +121,9 @@ class LoginModal extends React.Component {
                             <RecoveryForm onSubmit={this.recoveryOnSubmit} id="recovery" />
                             <Typography onClick={this.changePasswordRecovery}>Return to Login</Typography>
                             <div className="modal_buttons">
-                                <WhiteRedButton className="button modal__button" type="submit" form="recovery">
+                                <Button color="primary" variant="contained" type="submit" form="recovery">
                                     Send Email
-                                </WhiteRedButton>
+                                </Button>
                             </div>
                         </div>
                     )
@@ -132,12 +132,23 @@ class LoginModal extends React.Component {
                         <LoginForm onSubmit={this.loginOnSubmit} id="login" />
                         <Typography onClick={this.changePasswordRecovery}>Forgot Password?</Typography>
                         <div className="modal__buttons">
-                            <WhiteRedButton color="primary" type="submit" form="login">
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                style={{ margin: 5 }}
+                                type="submit"
+                                form="login"
+                            >
                                 Login
-                            </WhiteRedButton>
-                            <WhiteRedButton className="button" onClick={this.props.closeLoginOpenSignupModal}>
+                            </Button>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                style={{ margin: 5 }}
+                                onClick={this.props.closeLoginOpenSignupModal}
+                            >
                                 Create Account
-                            </WhiteRedButton>
+                            </Button>
                         </div>
                     </div>
                 )}

@@ -4,8 +4,8 @@ import Modal from "react-modal";
 import AccountForm from "../forms/AccountForm";
 import emailValidator from "email-validator";
 import { authFail, authSignup, authLogin, resendActivationEmail } from "../../actions/auth";
-import { WhiteRedButton } from "../Buttons";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 class SignupModal extends React.Component {
     constructor(props) {
@@ -136,12 +136,23 @@ class SignupModal extends React.Component {
                             id="signup"
                         />
                         <div className="modal__buttons">
-                            <WhiteRedButton className="button modal__button" type="submit" form="signup">
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                style={{ margin: 5 }}
+                                type="submit"
+                                form="signup"
+                            >
                                 Sign Up
-                            </WhiteRedButton>
-                            <WhiteRedButton className="button" onClick={this.props.closeSignupOpenLoginModal}>
+                            </Button>
+                            <Button
+                                color="primary"
+                                variant="contained"
+                                style={{ margin: 5 }}
+                                onClick={this.props.closeSignupOpenLoginModal}
+                            >
                                 Login instead
-                            </WhiteRedButton>
+                            </Button>
                         </div>
                     </div>
                 )}

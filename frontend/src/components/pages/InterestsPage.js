@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import Interest from "../Interest";
 import { getAllInterests, startSetUserInterests, startEditUserInterests } from "../../actions/interests";
+import Button from "@material-ui/core/Button";
 
 export class InterestsPage extends React.Component {
     constructor(props) {
@@ -97,8 +98,8 @@ export class InterestsPage extends React.Component {
                     <div className="content-container">
                         <h1 className="page_header__title">Let's get to know you</h1>
                         <p>
-                            Please choose 3 or more Interests. When we know what are are passionate about we can find
-                            better events for you
+                            Please choose 1 or more Interests. When we know what you are passionate about we can find
+                            better events for you.
                         </p>
                     </div>
                 </div>
@@ -113,9 +114,14 @@ export class InterestsPage extends React.Component {
                         );
                     })}
                     <div className="clearfix" />
-                    <button className="button--centered" onClick={this.submitChanges}>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        style={{ display: "block", margin: "auto" }}
+                        onClick={this.submitChanges}
+                    >
                         Submit
-                    </button>
+                    </Button>
                 </div>
             </div>
         );

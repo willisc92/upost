@@ -1,12 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import API from "../../utils/API";
 import CommunityCard from "../CommunityCard";
-import {
-    getMyCommunities,
-    startEditUserCommunities,
-    getAllCommunities
-} from "../../actions/communities";
+import { getMyCommunities, startEditUserCommunities, getAllCommunities } from "../../actions/communities";
+import Button from "@material-ui/core/Button";
 
 export class CommunitiesPage extends React.Component {
     constructor(props) {
@@ -18,22 +14,14 @@ export class CommunitiesPage extends React.Component {
     }
 
     markSelectedCommunities = () => {
-        let communitiesWithSelected = this.props.communities.map(
-            (community) => {
-                community.isSelected = false;
-                return community;
-            }
-        );
+        let communitiesWithSelected = this.props.communities.map((community) => {
+            community.isSelected = false;
+            return community;
+        });
 
         for (let i = 0; i < communitiesWithSelected.length; i++) {
-            // for (let j = 0; j < this.props.userCommunities.length; j++) {
-            if (
-                this.props.userCommunities.includes(
-                    communitiesWithSelected[i].community_name
-                )
-            ) {
+            if (this.props.userCommunities.includes(communitiesWithSelected[i].community_name)) {
                 communitiesWithSelected[i].isSelected = true;
-                //  }
             }
         }
 
@@ -47,14 +35,18 @@ export class CommunitiesPage extends React.Component {
     };
 
     componentDidMount() {
-        this.props.getAllCommunities().then(
-            () => {
-                this.getUserCommunities();
-            },
-            (error) => {
-                this.setState({ isLoaded: true, error });
-            }
-        );
+        if (this.props.communities.length === 0) {
+            this.props.getAllCommunities().then(
+                () => {
+                    this.getUserCommunities();
+                },
+                (error) => {
+                    this.setState({ isLoaded: true, error });
+                }
+            );
+        } else {
+            this.getUserCommunities();
+        }
     }
 
     changeIsSelected = (community_name) => {
@@ -84,10 +76,7 @@ export class CommunitiesPage extends React.Component {
                 this.props.history.push("/");
             })
             .catch((error) => {
-                console.log(
-                    "An error has occured with updating communities",
-                    error
-                );
+                console.log("An error has occured with updating communities", error);
             });
     };
 
@@ -96,13 +85,8 @@ export class CommunitiesPage extends React.Component {
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page_header__title">
-                            Let's choose communities you want to be part of:{" "}
-                        </h1>
-                        <p>
-                            Please choose 1 or more communities. Let us help you
-                            show you what is relevant to you.
-                        </p>
+                        <h1 className="page_header__title">Let's choose communities you want to be part of: </h1>
+                        <p>Please choose 1 or more communities. Let us help you show you what is relevant to you.</p>
                     </div>
                 </div>
                 <div className="content-container">
@@ -116,12 +100,14 @@ export class CommunitiesPage extends React.Component {
                         );
                     })}
                     <div className="clearfix" />
-                    <button
-                        className="button--centered"
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        style={{ display: "block", margin: "auto" }}
                         onClick={this.submitChanges}
                     >
                         Submit
-                    </button>
+                    </Button>
                 </div>
             </div>
         );
@@ -139,8 +125,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getMyCommunities: () => dispatch(getMyCommunities()),
         getAllCommunities: () => dispatch(getAllCommunities()),
-        startEditUserCommunities: (userCommunities) =>
-            dispatch(startEditUserCommunities(userCommunities))
+        startEditUserCommunities: (userCommunities) => dispatch(startEditUserCommunities(userCommunities))
     };
 };
 
