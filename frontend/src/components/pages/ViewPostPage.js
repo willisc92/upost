@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
-import {
-    startGetSubscriptions,
-    startUpdateSubscriptions
-} from "../../actions/subscriptions";
+import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 import IncentivePackage from "../IncentivePackage";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 class ViewPostPage extends React.Component {
     componentDidMount() {
@@ -19,20 +18,12 @@ class ViewPostPage extends React.Component {
                 if (res.data[0].deleted_flag) {
                     this.props.history.push("/");
                 }
-                this.props
-                    .startGetChannel(this.props.post.channel)
-                    .catch((err) => {
-                        console.log(
-                            "error in getting channel information",
-                            JSON.stringify(err, null, 2)
-                        );
-                    });
+                this.props.startGetChannel(this.props.post.channel).catch((err) => {
+                    console.log("error in getting channel information", JSON.stringify(err, null, 2));
+                });
             })
             .catch((err) => {
-                console.log(
-                    "error in getting post information",
-                    JSON.stringify(err, null, 2)
-                );
+                console.log("error in getting post information", JSON.stringify(err, null, 2));
             });
 
         // check to see if subscriptions is provided
@@ -54,7 +45,7 @@ class ViewPostPage extends React.Component {
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page-header__title">Post</h1>
+                        <Typography variant="h1">Post</Typography>
                     </div>
                 </div>
                 <div className="content-container-split">
@@ -65,30 +56,20 @@ class ViewPostPage extends React.Component {
                                 src={
                                     !!this.props.post.picture
                                         ? this.props.post.picture
-                                        : CDNLink +
-                                          "/dist/images/polaroid_default.png"
+                                        : CDNLink + "/dist/images/polaroid_default.png"
                                 }
                             />
                             <div className="post__title">
-                                <h1 className="post__header">
-                                    {this.props.post.post_title}
-                                </h1>
+                                <Typography variant="h2">{this.props.post.post_title}</Typography>
                                 {this.props.post.post_events.length > 0 && (
-                                    <button
-                                        className="button"
-                                        onClick={this.moveToPostEventsPage}
-                                    >
+                                    <Button variant="contained" color="primary" onClick={this.moveToPostEventsPage}>
                                         See Events
-                                    </button>
+                                    </Button>
                                 )}
                             </div>
-                            <p>
-                                Description: {this.props.post.post_description}
-                            </p>
+                            <Typography variant="body1">Description: {this.props.post.post_description}</Typography>
                             {!!this.props.post.post_incentive && (
-                                <IncentivePackage
-                                    package={this.props.post.post_incentive}
-                                />
+                                <IncentivePackage package={this.props.post.post_incentive} />
                             )}
                         </div>
                     )}
@@ -98,40 +79,27 @@ class ViewPostPage extends React.Component {
                                 <Link
                                     className="post__link"
                                     to={{
-                                        pathname: `/channel/${
-                                            this.props.channel.channel_id
-                                        }`
+                                        pathname: `/channel/${this.props.channel.channel_id}`
                                     }}
                                 >
-                                    {
-                                        <h2 className="post__header2">
-                                            {this.props.channel.channel_name}
-                                        </h2>
-                                    }
+                                    <Typography variant="h3">{this.props.channel.channel_name}</Typography>
                                 </Link>
                                 {!!this.props.subscriptions && (
-                                    <button
-                                        className="button"
-                                        onClick={this.updateSubscriptions}
-                                    >
-                                        {this.props.subscriptions.includes(
-                                            this.props.channel.channel_id
-                                        )
+                                    <Button variant="contained" color="primary" onClick={this.updateSubscriptions}>
+                                        {this.props.subscriptions.includes(this.props.channel.channel_id)
                                             ? "Unsubscribe"
                                             : "Subscribe"}
-                                    </button>
+                                    </Button>
                                 )}
                             </div>
                         )}
                         {!!this.props.post && (
                             <div>
-                                <h2 className="post__header2">
-                                    Contact Information
-                                </h2>
-                                <p>{`Phone Number: ${
+                                <Typography variant="h3">Contact Information</Typography>
+                                <Typography variant="body1">{`Phone Number: ${
                                     this.props.post.phone_number
-                                }`}</p>
-                                <p>{`Email: ${this.props.post.email}`}</p>
+                                }`}</Typography>
+                                <Typography variant="body1">{`Email: ${this.props.post.email}`}</Typography>
                             </div>
                         )}
                     </div>

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import DatePicker from "react-date-picker";
 import TextField from "@material-ui/core/TextField";
+import Box from "@material-ui/core/Box";
 
 export class AccountForm extends React.Component {
     constructor(props) {
@@ -45,15 +46,17 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <TextField
-                    required
-                    label="Username (150 characters or fewer)"
-                    margin="normal"
-                    color="primary"
-                    variant="outlined"
-                    autoFocus
-                    name="username"
-                />
+                <Box bgcolor="white">
+                    <TextField
+                        required
+                        label="Username (150 characters or fewer)"
+                        fullWidth={true}
+                        color="primary"
+                        variant="outlined"
+                        autoFocus
+                        name="username"
+                    />
+                </Box>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.email &&
                     this.props.auth.error.email.map((error) => {
@@ -63,15 +66,17 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <TextField
-                    required
-                    name="email"
-                    required
-                    label="Email*"
-                    margin="normal"
-                    color="primary"
-                    variant="outlined"
-                />
+                <Box bgcolor="white">
+                    <TextField
+                        required
+                        name="email"
+                        required
+                        label="Email*"
+                        fullWidth={true}
+                        color="primary"
+                        variant="outlined"
+                    />
+                </Box>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.first_name &&
                     this.props.auth.error.first_name.map((error) => {
@@ -81,15 +86,25 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <TextField
-                    required
-                    label="First Name"
-                    margin="normal"
-                    color="primary"
-                    variant="outlined"
-                    name="firstName"
-                />
-                <TextField label="Middle Name" margin="normal" color="primary" variant="outlined" name="middleName" />
+                <Box bgcolor="white">
+                    <TextField
+                        required
+                        label="First Name"
+                        fullWidth={true}
+                        color="primary"
+                        variant="outlined"
+                        name="firstName"
+                    />
+                </Box>
+                <Box bgcolor="white">
+                    <TextField
+                        label="Middle Name"
+                        fullWidth={true}
+                        color="primary"
+                        variant="outlined"
+                        name="middleName"
+                    />
+                </Box>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.last_name &&
                     this.props.auth.error.last_name.map((error) => {
@@ -99,14 +114,16 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <TextField
-                    required
-                    label="Last Name"
-                    margin="normal"
-                    color="primary"
-                    variant="outlined"
-                    name="lastName"
-                />
+                <Box bgcolor="white">
+                    <TextField
+                        required
+                        label="Last Name"
+                        fullWidth={true}
+                        color="primary"
+                        variant="outlined"
+                        name="lastName"
+                    />
+                </Box>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.birth_date &&
                     this.props.auth.error.birth_date.map((error) => {
@@ -135,24 +152,28 @@ export class AccountForm extends React.Component {
                             </p>
                         );
                     })}
-                <TextField
-                    required
-                    type="password"
-                    label={`Password (At least ${this.props.minPasswordLength}) characters)`}
-                    margin="normal"
-                    color="primary"
-                    variant="outlined"
-                    name="password"
-                />
-                <TextField
-                    required
-                    type="password"
-                    label="Password Confirmation"
-                    margin="normal"
-                    color="primary"
-                    variant="outlined"
-                    name="passwordConfirmation"
-                />
+                <Box bgcolor="white">
+                    <TextField
+                        required
+                        type="password"
+                        label={`Password (At least ${this.props.minPasswordLength}) characters)`}
+                        fullWidth={true}
+                        color="primary"
+                        variant="outlined"
+                        name="password"
+                    />
+                </Box>
+                <Box bgcolor="white">
+                    <TextField
+                        required
+                        type="password"
+                        label="Password Confirmation"
+                        fullWidth={true}
+                        color="primary"
+                        variant="outlined"
+                        name="passwordConfirmation"
+                    />
+                </Box>
             </form>
         );
     }

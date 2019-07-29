@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import CommunityCard from "../CommunityCard";
 import { getMyCommunities, startEditUserCommunities, getAllCommunities } from "../../actions/communities";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
 export class CommunitiesPage extends React.Component {
     constructor(props) {
@@ -85,8 +86,10 @@ export class CommunitiesPage extends React.Component {
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page_header__title">Let's choose communities you want to be part of: </h1>
-                        <p>Please choose 1 or more communities. Let us help you show you what is relevant to you.</p>
+                        <Typography variant="h1">Let's choose some communities you want to be part of:</Typography>
+                        <Typography variant="body1">
+                            Please choose 1 or more communities. Let us help you show you what is relevant to you.
+                        </Typography>
                     </div>
                 </div>
                 <div className="content-container">

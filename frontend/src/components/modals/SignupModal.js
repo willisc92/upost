@@ -106,7 +106,7 @@ class SignupModal extends React.Component {
                 <div className="modal__header">
                     <img className="modal__logo" src={CDNLink + "/dist/images/logo.png"} />
                     <div>
-                        <Typography variant="h6" style={{ textAlign: "left" }}>
+                        <Typography variant="h5" style={{ textAlign: "left" }}>
                             Create Your U-Post Account
                         </Typography>
                         <Typography variant="h6" style={{ textAlign: "left" }}>
