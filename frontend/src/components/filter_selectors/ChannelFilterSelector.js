@@ -50,7 +50,7 @@ export class ChannelFilters extends React.Component {
             <Box display="flex" flexDirection="row" py={2}>
                 <Box display="flex" flexDirection="column" paddingRight={1}>
                     <Typography>Search:</Typography>
-                    <Box bgcolor="white">
+                    <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                         <Input
                             type="text"
                             className="text-input"
@@ -64,7 +64,7 @@ export class ChannelFilters extends React.Component {
                 </Box>
                 <Box display="flex" flexDirection="column" paddingRight={1}>
                     <Typography>Sort By:</Typography>
-                    <Box bgcolor="white">
+                    <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                         <Select
                             autoWidth
                             className="select"

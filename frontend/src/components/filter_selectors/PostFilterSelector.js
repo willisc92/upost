@@ -70,7 +70,7 @@ export class PostFilters extends React.Component {
                 <Box display="flex" flexDirection="row" py={2}>
                     <Box display="flex" flexDirection="column" paddingRight={1}>
                         <Typography>Search:</Typography>
-                        <Box bgcolor="white">
+                        <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                             <Input
                                 className="text-input"
                                 type="text"
@@ -84,7 +84,7 @@ export class PostFilters extends React.Component {
                     </Box>
                     <Box display="flex" flexDirection="column" paddingRight={1}>
                         <Typography>Community:</Typography>
-                        <Box bgcolor="white">
+                        <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                             <Select
                                 value={this.props.filters.community}
                                 onChange={this.onCommunitiesChange}
@@ -104,7 +104,7 @@ export class PostFilters extends React.Component {
                     </Box>
                     <Box display="flex" flexDirection="column" paddingRight={1}>
                         <Typography>Sort By:</Typography>
-                        <Box bgcolor="white">
+                        <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                             <Select
                                 className="select"
                                 value={this.props.filters.sortBy}

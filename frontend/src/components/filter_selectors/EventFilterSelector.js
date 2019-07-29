@@ -101,7 +101,7 @@ export class EventFilters extends React.Component {
             <Box display="flex" flexDirection="row" py={2}>
                 <Box display="flex" flexDirection="column" paddingRight={1}>
                     <Typography>Search:</Typography>
-                    <Box bgcolor="white">
+                    <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                         <Input
                             type="text"
                             className="text-input"
@@ -114,7 +114,7 @@ export class EventFilters extends React.Component {
                 </Box>
                 <Box display="flex" flexDirection="column" paddingRight={1}>
                     <Typography>Sort By:</Typography>
-                    <Box bgcolor="white">
+                    <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                         <Select
                             className="select"
                             value={this.props.filters.sortBy}
@@ -129,7 +129,7 @@ export class EventFilters extends React.Component {
                 </Box>
                 <Box display="flex" flexDirection="column" paddingRight={1}>
                     <Typography>Community:</Typography>
-                    <Box bgcolor="white">
+                    <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                         <Select
                             className="select"
                             value={this.props.filters.community}
@@ -149,7 +149,7 @@ export class EventFilters extends React.Component {
                 </Box>
                 <Box display="flex" flexDirection="column" paddingRight={1}>
                     <Typography>Occuring:</Typography>
-                    <Box bgcolor="white">
+                    <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                         <Select
                             className="select"
                             value={this.props.filters.dayFilter}
@@ -180,7 +180,7 @@ export class EventFilters extends React.Component {
                 {!this.props.foodSpecific && (
                     <Box display="flex" flexDirection="column" paddingRight={1}>
                         <Typography>Incentive:</Typography>
-                        <Box bgcolor="white">
+                        <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                             <Select
                                 className="select"
                                 value={this.props.filters.hasIncentive}
@@ -197,41 +197,45 @@ export class EventFilters extends React.Component {
                 {this.props.filters.hasIncentive === "hasIncentive" && !this.props.foodSpecific && (
                     <Box display="flex" flexDirection="column" paddingRight={1}>
                         <Typography>Incentive Type:</Typography>
-                        <Select
-                            className="select"
-                            value={this.props.filters.incentiveType}
-                            onChange={this.handleIncentiveTypeChange}
-                            disableUnderline
-                        >
-                            <MenuItem value="">Show All</MenuItem>
-                            {this.props.incentiveTypes.map((incentive) => {
-                                return (
-                                    <MenuItem key={incentive} value={incentive}>
-                                        {incentive}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
+                        <Box bgcolor="white" border={0.1} borderColor="#cacccd">
+                            <Select
+                                className="select"
+                                value={this.props.filters.incentiveType}
+                                onChange={this.handleIncentiveTypeChange}
+                                disableUnderline
+                            >
+                                <MenuItem value="">Show All</MenuItem>
+                                {this.props.incentiveTypes.map((incentive) => {
+                                    return (
+                                        <MenuItem key={incentive} value={incentive}>
+                                            {incentive}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </Box>
                     </Box>
                 )}
                 {(this.props.filters.incentiveType === "Food" || this.props.foodSpecific) && (
                     <Box display="flex" flexDirection="column" paddingRight={1}>
                         <Typography>Diet Option:</Typography>
-                        <Select
-                            className="select"
-                            value={this.props.filters.dietOption}
-                            onChange={this.handleDietOptionChange}
-                            disableUnderline
-                        >
-                            <MenuItem value="">Show All</MenuItem>
-                            {this.props.dietOptions.map((dietOption) => {
-                                return (
-                                    <MenuItem key={dietOption} value={dietOption}>
-                                        {dietOption}
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
+                        <Box bgcolor="white" border={0.1} borderColor="#cacccd">
+                            <Select
+                                className="select"
+                                value={this.props.filters.dietOption}
+                                onChange={this.handleDietOptionChange}
+                                disableUnderline
+                            >
+                                <MenuItem value="">Show All</MenuItem>
+                                {this.props.dietOptions.map((dietOption) => {
+                                    return (
+                                        <MenuItem key={dietOption} value={dietOption}>
+                                            {dietOption}
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </Box>
                     </Box>
                 )}
             </Box>
