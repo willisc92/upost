@@ -78,7 +78,7 @@ class LoginModal extends React.Component {
                     <img className="modal__logo" src={CDNLink + "/dist/images/logo.png"} />
                     {this.state.passwordRecovery ? (
                         <div>
-                            <Typography variant="h6" style={{ textAlign: "left" }}>
+                            <Typography variant="h5" style={{ textAlign: "left" }}>
                                 Find Your Email
                             </Typography>
                             <Typography variant="h6" style={{ textAlign: "left" }}>
@@ -87,8 +87,8 @@ class LoginModal extends React.Component {
                         </div>
                     ) : (
                         <div>
-                            <Typography variant="h6" style={{ textAlign: "left" }}>
-                                Login to your U-post Account
+                            <Typography variant="h5" style={{ textAlign: "left" }}>
+                                Login to your U-Post Account
                             </Typography>
                             <Typography variant="h6" style={{ textAlign: "left" }}>
                                 to continue

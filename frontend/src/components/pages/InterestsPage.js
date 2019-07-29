@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Interest from "../Interest";
 import { getAllInterests, startSetUserInterests, startEditUserInterests } from "../../actions/interests";
 import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
 export class InterestsPage extends React.Component {
     constructor(props) {
@@ -96,11 +97,11 @@ export class InterestsPage extends React.Component {
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <h1 className="page_header__title">Let's get to know you</h1>
-                        <p>
+                        <Typography variant="h1">Let's get to know you</Typography>
+                        <Typography variant="body1">
                             Please choose 1 or more Interests. When we know what you are passionate about we can find
                             better events for you.
-                        </p>
+                        </Typography>
                     </div>
                 </div>
                 <div className="content-container">

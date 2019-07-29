@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
+import Box from "@material-ui/core/Box";
 
 export class LoginForm extends React.Component {
     constructor(props) {
@@ -25,15 +26,17 @@ export class LoginForm extends React.Component {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 {!!this.props.error && <p className="form__error">{this.props.error.error}</p>}
-                <TextField
-                    label="Email"
-                    color="primary"
-                    variant="outlined"
-                    margin="normal"
-                    autoFocus
-                    value={this.state.email}
-                    onChange={this.onEmailChange}
-                />
+                <Box bgcolor="white">
+                    <TextField
+                        label="Email"
+                        color="primary"
+                        variant="outlined"
+                        fullWidth={true}
+                        autoFocus
+                        value={this.state.email}
+                        onChange={this.onEmailChange}
+                    />
+                </Box>
             </form>
         );
     }
