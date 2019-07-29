@@ -238,7 +238,7 @@ class PostForm extends React.Component {
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 {!!this.props.error && !!this.props.error.post_title && (
                     <Box paddingBottom={3}>
-                        <Typography color="error" variant="h2">
+                        <Typography color="primary" variant="h2">
                             {this.props.error.post_title[0]}
                         </Typography>
                     </Box>

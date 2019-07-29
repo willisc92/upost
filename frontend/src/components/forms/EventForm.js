@@ -1,8 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import DateTimePicker from "react-datetime-picker";
 import { getCurrentUser } from "../../actions/auth";
 import moment from "moment";
+
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 
 export class EventForm extends React.Component {
     constructor(props) {
@@ -92,13 +96,16 @@ export class EventForm extends React.Component {
         }
     };
 
-    onStartDateChange = (startDate) => {
+    onStartDateChange = (e) => {
+        const startDate = new Date(e.target.value);
         this.setState(() => ({
             startDate
         }));
     };
 
-    onEndDateChange = (endDate) => {
+    onEndDateChange = (e) => {
+        const endDate = new Date(e.target.value);
+
         this.setState(() => ({
             endDate
         }));
@@ -108,7 +115,7 @@ export class EventForm extends React.Component {
         e.preventDefault();
         if (!this.state.location) {
             this.setState(() => ({ error: "Please enter a location/room for your event." }));
-        } else if (this.state.endDate <= this.state.startDate) {
+        } else if (new Date(+this.state.endDate) <= new Date(+this.state.startDate)) {
             this.setState(() => ({ error: "End datetime must be after start datetime." }));
         } else if (!this.state.event_description) {
             this.setState(() => ({ error: "Event description must be provided." }));
@@ -142,89 +149,105 @@ export class EventForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                <div className="input-group-column">
-                    {!!this.props.eventError && <p className="form__error">Request failed...</p>}
-                    {this.state.error && <p className="form__error">{this.state.error}</p>}
-                    <p className="form__error">* - Fields required</p>
-                </div>
-                <div className="input-group">
-                    <p className="form__label">Event Title*: </p>
-                    <textarea
-                        className="textarea"
-                        type="text"
+                <Box paddingBottom={3}>
+                    {!!this.props.eventError && (
+                        <Typography color="error" gutterBottom>
+                            Request failed...
+                        </Typography>
+                    )}
+                    {this.state.error && (
+                        <Typography color="error" gutterBottom>
+                            {this.state.error}
+                        </Typography>
+                    )}
+                </Box>
+                <Box>
+                    <TextField
+                        required
+                        label="Event Title"
                         placeholder="Title"
+                        autoFocus
                         value={this.state.event_title}
                         onChange={this.onTitleChange}
                         disabled={this.props.read_only}
                     />
-                </div>
-                <div className="input-group">
-                    <p className="form__label">Description*: </p>
-                    <textarea
-                        className="textarea"
-                        type="text"
+                </Box>
+                <Box>
+                    <TextField
+                        label="Description"
                         placeholder="Description"
                         value={this.state.event_description}
                         onChange={this.onDescriptionChange}
                         disabled={this.props.read_only}
                     />
-                </div>
-                <div className="input-group">
-                    <p className="form__label">Location/Room *:</p>
-                    <input
+                </Box>
+                <Box>
+                    <TextField
                         readOnly={this.props.read_only}
-                        className="text-input"
-                        type="text"
+                        label="Location/Room"
                         placeholder="Location"
-                        autoFocus
                         value={this.state.location}
                         onChange={this.onLocationChange}
                     />
-                </div>
-                <div className="input-group">
-                    <p className="form__label">Capacity (Select 0 if undefined) *: </p>
-                    <input
-                        readOnly={this.props.read_only}
-                        className="text-input"
-                        type="number"
-                        value={this.state.capacity}
-                        onChange={this.onCapacityChange}
-                        min="0"
-                    />
-                </div>
-                <p>{`Currently there are ${this.state.capacity_status} attendee(s) registered for this event`}</p>
-                <div className="input-group">
-                    <p className="form__label"> Cost ($)*: </p>
-                    <input
-                        className="text-input"
+                </Box>
+                <Box display="flex">
+                    <Box paddingRight={2}>
+                        <TextField
+                            readOnly={this.props.read_only}
+                            label="Capacity"
+                            type="number"
+                            value={this.state.capacity}
+                            onChange={this.onCapacityChange}
+                            min="0"
+                        />
+                    </Box>
+                    <Typography>{`Currently there are ${
+                        this.state.capacity_status
+                    } attendee(s) registered for this event`}</Typography>
+                </Box>
+                <Box>
+                    <TextField
+                        label="Cost ($)"
                         type="text"
                         placeholder="Cost"
                         value={this.state.cost}
                         onChange={this.onCostChange}
                         disabled={this.props.read_only}
                     />
-                </div>
-                <div className="input-group">
-                    <p className="form__label">Start Date *:</p>
-                    <DateTimePicker
+                </Box>
+                <Box>
+                    <TextField
+                        required
+                        label="Start Date"
+                        type="datetime-local"
+                        placeholder="Start Date"
                         disabled={this.props.read_only}
                         onChange={this.onStartDateChange}
-                        value={this.state.startDate}
-                        clearIcon={null}
+                        value={moment(this.state.startDate)
+                            .format("YYYY-MM-DDTHH:mm")
+                            .toString()}
                     />
-                    <div />
-                </div>
-                <div className="input-group">
-                    <p className="form__label">End Date *:</p>
-                    <DateTimePicker
+                </Box>
+                <Box>
+                    <TextField
+                        required
+                        label="End Date"
+                        type="datetime-local"
+                        placeholder="End Date"
                         disabled={this.props.read_only}
                         onChange={this.onEndDateChange}
-                        value={this.state.endDate}
-                        clearIcon={null}
+                        value={moment(this.state.endDate)
+                            .format("YYYY-MM-DDTHH:mm")
+                            .toString()}
                     />
-                    <div />
+                </Box>
+                <div>
+                    {!this.props.read_only && (
+                        <Button color="primary" variant="contained" type="submit">
+                            {this.props.nextStep}
+                        </Button>
+                    )}
                 </div>
-                <div>{!this.props.read_only && <button className="button">{this.props.nextStep}</button>}</div>
             </form>
         );
     }

@@ -11,6 +11,11 @@ import { mapFrequencyToRRule, mapDayToRRule } from "../../utils/recurring";
 import { RRule } from "rrule";
 import MessageModal from "../modals/MessageModal";
 
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+
 class AddEventPage extends React.Component {
     constructor(props) {
         super(props);
@@ -60,21 +65,9 @@ class AddEventPage extends React.Component {
     }
 
     toggleForms = async () => {
-        // if (this.state.step === "Event") {
-        //     this.submitButtonRef.click();
-
-        //     // this.setState({
-        //     //     step: "Incentive"
-        //     // });
-        // }
-
-        // if (this.state.step === "Incentive") {
-        // this.submitButtonRef.click();
-
         this.setState({
             step: "Event"
         });
-        // }
     };
 
     goBack = () => {
@@ -452,54 +445,63 @@ class AddEventPage extends React.Component {
     };
 
     render() {
-        console.log(this.state);
         const read_only = !!this.props.post && this.props.post.deleted_flag;
 
         return (
             <div>
-                <div className="page-header">
-                    <div className="content-container">
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
                         {this.state.step === "Event" && (
-                            <h1 className="page-header__title">
-                                Add an Event to Post: <span>{this.props.post && this.props.post.post_title}</span>
-                            </h1>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h1" display="inline">
+                                    Add an Event to Post:{" "}
+                                </Typography>
+                                <Typography variant="h1" display="inline" color="primary">
+                                    {this.props.post && this.props.post.post_title}
+                                </Typography>
+                            </Box>
                         )}
                         {this.state.step === "Incentive" && (
-                            <h1 className="page-header__title">
-                                Add an Incentive to the Event <span>(Optional)</span>
-                            </h1>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h1" display="inline" color="primary">
+                                    (Optional)
+                                </Typography>
+                                <Typography variant="h1" display="inline">
+                                    Add an Incentive to the Event{" "}
+                                </Typography>
+                            </Box>
                         )}
                         {read_only ? (
-                            <div>
-                                <h2 className="page-header__subtitle__red">
+                            <Box>
+                                <Typography variant="h2" color="error" gutterBottom>
                                     You must restore the post of this event before adding.
-                                </h2>
-                                <button className="button" onClick={this.goToPost}>
+                                </Typography>
+                                <Button color="primary" variant="contained" onClick={this.goToPost}>
                                     Go to Post
-                                </button>
-                            </div>
+                                </Button>
+                            </Box>
                         ) : (
-                            <div className="page-header__actions">
+                            <Box>
                                 <span>
                                     {this.state.step === "Incentive" && (
                                         <React.Fragment>
-                                            <button className="button" onClick={this.toggleForms}>
-                                                Go back
-                                            </button>{" "}
+                                            <Button color="primary" variant="contained" onClick={this.toggleForms}>
+                                                Go Back
+                                            </Button>{" "}
                                         </React.Fragment>
                                     )}
-                                    <button className="button" onClick={this.goBack}>
+                                    <Button color="primary" variant="contained" onClick={this.goBack}>
                                         See All Post Events
-                                    </button>{" "}
-                                    <button className="button" onClick={this.recurringOpen}>
+                                    </Button>{" "}
+                                    <Button color="primary" variant="contained" onClick={this.recurringOpen}>
                                         Open Recurring Settings
-                                    </button>{" "}
+                                    </Button>{" "}
                                 </span>
-                            </div>
+                            </Box>
                         )}
-                    </div>
-                </div>
-                <div className="content-container">
+                    </Container>
+                </Box>
+                <Container fixed>
                     <RecurringModal isOpen={this.state.recurringOpen} onSubmit={this.recurringSubmit} />
                     <MessageModal
                         isOpen={this.state.messageOpen}
@@ -507,78 +509,96 @@ class AddEventPage extends React.Component {
                         closeMessageModal={this.handleMessageModalClose}
                     />
                     {!read_only && (
-                        <div className="input_group__item">
+                        <Box py={2}>
                             {!!this.state.base_incentive && (
                                 <React.Fragment>
-                                    <button className="button" onClick={this.clearBaseIncentive}>
+                                    <Button color="primary" variant="contained" onClick={this.clearBaseIncentive}>
                                         Clear Incentive
-                                    </button>{" "}
+                                    </Button>{" "}
                                 </React.Fragment>
                             )}
                             {!!this.state.base_event && this.state.step === "Event" && (
                                 <React.Fragment>
-                                    <button className="button" onClick={this.clearBaseEvent}>
+                                    <Button color="primary" variant="contained" onClick={this.clearBaseEvent}>
                                         Clear Event
-                                    </button>{" "}
+                                    </Button>{" "}
                                 </React.Fragment>
                             )}
                             {!!this.state.base_event && !!this.state.base_incentive && (
                                 <React.Fragment>
-                                    <button className="button" onClick={this.clearBaseEventandIncentive}>
+                                    <Button
+                                        color="primary"
+                                        variant="contained"
+                                        onClick={this.clearBaseEventandIncentive}
+                                    >
                                         Clear Event and Incentive
-                                    </button>{" "}
+                                    </Button>{" "}
                                 </React.Fragment>
                             )}
-                        </div>
+                        </Box>
                     )}
-                    <div className="input_group__item">
-                        <h3>{this.mapRRulesToText()}</h3>
-                    </div>
-                    <div className="input_group__item">
-                        {!!this.state.event_error && <p className="form__error">{this.state.event_error}</p>}
-                        {!!this.state.incentive_error && <p className="form__error">{this.state.incentive_error}</p>}
-                        {!!this.state.error && <p className="form__error">{this.state.error}</p>}
-                    </div>
+                    <Box>
+                        <Typography variant="h3" color="primary">
+                            {this.mapRRulesToText()}
+                        </Typography>
+                    </Box>
+                    {!!this.state.event_error && (
+                        <Box py={2}>
+                            <Typography variant="h3" color="error">
+                                {this.state.event_error}
+                            </Typography>
+                        </Box>
+                    )}
+                    {!!this.state.incentive_error && (
+                        <Box py={2}>
+                            <Typography variant="h3" color="error">
+                                {this.state.incentive_error}
+                            </Typography>
+                        </Box>
+                    )}
+                    {!!this.state.error && (
+                        <Box py={2}>
+                            <Typography variant="h3" color="error">
+                                {this.state.error}
+                            </Typography>
+                        </Box>
+                    )}
                     {this.state.step === "Event" && (
-                        <div className="input_group__item">
-                            <EventForm
-                                event={this.state.base_event}
-                                read_only={read_only}
-                                id="Event"
-                                post={this.props.match.params.id}
-                                description={!!this.props.post ? this.props.post.post_description : ""}
-                                onSubmit={this.onSubmit}
-                                nextStep="Continue"
-                            />
-                        </div>
+                        <EventForm
+                            event={this.state.base_event}
+                            read_only={read_only}
+                            id="Event"
+                            post={this.props.match.params.id}
+                            description={!!this.props.post ? this.props.post.post_description : ""}
+                            onSubmit={this.onSubmit}
+                            nextStep="Continue"
+                        />
                     )}
                     {this.state.step === "Incentive" && (
-                        <div className="input_group__item">
-                            <IncentiveForm
-                                id="Incentive"
-                                description={!!this.props.post ? this.props.post.post_description : ""}
-                                incentivePackage={this.state.base_incentive}
-                                onSubmit={this.onSubmit}
-                                nextStep="Save Incentive and Go Back"
-                                event={this.state.base_event}
-                                fromEvent={true}
-                            />
-                        </div>
+                        <IncentiveForm
+                            id="Incentive"
+                            description={!!this.props.post ? this.props.post.post_description : ""}
+                            incentivePackage={this.state.base_incentive}
+                            onSubmit={this.onSubmit}
+                            nextStep="Save Incentive and Go Back"
+                            event={this.state.base_event}
+                            fromEvent={true}
+                        />
                     )}
 
                     {!read_only && !!this.state.base_event && (
                         <React.Fragment>
-                            <button className="button" onClick={this.submitAll}>
+                            <Button color="primary" variant="contained" onClick={this.submitAll}>
                                 Save and Submit All
-                            </button>{" "}
+                            </Button>{" "}
                         </React.Fragment>
                     )}
 
                     {this.state.step === "Incentive" && (
                         <React.Fragment>
-                            <button className="button" onClick={this.submitWithoutSaving}>
+                            <Button color="primary" variant="contained" onClick={this.submitWithoutSaving}>
                                 Skip Incentive and Submit
-                            </button>
+                            </Button>
                         </React.Fragment>
                     )}
 
@@ -590,7 +610,7 @@ class AddEventPage extends React.Component {
                             this.submitButtonRef = node;
                         }}
                     />
-                </div>
+                </Container>
             </div>
         );
     }
