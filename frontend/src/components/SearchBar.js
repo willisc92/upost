@@ -41,7 +41,7 @@ export class SearchBar extends React.Component {
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 <MessageModal
                     message={this.state.message}
                     closeMessageModal={this.closeMessageModal}
@@ -62,7 +62,7 @@ export class SearchBar extends React.Component {
                         </IconButton>
                     </form>
                 </Box>
-            </div>
+            </React.Fragment>
         );
     }
 }

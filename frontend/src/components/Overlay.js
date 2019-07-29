@@ -16,6 +16,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Header from "./Header";
 import Icon from "@material-ui/core/Icon";
+import Box from "@material-ui/core/Box";
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -103,7 +104,7 @@ export default (props) => {
                     [classes.appBarShift]: open
                 })}
             >
-                <div className="header__content">
+                <Box alignItems="center" display="flex" justifyContent="space-between">
                     <Toolbar>
                         <IconButton
                             color="inherit"
@@ -121,7 +122,7 @@ export default (props) => {
                         </Link>
                     </Toolbar>
                     <Header history={props.history} />
-                </div>
+                </Box>
             </AppBar>
             <Drawer
                 variant="permanent"
