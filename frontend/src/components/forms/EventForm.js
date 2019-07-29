@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import { DateTimePicker } from "@material-ui/pickers";
 
 export class EventForm extends React.Component {
     constructor(props) {
@@ -24,12 +25,8 @@ export class EventForm extends React.Component {
                 ? this.props.description
                 : "",
             error: "",
-            startDate: !!this.props.event ? moment(this.props.event.planned_start_date).toDate() : moment().toDate(),
-            endDate: !!this.props.event
-                ? moment(this.props.event.planned_end_date).toDate()
-                : moment()
-                      .add(1, "hours")
-                      .toDate(),
+            startDate: !!this.props.event ? moment(this.props.event.planned_start_date) : moment(),
+            endDate: !!this.props.event ? moment(this.props.event.planned_end_date) : moment().add(1, "hours"),
             capacity_status: !!this.props.event ? this.props.event.capacity_status : 0
         };
     }
@@ -96,16 +93,13 @@ export class EventForm extends React.Component {
         }
     };
 
-    onStartDateChange = (e) => {
-        const startDate = new Date(e.target.value);
+    onStartDateChange = (startDate) => {
         this.setState(() => ({
             startDate
         }));
     };
 
-    onEndDateChange = (e) => {
-        const endDate = new Date(e.target.value);
-
+    onEndDateChange = (endDate) => {
         this.setState(() => ({
             endDate
         }));
@@ -115,7 +109,7 @@ export class EventForm extends React.Component {
         e.preventDefault();
         if (!this.state.location) {
             this.setState(() => ({ error: "Please enter a location/room for your event." }));
-        } else if (new Date(+this.state.endDate) <= new Date(+this.state.startDate)) {
+        } else if (!!this.state.endDate && !!this.state.startDate && this.state.endDate <= this.state.startDate) {
             this.setState(() => ({ error: "End datetime must be after start datetime." }));
         } else if (!this.state.event_description) {
             this.setState(() => ({ error: "Event description must be provided." }));
@@ -133,8 +127,8 @@ export class EventForm extends React.Component {
                         location: this.state.location,
                         capacity: this.state.capacity,
                         cost: parseFloat(this.state.cost, 10) * 100,
-                        planned_start_date: this.state.startDate,
-                        planned_end_date: this.state.endDate,
+                        planned_start_date: this.state.startDate.toDate(),
+                        planned_end_date: this.state.endDate.toDate(),
                         event_description: this.state.event_description
                     };
                     this.props.onSubmit(payload);
@@ -149,18 +143,19 @@ export class EventForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                <Box paddingBottom={3}>
+                <Box py={2}>
                     {!!this.props.eventError && (
-                        <Typography color="error" gutterBottom>
+                        <Typography variant="h2" color="error" gutterBottom>
                             Request failed...
                         </Typography>
                     )}
                     {this.state.error && (
-                        <Typography color="error" gutterBottom>
+                        <Typography variant="h2" color="error" gutterBottom>
                             {this.state.error}
                         </Typography>
                     )}
                 </Box>
+
                 <Box>
                     <TextField
                         required
@@ -216,29 +211,21 @@ export class EventForm extends React.Component {
                     />
                 </Box>
                 <Box>
-                    <TextField
-                        required
-                        label="Start Date"
-                        type="datetime-local"
-                        placeholder="Start Date"
-                        disabled={this.props.read_only}
+                    <DateTimePicker
+                        value={this.state.startDate}
                         onChange={this.onStartDateChange}
-                        value={moment(this.state.startDate)
-                            .format("YYYY-MM-DDTHH:mm")
-                            .toString()}
+                        label="Start Date"
+                        disabled={this.props.read_only}
+                        required
                     />
                 </Box>
                 <Box>
-                    <TextField
-                        required
-                        label="End Date"
-                        type="datetime-local"
-                        placeholder="End Date"
-                        disabled={this.props.read_only}
+                    <DateTimePicker
+                        value={this.state.endDate}
                         onChange={this.onEndDateChange}
-                        value={moment(this.state.endDate)
-                            .format("YYYY-MM-DDTHH:mm")
-                            .toString()}
+                        label="End Date"
+                        disabled={this.props.read_only}
+                        required
                     />
                 </Box>
                 <div>

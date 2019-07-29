@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { startGetIncentiveTypes } from "../../actions/incentive_types";
 import { startGetDietOptions } from "../../actions/diet_options";
-import DateTimePicker from "react-datetime-picker";
 import { getCurrentUser } from "../../actions/auth";
 import moment, { normalizeUnits } from "moment";
 
@@ -11,6 +10,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Select from "@material-ui/core/Select";
+import { DateTimePicker } from "@material-ui/pickers";
 
 class IncentiveForm extends React.Component {
     constructor(props) {
@@ -38,21 +38,19 @@ class IncentiveForm extends React.Component {
                 : "",
             planned_start_date:
                 !!this.props.incentivePackage && !!this.props.incentivePackage.planned_start_date
-                    ? moment(this.props.incentivePackage.planned_start_date).toDate()
+                    ? moment(this.props.incentivePackage.planned_start_date)
                     : !!this.props.event && !!this.props.event.planned_start_date
-                    ? moment(this.props.event.planned_start_date).toDate()
+                    ? moment(this.props.event.planned_start_date)
                     : !!this.props.fromEvent
-                    ? moment().toDate()
+                    ? moment()
                     : null,
             planned_end_date:
                 !!this.props.incentivePackage && !!this.props.incentivePackage.planned_end_date
-                    ? moment(this.props.incentivePackage.planned_end_date).toDate()
+                    ? moment(this.props.incentivePackage.planned_end_date)
                     : !!this.props.event && !!this.props.event.planned_end_date
-                    ? moment(this.props.event.planned_end_date).toDate()
+                    ? moment(this.props.event.planned_end_date)
                     : !!this.props.fromEvent
-                    ? moment()
-                          .add(1, "hours")
-                          .toDate()
+                    ? moment().add(1, "hours")
                     : null
         };
     }
@@ -111,17 +109,13 @@ class IncentiveForm extends React.Component {
         }));
     };
 
-    onStartDateChange = (e) => {
-        const planned_start_date = new Date(e.target.value);
-
+    onStartDateChange = (planned_start_date) => {
         this.setState(() => ({
             planned_start_date
         }));
     };
 
-    onEndDateChange = (e) => {
-        const planned_end_date = new Date(e.target.value);
-
+    onEndDateChange = (planned_end_date) => {
         this.setState(() => ({
             planned_end_date
         }));
@@ -152,8 +146,8 @@ class IncentiveForm extends React.Component {
                         diet_option: this.state.diet_option,
                         incentive_type: this.state.incentive_type,
                         ip_description: this.state.ip_description,
-                        planned_start_date: this.state.planned_start_date,
-                        planned_end_date: this.state.planned_end_date
+                        planned_start_date: this.state.planned_start_date.toDate(),
+                        planned_end_date: this.state.planned_end_date.toDate()
                     };
                     this.props.onSubmit(payload);
                     console.log(payload);
@@ -168,14 +162,14 @@ class IncentiveForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                <Box paddingBottom={3}>
+                <Box py={2}>
                     {!!this.props.incentivePackageError && (
-                        <Typography color="error" gutterBottom>
+                        <Typography variant="h2" color="error" gutterBottom>
                             Request failed...
                         </Typography>
                     )}
                     {!!this.state.error && (
-                        <Typography color="error" gutterBottom>
+                        <Typography variant="h2" color="error" gutterBottom>
                             {this.state.error}
                         </Typography>
                     )}
@@ -194,29 +188,21 @@ class IncentiveForm extends React.Component {
                 {!!this.state.fromEvent && (
                     <React.Fragment>
                         <Box>
-                            <TextField
-                                required
-                                label="Start Date"
-                                type="datetime-local"
-                                placeholder="Start Date"
-                                disabled={this.props.read_only}
+                            <DateTimePicker
+                                value={this.state.planned_start_date}
                                 onChange={this.onStartDateChange}
-                                value={moment(this.state.planned_start_date)
-                                    .format("YYYY-MM-DDTHH:mm")
-                                    .toString()}
+                                label="Start Date"
+                                disabled={this.props.read_only}
+                                required
                             />
                         </Box>
                         <Box>
-                            <TextField
-                                required
-                                label="End Date"
-                                type="datetime-local"
-                                placeholder="End Date"
-                                disabled={this.props.read_only}
+                            <DateTimePicker
+                                value={this.state.planned_end_date}
                                 onChange={this.onEndDateChange}
-                                value={moment(this.state.planned_end_date)
-                                    .format("YYYY-MM-DDTHH:mm")
-                                    .toString()}
+                                label="End Date"
+                                disabled={this.props.read_only}
+                                required
                             />
                         </Box>
                     </React.Fragment>

@@ -80,7 +80,7 @@ export class ChannelFilters extends React.Component {
                     </Box>
                 </Box>
                 {this.props.filters.sortBy !== "name" && (
-                    <Box display="flex" flexDirection="column">
+                    <Box display="flex" flexDirection="column" fontFamily="fontFamily">
                         <Typography>Date Range:</Typography>
                         <DateRangePicker
                             startDate={this.props.filters.startDate}

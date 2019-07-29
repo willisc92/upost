@@ -24,6 +24,7 @@ import Typography from "@material-ui/core/Typography";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
+import MenuHeader from "../menus/MenuHeader";
 
 export class SearchResultsPage extends React.Component {
     constructor(props) {
@@ -132,14 +133,8 @@ export class SearchResultsPage extends React.Component {
                 </Box>
                 <Container fixed>
                     {(this.state.show === "all" || this.state.show === "channels") && (
-                        <Box>
-                            <Box fontWeight="fontWeightBold">
-                                <Box py={3} my={1} boxShadow={3} px={2} bgcolor="secondary.light">
-                                    <Typography variant="h2" color="primary">
-                                        Channels
-                                    </Typography>
-                                </Box>
-                            </Box>
+                        <Box py={2}>
+                            {MenuHeader("Channels")}
                             {!!channels_menu && channels_menu.length === 0 ? (
                                 <Box py={2} fontWeight="fontWeightMedium">
                                     <Typography>No Matching Channels</Typography>
@@ -156,14 +151,8 @@ export class SearchResultsPage extends React.Component {
                         </Box>
                     )}
                     {(this.state.show === "all" || this.state.show === "posts") && (
-                        <Box>
-                            <Box fontWeight="fontWeightBold">
-                                <Box py={3} my={1} boxShadow={3} px={2} bgcolor="secondary.light">
-                                    <Typography variant="h2" color="primary">
-                                        Posts
-                                    </Typography>
-                                </Box>
-                            </Box>
+                        <Box py={2}>
+                            {MenuHeader("Posts")}
                             {!!post_menu && post_menu.length === 0 ? (
                                 <Box py={2} fontWeight="fontWeightMedium">
                                     <Typography>No Matching Posts</Typography>
@@ -180,14 +169,8 @@ export class SearchResultsPage extends React.Component {
                         </Box>
                     )}
                     {(this.state.show === "all" || this.state.show === "events") && (
-                        <Box>
-                            <Box fontWeight="fontWeightBold">
-                                <Box py={3} my={1} boxShadow={3} px={2} bgcolor="secondary.light">
-                                    <Typography variant="h2" color="primary">
-                                        Events
-                                    </Typography>
-                                </Box>
-                            </Box>
+                        <Box py={2}>
+                            {MenuHeader("Events")}
                             {!!events_menu && events_menu.length === 0 ? (
                                 <Box py={2} fontWeight="fontWeightMedium">
                                     <Typography>No Matching Events</Typography>
