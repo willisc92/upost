@@ -2,7 +2,6 @@ import React from "react";
 import { getCurrentUser } from "../../actions/auth";
 import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
-import { startGetPost, clearPosts } from "../../actions/posts";
 import { startSetEvent, clearEvents } from "../../actions/events";
 import {
     startGetIncentivePackage,
@@ -11,6 +10,11 @@ import {
     deleteIncentivePackage,
     restoreIncentivePackage
 } from "../../actions/incentivePackage";
+
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 
 class EditEventIncentivePage extends React.Component {
     constructor(props) {
@@ -98,50 +102,46 @@ class EditEventIncentivePage extends React.Component {
             !!event &&
             !!incentive && (
                 <div>
-                    <div className="page-header">
-                        <div className="content-container">
-                            <h1 className="page-header__title">
-                                Edit the Incentive Package to Event:{" "}
-                                <span>{this.props.event && this.props.event.event_title}</span>
-                            </h1>
-                            <div className="page-header__actions">
+                    <Box bgcolor="secondary.main" py={3}>
+                        <Container fixed>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h1" display="inline" gutterBottom>
+                                    Edit the Incentive Package to Event:{" "}
+                                </Typography>
+                                <Typography variant="h1" display="inline" color="primary" gutterBottom>
+                                    {this.props.event && this.props.event.event_title}
+                                </Typography>
+                            </Box>
+                            <Box paddingBottom={2}>
                                 {read_only_event ? (
-                                    <div>
-                                        <h2 className="page-header__subtitle__red">
-                                            The event this incentive is tied to is deleted. Restore it to edit.
-                                        </h2>
-                                        <button className="button" onClick={this.goBack}>
-                                            Go To Event
-                                        </button>
-                                    </div>
+                                    <Typography variant="h2" color="error" gutterBottom>
+                                        The event this incentive is tied to is deleted. Restore it to edit.
+                                    </Typography>
                                 ) : read_only_incentive ? (
-                                    <div>
-                                        <h2 className="page-header__subtitle__red">
+                                    <React.Fragment>
+                                        <Typography variant="h2" color="error" gutterBottom>
                                             This incentive is deleted. Restore it to edit.
-                                        </h2>
-                                        <button className="button" onClick={this.restoreIncentive}>
+                                        </Typography>
+                                        <Button variant="contained" color="primary" onClick={this.restoreIncentive}>
                                             Restore Incentive
-                                        </button>{" "}
-                                        <button className="button" onClick={this.goBack}>
-                                            Go To Event
-                                        </button>
-                                    </div>
+                                        </Button>
+                                    </React.Fragment>
                                 ) : read_only_incentive_end ? (
-                                    <h2 className="page-header__subtitle__red">Cannot edit a past incentive.</h2>
+                                    <Typography variant="h2" color="error" gutterBottom>
+                                        Cannot edit a past incentive.
+                                    </Typography>
                                 ) : (
-                                    <div>
-                                        <button className="button" onClick={this.deleteIncentive}>
-                                            Delete Incentive
-                                        </button>{" "}
-                                        <button className="button" onClick={this.goBack}>
-                                            Go To Event
-                                        </button>
-                                    </div>
+                                    <Button variant="contained" color="primary" onClick={this.deleteIncentive}>
+                                        Delete Incentive
+                                    </Button>
                                 )}
-                            </div>
-                        </div>
-                    </div>
-                    <div className="content-container">
+                            </Box>
+                            <Button variant="contained" color="primary" onClick={this.goBack}>
+                                Go To Event
+                            </Button>
+                        </Container>
+                    </Box>
+                    <Container fixed>
                         <IncentiveForm
                             onSubmit={this.onSubmit}
                             nextStep="Save"
@@ -149,7 +149,7 @@ class EditEventIncentivePage extends React.Component {
                             fromEvent={true}
                             read_only={read_only}
                         />
-                    </div>
+                    </Container>
                 </div>
             )
         );

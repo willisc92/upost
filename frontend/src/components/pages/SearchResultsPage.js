@@ -18,6 +18,13 @@ import { resetChannelFilters } from "../../actions/channel_filters";
 import { resetPostFilters } from "../../actions/post_filters";
 import { resetEventFilters } from "../../actions/event_filters";
 
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Select from "@material-ui/core/Select";
+import Button from "@material-ui/core/Button";
+import MenuItem from "@material-ui/core/MenuItem";
+
 export class SearchResultsPage extends React.Component {
     constructor(props) {
         super(props);
@@ -84,48 +91,59 @@ export class SearchResultsPage extends React.Component {
         const events_menu = !!events && BrowseEventMenu(events, this.state.selected);
 
         return (
-            <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <h1 className="page-header__title">
-                            Search Results for <span>{this.props.match.params.text}</span>
-                        </h1>
-                        <div className="page-header__actions">
-                            <div className="input-group">
-                                <div className="input-group__column">
-                                    Show:
-                                    <div className="input-group__item">
-                                        <select
-                                            className="select"
-                                            defaultValue={this.state.show}
-                                            onChange={this.onShowChange}
-                                        >
-                                            <option value="all">Show All</option>
-                                            <option value="channels">Channels</option>
-                                            <option value="posts">Posts</option>
-                                            <option value="events">Events</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            {this.state.show !== "all" && (
-                                <div className="input-group">
-                                    {this.state.show === "channels" && <ChannelFilterSelector />}
-                                    {this.state.show === "posts" && <PostFilterSelector />}
-                                    {this.state.show === "events" && <EventFilterSelector />}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-                <div className="content-container">
+            <Box>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
+                        <Box paddingBottom={2}>
+                            <Typography variant="h1" display="inline">
+                                Search Results for:{" "}
+                            </Typography>
+                            <Typography variant="h1" display="inline" color="primary">
+                                {this.props.match.params.text}
+                            </Typography>
+                        </Box>
+                        <Box display="flex" flexDirection="column">
+                            <Typography>Show:</Typography>
+                            <Box display="flex">
+                                <Box bgcolor="white" border={0.1} borderColor="#cacccd" flexShrink={1}>
+                                    <Select
+                                        className="select"
+                                        value={this.state.show}
+                                        onChange={this.onShowChange}
+                                        variant="outlined"
+                                        disableUnderline
+                                    >
+                                        <MenuItem value="all">Show All</MenuItem>
+                                        <MenuItem value="channels">Channels</MenuItem>
+                                        <MenuItem value="posts">Posts</MenuItem>
+                                        <MenuItem value="events">Events</MenuItem>
+                                    </Select>
+                                </Box>
+                            </Box>
+                        </Box>
+                        {this.state.show !== "all" && (
+                            <React.Fragment>
+                                {this.state.show === "channels" && <ChannelFilterSelector />}
+                                {this.state.show === "posts" && <PostFilterSelector />}
+                                {this.state.show === "events" && <EventFilterSelector />}
+                            </React.Fragment>
+                        )}
+                    </Container>
+                </Box>
+                <Container fixed>
                     {(this.state.show === "all" || this.state.show === "channels") && (
-                        <div className="horizontal-menu_wrapper">
-                            <div className="menu_header">
-                                <h1>Channels</h1>
-                            </div>
+                        <Box>
+                            <Box fontWeight="fontWeightBold">
+                                <Box py={3} my={1} boxShadow={3} px={2} bgcolor="secondary.light">
+                                    <Typography variant="h2" color="primary">
+                                        Channels
+                                    </Typography>
+                                </Box>
+                            </Box>
                             {!!channels_menu && channels_menu.length === 0 ? (
-                                <h2>No Matching Channels</h2>
+                                <Box py={2} fontWeight="fontWeightMedium">
+                                    <Typography>No Matching Channels</Typography>
+                                </Box>
                             ) : (
                                 <ScrollMenu
                                     data={channels_menu}
@@ -135,15 +153,21 @@ export class SearchResultsPage extends React.Component {
                                     onSelect={this.onSelect}
                                 />
                             )}
-                        </div>
+                        </Box>
                     )}
                     {(this.state.show === "all" || this.state.show === "posts") && (
-                        <div className="horizontal-menu_wrapper">
-                            <div className="menu_header">
-                                <h1>Posts</h1>
-                            </div>
+                        <Box>
+                            <Box fontWeight="fontWeightBold">
+                                <Box py={3} my={1} boxShadow={3} px={2} bgcolor="secondary.light">
+                                    <Typography variant="h2" color="primary">
+                                        Posts
+                                    </Typography>
+                                </Box>
+                            </Box>
                             {!!post_menu && post_menu.length === 0 ? (
-                                <h2>No Matching Posts</h2>
+                                <Box py={2} fontWeight="fontWeightMedium">
+                                    <Typography>No Matching Posts</Typography>
+                                </Box>
                             ) : (
                                 <ScrollMenu
                                     data={post_menu}
@@ -153,15 +177,21 @@ export class SearchResultsPage extends React.Component {
                                     onSelect={this.onSelect}
                                 />
                             )}
-                        </div>
+                        </Box>
                     )}
                     {(this.state.show === "all" || this.state.show === "events") && (
-                        <div className="horizontal-menu_wrapper">
-                            <div className="menu_header">
-                                <h1>Events</h1>
-                            </div>
+                        <Box>
+                            <Box fontWeight="fontWeightBold">
+                                <Box py={3} my={1} boxShadow={3} px={2} bgcolor="secondary.light">
+                                    <Typography variant="h2" color="primary">
+                                        Events
+                                    </Typography>
+                                </Box>
+                            </Box>
                             {!!events_menu && events_menu.length === 0 ? (
-                                <h2>No Matching Events</h2>
+                                <Box py={2} fontWeight="fontWeightMedium">
+                                    <Typography>No Matching Events</Typography>
+                                </Box>
                             ) : (
                                 <ScrollMenu
                                     data={events_menu}
@@ -171,10 +201,10 @@ export class SearchResultsPage extends React.Component {
                                     onSelect={this.onSelect}
                                 />
                             )}
-                        </div>
+                        </Box>
                     )}
-                </div>
-            </div>
+                </Container>
+            </Box>
         );
     }
 }

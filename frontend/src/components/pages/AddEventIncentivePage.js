@@ -5,6 +5,11 @@ import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { startSetEvent, clearEvents } from "../../actions/events";
 
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+
 class AddEventIncentivePage extends React.Component {
     constructor(props) {
         super(props);
@@ -59,39 +64,42 @@ class AddEventIncentivePage extends React.Component {
         return (
             !!this.props.event && (
                 <div>
-                    <div className="page-header">
-                        <div className="content-container">
-                            <h1 className="page-header__title">
-                                Add an Incentive Package to Event:{" "}
-                                <span>{this.props.event && this.props.event.event_title}</span>
-                            </h1>
+                    <Box bgcolor="secondary.main" py={3}>
+                        <Container fixed>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h1" display="inline" gutterBottom>
+                                    Add an Incentive Package to Event:{" "}
+                                </Typography>
+                                <Typography variant="h1" display="inline" gutterBottom color="primary">
+                                    {this.props.event && this.props.event.event_title}
+                                </Typography>
+                            </Box>
+
                             {existing_incentive ? (
-                                <div>
-                                    <h2 className="page-header__subtitle__red">
+                                <Box paddingBottom={2}>
+                                    <Typography variant="h2" color="error" gutterBottom>
                                         There is already an existing incentive tied to this event.
-                                    </h2>
-                                    <button className="button" onClick={this.goToIncentive}>
+                                    </Typography>
+                                    <Button variant="contained" color="primary" onClick={this.goToIncentive}>
                                         Go to Incentive
-                                    </button>
-                                </div>
+                                    </Button>
+                                </Box>
                             ) : (
                                 read_only && (
-                                    <div>
-                                        <h2 className="page-header__subtitle__red">
-                                            The event this incentive will be tied to is deleted. Restore it before
-                                            adding an incentive.
-                                        </h2>
-                                    </div>
+                                    <Typography variant="h2" color="error" gutterBottom>
+                                        The event this incentive will be tied to is deleted. Restore it before adding an
+                                        incentive.
+                                    </Typography>
                                 )
                             )}
-                            <div className="page-header__actions">
-                                <button className="button" onClick={this.goBack}>
+                            <Box>
+                                <Button variant="contained" color="primary" onClick={this.goBack}>
                                     Go to Event
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="content-container">
+                                </Button>
+                            </Box>
+                        </Container>
+                    </Box>
+                    <Container fixed>
                         <IncentiveForm
                             onSubmit={this.onSubmit}
                             nextStep="Save"
@@ -99,7 +107,7 @@ class AddEventIncentivePage extends React.Component {
                             fromEvent={true}
                             read_only={read_only || existing_incentive}
                         />
-                    </div>
+                    </Container>
                 </div>
             )
         );

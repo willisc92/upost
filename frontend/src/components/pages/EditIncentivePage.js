@@ -11,6 +11,11 @@ import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+
 class EditIncentivePage extends React.Component {
     constructor(props) {
         super(props);
@@ -99,42 +104,43 @@ class EditIncentivePage extends React.Component {
         return (
             !!this.props.incentive &&
             !!this.props.post && (
-                <div>
-                    <div className="page-header">
-                        <div className="content-container">
-                            <h1 className="page-header__title">
-                                Edit Incentive Package for Post:{" "}
-                                <span>{this.props.post && this.props.post.post_title}</span>
-                            </h1>
-                            {post_read_only ? (
-                                <div>
-                                    <h2 className="page-header__subtitle__red">
+                <Box>
+                    <Box bgcolor="secondary.main" py={3}>
+                        <Container fixed>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h1" display="inline" gutterBottom>
+                                    Edit Incentive Package for Post:{" "}
+                                </Typography>
+                                <Typography variant="h1" display="inline" color="primary" gutterBottom>
+                                    {this.props.post && this.props.post.post_title}
+                                </Typography>
+                            </Box>
+                            <Box paddingBottom={2}>
+                                {post_read_only ? (
+                                    <Typography variant="h2" color="error" gutterBottom>
                                         You must restore the post linked to this incentive before editing.
-                                    </h2>
-                                    <button className="button" onClick={this.goBack}>
-                                        Go To Post
-                                    </button>
-                                </div>
-                            ) : incentive_read_only ? (
-                                <div>
-                                    <h2 className="page-header__subtitle__red">
-                                        You must restore this incentive before editing.
-                                    </h2>
-                                    <button className="button" onClick={this.restoreIncentive}>
-                                        Restore
-                                    </button>{" "}
-                                    <button className="button" onClick={this.goBack}>
-                                        Go To Post
-                                    </button>
-                                </div>
-                            ) : (
-                                <button className="button" onClick={this.deleteIncentive}>
-                                    Delete Incentive
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                    <div className="content-container">
+                                    </Typography>
+                                ) : incentive_read_only ? (
+                                    <React.Fragment>
+                                        <Typography variant="h2" color="error" gutterBottom>
+                                            You must restore this incentive before editing.
+                                        </Typography>
+                                        <Button variant="contained" color="primary" onClick={this.restoreIncentive}>
+                                            Restore
+                                        </Button>
+                                    </React.Fragment>
+                                ) : (
+                                    <Button variant="contained" color="primary" onClick={this.deleteIncentive}>
+                                        Delete Incentive
+                                    </Button>
+                                )}
+                            </Box>
+                            <Button variant="contained" color="primary" onClick={this.goBack}>
+                                Go To Post
+                            </Button>
+                        </Container>
+                    </Box>
+                    <Container fixed>
                         <IncentiveForm
                             onSubmit={this.onSubmit}
                             post={this.props.match.params.id}
@@ -142,14 +148,8 @@ class EditIncentivePage extends React.Component {
                             read_only={post_read_only || incentive_read_only}
                             nextStep="Save"
                         />
-                        {!post_read_only && !incentive_read_only && (
-                            <button className="button" onClick={this.goBack}>
-                                {" "}
-                                Go Back{" "}
-                            </button>
-                        )}
-                    </div>
-                </div>
+                    </Container>
+                </Box>
             )
         );
     }

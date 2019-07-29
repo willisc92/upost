@@ -5,6 +5,11 @@ import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+
 class AddIncentivePage extends React.Component {
     constructor(props) {
         super(props);
@@ -34,11 +39,7 @@ class AddIncentivePage extends React.Component {
     onSubmit = (incentive) => {
         this.props
             .addIncentivePackage(incentive)
-            .then((res) =>
-                this.props.history.push(
-                    `/myChannels/${this.props.post.channel}`
-                )
-            )
+            .then((res) => this.props.history.push(`/myChannels/${this.props.post.channel}`))
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
             });
@@ -56,49 +57,43 @@ class AddIncentivePage extends React.Component {
 
     render() {
         const read_only = !!this.props.post && this.props.post.deleted_flag;
-        const existing_incentive =
-            !!this.props.post && !!this.props.post.post_incentive;
+        const existing_incentive = !!this.props.post && !!this.props.post.post_incentive;
 
         return (
             <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <h1 className="page-header__title">
-                            Add an Incentive Package to Post:{" "}
-                            <span>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
+                        <Box paddingBottom={2}>
+                            <Typography variant="h1" display="inline" gutterBottom>
+                                Add an Incentive Package to Post:{" "}
+                            </Typography>
+                            <Typography variant="h1" display="inline" color="primary" gutterBottom>
                                 {this.props.post && this.props.post.post_title}
-                            </span>
-                        </h1>
+                            </Typography>
+                        </Box>
                         {existing_incentive && (
-                            <div>
-                                <h2>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h2" color="error" gutterBottom>
                                     This post already has an existing incentive
-                                </h2>
-                                <button
-                                    className="button"
-                                    onClick={this.goToIncentive}
-                                >
+                                </Typography>
+                                <Button variant="contained" color="primary" onClick={this.goToIncentive}>
                                     Go to Incentive
-                                </button>
-                            </div>
+                                </Button>
+                            </Box>
                         )}
                         {read_only && (
-                            <div>
-                                <h2 className="page-header__subtitle__red">
-                                    The post that this incentive will be tied to
-                                    is deleted and must be restored first.
-                                </h2>
-                                <button
-                                    className="button"
-                                    onClick={this.goBack}
-                                >
+                            <Box>
+                                <Typography variant="h2" color="error" gutterBottom>
+                                    The post that this incentive will be tied to is deleted and must be restored first.
+                                </Typography>
+                                <Button variant="contained" color="primary" onClick={this.goBack}>
                                     Go to Post
-                                </button>
-                            </div>
+                                </Button>
+                            </Box>
                         )}
-                    </div>
-                </div>
-                <div className="content-container">
+                    </Container>
+                </Box>
+                <Container fixed>
                     <IncentiveForm
                         onSubmit={this.onSubmit}
                         post={this.props.match.params.id}
@@ -106,11 +101,11 @@ class AddIncentivePage extends React.Component {
                         read_only={read_only || existing_incentive}
                     />
                     {!read_only && (
-                        <button className="button" onClick={this.goBack}>
+                        <Button variant="contained" color="primary" onClick={this.goBack}>
                             Go Back
-                        </button>
+                        </Button>
                     )}
-                </div>
+                </Container>
             </div>
         );
     }
@@ -122,8 +117,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
-    addIncentivePackage: (incentive) =>
-        dispatch(addIncentivePackage(incentive)),
+    addIncentivePackage: (incentive) => dispatch(addIncentivePackage(incentive)),
     startGetPost: (id) => dispatch(startGetPost(id))
 });
 

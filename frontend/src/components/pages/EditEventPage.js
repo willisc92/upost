@@ -6,6 +6,11 @@ import { connect } from "react-redux";
 import { startSetEvent, clearEvents, deleteEvent, restoreEvent } from "../../actions/events";
 import MessageModal from "../modals/MessageModal";
 
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+
 class EditEventPage extends React.Component {
     constructor(props) {
         super(props);
@@ -113,59 +118,62 @@ class EditEventPage extends React.Component {
         return (
             !!event && (
                 <div>
-                    <div className="page-header">
-                        <div className="content-container">
-                            <h1 className="page-header__title">
-                                Edit Event: <span>{event && event.event_title}</span>
-                            </h1>
+                    <Box bgcolor="secondary.main" py={3}>
+                        <Container fixed>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h1" display="inline">
+                                    Edit Event:{" "}
+                                </Typography>
+                                <Typography variant="h1" display="inline" color="primary">
+                                    {event && event.event_title}
+                                </Typography>
+                            </Box>
                             {post_read_only ? (
-                                <div>
-                                    <h2 className="page-header__subtitle__red">
-                                        The post containing this event is deleted. Restore it before editing this event.
-                                    </h2>
-                                </div>
+                                <Typography variant="h2" color="error" gutterBottom>
+                                    The post containing this event is deleted. Restore it before editing this event.
+                                </Typography>
                             ) : event_read_only ? (
-                                <div>
-                                    <h2 className="page-header__subtitle__red">
+                                <Box paddingBottom={2}>
+                                    <Typography variant="h2" color="error" gutterBottom>
                                         This event has been deleted. Restore it before editing.
-                                    </h2>
-                                    <button className="button" onClick={this.restoreEvent}>
+                                    </Typography>
+                                    <Button onClick={this.restoreEvent} variant="contained" color="primary">
                                         Restore Event
-                                    </button>{" "}
-                                </div>
+                                    </Button>{" "}
+                                </Box>
                             ) : read_only_past_event ? (
-                                <div>
-                                    <h2 className="page-header__subtitle__red">Cannot edit a past event.</h2>
-                                </div>
+                                <Typography variant="h2" color="error" gutterBottom>
+                                    Cannot edit a past event.
+                                </Typography>
                             ) : (
-                                <div className="page-header__actions">
+                                <Box paddingBottom={2}>
                                     <span>
-                                        <button className="button" onClick={this.deleteEvent}>
+                                        <Button variant="contained" color="primary" onClick={this.deleteEvent}>
                                             Delete Event
-                                        </button>{" "}
+                                        </Button>{" "}
                                         {!!event.event_incentive ? (
-                                            <button className="button" onClick={this.editIncentive}>
+                                            <Button variant="contained" color="primary" onClick={this.editIncentive}>
                                                 Edit Incentive
-                                            </button>
+                                            </Button>
                                         ) : (
-                                            <button className="button" onClick={this.addIncentive}>
+                                            <Button variant="contained" color="primary" onClick={this.addIncentive}>
                                                 Add Incentive
-                                            </button>
+                                            </Button>
                                         )}
                                     </span>
-                                </div>
+                                </Box>
                             )}
-                            <div className="page-header__actions">
-                                <button className="button" onClick={this.goToPost}>
+                            <Box>
+                                <Button variant="contained" color="primary" onClick={this.goToPost}>
                                     Go Back to Post
-                                </button>{" "}
-                                <button className="button" onClick={this.goBack}>
+                                </Button>{" "}
+                                <Button variant="contained" color="primary" onClick={this.goBack}>
                                     Go Back to Events
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="content-container">
+                                </Button>
+                            </Box>
+                        </Container>
+                    </Box>
+                    <Container fixed>
                         <EventForm
                             read_only={read_only}
                             event={event}
@@ -173,7 +181,7 @@ class EditEventPage extends React.Component {
                             nextStep={"Save and Return"}
                             post={this.props.match.params.id}
                         />
-                    </div>
+                    </Container>
                     <MessageModal
                         isOpen={this.state.openMessageModal}
                         message="An error has ocured with editing your event. Please refresh the page and try again."
