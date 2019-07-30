@@ -154,7 +154,11 @@ export class RecurringForm extends React.Component {
     render() {
         return (
             <div>
-                <div>{!!this.state.error && <p className="form__error">{this.state.error}</p>}</div>
+                {!!this.state.error && (
+                    <Typography variant="h6" color="error" gutterBottom>
+                        {this.state.error}
+                    </Typography>
+                )}
                 <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                     <Box display="flex" py={1}>
                         <Box paddingRight={1}>
@@ -228,7 +232,11 @@ export class RecurringForm extends React.Component {
                                     <Typography>Re-occur Until: </Typography>
                                 </Box>
                                 <Box bgcolor="white" padding={1}>
-                                    <DatePicker value={this.state.endDate} onChange={this.handleEndDateChange} />
+                                    <DatePicker
+                                        value={this.state.endDate}
+                                        onChange={this.handleEndDateChange}
+                                        disablePast
+                                    />
                                 </Box>
                             </Box>
                             <Box display="flex" paddingBottom={1}>
