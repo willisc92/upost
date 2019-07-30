@@ -3,9 +3,13 @@ import { setHasIncentiveFilter, setIncentiveTypeFilter, setDietOptionsFilter } f
 import React from "react";
 import { connect } from "react-redux";
 import EventSummary from "../MyEventSummary";
-import { Link } from "react-router-dom";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
+
+import Box from "@material-ui/core/Box";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 export class FreeFoodPage extends React.Component {
     constructor(props) {
@@ -33,17 +37,17 @@ export class FreeFoodPage extends React.Component {
         return (
             events && (
                 <div>
-                    <div className="page-header">
-                        <div className="content-container">
-                            <h1 className="page-header__title">Ongoing/Future Free Food Events in Your Communities</h1>
-                            <div className="page-header__actions">
-                                <EventFilterSelector foodSpecific={true} />
-                            </div>
-                        </div>
-                    </div>
+                    <Box bgcolor="secondary.main" py={3}>
+                        <Container fixed>
+                            <Typography variant="h1" gutterBottom>
+                                Ongoing/Future Free Food Events in Your Communities
+                            </Typography>
+                            <EventFilterSelector foodSpecific={true} />
+                        </Container>
+                    </Box>
 
-                    <div className="content-container">
-                        <div className="polaroid__container">
+                    <Container fixed>
+                        <Box display="flex" flexWrap="flex" py={2}>
                             {events.length > 0 ? (
                                 events.map((event) => {
                                     return (
@@ -56,18 +60,22 @@ export class FreeFoodPage extends React.Component {
                                     );
                                 })
                             ) : (
-                                <h1>
+                                <Typography variant="h2">
                                     There are no ongoing or upcoming free food events in your communities. Please check
                                     again later or{" "}
-                                    <span>
-                                        <Link className="link__inline" to="/communities">
+                                    <Typography variant="inherit" color="primary" display="inline">
+                                        <ButtonBase
+                                            onClick={() => {
+                                                this.props.history.push("/communities");
+                                            }}
+                                        >
                                             click here to edit your communities.
-                                        </Link>
-                                    </span>
-                                </h1>
+                                        </ButtonBase>
+                                    </Typography>
+                                </Typography>
                             )}
-                        </div>
-                    </div>
+                        </Box>
+                    </Container>
                 </div>
             )
         );

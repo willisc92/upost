@@ -6,6 +6,10 @@ import { resetChannelFilters } from "../../actions/channel_filters";
 import ChannelSummary from "../ChannelListItem";
 import ChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
 
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+
 class MySubscriptionsPage extends React.Component {
     componentWillMount() {
         this.props.clearChannels();
@@ -22,18 +26,18 @@ class MySubscriptionsPage extends React.Component {
 
         return (
             <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <h1 className="page-header__title">Your Subscriptions</h1>
-                        <div className="page-header__actions">
-                            <ChannelFilterSelector />
-                        </div>
-                    </div>
-                </div>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
+                        <Typography variant="h1" gutterBottom>
+                            Your Subscriptions
+                        </Typography>
+                        <ChannelFilterSelector />
+                    </Container>
+                </Box>
 
-                <div className="content-container">
+                <Container fixed>
                     {channels ? (
-                        <div className="polaroid__container">
+                        <Box display="flex" flexWrap="flex" py={2}>
                             {channels.length > 0 ? (
                                 channels.map((channel) => {
                                     return (
@@ -46,15 +50,15 @@ class MySubscriptionsPage extends React.Component {
                                     );
                                 })
                             ) : this.props.channels.length === 0 ? (
-                                <h1>You have no subscriptions.</h1>
+                                <Typography variant="h2">You have no subscriptions.</Typography>
                             ) : (
-                                <h1>No Matching Channels</h1>
+                                <Typography variant="h2">No Matching Channels</Typography>
                             )}
-                        </div>
+                        </Box>
                     ) : (
-                        <div> Loading... </div>
+                        <Typography> Loading... </Typography>
                     )}
-                </div>
+                </Container>
             </div>
         );
     }

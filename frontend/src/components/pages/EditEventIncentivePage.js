@@ -104,14 +104,12 @@ class EditEventIncentivePage extends React.Component {
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
                         <Container fixed>
-                            <Box paddingBottom={2}>
-                                <Typography variant="h1" display="inline" gutterBottom>
-                                    Edit the Incentive Package to Event:{" "}
-                                </Typography>
-                                <Typography variant="h1" display="inline" color="primary" gutterBottom>
+                            <Typography variant="h1" gutterBottom>
+                                Edit the Incentive Package to Event:{" "}
+                                <Typography variant="h1" display="inline" color="primary">
                                     {this.props.event && this.props.event.event_title}
                                 </Typography>
-                            </Box>
+                            </Typography>
                             <Box paddingBottom={2}>
                                 {read_only_event ? (
                                     <Typography variant="h2" color="error" gutterBottom>

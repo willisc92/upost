@@ -120,14 +120,12 @@ class EditEventPage extends React.Component {
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
                         <Container fixed>
-                            <Box paddingBottom={2}>
-                                <Typography variant="h1" display="inline">
-                                    Edit Event:{" "}
-                                </Typography>
-                                <Typography variant="h1" display="inline" color="primary">
+                            <Typography variant="h1" gutterBottom>
+                                Edit Event:{" "}
+                                <Typography variant="inherit" display="inline" color="primary">
                                     {event && event.event_title}
                                 </Typography>
-                            </Box>
+                            </Typography>
                             {post_read_only ? (
                                 <Typography variant="h2" color="error" gutterBottom>
                                     The post containing this event is deleted. Restore it before editing this event.

@@ -106,14 +106,12 @@ export class MyChannelDetail extends React.Component {
             <div>
                 <Box bgcolor="secondary.main" py={3}>
                     <Container fixed>
-                        <Box paddingBottom={2}>
-                            <Typography variant="h1" display="inline" gutterBottom>
-                                Channel Page:{" "}
-                            </Typography>
-                            <Typography variant="h1" display="inline" color="primary" gutterBottom>
+                        <Typography variant="h1" gutterBottom>
+                            Channel Page:{" "}
+                            <Typography variant="inherit" display="inline" color="primary">
                                 {this.props.channel.channel_name}
                             </Typography>
-                        </Box>
+                        </Typography>
                         {!!this.props.channel.channel_description && (
                             <Typography variant="h2" gutterBottom>
                                 Description: {this.props.channel.channel_description}
@@ -174,7 +172,7 @@ export class MyChannelDetail extends React.Component {
                 {posts !== [] && (
                     <Box paddingTop={2}>
                         <Container fixed>
-                            <div className="polaroid__container">
+                            <Box display="flex" flexWrap="wrap">
                                 {posts.length > 0 ? (
                                     posts.map((post) => {
                                         return (
@@ -192,7 +190,7 @@ export class MyChannelDetail extends React.Component {
                                         No Posts
                                     </Typography>
                                 )}
-                            </div>
+                            </Box>
                         </Container>
                     </Box>
                 )}

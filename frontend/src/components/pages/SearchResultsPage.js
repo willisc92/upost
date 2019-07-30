@@ -22,7 +22,6 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Select from "@material-ui/core/Select";
-import Button from "@material-ui/core/Button";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuHeader from "../menus/MenuHeader";
 
@@ -95,14 +94,13 @@ export class SearchResultsPage extends React.Component {
             <Box>
                 <Box bgcolor="secondary.main" py={3}>
                     <Container fixed>
-                        <Box paddingBottom={2}>
-                            <Typography variant="h1" display="inline">
-                                Search Results for:{" "}
-                            </Typography>
-                            <Typography variant="h1" display="inline" color="primary">
+                        <Typography variant="h1" gutterBottom>
+                            Search Results for:{" "}
+                            <Typography variant="inherit" display="inline" color="primary">
                                 {this.props.match.params.text}
                             </Typography>
-                        </Box>
+                        </Typography>
+
                         <Box display="flex" flexDirection="column">
                             <Typography>Show:</Typography>
                             <Box display="flex">

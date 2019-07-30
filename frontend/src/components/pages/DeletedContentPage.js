@@ -12,6 +12,12 @@ import { MyIncentiveMenu } from "../MyIncentiveSummary";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import MenuHeader from "../menus/MenuHeader";
+
 class DeletedContentPage extends React.Component {
     constructor(props) {
         super(props);
@@ -84,25 +90,23 @@ class DeletedContentPage extends React.Component {
 
         return (
             <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <h1 className="page-header__title">Your Recycle Bin</h1>
-                        <div className="page-header__actions">
-                            {has_deleted_content && (
-                                <button className="button" onClick={this.restoreAll}>
-                                    Restore All
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </div>
-                <div className="content-container">
-                    {!has_deleted_content && <h1>No Deleted Content</h1>}
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
+                        <Typography variant="h1" gutterBottom>
+                            Your Recycle Bin
+                        </Typography>
+                        {has_deleted_content && (
+                            <Button variant="contained" color="primary" onClick={this.restoreAll}>
+                                Restore All
+                            </Button>
+                        )}
+                    </Container>
+                </Box>
+                <Container fixed>
+                    {!has_deleted_content && <Typography variant="h2">No Deleted Content</Typography>}
                     {deleted_channels.length > 0 && (
-                        <div className="horizontal-menu_wrapper">
-                            <div className="menu_header">
-                                <h1>Deleted Channels</h1>
-                            </div>
+                        <Box py={2}>
+                            {MenuHeader("Deleted Channels")}
                             <ScrollMenu
                                 data={channelMenu}
                                 arrowLeft={ArrowLeft}
@@ -110,13 +114,11 @@ class DeletedContentPage extends React.Component {
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
                             />
-                        </div>
+                        </Box>
                     )}
                     {deleted_posts.length > 0 && (
-                        <div className="horizontal-menu_wrapper">
-                            <div className="menu_header">
-                                <h1>Deleted posts</h1>
-                            </div>
+                        <Box py={2}>
+                            {MenuHeader("Deleted Posts")}
                             <ScrollMenu
                                 data={postMenu}
                                 arrowLeft={ArrowLeft}
@@ -124,13 +126,11 @@ class DeletedContentPage extends React.Component {
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
                             />
-                        </div>
+                        </Box>
                     )}
                     {deleted_events.length > 0 && (
-                        <div className="horizontal-menu_wrapper">
-                            <div className="menu_header">
-                                <h1>Deleted Events</h1>
-                            </div>
+                        <Box py={2}>
+                            {MenuHeader("Deleted Events")}
                             <ScrollMenu
                                 data={eventMenu}
                                 arrowLeft={ArrowLeft}
@@ -138,13 +138,11 @@ class DeletedContentPage extends React.Component {
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
                             />
-                        </div>
+                        </Box>
                     )}
                     {deleted_incentives.length > 0 && (
-                        <div className="horizontal-menu_wrapper">
-                            <div className="menu_header">
-                                <h1>Deleted Incentives</h1>
-                            </div>
+                        <Box py={2}>
+                            {MenuHeader("Deleted Incentives")}
                             <ScrollMenu
                                 data={incentiveMenu}
                                 arrowLeft={ArrowLeft}
@@ -152,9 +150,9 @@ class DeletedContentPage extends React.Component {
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
                             />
-                        </div>
+                        </Box>
                     )}
-                </div>
+                </Container>
             </div>
         );
     }

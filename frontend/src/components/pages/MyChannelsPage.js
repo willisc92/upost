@@ -37,12 +37,12 @@ export class MyChannelsPage extends React.Component {
                 <React.Fragment>
                     <Box bgcolor="secondary.main" py={3}>
                         <Container fixed>
-                            <Typography variant="h1" color="primary" display="inline">
+                            <Typography variant="h1" color="primary" gutterBottom>
                                 {localStorage.getItem("first_name")} -
-                            </Typography>
-                            <Typography variant="h1" display="inline">
-                                {" "}
-                                Channels
+                                <Typography variant="inherit" display="inline" color="textPrimary">
+                                    {" "}
+                                    Channels
+                                </Typography>
                             </Typography>
 
                             <Box marginTop={2}>
@@ -60,7 +60,7 @@ export class MyChannelsPage extends React.Component {
                     </Box>
                     <Box paddingTop={2}>
                         <Container fixed>
-                            <div className="polaroid__container">
+                            <Box display="flex" flexWrap="wrap">
                                 {channels.length > 0 ? (
                                     channels.map((channel) => {
                                         return (
@@ -77,7 +77,7 @@ export class MyChannelsPage extends React.Component {
                                         No Channels
                                     </Typography>
                                 )}
-                            </div>
+                            </Box>
                         </Container>
                     </Box>
                 </React.Fragment>

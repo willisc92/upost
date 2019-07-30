@@ -107,14 +107,12 @@ class EditIncentivePage extends React.Component {
                 <Box>
                     <Box bgcolor="secondary.main" py={3}>
                         <Container fixed>
-                            <Box paddingBottom={2}>
-                                <Typography variant="h1" display="inline" gutterBottom>
-                                    Edit Incentive Package for Post:{" "}
-                                </Typography>
-                                <Typography variant="h1" display="inline" color="primary" gutterBottom>
+                            <Typography variant="h1" gutterBottom>
+                                Edit Incentive Package for Post:{" "}
+                                <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.post && this.props.post.post_title}
                                 </Typography>
-                            </Box>
+                            </Typography>
                             <Box paddingBottom={2}>
                                 {post_read_only ? (
                                     <Typography variant="h2" color="error" gutterBottom>

@@ -1,7 +1,14 @@
 import React from "react";
-import DatePicker from "react-date-picker";
-import CheckBox from "../Checkbox";
-import RRule from "rrule";
+import Box from "@material-ui/core/Box";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import CheckBox from "@material-ui/core/Checkbox";
+import Typography from "@material-ui/core/Typography";
+import Input from "@material-ui/core/Input";
+import { DatePicker } from "@material-ui//pickers";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormGroup from "@material-ui/core/FormGroup";
+import moment from "moment";
 
 export class RecurringForm extends React.Component {
     constructor(props) {
@@ -10,7 +17,7 @@ export class RecurringForm extends React.Component {
             recurringFrequency: this.props.lastSelection ? this.props.lastSelection.recurringFrequency : "none",
             endSelection: this.props.lastSelection ? this.props.lastSelection.endSelection : "none",
             numOccurences: this.props.lastSelection ? this.props.lastSelection.numOccurences : 0,
-            endDate: this.props.lastSelection ? this.props.lastSelection.endDate : null,
+            endDate: this.props.lastSelection ? moment(this.props.lastSelection.endDate) : null,
             error: null,
             byweekday: this.props.lastSelection
                 ? this.props.lastSelection.byweekday
@@ -22,7 +29,8 @@ export class RecurringForm extends React.Component {
                       { id: 4, value: "4", label: "Friday", isChecked: false },
                       { id: 5, value: "5", label: "Saturday", isChecked: false },
                       { id: 6, value: "6", label: "Sunday", isChecked: false }
-                  ]
+                  ],
+            allChecked: false
         };
     }
 
@@ -43,7 +51,8 @@ export class RecurringForm extends React.Component {
                     { id: 4, value: "4", label: "Friday", isChecked: false },
                     { id: 5, value: "5", label: "Saturday", isChecked: false },
                     { id: 6, value: "6", label: "Sunday", isChecked: false }
-                ]
+                ],
+                allChecked: false
             }));
         } else {
             this.setState({ recurringFrequency: e.target.value });
@@ -77,6 +86,9 @@ export class RecurringForm extends React.Component {
                 if (!this.state.endDate) {
                     this.setState(() => ({ error: "Enter an end date for recurrence" }));
                     return;
+                } else if (!this.state.endDate.isValid()) {
+                    this.setState(() => ({ error: "Please enter a valid date to end recurrence" }));
+                    return;
                 }
             } else if (this.state.endSelection === "numOccurences") {
                 if (this.state.numOccurences < 1) {
@@ -90,7 +102,7 @@ export class RecurringForm extends React.Component {
             recurringFrequency: this.state.recurringFrequency,
             endSelection: this.state.endSelection,
             numOccurences: this.state.numOccurences,
-            endDate: this.state.endDate,
+            endDate: !!this.state.endDate && this.state.endDate.toDate(),
             byweekday: this.state.byweekday
         };
 
@@ -112,7 +124,8 @@ export class RecurringForm extends React.Component {
                 { id: 4, value: "4", label: "Friday", isChecked: false },
                 { id: 5, value: "5", label: "Saturday", isChecked: false },
                 { id: 6, value: "6", label: "Sunday", isChecked: false }
-            ]
+            ],
+            allChecked: false
         });
     };
 
@@ -127,13 +140,13 @@ export class RecurringForm extends React.Component {
     handleAllChecked = (event) => {
         let byweekday = this.state.byweekday;
         byweekday.forEach((day) => (day.isChecked = event.target.checked));
-        this.setState({ byweekday });
+        this.setState({ byweekday, allChecked: event.target.checked });
     };
 
     handleCheckChildElement = (event) => {
         let byweekday = this.state.byweekday;
         byweekday.forEach((day) => {
-            if (day.value === event.target.value) day.isChecked = event.target.checked;
+            if (day.value === event.target.id) day.isChecked = event.target.checked;
         });
         this.setState({ byweekday });
     };
@@ -141,92 +154,127 @@ export class RecurringForm extends React.Component {
     render() {
         return (
             <div>
-                <div>{!!this.state.error && <p className="form__error">{this.state.error}</p>}</div>
+                {!!this.state.error && (
+                    <Typography variant="h6" color="error" gutterBottom>
+                        {this.state.error}
+                    </Typography>
+                )}
                 <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                    <div className="input-group">
-                        <p className="form__label">Reoccuring Frequency: </p>
-                        <select
-                            onChange={this.onFrequencyChange}
-                            defaultValue={this.state.recurringFrequency}
-                            onFocus={this.handleRecurringFocus}
-                        >
-                            <option key="none" value="none">
-                                None
-                            </option>
-                            <option key="daily" value="daily">
-                                Daily
-                            </option>
-                            <option key="weekly" value="weekly">
-                                Weekly
-                            </option>
-                            <option key="monthly" value="monthly">
-                                Monthly
-                            </option>
-                        </select>
-                    </div>
-                    {this.state.recurringFrequency !== "none" && (
-                        <div className="input-group">
-                            <p className="form__label">Recurring Selection: </p>
-                            <select
-                                onChange={this.handleEndSelection}
-                                defaultValue={this.state.endSelection}
-                                onFocus={this.handleEndSelectionFocus}
+                    <Box display="flex" py={1}>
+                        <Box paddingRight={1}>
+                            <Typography>Recurring Frequency: </Typography>
+                        </Box>
+                        <Box bgcolor="white" padding={1}>
+                            <Select
+                                onChange={this.onFrequencyChange}
+                                value={this.state.recurringFrequency}
+                                onFocus={this.handleRecurringFocus}
+                                label="Recurring Frequency"
                             >
-                                <option key="none" value="none">
+                                <MenuItem key="none" value="none">
                                     None
-                                </option>{" "}
-                                <option key="numOccurence" value="numOccurence">
-                                    Number of Occurences
-                                </option>
-                                <option key="onDate" value="onDate">
-                                    End Date
-                                </option>
-                            </select>
-                        </div>
+                                </MenuItem>
+                                <MenuItem key="daily" value="daily">
+                                    Daily
+                                </MenuItem>
+                                <MenuItem key="weekly" value="weekly">
+                                    Weekly
+                                </MenuItem>
+                                <MenuItem key="monthly" value="monthly">
+                                    Monthly
+                                </MenuItem>
+                            </Select>
+                        </Box>
+                    </Box>
+                    {this.state.recurringFrequency !== "none" && (
+                        <Box display="flex" paddingBottom={1}>
+                            <Box paddingRight={1}>
+                                <Typography>Recurring Selection: </Typography>
+                            </Box>
+                            <Box bgcolor="white" padding={1}>
+                                <Select
+                                    onChange={this.handleEndSelection}
+                                    value={this.state.endSelection}
+                                    onFocus={this.handleEndSelectionFocus}
+                                >
+                                    <MenuItem key="none" value="none">
+                                        None
+                                    </MenuItem>
+                                    <MenuItem key="numOccurence" value="numOccurence">
+                                        Number of Occurences
+                                    </MenuItem>
+                                    <MenuItem key="onDate" value="onDate">
+                                        End Date
+                                    </MenuItem>
+                                </Select>
+                            </Box>
+                        </Box>
                     )}
                     {this.state.recurringFrequency !== "none" && this.state.endSelection === "numOccurence" && (
-                        <div className="input-group">
-                            <p className="form__label">Number of Occurences: </p>
-                            <input
-                                className="text-input"
-                                type="number"
-                                value={this.state.numOccurences}
-                                onChange={this.handleNumOccurences}
-                                min="1"
-                            />
-                        </div>
+                        <Box display="flex" paddingBottom={1}>
+                            <Box paddingRight={1}>
+                                <Typography>Number of Occurences: </Typography>
+                            </Box>
+                            <Box bgcolor="white" padding={1}>
+                                <Input
+                                    type="number"
+                                    value={this.state.numOccurences}
+                                    onChange={this.handleNumOccurences}
+                                    min="1"
+                                />
+                            </Box>
+                        </Box>
                     )}
                     {this.state.recurringFrequency !== "none" && this.state.endSelection === "onDate" && (
                         <div>
-                            <div className="input-group">
-                                <p className="form__label">Re-occur Until: </p>
-                                <DatePicker
-                                    value={this.state.endDate}
-                                    onChange={this.handleEndDateChange}
-                                    minDate={new Date()}
-                                    minDetail="decade"
-                                />
-                            </div>
-                            <div className="input-group">
-                                <p className="form__label">By-Weekday: </p>
-                                <div>
-                                    <ul className="nobull">
-                                        <li>
-                                            <input type="checkbox" onClick={this.handleAllChecked} value="checkedall" />{" "}
-                                            Check / Uncheck All
-                                        </li>
-                                        {this.state.byweekday.map((day) => {
-                                            return (
-                                                <CheckBox
-                                                    handleCheckChildElement={this.handleCheckChildElement}
-                                                    {...day}
-                                                    key={day.id}
-                                                />
-                                            );
-                                        })}
-                                    </ul>
-                                </div>
-                            </div>
+                            <Box display="flex" paddingBottom={1}>
+                                <Box paddingRight={1}>
+                                    <Typography>Re-occur Until: </Typography>
+                                </Box>
+                                <Box bgcolor="white" padding={1}>
+                                    <DatePicker
+                                        value={this.state.endDate}
+                                        onChange={this.handleEndDateChange}
+                                        disablePast
+                                    />
+                                </Box>
+                            </Box>
+                            <Box display="flex" paddingBottom={1}>
+                                <Box paddingRight={1}>
+                                    <Typography>By Weekday: </Typography>
+                                </Box>
+                                <FormGroup row>
+                                    <FormControlLabel
+                                        control={
+                                            <CheckBox
+                                                onClick={this.handleAllChecked}
+                                                checked={this.state.allChecked}
+                                                color="primary"
+                                            />
+                                        }
+                                        label="Check/Uncheck All"
+                                        labelPlacement="end"
+                                    />
+                                    {this.state.byweekday.map((day) => {
+                                        return (
+                                            <FormControlLabel
+                                                key={day.id}
+                                                control={
+                                                    <CheckBox
+                                                        id={day.id.toString()}
+                                                        label={day.label}
+                                                        checked={day.isChecked}
+                                                        color="primary"
+                                                        onChange={this.handleCheckChildElement}
+                                                    />
+                                                }
+                                                label={day.label}
+                                                labelPlacement="end"
+                                            />
+                                        );
+                                    })}
+                                </FormGroup>
+                            </Box>
                         </div>
                     )}
                 </form>

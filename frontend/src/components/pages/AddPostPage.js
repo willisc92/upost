@@ -78,14 +78,12 @@ export class AddPostPage extends React.Component {
                 <Box bgcolor="secondary.main" py={3}>
                     <Container fixed>
                         <Box display="flex" flexDirection="column">
-                            <Box paddingBottom={2}>
-                                <Typography variant="h1" display="inline" gutterBottom>
-                                    Add Post to:{" "}
-                                </Typography>
-                                <Typography variant="h1" display="inline" color="primary" gutterBottom>
+                            <Typography variant="h1" gutterBottom>
+                                Add Post to:{" "}
+                                <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.channel && this.props.channel.channel_name}
                                 </Typography>
-                            </Box>
+                            </Typography>
                             {read_only ? (
                                 <Box>
                                     <Typography variant="h2" color="error" gutterBottom>

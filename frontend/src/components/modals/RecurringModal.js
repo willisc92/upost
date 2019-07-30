@@ -1,6 +1,9 @@
 import React from "react";
 import Modal from "react-modal";
 import { RecurringForm } from "../forms/RecurringForm";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
 export class RecurringModal extends React.Component {
     constructor(props) {
@@ -87,21 +90,21 @@ export class RecurringModal extends React.Component {
     render() {
         return (
             <Modal className="modal" isOpen={this.props.isOpen} contentLabel="Recurring" closeTimeoutMS={200}>
-                <div className="modal__header">
+                <Box display="flex" justifyContent="center" alignItems="center">
                     <img className="modal__logo" src={CDNLink + "/dist/images/logo.png"} />
-                    <div>
-                        <p className="modal__header__label">Save Recurring Event/Incentive Details</p>
-                    </div>
-                </div>
+                    <Typography variant="h6">Save Recurring Event/Incentive Details</Typography>
+                </Box>
                 <RecurringForm onSubmit={this.onSubmit} id="recurring" lastSelection={this.state} />
-                <div className="modal__buttons">
-                    <button className="button modal__button" type="submit" form="recurring">
-                        Save Details
-                    </button>
-                    <button className="button modal__button" onClick={this.handleClear}>
+                <Box display="flex" justifyContent="center">
+                    <Box paddingRight={1}>
+                        <Button variant="contained" color="primary" type="submit" form="recurring">
+                            Save Details
+                        </Button>
+                    </Box>
+                    <Button variant="contained" color="primary" onClick={this.handleClear}>
                         Clear Details
-                    </button>
-                </div>
+                    </Button>
+                </Box>
             </Modal>
         );
     }
