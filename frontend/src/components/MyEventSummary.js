@@ -30,7 +30,7 @@ export const MyEventSummary = ({ event, pathName, selected, readOnly, inHorizont
                 }}
                 onClick={onClick}
             >
-                <Card className={classes.card}>
+                <Card className={classes.card} style={{ boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)" }}>
                     <CardActionArea>
                         <CardContent>
                             <PolaroidHeader header={event.event_title} />

@@ -25,7 +25,7 @@ export const Interest = (props) => {
             ) : (
                 <UnpinnedSVG className={classes.icon} color="primary" />
             )}
-            <Card className={classes.card}>
+            <Card className={classes.card} style={{ boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)" }}>
                 <CardActionArea className={classes.cardActionArea}>
                     <PolaroidImage image={props.interest.image} />
                     <CardContent>
