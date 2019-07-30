@@ -1,17 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
-import DatePicker from "react-date-picker";
+//import DatePicker from "react-date-picker";
+import { KeyboardDatePicker } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
+import moment from "moment";
 
 export class AccountForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            maxDate: new Date(),
-            minDate: new Date(1900, 1, 1),
-            birthDate: null,
+            maxDate: moment(),
+            minDate: moment("1900-01-01"),
+            birthDate: moment("1995-01-01"),
             error: undefined
         };
     }
@@ -30,7 +32,7 @@ export class AccountForm extends React.Component {
         e.preventDefault();
         this.props.onSubmit({
             formInput: e.target,
-            birthDate: this.state.birthDate
+            birthDate: this.state.birthDate.toDate()
         });
     };
 
@@ -135,12 +137,14 @@ export class AccountForm extends React.Component {
                     })}
                 <div>
                     <span className="modal__label">Birth Date</span>
-                    <DatePicker
-                        value={this.state.birthDate}
+                    <KeyboardDatePicker
+                        clearable
+                        value={this.state.birthDate.format("YYYY-MM-DD")}
+                        placeholder="YYYY-MM-DD"
                         onChange={this.onDateChange}
                         maxDate={this.state.maxDate}
                         minDate={this.state.minDate}
-                        minDetail="decade"
+                        format="YYYY-MM-DD"
                     />
                 </div>
                 {!!this.props.auth.error &&
@@ -156,7 +160,9 @@ export class AccountForm extends React.Component {
                     <TextField
                         required
                         type="password"
-                        label={`Password (At least ${this.props.minPasswordLength}) characters)`}
+                        label={`Password (At least ${
+                            this.props.minPasswordLength
+                        }) characters)`}
                         fullWidth={true}
                         color="primary"
                         variant="outlined"
