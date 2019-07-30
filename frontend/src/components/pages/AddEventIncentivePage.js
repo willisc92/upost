@@ -66,14 +66,12 @@ class AddEventIncentivePage extends React.Component {
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
                         <Container fixed>
-                            <Box paddingBottom={2}>
-                                <Typography variant="h1" display="inline" gutterBottom>
-                                    Add an Incentive Package to Event:{" "}
-                                </Typography>
-                                <Typography variant="h1" display="inline" gutterBottom color="primary">
+                            <Typography gutterBottom variant="h2">
+                                Add an Incentive Package to Event:{" "}
+                                <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.event && this.props.event.event_title}
                                 </Typography>
-                            </Box>
+                            </Typography>
 
                             {existing_incentive ? (
                                 <Box paddingBottom={2}>

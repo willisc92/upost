@@ -64,19 +64,17 @@ export class EditChannelPage extends React.Component {
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
                     <Container fixed>
-                        <Box paddingBottom={2}>
-                            <Typography variant="h1" display="inline">
-                                Edit Channel:{" "}
-                            </Typography>
-                            <Typography variant="h1" color="primary" display="inline">
+                        <Typography variant="h1" gutterBottom>
+                            Edit Channel:{" "}
+                            <Typography variant="inherit" color="primary" display="inline">
                                 {!!this.props.channel && this.props.channel.channel_name}
                             </Typography>
-                            {read_only && (
-                                <Typography variant="h2" color="error" gutterBottom>
-                                    You must restore this Channel before editing.
-                                </Typography>
-                            )}
-                        </Box>
+                        </Typography>
+                        {read_only && (
+                            <Typography variant="h2" color="error" gutterBottom>
+                                You must restore this Channel before editing.
+                            </Typography>
+                        )}
                         <Button color="primary" variant="contained" onClick={this.goBack}>
                             Go Back
                         </Button>

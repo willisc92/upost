@@ -452,24 +452,20 @@ class AddEventPage extends React.Component {
                 <Box bgcolor="secondary.main" py={3}>
                     <Container fixed>
                         {this.state.step === "Event" && (
-                            <Box paddingBottom={2}>
-                                <Typography variant="h1" display="inline">
-                                    Add an Event to Post:{" "}
-                                </Typography>
-                                <Typography variant="h1" display="inline" color="primary">
+                            <Typography variant="h1" gutterBottom>
+                                Add an Event to Post:{" "}
+                                <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.post && this.props.post.post_title}
                                 </Typography>
-                            </Box>
+                            </Typography>
                         )}
                         {this.state.step === "Incentive" && (
-                            <Box paddingBottom={2}>
-                                <Typography variant="h1" display="inline" color="primary">
-                                    (Optional)
-                                </Typography>
-                                <Typography variant="h1" display="inline">
+                            <Typography variant="h1" gutterBottom color="primary">
+                                (Optional){" "}
+                                <Typography variant="inherit" display="inline" color="textPrimary">
                                     Add an Incentive to the Event{" "}
                                 </Typography>
-                            </Box>
+                            </Typography>
                         )}
                         {read_only ? (
                             <Box>

@@ -6,6 +6,11 @@ import { Link } from "react-router-dom";
 import PostFilterSelector from "../filter_selectors/PostFilterSelector";
 import { getVisiblePosts } from "../../selectors/myPosts";
 
+import Box from "@material-ui/core/Box";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+
 export class MyCommunityPosts extends React.Component {
     componentDidMount() {
         this.props
@@ -22,16 +27,16 @@ export class MyCommunityPosts extends React.Component {
         return (
             posts && (
                 <div>
-                    <div className="page-header">
-                        <div className="content-container">
-                            <h1 className="page-header__title">Posts from your Communities</h1>
-                            <div className="page-header__actions">
-                                <PostFilterSelector />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="content-container">
-                        <div className="polaroid__container">
+                    <Box bgcolor="secondary.main" py={3}>
+                        <Container fixed>
+                            <Typography variant="h1" gutterBottom>
+                                Posts from your Communities
+                            </Typography>
+                            <PostFilterSelector />
+                        </Container>
+                    </Box>
+                    <Container fixed>
+                        <Box display="flex" flexWrap="wrap" py={2}>
                             {posts.length > 0 ? (
                                 posts.map((post) => {
                                     return (
@@ -44,17 +49,21 @@ export class MyCommunityPosts extends React.Component {
                                     );
                                 })
                             ) : (
-                                <h1>
+                                <Typography variant="h2">
                                     There are no posts in your selected communities. Please check again later or{" "}
-                                    <span>
-                                        <Link className="link__inline" to="/communities">
+                                    <Typography variant="inherit" color="primary" display="inline">
+                                        <ButtonBase
+                                            onClick={() => {
+                                                this.props.history.push("/communities");
+                                            }}
+                                        >
                                             click here to edit your communities.
-                                        </Link>
-                                    </span>
-                                </h1>
+                                        </ButtonBase>
+                                    </Typography>
+                                </Typography>
                             )}
-                        </div>
-                    </div>
+                        </Box>
+                    </Container>
                 </div>
             )
         );

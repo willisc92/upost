@@ -88,12 +88,13 @@ class EditEventsPage extends React.Component {
                 <Box>
                     <Box bgcolor="secondary.main" py={3}>
                         <Container fixed>
-                            <Typography variant="h1" display="inline" gutterBottom>
+                            <Typography variant="h1" gutterBottom>
                                 Events for:{" "}
+                                <Typography variant="inherit" display="inline" color="primary">
+                                    {this.props.post && this.props.post.post_title}
+                                </Typography>
                             </Typography>
-                            <Typography variant="h1" display="inline" color="primary" gutterBottom>
-                                {this.props.post && this.props.post.post_title}
-                            </Typography>
+
                             {readOnly && (
                                 <Box>
                                     <Typography variant="h3" color="error" gutterBottom>
@@ -131,7 +132,7 @@ class EditEventsPage extends React.Component {
                     </Box>
                     <Box paddingTop={2}>
                         <Container fixed>
-                            <div className="polaroid__container">
+                            <Box display="flex" flexWrap="wrap">
                                 {events.length > 0 ? (
                                     events.map((event) => {
                                         return (
@@ -149,7 +150,7 @@ class EditEventsPage extends React.Component {
                                         No Events to Show
                                     </Typography>
                                 )}
-                            </div>
+                            </Box>
                         </Container>
                     </Box>
                 </Box>

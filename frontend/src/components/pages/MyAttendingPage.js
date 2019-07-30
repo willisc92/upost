@@ -5,6 +5,9 @@ import { getVisibleEvents } from "../../selectors/myEvents";
 import { resetEventFilters } from "../../actions/event_filters";
 import EventSummary from "../MyEventSummary";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 class MyAttendingPage extends React.Component {
     componentWillMount() {
@@ -22,18 +25,18 @@ class MyAttendingPage extends React.Component {
 
         return (
             <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <h1 className="page-header__title">Events You are Registered to Attend</h1>
-                        <div className="page-header__actions">
-                            <EventFilterSelector foodSpecific={false} />
-                        </div>
-                    </div>
-                </div>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
+                        <Typography variant="h1" gutterBottom>
+                            Events You are Registered to Attend
+                        </Typography>
+                        <EventFilterSelector foodSpecific={false} />
+                    </Container>
+                </Box>
 
-                <div className="content-container">
+                <Container>
                     {events ? (
-                        <div className="polaroid__container">
+                        <Box display="flex" flexWrap="flex" py={2}>
                             {events.length > 0 ? (
                                 events.map((event) => {
                                     return (
@@ -46,15 +49,15 @@ class MyAttendingPage extends React.Component {
                                     );
                                 })
                             ) : this.props.events.length === 0 ? (
-                                <h1>You are not registered to any events.</h1>
+                                <Typography variant="h2">You are not registered to any events.</Typography>
                             ) : (
-                                <h1>No Matching Events</h1>
+                                <Typography variant="h2">No Matching Events</Typography>
                             )}
-                        </div>
+                        </Box>
                     ) : (
-                        <div> Loading... </div>
+                        <Typography> Loading... </Typography>
                     )}
-                </div>
+                </Container>
             </div>
         );
     }

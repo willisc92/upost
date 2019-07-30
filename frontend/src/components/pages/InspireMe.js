@@ -1,6 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { getRandomNonInterestPost } from "../../actions/posts";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
 
 export class InspireMe extends React.Component {
     componentDidMount() {
@@ -18,11 +21,11 @@ export class InspireMe extends React.Component {
 
     render() {
         return (
-            <div className="page-header">
-                <div className="content-container">
-                    <h1 className="page-header__title">Getting a Post for you...</h1>
-                </div>
-            </div>
+            <Box bgcolor="secondary.main" py={3}>
+                <Container fixed>
+                    <Typography variant="h1">Getting a Post for you...</Typography>
+                </Container>
+            </Box>
         );
     }
 }

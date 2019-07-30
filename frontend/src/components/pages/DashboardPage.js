@@ -5,9 +5,14 @@ import { startSetInterestRandomPosts, getNonInterestPosts } from "../../actions/
 import { BrowsePostMenu } from "../MyPostSummary";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";
-import { Link } from "react-router-dom";
 import SignupModal from "../modals/SignupModal";
 import LoginModal from "../modals/LoginModal";
+
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import MenuHeader from "../menus/MenuHeader";
+import ButtonBase from "@material-ui/core/ButtonBase";
 
 export class DashboardPage extends React.Component {
     constructor(props) {
@@ -114,51 +119,73 @@ export class DashboardPage extends React.Component {
 
         return (
             <div>
-                <div className="page-header">
-                    <div className="content-container">
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
                         {!this.props.isAuthenticated ? (
-                            <h1 className="page-header__title">
-                                Welcome to <span>UPost</span>. Please
-                                <button className="button button--link" onClick={this.handleLoginModalOpen}>
-                                    <h1 className="page-header__title">
-                                        <span>login</span>
-                                    </h1>
-                                </button>
-                                or
-                                <button className="button button--link" onClick={this.handleSignupModalOpen}>
-                                    <h1 className="page-header__title">
-                                        <span>register</span>
-                                    </h1>
-                                </button>
-                                to use the site!
-                            </h1>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h1" gutterBottom>
+                                    Welcome to{" "}
+                                    <Typography variant="inherit" display="inline" color="primary">
+                                        UPost!
+                                    </Typography>
+                                </Typography>
+                                <Typography variant="h2">
+                                    <Typography variant="inherit" display="inline">
+                                        Please{" "}
+                                    </Typography>
+                                    <Typography variant="inherit" display="inline" color="primary">
+                                        <ButtonBase onClick={this.handleLoginModalOpen}>login </ButtonBase>
+                                    </Typography>
+                                    <Typography variant="inherit" display="inline">
+                                        {" "}
+                                        or{" "}
+                                    </Typography>
+                                    <Typography variant="inherit" display="inline" color="primary">
+                                        <ButtonBase onClick={this.handleSignupModalOpen}>register</ButtonBase>
+                                    </Typography>
+
+                                    <Typography variant="inherit" display="inline">
+                                        {" "}
+                                        to use the site!
+                                    </Typography>
+                                </Typography>
+                            </Box>
                         ) : (
-                            <h1 className="page-header__title">
-                                Welcome, <span>{`${localStorage.getItem("first_name")}!`}</span>
-                            </h1>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h1">
+                                    Welcome,{" "}
+                                    <Typography
+                                        variant="inherit"
+                                        display="inline"
+                                        color="primary"
+                                    >{`${localStorage.getItem("first_name")}!`}</Typography>
+                                </Typography>
+                            </Box>
                         )}
-                    </div>
-                </div>
-                <div className="content-container">
+                    </Container>
+                </Box>
+                <Container fixed>
                     {this.props.isAuthenticated && menus.length === 0 && (
-                        <div>
-                            <h1>
-                                There are currently no posts matching your interests for your given communities.
-                                <span>
-                                    <Link className="link__inline" to="/interests">
+                        <Box py={2}>
+                            <Typography variant="h3">
+                                There are currently no posts matching your interests for your given communities.{"  "}
+                                <Typography variant="inherit" display="inline" color="primary">
+                                    <ButtonBase
+                                        onClick={() => {
+                                            this.props.history.push("/interests");
+                                        }}
+                                    >
                                         Click here to Edit.
-                                    </Link>
-                                </span>
-                            </h1>
-                        </div>
+                                    </ButtonBase>
+                                </Typography>
+                            </Typography>
+                        </Box>
                     )}
                     {this.props.interestRandomPosts.map((interestPosts, index) => {
                         return (
                             menus[index].length > 0 && (
-                                <div key={interestPosts.tag} className="horizontal-menu_wrapper">
-                                    <div className="menu_header">
-                                        <h1>{interestPosts.tag}</h1>
-                                    </div>
+                                <Box py={2} key={interestPosts.tag}>
+                                    {MenuHeader(interestPosts.tag)}
                                     <ScrollMenu
                                         data={menus[index]}
                                         arrowLeft={ArrowLeft}
@@ -166,16 +193,14 @@ export class DashboardPage extends React.Component {
                                         selected={this.state.selected}
                                         onSelect={this.onSelect}
                                     />
-                                </div>
+                                </Box>
                             )
                         );
                     })}
 
                     {nonInterestMenu.length > 0 && (
-                        <div className="horizontal-menu_wrapper">
-                            <div className="menu_header">
-                                <h1>Other Posts in Your Communities</h1>
-                            </div>
+                        <Box py={2}>
+                            {MenuHeader("Other posts in your Communities")}
                             <ScrollMenu
                                 data={nonInterestMenu}
                                 arrowLeft={ArrowLeft}
@@ -183,7 +208,7 @@ export class DashboardPage extends React.Component {
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
                             />
-                        </div>
+                        </Box>
                     )}
 
                     <SignupModal
@@ -198,7 +223,7 @@ export class DashboardPage extends React.Component {
                         closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
                         handleSucessfulLogin={this.handleSucessfulLogin}
                     />
-                </div>
+                </Container>
             </div>
         );
     }

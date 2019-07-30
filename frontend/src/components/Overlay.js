@@ -149,6 +149,7 @@ export default (props) => {
                         button
                         onClick={() => {
                             props.history.push("/");
+                            handleDrawerClose();
                         }}
                     >
                         <ListItemIcon>
@@ -160,6 +161,7 @@ export default (props) => {
                         button
                         onClick={() => {
                             props.history.push("/inspire_me");
+                            handleDrawerClose();
                         }}
                     >
                         <ListItemIcon>
@@ -171,6 +173,7 @@ export default (props) => {
                         button
                         onClick={() => {
                             props.history.push("/food_mood");
+                            handleDrawerClose();
                         }}
                     >
                         <ListItemIcon>
@@ -182,6 +185,7 @@ export default (props) => {
                         button
                         onClick={() => {
                             props.history.push("/community_posts");
+                            handleDrawerClose();
                         }}
                     >
                         <ListItemIcon>
@@ -195,6 +199,7 @@ export default (props) => {
                         button
                         onClick={() => {
                             props.history.push("/my_subscriptions");
+                            handleDrawerClose();
                         }}
                     >
                         <ListItemIcon>
@@ -206,6 +211,7 @@ export default (props) => {
                         button
                         onClick={() => {
                             props.history.push("/my_attending");
+                            handleDrawerClose();
                         }}
                     >
                         <ListItemIcon>
@@ -217,6 +223,7 @@ export default (props) => {
                         button
                         onClick={() => {
                             props.history.push("/myDeletedContent");
+                            handleDrawerClose();
                         }}
                     >
                         <ListItemIcon>
