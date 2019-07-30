@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import DatePicker from "react-date-picker";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
 export class AccountForm extends React.Component {
     constructor(props) {
@@ -41,9 +42,9 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.username &&
                     this.props.auth.error.username.map((error) => {
                         return (
-                            <p className="form__error" key={error}>
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
-                            </p>
+                            </Typography>
                         );
                     })}
                 <Box bgcolor="white">
@@ -61,9 +62,9 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.email &&
                     this.props.auth.error.email.map((error) => {
                         return (
-                            <p className="form__error" key={error}>
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
-                            </p>
+                            </Typography>
                         );
                     })}
                 <Box bgcolor="white">
@@ -81,9 +82,9 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.first_name &&
                     this.props.auth.error.first_name.map((error) => {
                         return (
-                            <p className="form__error" key={error}>
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
-                            </p>
+                            </Typography>
                         );
                     })}
                 <Box bgcolor="white">
@@ -109,9 +110,9 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.last_name &&
                     this.props.auth.error.last_name.map((error) => {
                         return (
-                            <p className="form__error" key={error}>
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
-                            </p>
+                            </Typography>
                         );
                     })}
                 <Box bgcolor="white">
@@ -128,9 +129,9 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.birth_date &&
                     this.props.auth.error.birth_date.map((error) => {
                         return (
-                            <p className="form__error" key={error}>
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
-                            </p>
+                            </Typography>
                         );
                     })}
                 <div>
@@ -147,9 +148,9 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.password &&
                     this.props.auth.error.password.map((error) => {
                         return (
-                            <p className="form__error" key={error}>
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
-                            </p>
+                            </Typography>
                         );
                     })}
                 <Box bgcolor="white">

@@ -105,31 +105,26 @@ class SignupModal extends React.Component {
             >
                 <div className="modal__header">
                     <img className="modal__logo" src={CDNLink + "/dist/images/logo.png"} />
-                    <div>
-                        <Typography variant="h5" style={{ textAlign: "left" }}>
-                            Create Your U-Post Account
-                        </Typography>
-                        <Typography variant="h6" style={{ textAlign: "left" }}>
-                            to continue
-                        </Typography>
-                    </div>
+                    <Typography variant="h5" style={{ textAlign: "left" }}>
+                        Create Your U-Post Account
+                    </Typography>
                 </div>
                 {this.state.successfulCreation ? (
-                    <div>
-                        <Typography>A confirmation email has been sent.</Typography>
-                        <Typography>
+                    <React.Fragment>
+                        <Typography variant="body1">A confirmation email has been sent.</Typography>
+                        <Typography variant="bod1">
                             Please check your email to proceed. If no message appears please check your spam inbox.
                         </Typography>
-                        <Typography>
+                        <Typography variant="body1">
                             click{" "}
-                            <Typography color="primary" component="span" onClick={this.resendEmail}>
+                            <Typography color="primary" variant="body1" component="span" onClick={this.resendEmail}>
                                 here
                             </Typography>{" "}
                             to resend the email.
                         </Typography>
-                    </div>
+                    </React.Fragment>
                 ) : (
-                    <div>
+                    <React.Fragment>
                         <AccountForm
                             minPasswordLength={this.state.minPasswordLength}
                             onSubmit={this.signupOnSubmit}
@@ -154,7 +149,7 @@ class SignupModal extends React.Component {
                                 Login instead
                             </Button>
                         </div>
-                    </div>
+                    </React.Fragment>
                 )}
             </Modal>
         );

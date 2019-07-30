@@ -77,60 +77,55 @@ class LoginModal extends React.Component {
                 <div className="modal__header">
                     <img className="modal__logo" src={CDNLink + "/dist/images/logo.png"} />
                     {this.state.passwordRecovery ? (
-                        <div>
-                            <Typography variant="h5" style={{ textAlign: "left" }}>
-                                Find Your Email
-                            </Typography>
-                            <Typography variant="h6" style={{ textAlign: "left" }}>
-                                Enter your account email
-                            </Typography>
-                        </div>
+                        <Typography variant="h5" style={{ textAlign: "left" }}>
+                            Find Your Email
+                        </Typography>
                     ) : (
-                        <div>
-                            <Typography variant="h5" style={{ textAlign: "left" }}>
-                                Login to your U-Post Account
-                            </Typography>
-                            <Typography variant="h6" style={{ textAlign: "left" }}>
-                                to continue
-                            </Typography>
-                        </div>
+                        <Typography variant="h5" style={{ textAlign: "left" }}>
+                            Login to your U-Post Account
+                        </Typography>
                     )}
                 </div>
                 {this.state.passwordRecovery ? (
                     this.state.passwordRecoveryEmailSent ? (
-                        <div>
-                            <Typography>A recovery email has been sent.</Typography>
-                            <Typography>
+                        <React.Fragment>
+                            <Typography variant="body1">A recovery email has been sent.</Typography>
+                            <Typography variant="body1">
                                 Please check your email to proceed. If no message appears please check your spam inbox
                             </Typography>
-                            <Typography>
+                            <Typography variant="body1">
                                 click{" "}
                                 <Typography
                                     onClick={this.resendEmail}
                                     color="primary"
                                     style={{ display: "inline-block" }}
                                     component="span"
+                                    variant="body1"
                                 >
                                     here
                                 </Typography>{" "}
                                 to resend the email.
                             </Typography>
-                        </div>
+                        </React.Fragment>
                     ) : (
-                        <div>
+                        <React.Fragment>
                             <RecoveryForm onSubmit={this.recoveryOnSubmit} id="recovery" />
-                            <Typography onClick={this.changePasswordRecovery}>Return to Login</Typography>
+                            <Typography variant="body1" onClick={this.changePasswordRecovery} gutterBottom>
+                                Return to Login
+                            </Typography>
                             <div className="modal_buttons">
                                 <Button color="primary" variant="contained" type="submit" form="recovery">
                                     Send Email
                                 </Button>
                             </div>
-                        </div>
+                        </React.Fragment>
                     )
                 ) : (
-                    <div>
+                    <React.Fragment>
                         <LoginForm onSubmit={this.loginOnSubmit} id="login" />
-                        <Typography onClick={this.changePasswordRecovery}>Forgot Password?</Typography>
+                        <Typography variant="body1" onClick={this.changePasswordRecovery} gutterBottom>
+                            Forgot Password?
+                        </Typography>
                         <div className="modal__buttons">
                             <Button
                                 color="primary"
@@ -150,7 +145,7 @@ class LoginModal extends React.Component {
                                 Create Account
                             </Button>
                         </div>
-                    </div>
+                    </React.Fragment>
                 )}
             </Modal>
         );

@@ -21,7 +21,7 @@ class Header extends React.Component {
 
     handleLoginModalOpen = () => {
         this.setState(() => {
-            return { loginOpen: true };
+            return { loginOpen: true, signupOpen: false };
         });
     };
 
@@ -39,7 +39,7 @@ class Header extends React.Component {
 
     handleSignupModalOpen = () => {
         this.setState(() => {
-            return { signupOpen: true };
+            return { signupOpen: true, loginOpen: false };
         });
     };
 
@@ -75,13 +75,12 @@ class Header extends React.Component {
                                 this.props.history.push("/myChannels");
                             }}
                         >
-                            <img className="header_mycontent_logo" src={CDNLink + "/dist/images/mycontent.png"} />
-                            My Content
+                            <img className="header_mycontent_logo" src={CDNLink + "/dist/images/mycontent.png"} /> My
+                            Content
                         </WhiteButton>
                         <MyAccountMenu history={this.props.history} />
                         <WhiteButton variant="text" onClick={this.props.logout}>
-                            <i className="material-icons">exit_to_app</i>
-                            Logout
+                            <i className="material-icons">exit_to_app</i> Logout
                         </WhiteButton>
                     </div>
                 ) : (
@@ -90,8 +89,7 @@ class Header extends React.Component {
                             <i className="material-icons">exit_to_app</i> Login
                         </WhiteButton>
                         <WhiteButton variant="text" onClick={this.handleSignupModalOpen}>
-                            <i className="material-icons">person_add</i>
-                            Signup
+                            <i className="material-icons">person_add</i> Signup
                         </WhiteButton>
                     </div>
                 )}

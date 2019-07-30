@@ -7,6 +7,8 @@ import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/s
 import IncentivePackage from "../IncentivePackage";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 class ViewPostPage extends React.Component {
     componentDidMount() {
@@ -42,69 +44,85 @@ class ViewPostPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="page-header">
-                    <div className="content-container">
+            <React.Fragment>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
                         <Typography variant="h1">Post</Typography>
-                    </div>
-                </div>
-                <div className="content-container-split">
-                    {!!this.props.post && (
-                        <div className="content-container-twothirds">
-                            <img
-                                className="post-image"
-                                src={
-                                    !!this.props.post.picture
-                                        ? this.props.post.picture
-                                        : CDNLink + "/dist/images/polaroid_default.png"
-                                }
-                            />
-                            <div className="post__title">
-                                <Typography variant="h2">{this.props.post.post_title}</Typography>
-                                {this.props.post.post_events.length > 0 && (
-                                    <Button variant="contained" color="primary" onClick={this.moveToPostEventsPage}>
-                                        See Events
-                                    </Button>
+                    </Container>
+                </Box>
+                <Container fixed>
+                    <Box display="flex">
+                        {!!this.props.post && (
+                            <div className="content-container-twothirds">
+                                <img
+                                    className="post-image"
+                                    src={
+                                        !!this.props.post.picture
+                                            ? this.props.post.picture
+                                            : CDNLink + "/dist/images/polaroid_default.png"
+                                    }
+                                />
+                                <Box display="flex" justifyContent="space-between" py={2}>
+                                    <Typography variant="h2" color="primary">
+                                        {this.props.post.post_title}
+                                    </Typography>
+                                    {this.props.post.post_events.length > 0 && (
+                                        <Button variant="contained" color="primary" onClick={this.moveToPostEventsPage}>
+                                            See Events
+                                        </Button>
+                                    )}
+                                </Box>
+                                <Typography variant="body1" gutterBottom>
+                                    Description: {this.props.post.post_description}
+                                </Typography>
+                                {!!this.props.post.post_incentive && (
+                                    <IncentivePackage package={this.props.post.post_incentive} />
                                 )}
                             </div>
-                            <Typography variant="body1">Description: {this.props.post.post_description}</Typography>
-                            {!!this.props.post.post_incentive && (
-                                <IncentivePackage package={this.props.post.post_incentive} />
+                        )}
+                        <div className="content-container-onethirds">
+                            {!!this.props.channel && (
+                                <div>
+                                    <Link
+                                        className="post__link"
+                                        to={{
+                                            pathname: `/channel/${this.props.channel.channel_id}`
+                                        }}
+                                    >
+                                        <Box paddingTop={2}>
+                                            <Typography variant="h4">{this.props.channel.channel_name}</Typography>
+                                        </Box>
+                                    </Link>
+                                    {!!this.props.subscriptions && (
+                                        <Box py={2}>
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={this.updateSubscriptions}
+                                            >
+                                                {this.props.subscriptions.includes(this.props.channel.channel_id)
+                                                    ? "Unsubscribe"
+                                                    : "Subscribe"}
+                                            </Button>
+                                        </Box>
+                                    )}
+                                </div>
+                            )}
+                            {!!this.props.post && (
+                                <React.Fragment>
+                                    <Typography variant="h4" gutterBottom>
+                                        Contact Information
+                                    </Typography>
+                                    <Typography variant="body1">{`Phone Number: ${
+                                        this.props.post.phone_number
+                                    }`}</Typography>
+                                    <Typography variant="body1">{`Email: ${this.props.post.email}`}</Typography>
+                                </React.Fragment>
                             )}
                         </div>
-                    )}
-                    <div className="content-container-onethirds">
-                        {!!this.props.channel && (
-                            <div>
-                                <Link
-                                    className="post__link"
-                                    to={{
-                                        pathname: `/channel/${this.props.channel.channel_id}`
-                                    }}
-                                >
-                                    <Typography variant="h3">{this.props.channel.channel_name}</Typography>
-                                </Link>
-                                {!!this.props.subscriptions && (
-                                    <Button variant="contained" color="primary" onClick={this.updateSubscriptions}>
-                                        {this.props.subscriptions.includes(this.props.channel.channel_id)
-                                            ? "Unsubscribe"
-                                            : "Subscribe"}
-                                    </Button>
-                                )}
-                            </div>
-                        )}
-                        {!!this.props.post && (
-                            <div>
-                                <Typography variant="h3">Contact Information</Typography>
-                                <Typography variant="body1">{`Phone Number: ${
-                                    this.props.post.phone_number
-                                }`}</Typography>
-                                <Typography variant="body1">{`Email: ${this.props.post.email}`}</Typography>
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
+                    </Box>
+                </Container>
+            </React.Fragment>
         );
     }
 }

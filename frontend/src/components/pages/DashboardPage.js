@@ -113,7 +113,7 @@ export class DashboardPage extends React.Component {
         const nonInterestMenu = BrowsePostMenu(this.props.nonInterestPosts, this.state.selected);
 
         return (
-            <div>
+            <div style={{ display: "flex-grow", minWidth: 10 }}>
                 <div className="page-header">
                     <div className="content-container">
                         {!this.props.isAuthenticated ? (
@@ -139,7 +139,7 @@ export class DashboardPage extends React.Component {
                         )}
                     </div>
                 </div>
-                <div className="content-container">
+                <div className="content-container-full">
                     {this.props.isAuthenticated && menus.length === 0 && (
                         <div>
                             <h1>

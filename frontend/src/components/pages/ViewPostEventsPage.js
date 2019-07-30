@@ -5,6 +5,9 @@ import { startGetEvent, setEvents } from "../../actions/events";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
 import EventSummary from "../MyEventSummary";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 class ViewPostEventsPage extends React.Component {
     constructor(props) {
@@ -42,32 +45,42 @@ class ViewPostEventsPage extends React.Component {
     render() {
         const events = !!this.props.events && getVisibleEvents(this.props.events, this.props.filters, false);
         return (
-            <div>
-                <div className="page-header">
-                    <div className="content-container">
+            <React.Fragment>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
                         {!!this.props.post && (
-                            <h1 className="page-header__title">
-                                Events for <span>{this.props.post.post_title}</span>
-                            </h1>
+                            <React.Fragment>
+                                <Typography variant="h1" display="inline">
+                                    Events for
+                                </Typography>
+                                <Typography variant="h1" color="primary" display="inline">
+                                    {" "}
+                                    {this.props.post.post_title}
+                                </Typography>
+                            </React.Fragment>
                         )}
-                        <div className="page-header__actions">
+                        <Box marginTop={2}>
                             <EventFilterSelector />
+                        </Box>
+                    </Container>
+                </Box>
+                <Box paddingTop={2}>
+                    <Container fixed>
+                        <div className="polaroid__container">
+                            {!!events &&
+                                events.map((event) => {
+                                    return (
+                                        <EventSummary
+                                            key={event.event_id}
+                                            event={event}
+                                            pathName={`/event/${event.event_id}`}
+                                        />
+                                    );
+                                })}
                         </div>
-                    </div>
-                </div>
-                <div className="content-container">
-                    {!!events &&
-                        events.map((event) => {
-                            return (
-                                <EventSummary
-                                    key={event.event_id}
-                                    event={event}
-                                    pathName={`/event/${event.event_id}`}
-                                />
-                            );
-                        })}
-                </div>
-            </div>
+                    </Container>
+                </Box>
+            </React.Fragment>
         );
     }
 }

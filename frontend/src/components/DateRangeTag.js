@@ -15,7 +15,7 @@ const DateRangeTag = (props) => {
                 <Typography variant="body1" component="p">
                     Start Time: {startDate.format("h:mm a")}
                 </Typography>
-                <Typography variant="body1" component="p">
+                <Typography variant="body1" component="p" gutterBottom>
                     End Time: {endDate.format("h:mm a")}
                 </Typography>
             </div>
@@ -26,7 +26,7 @@ const DateRangeTag = (props) => {
                 <Typography variant="body1" component="p">
                     Start: {startDate.format("ddd, MMM D YYYY, h:mm a")}
                 </Typography>
-                <Typography variant="body1" component="p">
+                <Typography variant="body1" component="p" gutterBottom>
                     End: {endDate.format("ddd, MMM D YYYY, h:mm a")}
                 </Typography>
             </div>

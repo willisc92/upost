@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
 export class LoginForm extends React.Component {
     constructor(props) {
@@ -25,7 +26,11 @@ export class LoginForm extends React.Component {
     render() {
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
-                {!!this.props.error && <p className="form__error">{this.props.error.error}</p>}
+                {!!this.props.error && (
+                    <Typography variant="body1" color="error" gutterBottom>
+                        {this.props.error.error}
+                    </Typography>
+                )}
                 <Box bgcolor="white">
                     <TextField
                         label="Email"
