@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-//import DatePicker from "react-date-picker";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";

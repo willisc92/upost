@@ -175,7 +175,7 @@ export class DashboardPage extends React.Component {
                                             this.props.history.push("/interests");
                                         }}
                                     >
-                                        Click here to Edit.
+                                        Click Here to Edit.
                                     </ButtonBase>
                                 </Typography>
                             </Typography>

@@ -9,9 +9,22 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
+import { getCurrentUser } from "../../actions/auth";
 
 class ViewPostPage extends React.Component {
+    _isMounted = false;
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isOwner: false
+        };
+    }
+
     componentDidMount() {
+        this._isMounted = true;
+
         this.props.clearPosts();
         const post_id = this.props.match.params.id;
         this.props
@@ -23,6 +36,16 @@ class ViewPostPage extends React.Component {
                 this.props.startGetChannel(this.props.post.channel).catch((err) => {
                     console.log("error in getting channel information", JSON.stringify(err, null, 2));
                 });
+
+                getCurrentUser()
+                    .then((user_res) => {
+                        if (this._isMounted) {
+                            this.setState(() => ({
+                                isOwner: user_res.data.username === res.data[0].user
+                            }));
+                        }
+                    })
+                    .catch((err) => console.log(err));
             })
             .catch((err) => {
                 console.log("error in getting post information", JSON.stringify(err, null, 2));
@@ -34,12 +57,20 @@ class ViewPostPage extends React.Component {
         }
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     updateSubscriptions = () => {
         this.props.startUpdateSubscriptions(this.props.channel.channel_id);
     };
 
     moveToPostEventsPage = () => {
         this.props.history.push(`/post-events/${this.props.post.post_id}`);
+    };
+
+    editPost = () => {
+        this.props.history.push(`/myPosts/${this.props.post.post_id}/edit/`);
     };
 
     render() {
@@ -66,11 +97,22 @@ class ViewPostPage extends React.Component {
                                     <Typography variant="h2" color="primary">
                                         {this.props.post.post_title}
                                     </Typography>
-                                    {this.props.post.post_events.length > 0 && (
-                                        <Button variant="contained" color="primary" onClick={this.moveToPostEventsPage}>
-                                            See Events
-                                        </Button>
-                                    )}
+                                    <Box>
+                                        {this.state.isOwner && (
+                                            <Button variant="contained" color="primary" onClick={this.editPost}>
+                                                Edit Post
+                                            </Button>
+                                        )}{" "}
+                                        {this.props.post.post_events.length > 0 && (
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={this.moveToPostEventsPage}
+                                            >
+                                                See Events
+                                            </Button>
+                                        )}
+                                    </Box>
                                 </Box>
                                 <Typography variant="body1" gutterBottom>
                                     Description: {this.props.post.post_description}
@@ -90,7 +132,9 @@ class ViewPostPage extends React.Component {
                                         }}
                                     >
                                         <Box paddingTop={2}>
-                                            <Typography variant="h4">{this.props.channel.channel_name}</Typography>
+                                            <Typography variant="h3" color="primary">
+                                                {this.props.channel.channel_name}
+                                            </Typography>
                                         </Box>
                                     </Link>
                                     {!!this.props.subscriptions && (
