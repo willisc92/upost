@@ -13,13 +13,15 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
+import Moment from "moment";
 
 class ViewEventPage extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            openMessageModal: false
+            openMessageModal: false,
+            error: ""
         };
     }
 
@@ -120,7 +122,7 @@ class ViewEventPage extends React.Component {
                 .catch((error) => {
                     console.log(JSON.stringify(error, null, 2));
                     this.setState(() => {
-                        return { openMessageModal: true };
+                        return { openMessageModal: true, error: error.response.data.error };
                     });
                 });
         }
@@ -167,8 +169,9 @@ class ViewEventPage extends React.Component {
                                             color="primary"
                                             onClick={this.updateAttendance}
                                             disabled={
-                                                this.props.event.capacity_status === this.props.event.capacity &&
-                                                !registered
+                                                (this.props.event.capacity_status === this.props.event.capacity &&
+                                                    !registered) ||
+                                                Moment(this.props.event.planned_end_date) < Moment()
                                             }
                                         >
                                             {!!registered && registered ? "Unregister" : "Register"}
@@ -267,7 +270,7 @@ class ViewEventPage extends React.Component {
                 </Container>
                 <MessageModal
                     isOpen={this.state.openMessageModal}
-                    message="An error has occured with your registration please refresh the page and try again."
+                    message={this.state.error}
                     closeMessageModal={this.closeMessageModal}
                 />
             </React.Fragment>

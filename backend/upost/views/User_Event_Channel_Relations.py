@@ -5,7 +5,9 @@ from ..models.Channels_Posts_Events import ContentChannel, PostEvent
 from ..models.User_Account import CustomUser
 from datetime import datetime
 from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework import status
+from django.utils import timezone
 
 
 # Create your views here.
@@ -43,14 +45,21 @@ class AttendView(viewsets.ModelViewSet):
         return Response(status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
-        event = self.request.data['event']
-        attendee = self.request.data['attendee']
-        if Attend.objects.filter(event=event).count() < PostEvent.objects.get(pk=event).capacity:
+        event_id = self.request.data['event']
+        attendee_id = self.request.data['attendee']
+        event = PostEvent.objects.get(pk=event_id)
+
+        if Attend.objects.filter(event=event_id).count() >= event.capacity:  # event full
+            return JsonResponse({'error': 'The event has filled, please refresh the page'},
+                status=status.HTTP_400_BAD_REQUEST)
+        elif event.planned_end_date <= timezone.now():  # event passed
+            return JsonResponse({'error': 'The event has passed, you are unable to register'},
+                status=status.HTTP_400_BAD_REQUEST)
+        else:
             serializer = AttendSerializer(data=self.request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(status=status.HTTP_201_CREATED)
             else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+                return JsonResponse({'error': 'An error has occured. Please refresh and try again or try again later.'},
+                    status=status.HTTP_400_BAD_REQUEST)
