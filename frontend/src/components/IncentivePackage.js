@@ -7,6 +7,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
 const DietOptionsMenu = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -53,36 +54,41 @@ class IncentivePackage extends React.Component {
         });
 
         return (
-            <Box display="flex" justifyContent="center" flexWrap="wrap" paddingTop={2}>
-                {this.props.package.incentive_type.includes("Food") && !!food && !!this.props.package.diet_option && (
-                    <DietOptionsMenu diet_option={this.props.package.diet_option} food={food} />
-                )}
-                {this.props.package.incentive_type.map((type) => {
-                    if (
-                        !!this.props.incentives.find((incentive) => {
-                            return incentive.incentive_name === type && incentive.incentive_name !== "Food";
-                        })
-                    ) {
-                        return (
-                            <Chip
-                                color="primary"
-                                label={type}
-                                style={{ margin: 5 }}
-                                avatar={
-                                    <Avatar
-                                        src={
-                                            this.props.incentives.find((incentive) => {
-                                                return incentive.incentive_name === type;
-                                            }).incentive_image
-                                        }
-                                    />
-                                }
-                                key={type}
-                            />
-                        );
-                    }
-                })}
-            </Box>
+            <React.Fragment>
+                <Box display="flex" justifyContent="center" flexWrap="wrap" py={2}>
+                    {this.props.package.incentive_type.includes("Food") &&
+                        !!food &&
+                        !!this.props.package.diet_option && (
+                            <DietOptionsMenu diet_option={this.props.package.diet_option} food={food} />
+                        )}
+                    {this.props.package.incentive_type.map((type) => {
+                        if (
+                            !!this.props.incentives.find((incentive) => {
+                                return incentive.incentive_name === type && incentive.incentive_name !== "Food";
+                            })
+                        ) {
+                            return (
+                                <Chip
+                                    color="primary"
+                                    label={type}
+                                    style={{ margin: 5 }}
+                                    avatar={
+                                        <Avatar
+                                            src={
+                                                this.props.incentives.find((incentive) => {
+                                                    return incentive.incentive_name === type;
+                                                }).incentive_image
+                                            }
+                                        />
+                                    }
+                                    key={type}
+                                />
+                            );
+                        }
+                    })}
+                </Box>
+                <Typography variant="body1">Incentive description: {this.props.package.ip_description}</Typography>
+            </React.Fragment>
         );
     }
 }
