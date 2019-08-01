@@ -7,6 +7,12 @@ import { SearchBar } from "./SearchBar";
 import { Button, AppBar } from "@material-ui/core";
 import { MyAccountMenu } from "./MyAccountMenu";
 import { WhiteButton } from "../components/Buttons";
+/*import {
+    getAllInterests,
+    startSetUserInterests,
+    startEditUserInterests
+} from "../../actions/interests";
+import { getMyCommunities } from "../../actions/communities";*/
 
 class Header extends React.Component {
     constructor(props) {
@@ -61,12 +67,22 @@ class Header extends React.Component {
     handleSucessfulLogin = () => {
         this.handleLoginModalClose();
         this.props.history.push("/");
+        /* if (
+            this.props.userCommunities.length === 0 &&
+            this.props.userInterests.length === 0
+        ) {
+            this.props.history.push("/interests");
+        } else {
+            this.props.history.push("/");
+        }*/
     };
 
     render() {
         return (
             <React.Fragment>
-                {!!this.props.token && <SearchBar history={this.props.history} />}
+                {!!this.props.token && (
+                    <SearchBar history={this.props.history} />
+                )}
                 {!!this.props.token ? (
                     <div>
                         <WhiteButton
@@ -75,8 +91,11 @@ class Header extends React.Component {
                                 this.props.history.push("/myChannels");
                             }}
                         >
-                            <img className="header_mycontent_logo" src={CDNLink + "/dist/images/mycontent.png"} /> My
-                            Content
+                            <img
+                                className="header_mycontent_logo"
+                                src={CDNLink + "/dist/images/mycontent.png"}
+                            />{" "}
+                            My Content
                         </WhiteButton>
                         <MyAccountMenu history={this.props.history} />
                         <WhiteButton variant="text" onClick={this.props.logout}>
@@ -85,10 +104,16 @@ class Header extends React.Component {
                     </div>
                 ) : (
                     <div>
-                        <WhiteButton variant="text" onClick={this.handleLoginModalOpen}>
+                        <WhiteButton
+                            variant="text"
+                            onClick={this.handleLoginModalOpen}
+                        >
                             <i className="material-icons">exit_to_app</i> Login
                         </WhiteButton>
-                        <WhiteButton variant="text" onClick={this.handleSignupModalOpen}>
+                        <WhiteButton
+                            variant="text"
+                            onClick={this.handleSignupModalOpen}
+                        >
                             <i className="material-icons">person_add</i> Signup
                         </WhiteButton>
                     </div>

@@ -1,11 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
 import Interest from "../Interest";
-import { getAllInterests, startSetUserInterests, startEditUserInterests } from "../../actions/interests";
+import {
+    getAllInterests,
+    startSetUserInterests,
+    startEditUserInterests
+} from "../../actions/interests";
+import { getMyCommunities } from "../../actions/communities";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 export class InterestsPage extends React.Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
@@ -21,12 +28,18 @@ export class InterestsPage extends React.Component {
         });
 
         for (let i = 0; i < interestsWithSelected.length; i++) {
-            if (this.props.userInterests.includes(interestsWithSelected[i].interest_tag)) {
+            if (
+                this.props.userInterests.includes(
+                    interestsWithSelected[i].interest_tag
+                )
+            ) {
                 interestsWithSelected[i].isSelected = true;
             }
         }
 
-        this.setState(() => ({ interests: interestsWithSelected }));
+        if (this._isMounted) {
+            this.setState(() => ({ interests: interestsWithSelected }));
+        }
     };
 
     getUserInterests = () => {
@@ -36,24 +49,36 @@ export class InterestsPage extends React.Component {
     };
 
     componentDidMount() {
+        this._isMounted = true;
+
+        this.props.getMyCommunities();
+
         if (this.props.interests.length === 0) {
             this.props
                 .getAllInterests()
                 .then(() => {
-                    this.setState(() => ({
-                        isLoaded: true
-                    }));
+                    if (this._isMounted) {
+                        this.setState(() => ({
+                            isLoaded: true
+                        }));
+                    }
                     this.getUserInterests();
                 })
                 .catch((error) => {
-                    this.setState({
-                        isLoaded: true,
-                        error
-                    });
+                    if (this._isMounted) {
+                        this.setState({
+                            isLoaded: true,
+                            error
+                        });
+                    }
                 });
         } else {
             this.getUserInterests();
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     changeIsSelected = (interest_tag) => {
@@ -81,14 +106,17 @@ export class InterestsPage extends React.Component {
             .startEditUserInterests(changes)
             .then(() => {
                 // IF this page came from signup - push to communities - else push to home.
-                if (!!this.props.location.state && !!this.props.location.state.fromSignup) {
+                if (this.props.userCommunities.length === 0) {
                     this.props.history.push("/communities");
                 } else {
                     this.props.history.push("/");
                 }
             })
             .catch((error) => {
-                console.log("An error has occured with updating interests", error);
+                console.log(
+                    "An error has occured with updating interests",
+                    error
+                );
             });
     };
 
@@ -97,10 +125,13 @@ export class InterestsPage extends React.Component {
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <Typography variant="h1">Let's get to know you</Typography>
+                        <Typography variant="h1">
+                            Let's get to know you
+                        </Typography>
                         <Typography variant="body1">
-                            Please choose 1 or more Interests. When we know what you are passionate about we can find
-                            better events for you.
+                            Please choose 1 or more Interests. When we know what
+                            you are passionate about we can find better events
+                            for you.
                         </Typography>
                     </div>
                 </div>
@@ -132,7 +163,8 @@ export class InterestsPage extends React.Component {
 const mapStateToProps = (state) => {
     return {
         interests: state.interests.interests,
-        userInterests: state.interests.userInterests
+        userInterests: state.interests.userInterests,
+        userCommunities: state.communities.userCommunities.community
     };
 };
 
@@ -140,7 +172,9 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getAllInterests: () => dispatch(getAllInterests()),
         startSetUserInterests: () => dispatch(startSetUserInterests()),
-        startEditUserInterests: (userInterests) => dispatch(startEditUserInterests(userInterests))
+        startEditUserInterests: (userInterests) =>
+            dispatch(startEditUserInterests(userInterests)),
+        getMyCommunities: () => dispatch(getMyCommunities())
     };
 };
 

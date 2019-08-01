@@ -1,5 +1,11 @@
 import React from "react";
 import { startActivation } from "../../actions/activate";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import Typography from "@material-ui/core/Typography";
+import LoginModal from "../modals/LoginModal";
+import SignupModal from "../modals/SignupModal";
+import ButtonBase from "@material-ui/core/ButtonBase";
 
 class AccountActivationPage extends React.Component {
     constructor(props) {
@@ -7,9 +13,56 @@ class AccountActivationPage extends React.Component {
 
         this.state = {
             inProgress: true,
-            isValid: undefined
+            isValid: undefined,
+            loginOpen: false,
+            error: undefined
         };
     }
+
+    handleLoginModalOpen = () => {
+        this.setState(() => {
+            return { loginOpen: true };
+        });
+    };
+
+    handleLoginModalClose = () => {
+        this.setState(() => {
+            return { loginOpen: false };
+        });
+    };
+
+    handleSignupModalOpen = () => {
+        this.setState(() => {
+            return { signupOpen: true };
+        });
+    };
+
+    handleSignupModalClose = () => {
+        this.setState(() => {
+            return { signupOpen: false };
+        });
+        this.props.history.push("/");
+    };
+
+    closeLoginOpenSignupModal = () => {
+        this.handleLoginModalClose();
+        this.handleSignupModalOpen();
+    };
+
+    closeSignupOpenLoginModal = () => {
+        this.handleSignupModalClose();
+        this.handleLoginModalOpen();
+    };
+
+    handleSucessfulLogin = () => {
+        this.handleLoginModalClose();
+        this.props.history.push("/interests");
+    };
+
+    handleSuccessfulSignUp = () => {
+        this.handleSignupModalClose();
+        this.props.history.push("/");
+    };
 
     componentDidMount() {
         const uid = this.props.match.params.uid;
@@ -30,23 +83,73 @@ class AccountActivationPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="page-header">
-                    <div className="content-container">
+            <React.Fragment>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
                         {this.state.inProgress ? (
-                            <h1 className="page-header__title">
-                                Your <span>UPost</span> account is currently being activated!
-                            </h1>
+                            <Box paddingBottom={2}>
+                                {" "}
+                                <Typography variant="h1" gutterBottom>
+                                    {" "}
+                                    Your{" "}
+                                    <Typography
+                                        variant="inherit"
+                                        display="inline"
+                                        color="primary"
+                                    >
+                                        UPost
+                                    </Typography>{" "}
+                                    account is currently being activated!{" "}
+                                </Typography>{" "}
+                            </Box>
                         ) : this.state.isValid ? (
-                            <h1 className="page-header__title">
-                                Thank you for your email confirmation. Please login and complete your registration.
-                            </h1>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h3">
+                                    Thank you for your email confirmation.
+                                </Typography>
+                                <Typography variant="h6" gutterBottom>
+                                    {" "}
+                                    Please{" "}
+                                    <Typography
+                                        variant="inherit"
+                                        display="inline"
+                                        color="primary"
+                                    >
+                                        <ButtonBase
+                                            onClick={this.handleLoginModalOpen}
+                                        >
+                                            LOGIN{" "}
+                                        </ButtonBase>
+                                    </Typography>{" "}
+                                    and select your interests and communities
+                                    you want to be part of to complete your
+                                    registration!{" "}
+                                </Typography>
+                            </Box>
                         ) : (
-                            <h1 className="page-header__title">The activation link is invalid</h1>
+                            <Box paddingBottom={2}>
+                                <Typography variant="h3" gutterBottom>
+                                    {" "}
+                                    The activation link is invalid{" "}
+                                </Typography>
+                            </Box>
                         )}
-                    </div>
-                </div>
-            </div>
+                    </Container>
+                </Box>
+                <SignupModal
+                    signupOpen={this.state.signupOpen}
+                    handleSignupClose={this.handleSignupModalClose}
+                    pageMove={this.moveToInterestPage}
+                    closeSignupOpenLoginModal={this.closeSignupOpenLoginModal}
+                    handleSuccessfulSignUp={this.handleSuccessfulSignUp}
+                />
+                <LoginModal
+                    loginOpen={this.state.loginOpen}
+                    handleLoginClose={this.handleLoginModalClose}
+                    closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
+                    handleSucessfulLogin={this.handleSucessfulLogin}
+                />
+            </React.Fragment>
         );
     }
 }

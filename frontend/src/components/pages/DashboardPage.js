@@ -1,7 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getAllInterests, startSetUserInterests } from "../../actions/interests";
-import { startSetInterestRandomPosts, getNonInterestPosts } from "../../actions/posts";
+import {
+    getAllInterests,
+    startSetUserInterests
+} from "../../actions/interests";
+import {
+    startSetInterestRandomPosts,
+    getNonInterestPosts
+} from "../../actions/posts";
 import { BrowsePostMenu } from "../MyPostSummary";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";
@@ -59,7 +65,7 @@ export class DashboardPage extends React.Component {
         this.handleLoginModalOpen();
     };
 
-    handleSucessfulLogin = () => {
+    handleSuccessfulLogin = () => {
         this.handleLoginModalClose();
         this.props.history.push("/");
     };
@@ -67,7 +73,9 @@ export class DashboardPage extends React.Component {
     componentDidMount() {
         if (this.props.isAuthenticated) {
             this.props.startSetUserInterests().then(() => {
-                this.props.startSetInterestRandomPosts(this.props.userInterests);
+                this.props.startSetInterestRandomPosts(
+                    this.props.userInterests
+                );
             });
 
             this.props
@@ -77,7 +85,9 @@ export class DashboardPage extends React.Component {
         } else {
             if (this.props.interests.length === 0) {
                 this.props.getAllInterests().then(() => {
-                    this.props.startSetInterestRandomPosts(this.props.interests);
+                    this.props.startSetInterestRandomPosts(
+                        this.props.interests
+                    );
                 });
             } else {
                 this.props.startSetInterestRandomPosts(this.props.interests);
@@ -89,11 +99,15 @@ export class DashboardPage extends React.Component {
         if (newProps.isAuthenticated !== this.props.isAuthenticated) {
             if (newProps.isAuthenticated) {
                 this.props.startSetUserInterests().then(() => {
-                    this.props.startSetInterestRandomPosts(this.props.userInterests);
+                    this.props.startSetInterestRandomPosts(
+                        this.props.userInterests
+                    );
                 });
             } else if (this.props.interests.length === 0) {
                 this.props.getAllInterests().then(() => {
-                    this.props.startSetInterestRandomPosts(this.props.interests);
+                    this.props.startSetInterestRandomPosts(
+                        this.props.interests
+                    );
                 });
             } else {
                 this.props.startSetInterestRandomPosts(this.props.interests);
@@ -115,7 +129,10 @@ export class DashboardPage extends React.Component {
             menus.push(BrowsePostMenu(element.posts, this.state.selected));
         });
 
-        const nonInterestMenu = BrowsePostMenu(this.props.nonInterestPosts, this.state.selected);
+        const nonInterestMenu = BrowsePostMenu(
+            this.props.nonInterestPosts,
+            this.state.selected
+        );
 
         return (
             <React.Fragment>
@@ -125,26 +142,55 @@ export class DashboardPage extends React.Component {
                             <Box paddingBottom={2}>
                                 <Typography variant="h1" gutterBottom>
                                     Welcome to{" "}
-                                    <Typography variant="inherit" display="inline" color="primary">
+                                    <Typography
+                                        variant="inherit"
+                                        display="inline"
+                                        color="primary"
+                                    >
                                         UPost!
                                     </Typography>
                                 </Typography>
                                 <Typography variant="h2">
-                                    <Typography variant="inherit" display="inline">
+                                    <Typography
+                                        variant="inherit"
+                                        display="inline"
+                                    >
                                         Please{" "}
                                     </Typography>
-                                    <Typography variant="inherit" display="inline" color="primary">
-                                        <ButtonBase onClick={this.handleLoginModalOpen}>login </ButtonBase>
+                                    <Typography
+                                        variant="inherit"
+                                        display="inline"
+                                        color="primary"
+                                    >
+                                        <ButtonBase
+                                            onClick={this.handleLoginModalOpen}
+                                        >
+                                            login{" "}
+                                        </ButtonBase>
                                     </Typography>
-                                    <Typography variant="inherit" display="inline">
+                                    <Typography
+                                        variant="inherit"
+                                        display="inline"
+                                    >
                                         {" "}
                                         or{" "}
                                     </Typography>
-                                    <Typography variant="inherit" display="inline" color="primary">
-                                        <ButtonBase onClick={this.handleSignupModalOpen}>register</ButtonBase>
+                                    <Typography
+                                        variant="inherit"
+                                        display="inline"
+                                        color="primary"
+                                    >
+                                        <ButtonBase
+                                            onClick={this.handleSignupModalOpen}
+                                        >
+                                            register
+                                        </ButtonBase>
                                     </Typography>
 
-                                    <Typography variant="inherit" display="inline">
+                                    <Typography
+                                        variant="inherit"
+                                        display="inline"
+                                    >
                                         {" "}
                                         to use the site!
                                     </Typography>
@@ -158,7 +204,9 @@ export class DashboardPage extends React.Component {
                                         variant="inherit"
                                         display="inline"
                                         color="primary"
-                                    >{`${localStorage.getItem("first_name")}!`}</Typography>
+                                    >{`${localStorage.getItem(
+                                        "first_name"
+                                    )}!`}</Typography>
                                 </Typography>
                             </Box>
                         )}
@@ -168,11 +216,18 @@ export class DashboardPage extends React.Component {
                     {this.props.isAuthenticated && menus.length === 0 && (
                         <Box py={2}>
                             <Typography variant="h3">
-                                There are currently no posts matching your interests for your given communities.{"  "}
-                                <Typography variant="inherit" display="inline" color="primary">
+                                There are currently no posts matching your
+                                interests for your given communities.{"  "}
+                                <Typography
+                                    variant="inherit"
+                                    display="inline"
+                                    color="primary"
+                                >
                                     <ButtonBase
                                         onClick={() => {
-                                            this.props.history.push("/interests");
+                                            this.props.history.push(
+                                                "/interests"
+                                            );
                                         }}
                                     >
                                         Click here to Edit.
@@ -181,22 +236,24 @@ export class DashboardPage extends React.Component {
                             </Typography>
                         </Box>
                     )}
-                    {this.props.interestRandomPosts.map((interestPosts, index) => {
-                        return (
-                            menus[index].length > 0 && (
-                                <Box py={2} key={interestPosts.tag}>
-                                    {MenuHeader(interestPosts.tag)}
-                                    <ScrollMenu
-                                        data={menus[index]}
-                                        arrowLeft={ArrowLeft}
-                                        arrowRight={ArrowRight}
-                                        selected={this.state.selected}
-                                        onSelect={this.onSelect}
-                                    />
-                                </Box>
-                            )
-                        );
-                    })}
+                    {this.props.interestRandomPosts.map(
+                        (interestPosts, index) => {
+                            return (
+                                menus[index].length > 0 && (
+                                    <Box py={2} key={interestPosts.tag}>
+                                        {MenuHeader(interestPosts.tag)}
+                                        <ScrollMenu
+                                            data={menus[index]}
+                                            arrowLeft={ArrowLeft}
+                                            arrowRight={ArrowRight}
+                                            selected={this.state.selected}
+                                            onSelect={this.onSelect}
+                                        />
+                                    </Box>
+                                )
+                            );
+                        }
+                    )}
 
                     {nonInterestMenu.length > 0 && (
                         <Box py={2}>
@@ -215,13 +272,17 @@ export class DashboardPage extends React.Component {
                         signupOpen={this.state.signupOpen}
                         handleSignupClose={this.handleSignupModalClose}
                         pageMove={this.moveToInterestPage}
-                        closeSignupOpenLoginModal={this.closeSignupOpenLoginModal}
+                        closeSignupOpenLoginModal={
+                            this.closeSignupOpenLoginModal
+                        }
                     />
                     <LoginModal
                         loginOpen={this.state.loginOpen}
                         handleLoginClose={this.handleLoginModalClose}
-                        closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
-                        handleSucessfulLogin={this.handleSucessfulLogin}
+                        closeLoginOpenSignupModal={
+                            this.closeLoginOpenSignupModal
+                        }
+                        handleSuccessfulLogin={this.handleSuccessfulLogin}
                     />
                 </Container>
             </React.Fragment>
@@ -242,7 +303,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getAllInterests: () => dispatch(getAllInterests()),
-        startSetInterestRandomPosts: (interests) => dispatch(startSetInterestRandomPosts(interests)),
+        startSetInterestRandomPosts: (interests) =>
+            dispatch(startSetInterestRandomPosts(interests)),
         startSetUserInterests: () => dispatch(startSetUserInterests()),
         getNonInterestPosts: () => dispatch(getNonInterestPosts())
     };

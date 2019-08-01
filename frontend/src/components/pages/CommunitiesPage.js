@@ -1,11 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
 import CommunityCard from "../CommunityCard";
-import { getMyCommunities, startEditUserCommunities, getAllCommunities } from "../../actions/communities";
+import {
+    getMyCommunities,
+    startEditUserCommunities,
+    getAllCommunities
+} from "../../actions/communities";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
 export class CommunitiesPage extends React.Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
@@ -15,18 +21,25 @@ export class CommunitiesPage extends React.Component {
     }
 
     markSelectedCommunities = () => {
-        let communitiesWithSelected = this.props.communities.map((community) => {
-            community.isSelected = false;
-            return community;
-        });
+        let communitiesWithSelected = this.props.communities.map(
+            (community) => {
+                community.isSelected = false;
+                return community;
+            }
+        );
 
         for (let i = 0; i < communitiesWithSelected.length; i++) {
-            if (this.props.userCommunities.includes(communitiesWithSelected[i].community_name)) {
+            if (
+                this.props.userCommunities.includes(
+                    communitiesWithSelected[i].community_name
+                )
+            ) {
                 communitiesWithSelected[i].isSelected = true;
             }
         }
-
-        this.setState(() => ({ communities: communitiesWithSelected }));
+        if (this._isMounted) {
+            this.setState(() => ({ communities: communitiesWithSelected }));
+        }
     };
 
     getUserCommunities = () => {
@@ -36,18 +49,25 @@ export class CommunitiesPage extends React.Component {
     };
 
     componentDidMount() {
+        this._isMounted = true;
         if (this.props.communities.length === 0) {
             this.props.getAllCommunities().then(
                 () => {
                     this.getUserCommunities();
                 },
                 (error) => {
-                    this.setState({ isLoaded: true, error });
+                    if (this._isMounted) {
+                        this.setState({ isLoaded: true, error });
+                    }
                 }
             );
         } else {
             this.getUserCommunities();
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     changeIsSelected = (community_name) => {
@@ -77,7 +97,10 @@ export class CommunitiesPage extends React.Component {
                 this.props.history.push("/");
             })
             .catch((error) => {
-                console.log("An error has occured with updating communities", error);
+                console.log(
+                    "An error has occured with updating communities",
+                    error
+                );
             });
     };
 
@@ -86,9 +109,13 @@ export class CommunitiesPage extends React.Component {
             <div>
                 <div className="page-header">
                     <div className="content-container">
-                        <Typography variant="h1">Let's choose some communities you want to be part of:</Typography>
+                        <Typography variant="h1">
+                            Let's choose some communities you want to be part
+                            of:
+                        </Typography>
                         <Typography variant="body1">
-                            Please choose 1 or more communities. Let us help you show you what is relevant to you.
+                            Please choose 1 or more communities. Let us help you
+                            show you what is relevant to you.
                         </Typography>
                     </div>
                 </div>
@@ -128,7 +155,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getMyCommunities: () => dispatch(getMyCommunities()),
         getAllCommunities: () => dispatch(getAllCommunities()),
-        startEditUserCommunities: (userCommunities) => dispatch(startEditUserCommunities(userCommunities))
+        startEditUserCommunities: (userCommunities) =>
+            dispatch(startEditUserCommunities(userCommunities))
     };
 };
 

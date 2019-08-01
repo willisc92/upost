@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-//import DatePicker from "react-date-picker";
 import { KeyboardDatePicker } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import Box from "@material-ui/core/Box";
@@ -13,16 +12,18 @@ export class AccountForm extends React.Component {
 
         this.state = {
             maxDate: moment(),
-            minDate: moment("1900-01-01"),
-            birthDate: moment("1995-01-01"),
+            minDate: moment().subtract(110, "year"),
+            birthDate: moment().subtract(25, "year"),
             error: undefined
         };
     }
 
     onDateChange = (date) => {
-        this.setState({
-            birthDate: date
-        });
+        if (!!date) {
+            this.setState({
+                birthDate: date
+            });
+        }
     };
 
     onFocusChange = ({ focused }) => {
@@ -44,7 +45,12 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.username &&
                     this.props.auth.error.username.map((error) => {
                         return (
-                            <Typography color="error" variant="body1" key={error} gutterBottom>
+                            <Typography
+                                color="error"
+                                variant="body1"
+                                key={error}
+                                gutterBottom
+                            >
                                 {error}
                             </Typography>
                         );
@@ -64,7 +70,12 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.email &&
                     this.props.auth.error.email.map((error) => {
                         return (
-                            <Typography color="error" variant="body1" key={error} gutterBottom>
+                            <Typography
+                                color="error"
+                                variant="body1"
+                                key={error}
+                                gutterBottom
+                            >
                                 {error}
                             </Typography>
                         );
@@ -84,7 +95,12 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.first_name &&
                     this.props.auth.error.first_name.map((error) => {
                         return (
-                            <Typography color="error" variant="body1" key={error} gutterBottom>
+                            <Typography
+                                color="error"
+                                variant="body1"
+                                key={error}
+                                gutterBottom
+                            >
                                 {error}
                             </Typography>
                         );
@@ -112,7 +128,12 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.last_name &&
                     this.props.auth.error.last_name.map((error) => {
                         return (
-                            <Typography color="error" variant="body1" key={error} gutterBottom>
+                            <Typography
+                                color="error"
+                                variant="body1"
+                                key={error}
+                                gutterBottom
+                            >
                                 {error}
                             </Typography>
                         );
@@ -131,7 +152,12 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.birth_date &&
                     this.props.auth.error.birth_date.map((error) => {
                         return (
-                            <Typography color="error" variant="body1" key={error} gutterBottom>
+                            <Typography
+                                color="error"
+                                variant="body1"
+                                key={error}
+                                gutterBottom
+                            >
                                 {error}
                             </Typography>
                         );
@@ -139,7 +165,6 @@ export class AccountForm extends React.Component {
                 <div>
                     <span className="modal__label">Birth Date</span>
                     <KeyboardDatePicker
-                        clearable
                         value={this.state.birthDate.format("YYYY-MM-DD")}
                         placeholder="YYYY-MM-DD"
                         onChange={this.onDateChange}
@@ -152,7 +177,12 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.password &&
                     this.props.auth.error.password.map((error) => {
                         return (
-                            <Typography color="error" variant="body1" key={error} gutterBottom>
+                            <Typography
+                                color="error"
+                                variant="body1"
+                                key={error}
+                                gutterBottom
+                            >
                                 {error}
                             </Typography>
                         );
@@ -161,7 +191,9 @@ export class AccountForm extends React.Component {
                     <TextField
                         required
                         type="password"
-                        label={`Password (At least ${this.props.minPasswordLength}) characters)`}
+                        label={`Password (At least ${
+                            this.props.minPasswordLength
+                        }) characters)`}
                         fullWidth={true}
                         color="primary"
                         variant="outlined"
