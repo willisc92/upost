@@ -103,7 +103,11 @@ class DeletedContentPage extends React.Component {
                     </Container>
                 </Box>
                 <Container fixed>
-                    {!has_deleted_content && <Typography variant="h2">No Deleted Content</Typography>}
+                    {!has_deleted_content && (
+                        <Box py={2}>
+                            <Typography variant="h2">No Deleted Content</Typography>
+                        </Box>
+                    )}
                     {deleted_channels.length > 0 && (
                         <Box py={2}>
                             {MenuHeader("Deleted Channels")}

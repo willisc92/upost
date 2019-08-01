@@ -60,7 +60,7 @@ export class MyChannelDetail extends React.Component {
         this.props
             .restoreChannel(channel_id)
             .then(() => {
-                this.props.history.push(`/myChannels/${channel_id}/`);
+                this.props.history.push(`/myDeletedContent`);
             })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
@@ -72,7 +72,7 @@ export class MyChannelDetail extends React.Component {
         this.props
             .deleteChannel(channel_id)
             .then(() => {
-                this.props.history.push(`/myChannels/${channel_id}/`);
+                this.props.history.push(`/myChannels`);
             })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
@@ -179,7 +179,7 @@ export class MyChannelDetail extends React.Component {
                                             <MyPostSummary
                                                 post={post}
                                                 key={post.post_id}
-                                                pathName={`/myPosts/${post.post_id}/edit`}
+                                                pathName={`/post/${post.post_id}`}
                                                 readOnly={this.props.channel.deleted_flag}
                                                 inHorizontalMenu={false}
                                             />

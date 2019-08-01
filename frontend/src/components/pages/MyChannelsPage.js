@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
+import { HelpToolTip } from "../HelpTooltip";
 
 export class MyChannelsPage extends React.Component {
     constructor(props) {
@@ -41,7 +42,21 @@ export class MyChannelsPage extends React.Component {
                                 {localStorage.getItem("first_name")} -
                                 <Typography variant="inherit" display="inline" color="textPrimary">
                                     {" "}
-                                    Channels
+                                    Bulletin Boards
+                                    <HelpToolTip
+                                        html={
+                                            <React.Fragment>
+                                                <Typography variant="caption">
+                                                    Bulletin Boards are a place where you can store related posts.
+                                                    <br />
+                                                    <br />
+                                                    For example, you could make a bulletin board for related posts for
+                                                    your club that you run at your University and another bulletin board
+                                                    for an unrelated club!
+                                                </Typography>
+                                            </React.Fragment>
+                                        }
+                                    />
                                 </Typography>
                             </Typography>
 
@@ -53,7 +68,7 @@ export class MyChannelsPage extends React.Component {
                                     variant="contained"
                                     onClick={this.handleAddChannel}
                                 >
-                                    Add a channel
+                                    Create a Bulletin Board
                                 </Button>
                             </Box>
                         </Container>
@@ -74,7 +89,7 @@ export class MyChannelsPage extends React.Component {
                                     })
                                 ) : (
                                     <Typography color="error" variant="h4">
-                                        No Channels
+                                        No Bulletin Boards
                                     </Typography>
                                 )}
                             </Box>

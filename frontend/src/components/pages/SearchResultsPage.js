@@ -24,6 +24,7 @@ import Typography from "@material-ui/core/Typography";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import MenuHeader from "../menus/MenuHeader";
+import ButtonBase from "@material-ui/core/ButtonBase";
 
 export class SearchResultsPage extends React.Component {
     constructor(props) {
@@ -90,6 +91,9 @@ export class SearchResultsPage extends React.Component {
 
         const events_menu = !!events && BrowseEventMenu(events, this.state.selected);
 
+        const no_search_results = channels.length === 0 && posts.length === 0 && events.length === 0;
+        console.log(no_search_results);
+
         return (
             <Box>
                 <Box bgcolor="secondary.main" py={3}>
@@ -130,58 +134,79 @@ export class SearchResultsPage extends React.Component {
                     </Container>
                 </Box>
                 <Container fixed>
-                    {(this.state.show === "all" || this.state.show === "channels") && (
+                    {no_search_results ? (
                         <Box py={2}>
-                            {MenuHeader("Channels")}
-                            {!!channels_menu && channels_menu.length === 0 ? (
-                                <Box py={2} fontWeight="fontWeightMedium">
-                                    <Typography>No Matching Channels</Typography>
-                                </Box>
-                            ) : (
-                                <ScrollMenu
-                                    data={channels_menu}
-                                    arrowLeft={ArrowLeft}
-                                    arrowRight={ArrowRight}
-                                    selected={this.state.selected}
-                                    onSelect={this.onSelect}
-                                />
-                            )}
+                            <Typography variant="h2">
+                                Oops! No results were found. Click{" "}
+                                <Typography variant="inherit" color="primary">
+                                    <ButtonBase
+                                        onClick={() => {
+                                            this.props.history.push("/inspire_me");
+                                        }}
+                                    >
+                                        here
+                                    </ButtonBase>
+                                </Typography>{" "}
+                                for something interesting instead!
+                            </Typography>
                         </Box>
-                    )}
-                    {(this.state.show === "all" || this.state.show === "posts") && (
-                        <Box py={2}>
-                            {MenuHeader("Posts")}
-                            {!!post_menu && post_menu.length === 0 ? (
-                                <Box py={2} fontWeight="fontWeightMedium">
-                                    <Typography>No Matching Posts</Typography>
+                    ) : (
+                        <Box>
+                            {(this.state.show === "all" || this.state.show === "channels") && (
+                                <Box py={2}>
+                                    {MenuHeader("Channels")}
+                                    {!!channels_menu && channels_menu.length === 0 ? (
+                                        <Box py={2} fontWeight="fontWeightMedium">
+                                            <Typography>No Matching Channels</Typography>
+                                        </Box>
+                                    ) : (
+                                        <ScrollMenu
+                                            data={channels_menu}
+                                            arrowLeft={ArrowLeft}
+                                            arrowRight={ArrowRight}
+                                            selected={this.state.selected}
+                                            onSelect={this.onSelect}
+                                        />
+                                    )}
                                 </Box>
-                            ) : (
-                                <ScrollMenu
-                                    data={post_menu}
-                                    arrowLeft={ArrowLeft}
-                                    arrowRight={ArrowRight}
-                                    selected={this.state.selected}
-                                    onSelect={this.onSelect}
-                                />
                             )}
-                        </Box>
-                    )}
-                    {(this.state.show === "all" || this.state.show === "events") && (
-                        <Box py={2}>
-                            {MenuHeader("Events")}
-                            {!!events_menu && events_menu.length === 0 ? (
-                                <Box py={2} fontWeight="fontWeightMedium">
-                                    <Typography>No Matching Events</Typography>
+                            {(this.state.show === "all" || this.state.show === "posts") && (
+                                <Box py={2}>
+                                    {MenuHeader("Posts")}
+                                    {!!post_menu && post_menu.length === 0 ? (
+                                        <Box py={2} fontWeight="fontWeightMedium">
+                                            <Typography>No Matching Posts</Typography>
+                                        </Box>
+                                    ) : (
+                                        <ScrollMenu
+                                            data={post_menu}
+                                            arrowLeft={ArrowLeft}
+                                            arrowRight={ArrowRight}
+                                            selected={this.state.selected}
+                                            onSelect={this.onSelect}
+                                        />
+                                    )}
                                 </Box>
-                            ) : (
-                                <ScrollMenu
-                                    data={events_menu}
-                                    arrowLeft={ArrowLeft}
-                                    arrowRight={ArrowRight}
-                                    selected={this.state.selected}
-                                    onSelect={this.onSelect}
-                                />
                             )}
+                            {(this.state.show === "all" || this.state.show === "events") && (
+                                <Box py={2}>
+                                    {MenuHeader("Events")}
+                                    {!!events_menu && events_menu.length === 0 ? (
+                                        <Box py={2} fontWeight="fontWeightMedium">
+                                            <Typography>No Matching Events</Typography>
+                                        </Box>
+                                    ) : (
+                                        <ScrollMenu
+                                            data={events_menu}
+                                            arrowLeft={ArrowLeft}
+                                            arrowRight={ArrowRight}
+                                            selected={this.state.selected}
+                                            onSelect={this.onSelect}
+                                        />
+                                    )}
+                                </Box>
+                            )}
+                            )
                         </Box>
                     )}
                 </Container>

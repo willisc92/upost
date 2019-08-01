@@ -230,7 +230,7 @@ export class DashboardPage extends React.Component {
                                             );
                                         }}
                                     >
-                                        Click here to Edit.
+                                        Click Here to Edit.
                                     </ButtonBase>
                                 </Typography>
                             </Typography>
