@@ -10,13 +10,10 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Input from "@material-ui/core/Input";
-import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Chip from "@material-ui/core/Chip";
-import InputLabel from "@material-ui/core/InputLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
+import { MultiSelect, SingleSelect } from "../Select";
 
 class PostForm extends React.Component {
     constructor(props) {
@@ -229,17 +226,6 @@ class PostForm extends React.Component {
     };
 
     render() {
-        const ITEM_HEIGHT = 48;
-        const ITEM_PADDING_TOP = 8;
-        const MenuProps = {
-            PaperProps: {
-                style: {
-                    maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-                    width: 250
-                }
-            }
-        };
-
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 {!!this.props.error && !!this.props.error.post_title && (
@@ -343,76 +329,50 @@ class PostForm extends React.Component {
                         <Box paddingRight={2}>
                             <Typography>Interest Tags: </Typography>
                         </Box>
-                        <FormControl style={{ minWidth: 120, maxWidth: 500 }}>
-                            <InputLabel>Interests</InputLabel>
-                            <Select
-                                multiple
-                                onChange={this.onTagsChange}
-                                value={this.state.tags}
-                                disabled={this.props.read_only}
-                                required
-                                renderValue={(selected) => {
-                                    return (
-                                        <Box display="flex" flexWrap="wrap">
-                                            {selected.map((value) => {
-                                                return (
-                                                    <Chip
-                                                        key={value}
-                                                        label={value}
-                                                        color="primary"
-                                                        style={{ margin: 2 }}
-                                                    />
-                                                );
-                                            })}
-                                        </Box>
-                                    );
-                                }}
-                                MenuProps={MenuProps}
-                            >
-                                {this.props.interests.map((interest) => {
-                                    return (
-                                        <MenuItem key={interest.interest_tag} value={interest.interest_tag}>
-                                            <Checkbox
-                                                color="primary"
-                                                checked={this.state.tags.indexOf(interest.interest_tag) !== -1}
-                                            />
-                                            <ListItemText primary={interest.interest_tag} />
-                                        </MenuItem>
-                                    );
-                                })}
-                            </Select>
-                        </FormControl>
+                        <MultiSelect
+                            label="Interests"
+                            onChange={this.onTagsChange}
+                            value={this.state.tags}
+                            disabled={this.props.read_only}
+                            required
+                        >
+                            {this.props.interests.map((interest) => {
+                                return (
+                                    <MenuItem key={interest.interest_tag} value={interest.interest_tag}>
+                                        <Checkbox
+                                            color="primary"
+                                            checked={this.state.tags.indexOf(interest.interest_tag) !== -1}
+                                        />
+                                        <ListItemText primary={interest.interest_tag} />
+                                    </MenuItem>
+                                );
+                            })}
+                        </MultiSelect>
                     </Box>
                 )}
                 <Box display="flex">
                     <Box paddingRight={2}>
                         <Typography>Community *: </Typography>
                     </Box>
-                    <FormControl style={{ minWidth: 120, maxWidth: 500 }}>
-                        <InputLabel>Community</InputLabel>
-                        <Select
-                            inputProps={{ required: true }}
-                            onChange={this.onCommunitySelectChange}
-                            value={this.state.community}
-                            disabled={this.props.read_only}
-                            required
-                            renderValue={(selected) => {
-                                return <Chip color="primary" label={selected} />;
-                            }}
-                        >
-                            {this.props.communities.map((community) => {
-                                return (
-                                    <MenuItem key={community.community_name} value={community.community_name}>
-                                        <Checkbox
-                                            color="primary"
-                                            checked={this.state.community === community.community_name}
-                                        />
-                                        <ListItemText primary={community.community_name} />
-                                    </MenuItem>
-                                );
-                            })}
-                        </Select>
-                    </FormControl>
+                    <SingleSelect
+                        label="Community"
+                        onChange={this.onCommunitySelectChange}
+                        value={this.state.community}
+                        disabled={this.props.read_only}
+                        required
+                    >
+                        {this.props.communities.map((community) => {
+                            return (
+                                <MenuItem key={community.community_name} value={community.community_name}>
+                                    <Checkbox
+                                        color="primary"
+                                        checked={this.state.community === community.community_name}
+                                    />
+                                    <ListItemText primary={community.community_name} />
+                                </MenuItem>
+                            );
+                        })}
+                    </SingleSelect>
                 </Box>
                 {!this.props.read_only && (
                     <Box>
