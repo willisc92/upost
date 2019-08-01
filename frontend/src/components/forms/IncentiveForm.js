@@ -11,6 +11,12 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Select from "@material-ui/core/Select";
 import { DateTimePicker } from "@material-ui/pickers";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Chip from "@material-ui/core/Chip";
+import InputLabel from "@material-ui/core/InputLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import ListItemText from "@material-ui/core/ListItemText";
 
 class IncentiveForm extends React.Component {
     constructor(props) {
@@ -84,28 +90,21 @@ class IncentiveForm extends React.Component {
     };
 
     onDietOptionsChange = (e) => {
-        let diet_option = [];
-        const options = e.target.options;
-        for (let i = 0, l = options.length; i < l; i++) {
-            if (options[i].selected) {
-                diet_option.push(options[i].value);
-            }
-        }
-        this.setState(() => ({ diet_option }));
+        // let diet_option = [];
+        // const options = e.target.options;
+        // for (let i = 0, l = options.length; i < l; i++) {
+        //     if (options[i].selected) {
+        //         diet_option.push(options[i].value);
+        //     }
+        // }
+        this.setState(() => ({ diet_option: e.target.value }));
     };
 
     onIncentiveTypeChange = (e) => {
         e.persist();
-        let incentive_type = [];
-        const options = e.target.options;
-        for (let i = 0, l = options.length; i < l; i++) {
-            if (options[i].selected) {
-                incentive_type.push(options[i].value);
-            }
-        }
 
         this.setState(() => ({
-            incentive_type
+            incentive_type: e.target.value
         }));
     };
 
@@ -146,8 +145,10 @@ class IncentiveForm extends React.Component {
                         diet_option: this.state.diet_option,
                         incentive_type: this.state.incentive_type,
                         ip_description: this.state.ip_description,
-                        planned_start_date: this.state.planned_start_date.toDate(),
-                        planned_end_date: this.state.planned_end_date.toDate()
+                        planned_start_date: !!this.state.planned_start_date
+                            ? this.state.planned_start_date.toDate()
+                            : null,
+                        planned_end_date: !!this.state.planned_end_date ? this.state.planned_end_date.toDate() : null
                     };
                     this.props.onSubmit(payload);
                     console.log(payload);
@@ -160,6 +161,17 @@ class IncentiveForm extends React.Component {
     };
 
     render() {
+        const ITEM_HEIGHT = 48;
+        const ITEM_PADDING_TOP = 8;
+        const MenuProps = {
+            PaperProps: {
+                style: {
+                    maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                    width: 250
+                }
+            }
+        };
+
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 <Box py={2}>
@@ -212,45 +224,97 @@ class IncentiveForm extends React.Component {
                         <Box paddingRight={2}>
                             <Typography>Incentive Types:</Typography>
                         </Box>
-                        <Select
-                            required
-                            native
-                            multiple
-                            disabled={this.props.read_only}
-                            onChange={this.onIncentiveTypeChange}
-                            value={this.state.incentive_type}
-                        >
-                            <option key="empty" value="" />
-                            {this.props.incentiveTypes.map((incentiveType) => {
-                                return (
-                                    <option key={incentiveType.incentive_name} value={incentiveType.incentive_name}>
-                                        {incentiveType.incentive_name}
-                                    </option>
-                                );
-                            })}
-                        </Select>
+                        <FormControl style={{ minWidth: 120, maxWidth: 500 }}>
+                            <InputLabel>Incentives</InputLabel>
+                            <Select
+                                required
+                                multiple
+                                disabled={this.props.read_only}
+                                onChange={this.onIncentiveTypeChange}
+                                value={this.state.incentive_type}
+                                renderValue={(selected) => {
+                                    return (
+                                        <Box display="flex" flexWrap="wrap">
+                                            {selected.map((value) => {
+                                                return (
+                                                    <Chip
+                                                        key={value}
+                                                        label={value}
+                                                        color="primary"
+                                                        style={{ margin: 2 }}
+                                                    />
+                                                );
+                                            })}
+                                        </Box>
+                                    );
+                                }}
+                                MenuProps={MenuProps}
+                            >
+                                {this.props.incentiveTypes.map((incentiveType) => {
+                                    return (
+                                        <MenuItem
+                                            key={incentiveType.incentive_name}
+                                            value={incentiveType.incentive_name}
+                                        >
+                                            <Checkbox
+                                                color="primary"
+                                                checked={
+                                                    this.state.incentive_type.indexOf(incentiveType.incentive_name) !==
+                                                    -1
+                                                }
+                                            />
+                                            <ListItemText primary={incentiveType.incentive_name} />
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
                     </Box>
                 )}
                 {this.state.incentive_type.includes("Food") && (
                     <Box display="flex">
                         <Box paddingRight={2}>
-                            <Typography>Diet Options:</Typography>
+                            <Typography>Diet Options*:</Typography>
                         </Box>
-                        <Select
-                            multiple
-                            native
-                            onChange={this.onDietOptionsChange}
-                            value={this.state.diet_option}
-                            disabled={this.props.read_only}
-                        >
-                            {this.props.dietOptions.map((diet_option) => {
-                                return (
-                                    <option key={diet_option.diet_option} value={diet_option.diet_option}>
-                                        {diet_option.diet_option}
-                                    </option>
-                                );
-                            })}
-                        </Select>
+                        <FormControl style={{ minWidth: 120, maxWidth: 500 }}>
+                            <InputLabel>Diet Options</InputLabel>
+                            <Select
+                                required
+                                multiple
+                                onChange={this.onDietOptionsChange}
+                                value={this.state.diet_option}
+                                disabled={this.props.read_only}
+                                renderValue={(selected) => {
+                                    return (
+                                        <Box display="flex" flexWrap="wrap">
+                                            {selected.map((value) => {
+                                                return (
+                                                    <Chip
+                                                        key={value}
+                                                        label={value}
+                                                        color="primary"
+                                                        style={{ margin: 2 }}
+                                                    />
+                                                );
+                                            })}
+                                        </Box>
+                                    );
+                                }}
+                                MenuProps={MenuProps}
+                            >
+                                {this.props.dietOptions.map((diet_option) => {
+                                    return (
+                                        <MenuItem key={diet_option.diet_option} value={diet_option.diet_option}>
+                                            <Checkbox
+                                                color="primary"
+                                                checked={this.state.diet_option.indexOf(diet_option.diet_option) !== -1}
+                                            />
+                                            <ListItemText primary={diet_option.diet_option} />
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
                     </Box>
                 )}
 

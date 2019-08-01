@@ -25,8 +25,9 @@ export class EventForm extends React.Component {
                 ? this.props.description
                 : "",
             error: "",
-            startDate: !!this.props.event ? moment(this.props.event.planned_start_date) : moment(),
-            endDate: !!this.props.event ? moment(this.props.event.planned_end_date) : moment().add(1, "hours"),
+            startDate: !!this.props.event ? moment(this.props.event.planned_start_date) : moment().add(1, "hours"),
+            endDate: !!this.props.event ? moment(this.props.event.planned_end_date) : moment().add(2, "hours"),
+            endDateChanged: false,
             capacity_status: !!this.props.event ? this.props.event.capacity_status : 0
         };
     }
@@ -94,14 +95,22 @@ export class EventForm extends React.Component {
     };
 
     onStartDateChange = (startDate) => {
-        this.setState(() => ({
-            startDate
-        }));
+        if (this.state.endDateChanged) {
+            this.setState(() => ({
+                startDate
+            }));
+        } else {
+            this.setState(() => ({
+                startDate,
+                endDate: moment(startDate).add(1, "hours")
+            }));
+        }
     };
 
     onEndDateChange = (endDate) => {
         this.setState(() => ({
-            endDate
+            endDate,
+            endDateChanged: true
         }));
     };
 

@@ -12,6 +12,11 @@ import Box from "@material-ui/core/Box";
 import Input from "@material-ui/core/Input";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Chip from "@material-ui/core/Chip";
+import InputLabel from "@material-ui/core/InputLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import ListItemText from "@material-ui/core/ListItemText";
 
 class PostForm extends React.Component {
     constructor(props) {
@@ -119,17 +124,7 @@ class PostForm extends React.Component {
     };
 
     onTagsChange = (e) => {
-        const { options } = e.target;
-
-        let tags = [];
-
-        for (let i = 0, l = options.length; i < l; i++) {
-            if (options[i].selected) {
-                tags.push(options[i].value);
-            }
-        }
-
-        this.setState(() => ({ tags }));
+        this.setState(() => ({ tags: e.target.value }));
     };
 
     handleImageChange = async (e) => {
@@ -234,6 +229,17 @@ class PostForm extends React.Component {
     };
 
     render() {
+        const ITEM_HEIGHT = 48;
+        const ITEM_PADDING_TOP = 8;
+        const MenuProps = {
+            PaperProps: {
+                style: {
+                    maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                    width: 250
+                }
+            }
+        };
+
         return (
             <form className="form" onSubmit={this.onSubmit} id={this.props.id}>
                 {!!this.props.error && !!this.props.error.post_title && (
@@ -264,8 +270,7 @@ class PostForm extends React.Component {
                 <Box>
                     <TextField
                         required
-                        label="Poster Name"
-                        placeholder="Name"
+                        label="Contact Name"
                         value={this.state.poster_name}
                         onChange={this.onPosterNameChange}
                         disabled={this.props.read_only}
@@ -274,8 +279,7 @@ class PostForm extends React.Component {
                 <Box>
                     <TextField
                         required
-                        label="Phone Number"
-                        placeholder="Phone Number"
+                        label="Contact Phone Number"
                         value={this.state.phone_number}
                         onChange={this.onPhoneNumberChange}
                         disabled={this.props.read_only}
@@ -284,8 +288,7 @@ class PostForm extends React.Component {
                 <Box>
                     <TextField
                         required
-                        label="Email"
-                        placeholder="Email"
+                        label="Contact Email"
                         value={this.state.email}
                         onChange={this.onEmailChange}
                         disabled={this.props.read_only}
@@ -293,9 +296,8 @@ class PostForm extends React.Component {
                 </Box>
                 <Box>
                     <TextField
-                        label="Description"
+                        label="Post Description"
                         required
-                        placeholder="Description"
                         value={this.state.post_description}
                         onChange={this.onDescriptionChange}
                         disabled={this.props.read_only}
@@ -327,7 +329,6 @@ class PostForm extends React.Component {
                         </React.Fragment>
                     )}
                 </Box>
-
                 <Box>
                     <Input
                         type="file"
@@ -340,45 +341,78 @@ class PostForm extends React.Component {
                 {!!this.props.interests && (
                     <Box display="flex">
                         <Box paddingRight={2}>
-                            <Typography>Interest Tags:</Typography>
+                            <Typography>Interest Tags: </Typography>
                         </Box>
-                        <Select
-                            multiple
-                            native
-                            onChange={this.onTagsChange}
-                            value={this.state.tags}
-                            disabled={this.props.read_only}
-                            required
-                        >
-                            {this.props.interests.map((interest) => {
-                                return (
-                                    <option key={interest.interest_tag} value={interest.interest_tag}>
-                                        {interest.interest_tag}
-                                    </option>
-                                );
-                            })}
-                        </Select>
+                        <FormControl style={{ minWidth: 120, maxWidth: 500 }}>
+                            <InputLabel>Interests</InputLabel>
+                            <Select
+                                multiple
+                                onChange={this.onTagsChange}
+                                value={this.state.tags}
+                                disabled={this.props.read_only}
+                                required
+                                renderValue={(selected) => {
+                                    return (
+                                        <Box display="flex" flexWrap="wrap">
+                                            {selected.map((value) => {
+                                                return (
+                                                    <Chip
+                                                        key={value}
+                                                        label={value}
+                                                        color="primary"
+                                                        style={{ margin: 2 }}
+                                                    />
+                                                );
+                                            })}
+                                        </Box>
+                                    );
+                                }}
+                                MenuProps={MenuProps}
+                            >
+                                {this.props.interests.map((interest) => {
+                                    return (
+                                        <MenuItem key={interest.interest_tag} value={interest.interest_tag}>
+                                            <Checkbox
+                                                color="primary"
+                                                checked={this.state.tags.indexOf(interest.interest_tag) !== -1}
+                                            />
+                                            <ListItemText primary={interest.interest_tag} />
+                                        </MenuItem>
+                                    );
+                                })}
+                            </Select>
+                        </FormControl>
                     </Box>
                 )}
                 <Box display="flex">
                     <Box paddingRight={2}>
                         <Typography>Community *: </Typography>
                     </Box>
-                    <Select
-                        inputProps={{ required: true }}
-                        onChange={this.onCommunitySelectChange}
-                        value={this.state.community}
-                        disabled={this.props.read_only}
-                    >
-                        <MenuItem key="empty" value="" />
-                        {this.props.communities.map((community) => {
-                            return (
-                                <MenuItem key={community.community_name} value={community.community_name}>
-                                    {community.community_name}
-                                </MenuItem>
-                            );
-                        })}
-                    </Select>
+                    <FormControl style={{ minWidth: 120, maxWidth: 500 }}>
+                        <InputLabel>Community</InputLabel>
+                        <Select
+                            inputProps={{ required: true }}
+                            onChange={this.onCommunitySelectChange}
+                            value={this.state.community}
+                            disabled={this.props.read_only}
+                            required
+                            renderValue={(selected) => {
+                                return <Chip color="primary" label={selected} />;
+                            }}
+                        >
+                            {this.props.communities.map((community) => {
+                                return (
+                                    <MenuItem key={community.community_name} value={community.community_name}>
+                                        <Checkbox
+                                            color="primary"
+                                            checked={this.state.community === community.community_name}
+                                        />
+                                        <ListItemText primary={community.community_name} />
+                                    </MenuItem>
+                                );
+                            })}
+                        </Select>
+                    </FormControl>
                 </Box>
                 {!this.props.read_only && (
                     <Box>
