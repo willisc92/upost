@@ -9,7 +9,7 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import { PolaroidHeader, PolaroidBody, PolaroidSubHeader, useStyles } from "../components/PolaroidComponents";
 
-export const MyEventSummary = ({ event, pathName, selected, readOnly, inHorizontalMenu, setEvents }) => {
+export const MyEventSummary = ({ event, pathName, selected, inHorizontalMenu, setEvents }) => {
     const onClick = () => {
         setEvents(event);
     };
@@ -81,30 +81,17 @@ export default connect(
     mapDispatchToProps
 )(MyEventSummary);
 
-export const MyEventMenu = (list, selected, readOnly) =>
-    list.map((el) => {
-        return (
-            <MyEventSummary
-                event={el}
-                pathName={`/myPosts/${el.post}/events/${el.event_id}/edit`}
-                key={el.event_id}
-                selected={selected}
-                readOnly={readOnly}
-                inHorizontalMenu
-            />
-        );
-    });
-
-export const BrowseEventMenu = (list, selected, readOnly = false) =>
-    list.map((el) => {
-        return (
-            <MyEventSummary
-                event={el}
-                pathName={`/event/${el.event_id}`}
-                key={el.event_id}
-                selected={selected}
-                readOnly={readOnly}
-                inHorizontalMenu
-            />
-        );
-    });
+export const BrowseEventMenu = (list, selected, deleted_flag) =>
+    list
+        .filter((el) => el.deleted_flag === deleted_flag)
+        .map((el) => {
+            return (
+                <MyEventSummary
+                    event={el}
+                    pathName={`/event/${el.event_id}`}
+                    key={el.event_id}
+                    selected={selected}
+                    inHorizontalMenu
+                />
+            );
+        });

@@ -82,7 +82,7 @@ export class MyChannelsPage extends React.Component {
                                             <ChannelListItem
                                                 channel={channel}
                                                 key={channel.channel_id}
-                                                pathName={`/myChannels/${channel.channel_id}`}
+                                                pathName={`/channels/${channel.channel_id}`}
                                                 inHorizontalMenu={false}
                                             />
                                         );

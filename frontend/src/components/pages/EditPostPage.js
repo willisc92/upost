@@ -40,9 +40,9 @@ export class EditPostPage extends React.Component {
             .editPost(post_id, post)
             .then((result) => {
                 if (post.toString() == "[object FormData]") {
-                    this.props.history.push(`/myChannels/${post.get("channel")}`);
+                    this.props.history.push(`/channels/${post.get("channel")}`);
                 } else {
-                    this.props.history.push(`/myChannels/${post.channel}`);
+                    this.props.history.push(`/channels/${post.channel}`);
                 }
             })
             .catch((err) => {
@@ -59,7 +59,7 @@ export class EditPostPage extends React.Component {
     };
 
     onEditEventsClick = () => {
-        this.props.history.push(`/myPosts/${this.props.match.params.id}/events`);
+        this.props.history.push(`/post-events/${this.props.match.params.id}`);
     };
 
     deletePost = () => {
@@ -88,7 +88,7 @@ export class EditPostPage extends React.Component {
 
     goToChannel = () => {
         const channel = this.props.post.channel;
-        this.props.history.push(`/myChannels/${channel}`);
+        this.props.history.push(`/channels/${channel}`);
     };
 
     render() {

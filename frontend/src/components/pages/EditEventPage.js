@@ -54,7 +54,7 @@ class EditEventPage extends React.Component {
 
         this.props
             .editEvent(event_id, updates)
-            .then((res) => this.props.history.push(`/myPosts/${post_id}/events`))
+            .then((res) => this.props.history.push(`/post-events/${post_id}`))
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
                 // dispaly error message
@@ -66,7 +66,7 @@ class EditEventPage extends React.Component {
 
     goBack = () => {
         const post_id = this.props.match.params.id;
-        this.props.history.push(`/myPosts/${post_id}/events`);
+        this.props.history.push(`/post-events/${post_id}`);
     };
 
     goToPost = () => {

@@ -57,7 +57,7 @@ export class AddPostPage extends React.Component {
 
     handleReturn = () => {
         const channel_id = this.props.match.params.id;
-        this.props.history.push(`/myChannels/${channel_id}`);
+        this.props.history.push(`/channels/${channel_id}`);
     };
 
     onTriggerSaveAddEvent = async () => {

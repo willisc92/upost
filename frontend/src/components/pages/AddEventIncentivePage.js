@@ -40,7 +40,7 @@ class AddEventIncentivePage extends React.Component {
         const post_id = this.props.event.post;
         this.props
             .addIncentivePackage(incentive)
-            .then((res) => this.props.history.push(`/myPosts/${post_id}/events/`))
+            .then((res) => this.props.history.push(`/post-events/${post_id}`))
             .catch((err) => {
                 console.log(err);
             });

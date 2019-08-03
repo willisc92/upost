@@ -51,7 +51,7 @@ class EditEventIncentivePage extends React.Component {
         this.props
             .editIncentivePackage(incentive_id, incentive)
             .then((res) => {
-                this.props.history.push(`/myPosts/${post_id}/events/`);
+                this.props.history.push(`/post-events/${post_id}`);
             })
             .catch((err) => {
                 console.log(err);

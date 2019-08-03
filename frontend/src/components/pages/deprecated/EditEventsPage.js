@@ -1,12 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
-import { startGetPost, clearPosts } from "../../actions/posts";
-import { getCurrentUser } from "../../actions/auth";
-import EventFilterSelector from "../filter_selectors/EventFilterSelector";
-import { getVisibleEvents } from "../../selectors/myEvents";
-import { deleteEvent, startGetEvent } from "../../actions/events";
+import { startGetPost, clearPosts } from "../../../actions/posts";
+import { getCurrentUser } from "../../../actions/auth";
+import EventFilterSelector from "../../filter_selectors/EventFilterSelector";
+import { getVisibleEvents } from "../../../selectors/myEvents";
+import { deleteEvent, startGetEvent } from "../../../actions/events";
 import moment from "moment";
-import MyEventSummary from "../MyEventSummary";
+import MyEventSummary from "../../MyEventSummary";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";

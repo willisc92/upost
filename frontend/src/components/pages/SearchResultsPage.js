@@ -75,24 +75,23 @@ export class SearchResultsPage extends React.Component {
             this.props.channelFilters &&
             getVisibleChannels(this.props.channels, this.props.channelFilters, false);
 
-        const channels_menu = BrowseChannelsMenu(channels, this.state.selected);
+        const channels_menu = BrowseChannelsMenu(channels, this.state.selected, false);
 
         const posts =
             !!this.props.posts &&
             !!this.props.postFilters &&
             getVisiblePosts(this.props.posts, this.props.postFilters, false);
 
-        const post_menu = !!posts && BrowsePostMenu(posts, this.state.selected);
+        const post_menu = !!posts && BrowsePostMenu(posts, this.state.selected, false);
 
         const events =
             !!this.props.events &&
             !!this.props.eventFilters &&
             getVisibleEvents(this.props.events, this.props.eventFilters, false);
 
-        const events_menu = !!events && BrowseEventMenu(events, this.state.selected);
+        const events_menu = !!events && BrowseEventMenu(events, this.state.selected, false);
 
         const no_search_results = channels.length === 0 && posts.length === 0 && events.length === 0;
-        console.log(no_search_results);
 
         return (
             <Box>
@@ -206,7 +205,6 @@ export class SearchResultsPage extends React.Component {
                                     )}
                                 </Box>
                             )}
-                            )
                         </Box>
                     )}
                 </Container>

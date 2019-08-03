@@ -42,7 +42,7 @@ export class EditChannelPage extends React.Component {
 
     goBack = () => {
         const channel = this.props.match.params.id;
-        this.props.history.push(`/myChannels/${channel}`);
+        this.props.history.push(`/channels/${channel}`);
     };
 
     restore = () => {

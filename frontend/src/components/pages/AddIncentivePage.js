@@ -39,7 +39,7 @@ class AddIncentivePage extends React.Component {
     onSubmit = (incentive) => {
         this.props
             .addIncentivePackage(incentive)
-            .then((res) => this.props.history.push(`/myChannels/${this.props.post.channel}`))
+            .then((res) => this.props.history.push(`/channels/${this.props.post.channel}`))
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
             });

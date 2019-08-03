@@ -72,7 +72,7 @@ class AddEventPage extends React.Component {
 
     goBack = () => {
         const post_id = this.props.match.params.id;
-        this.props.history.push(`/myPosts/${post_id}/events`);
+        this.props.history.push(`/post-events/${post_id}`);
     };
 
     goToPost = () => {

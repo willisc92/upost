@@ -32,7 +32,7 @@ class EditIncentivePage extends React.Component {
                     .startGetPost(post_id)
                     .then((post_res) => {
                         if (res.data.username !== post_res.data[0].user || !post_res.data[0].post_incentive) {
-                            this.props.history.push(`/myPosts/${post_id}/incentives`);
+                            this.props.history.push("/");
                         } else {
                             this.props.startGetIncentivePackage(post_res.data[0].post_incentive.incentive_package_id);
                         }
