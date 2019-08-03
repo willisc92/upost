@@ -4,7 +4,6 @@ import { logout } from "../actions/auth";
 import SignupModal from "./modals/SignupModal";
 import LoginModal from "./modals/LoginModal";
 import { SearchBar } from "./SearchBar";
-import { Button, AppBar } from "@material-ui/core";
 import { MyAccountMenu } from "./MyAccountMenu";
 import { WhiteButton } from "../components/Buttons";
 /*import {
@@ -13,6 +12,7 @@ import { WhiteButton } from "../components/Buttons";
     startEditUserInterests
 } from "../../actions/interests";
 import { getMyCommunities } from "../../actions/communities";*/
+import Box from "@material-ui/core/Box";
 
 class Header extends React.Component {
     constructor(props) {
@@ -80,43 +80,32 @@ class Header extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {!!this.props.token && (
-                    <SearchBar history={this.props.history} />
-                )}
+                {!!this.props.token && <SearchBar history={this.props.history} />}
                 {!!this.props.token ? (
-                    <div>
+                    <Box display="flex" flexWrap="nowrap">
                         <WhiteButton
                             variant="text"
                             onClick={() => {
                                 this.props.history.push("/myChannels");
                             }}
                         >
-                            <img
-                                className="header_mycontent_logo"
-                                src={CDNLink + "/dist/images/mycontent.png"}
-                            />{" "}
-                            My Content
+                            <img className="header_mycontent_logo" src={CDNLink + "/dist/images/mycontent.png"} /> My
+                            Content
                         </WhiteButton>
                         <MyAccountMenu history={this.props.history} />
                         <WhiteButton variant="text" onClick={this.props.logout}>
                             <i className="material-icons">exit_to_app</i> Logout
                         </WhiteButton>
-                    </div>
+                    </Box>
                 ) : (
-                    <div>
-                        <WhiteButton
-                            variant="text"
-                            onClick={this.handleLoginModalOpen}
-                        >
+                    <Box display="flex" flexWrap="nowrap">
+                        <WhiteButton variant="text" onClick={this.handleLoginModalOpen}>
                             <i className="material-icons">exit_to_app</i> Login
                         </WhiteButton>
-                        <WhiteButton
-                            variant="text"
-                            onClick={this.handleSignupModalOpen}
-                        >
+                        <WhiteButton variant="text" onClick={this.handleSignupModalOpen}>
                             <i className="material-icons">person_add</i> Signup
                         </WhiteButton>
-                    </div>
+                    </Box>
                 )}
                 <SignupModal
                     signupOpen={this.state.signupOpen}
