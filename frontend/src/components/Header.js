@@ -4,9 +4,9 @@ import { logout } from "../actions/auth";
 import SignupModal from "./modals/SignupModal";
 import LoginModal from "./modals/LoginModal";
 import { SearchBar } from "./SearchBar";
-import { Button, AppBar } from "@material-ui/core";
 import { MyAccountMenu } from "./MyAccountMenu";
 import { WhiteButton } from "../components/Buttons";
+import Box from "@material-ui/core/Box";
 
 class Header extends React.Component {
     constructor(props) {
@@ -68,7 +68,7 @@ class Header extends React.Component {
             <React.Fragment>
                 {!!this.props.token && <SearchBar history={this.props.history} />}
                 {!!this.props.token ? (
-                    <div>
+                    <Box display="flex" flexWrap="nowrap">
                         <WhiteButton
                             variant="text"
                             onClick={() => {
@@ -82,16 +82,16 @@ class Header extends React.Component {
                         <WhiteButton variant="text" onClick={this.props.logout}>
                             <i className="material-icons">exit_to_app</i> Logout
                         </WhiteButton>
-                    </div>
+                    </Box>
                 ) : (
-                    <div>
+                    <Box display="flex" flexWrap="nowrap">
                         <WhiteButton variant="text" onClick={this.handleLoginModalOpen}>
                             <i className="material-icons">exit_to_app</i> Login
                         </WhiteButton>
                         <WhiteButton variant="text" onClick={this.handleSignupModalOpen}>
                             <i className="material-icons">person_add</i> Signup
                         </WhiteButton>
-                    </div>
+                    </Box>
                 )}
                 <SignupModal
                     signupOpen={this.state.signupOpen}

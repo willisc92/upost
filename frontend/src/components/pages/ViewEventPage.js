@@ -178,11 +178,16 @@ class ViewEventPage extends React.Component {
                                         </Button>
                                     </Box>
                                     {(!!this.props.event &&
+                                        (Moment(this.props.event.planned_end_date) < Moment() && (
+                                            <Typography color="error" variant="body1" gutterBottom>
+                                                The event has passed. You are no longer able to register.
+                                            </Typography>
+                                        ))) ||
                                         (this.props.event.capacity_status === this.props.event.capacity && (
                                             <Typography color="error" variant="body1" gutterBottom>
                                                 The event has filled. You are no longer able to register.
                                             </Typography>
-                                        ))) ||
+                                        )) ||
                                         (this.props.event.capacity_status >= this.props.event.capacity * 0.9 && (
                                             <Typography color="error" variant="body1" gutterBottom>
                                                 The event is nearing capacity. Please register soon.
