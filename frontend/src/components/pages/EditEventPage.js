@@ -5,7 +5,6 @@ import EventForm from "../forms/EventForm";
 import { connect } from "react-redux";
 import { startSetEvent, clearEvents, deleteEvent, restoreEvent } from "../../actions/events";
 import MessageModal from "../modals/MessageModal";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";

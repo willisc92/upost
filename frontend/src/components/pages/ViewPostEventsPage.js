@@ -23,6 +23,24 @@ class ViewPostEventsPage extends React.Component {
         };
     }
 
+    checkPostAgainstCurrentUser = (post_obj) => {
+        getCurrentUser()
+            .then((user_res) => {
+                const isOwner = user_res.data.username === post_obj.user;
+
+                if (this._isMounted) {
+                    this.setState(() => ({
+                        isOwner
+                    }));
+                }
+
+                if (post_obj.deleted_flag) {
+                    this.props.history.push("/");
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+
     componentDidMount() {
         this._isMounted = true;
 
@@ -31,41 +49,17 @@ class ViewPostEventsPage extends React.Component {
         // check to see if current post in store matches given id
         if (!!this.props.post && this.props.post.post_id === post_id) {
             this.props.setEvents(this.props.post.post_events);
-
-            getCurrentUser().then((user_res) => {
-                const isOwner = user_res.data.username === this.props.post.user;
-
-                if (this._isMounted) {
-                    this.setState(() => ({
-                        isOwner
-                    }));
-                }
-            });
+            this.checkPostAgainstCurrentUser(this.props.post);
         } else {
             // load post from API
             this.props.clearPosts();
             this.props
                 .startGetPost(post_id)
                 .then((res) => {
-                    getCurrentUser()
-                        .then((user_res) => {
-                            const isOwner = user_res.data.username === res.data[0].user;
-
-                            if (this._isMounted) {
-                                this.setState(() => ({
-                                    isOwner
-                                }));
-                            }
-
-                            if (res.data[0].deleted_flag) {
-                                this.props.history.push("/");
-                            } else {
-                                this.props
-                                    .startGetEvent(post_id)
-                                    .then(() => {})
-                                    .catch((err) => console.log(err));
-                            }
-                        })
+                    this.checkPostAgainstCurrentUser(res.data[0]);
+                    this.props
+                        .startGetEvent(post_id)
+                        .then(() => {})
                         .catch((err) => console.log(err));
                 })
                 .catch((err) => {
@@ -95,8 +89,8 @@ class ViewPostEventsPage extends React.Component {
             });
     };
 
-    returnEditPosts = () => {
-        this.props.history.push(`/myPosts/${this.props.match.params.id}/edit`);
+    returnToPost = () => {
+        this.props.history.push(`/post/${this.props.match.params.id}`);
     };
 
     addNewEvent = () => {
@@ -124,20 +118,22 @@ class ViewPostEventsPage extends React.Component {
                             <EventFilterSelector />
                         </Box>
                         {this.state.isOwner && (
-                            <div>
+                            <React.Fragment>
                                 <Button color="primary" variant="contained" onClick={this.addNewEvent}>
                                     Add an Event
                                 </Button>{" "}
-                                <Button color="primary" variant="contained" onClick={this.returnEditPosts}>
-                                    Edit Post
-                                </Button>{" "}
                                 {!!events && events.length > 0 && (
-                                    <Button color="primary" variant="contained" onClick={this.clearAllEvents}>
-                                        Delete All Events
-                                    </Button>
+                                    <React.Fragment>
+                                        <Button color="primary" variant="contained" onClick={this.clearAllEvents}>
+                                            Delete All Events
+                                        </Button>{" "}
+                                    </React.Fragment>
                                 )}
-                            </div>
+                            </React.Fragment>
                         )}
+                        <Button color="primary" variant="contained" onClick={this.returnToPost}>
+                            Return To Post
+                        </Button>
                     </Container>
                 </Box>
                 <Box paddingTop={2}>

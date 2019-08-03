@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { startGetPost, clearPosts } from "../../actions/posts";
+import { startGetPost, clearPosts, deletePost, restorePost } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 import IncentivePackage from "../IncentivePackage";
@@ -10,6 +10,7 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import { getCurrentUser } from "../../actions/auth";
+import moment from "moment";
 
 class ViewPostPage extends React.Component {
     _isMounted = false;
@@ -30,19 +31,24 @@ class ViewPostPage extends React.Component {
         this.props
             .startGetPost(post_id)
             .then((res) => {
-                if (res.data[0].deleted_flag) {
-                    this.props.history.push("/");
-                }
                 this.props.startGetChannel(this.props.post.channel).catch((err) => {
-                    console.log("error in getting channel information", JSON.stringify(err, null, 2));
+                    console.log("error in getting channel information", err);
                 });
 
                 getCurrentUser()
                     .then((user_res) => {
+                        const isOwner = user_res.data.username === res.data[0].user;
+
                         if (this._isMounted) {
                             this.setState(() => ({
-                                isOwner: user_res.data.username === res.data[0].user
+                                isOwner
                             }));
+                        }
+
+                        if (!isOwner) {
+                            if (res.data[0].deleted_flag) {
+                                this.props.history.push("/");
+                            }
                         }
                     })
                     .catch((err) => console.log(err));
@@ -73,100 +79,159 @@ class ViewPostPage extends React.Component {
         this.props.history.push(`/myPosts/${this.props.post.post_id}/edit/`);
     };
 
+    deletePost = () => {
+        const id = this.props.post.post_id;
+        this.props
+            .deletePost(id)
+            .then(() => {
+                this.goToChannel();
+            })
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
+    };
+
+    restorePost = () => {
+        const id = this.props.post.post_id;
+        this.props
+            .restorePost(id)
+            .then(() => {
+                this.props.history.push(`/myPosts/${id}/edit`);
+            })
+            .catch((err) => {
+                console.log(JSON.stringify(err, null, 2));
+            });
+    };
+
     render() {
+        const post = !!this.props.post && this.props.post;
+
         return (
-            <React.Fragment>
-                <Box bgcolor="secondary.main" py={3}>
+            post && (
+                <React.Fragment>
+                    <Box bgcolor="secondary.main" py={3}>
+                        <Container fixed>
+                            <Typography variant="h1">Post </Typography>
+                        </Container>
+                    </Box>
                     <Container fixed>
-                        <Typography variant="h1">Post</Typography>
-                    </Container>
-                </Box>
-                <Container fixed>
-                    <Box display="flex">
-                        {!!this.props.post && (
-                            <div className="content-container-twothirds">
-                                <img
-                                    className="post-image"
-                                    src={
-                                        !!this.props.post.picture
-                                            ? this.props.post.picture
-                                            : CDNLink + "/dist/images/polaroid_default.png"
-                                    }
-                                />
-                                <Box display="flex" justifyContent="space-between" py={2}>
-                                    <Typography variant="h2" color="primary">
-                                        {this.props.post.post_title}
-                                    </Typography>
-                                    <Box>
-                                        {this.state.isOwner && (
-                                            <Button variant="contained" color="primary" onClick={this.editPost}>
-                                                Edit Post
-                                            </Button>
-                                        )}{" "}
-                                        {this.props.post.post_events.length > 0 && (
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                onClick={this.moveToPostEventsPage}
-                                            >
-                                                See Events
-                                            </Button>
-                                        )}
+                        <Box display="flex">
+                            {!!this.props.post && (
+                                <div className="content-container-twothirds">
+                                    <img
+                                        className="post-image"
+                                        src={
+                                            !!this.props.post.picture
+                                                ? this.props.post.picture
+                                                : CDNLink + "/dist/images/polaroid_default.png"
+                                        }
+                                    />
+                                    <Box display="flex" justifyContent="space-between" py={2}>
+                                        <Typography variant="h2" color="primary">
+                                            {this.props.post.post_title}
+                                        </Typography>
+                                        <Box>
+                                            {this.state.isOwner &&
+                                                (this.props.post.deleted_flag ? (
+                                                    <React.Fragment>
+                                                        <Typography variant="h3" color="error" gutterBottom>
+                                                            Deletion Date:{" "}
+                                                            {moment(this.props.post.deletion_date).format(
+                                                                "MMMM Do YYYY"
+                                                            )}
+                                                        </Typography>
+                                                        <Button
+                                                            color="primary"
+                                                            variant="contained"
+                                                            onClick={this.restorePost}
+                                                        >
+                                                            Restore Post
+                                                        </Button>
+                                                    </React.Fragment>
+                                                ) : (
+                                                    <React.Fragment>
+                                                        <Button
+                                                            color="primary"
+                                                            variant="contained"
+                                                            onClick={this.deletePost}
+                                                        >
+                                                            Delete Post
+                                                        </Button>{" "}
+                                                        <Button
+                                                            variant="contained"
+                                                            color="primary"
+                                                            onClick={this.editPost}
+                                                        >
+                                                            Edit Post
+                                                        </Button>{" "}
+                                                    </React.Fragment>
+                                                ))}
+
+                                            {this.props.post.post_events.length > 0 && (
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={this.moveToPostEventsPage}
+                                                >
+                                                    See Events
+                                                </Button>
+                                            )}
+                                        </Box>
                                     </Box>
-                                </Box>
-                                <Typography variant="body1" gutterBottom>
-                                    Description: {this.props.post.post_description}
-                                </Typography>
-                                {!!this.props.post.post_incentive && (
-                                    <IncentivePackage package={this.props.post.post_incentive} />
-                                )}
-                            </div>
-                        )}
-                        <div className="content-container-onethirds">
-                            {!!this.props.channel && (
-                                <div>
-                                    <Link
-                                        className="post__link"
-                                        to={{
-                                            pathname: `/channel/${this.props.channel.channel_id}`
-                                        }}
-                                    >
-                                        <Box paddingTop={2}>
-                                            <Typography variant="h3" color="primary">
-                                                {this.props.channel.channel_name}
-                                            </Typography>
-                                        </Box>
-                                    </Link>
-                                    {!!this.props.subscriptions && (
-                                        <Box py={2}>
-                                            <Button
-                                                variant="contained"
-                                                color="primary"
-                                                onClick={this.updateSubscriptions}
-                                            >
-                                                {this.props.subscriptions.includes(this.props.channel.channel_id)
-                                                    ? "Unsubscribe"
-                                                    : "Subscribe"}
-                                            </Button>
-                                        </Box>
+                                    <Typography variant="body1" gutterBottom>
+                                        Description: {this.props.post.post_description}
+                                    </Typography>
+                                    {!!this.props.post.post_incentive && (
+                                        <IncentivePackage package={this.props.post.post_incentive} />
                                     )}
                                 </div>
                             )}
-                            {!!this.props.post && (
-                                <React.Fragment>
-                                    <Typography variant="h4" gutterBottom>
-                                        Contact Information
-                                    </Typography>
-                                    <Typography variant="body1">{`Phone Number: ${
-                                        this.props.post.phone_number
-                                    }`}</Typography>
-                                    <Typography variant="body1">{`Email: ${this.props.post.email}`}</Typography>
-                                </React.Fragment>
-                            )}
-                        </div>
-                    </Box>
-                </Container>
-            </React.Fragment>
+                            <div className="content-container-onethirds">
+                                {!!this.props.channel && (
+                                    <div>
+                                        <Link
+                                            className="post__link"
+                                            to={{
+                                                pathname: `/channel/${this.props.channel.channel_id}`
+                                            }}
+                                        >
+                                            <Box paddingTop={2}>
+                                                <Typography variant="h3" color="primary">
+                                                    {this.props.channel.channel_name}
+                                                </Typography>
+                                            </Box>
+                                        </Link>
+                                        {!!this.props.subscriptions && (
+                                            <Box py={2}>
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    onClick={this.updateSubscriptions}
+                                                >
+                                                    {this.props.subscriptions.includes(this.props.channel.channel_id)
+                                                        ? "Unsubscribe"
+                                                        : "Subscribe"}
+                                                </Button>
+                                            </Box>
+                                        )}
+                                    </div>
+                                )}
+                                {!!this.props.post && (
+                                    <React.Fragment>
+                                        <Typography variant="h4" gutterBottom>
+                                            Contact Information
+                                        </Typography>
+                                        <Typography variant="body1">{`Phone Number: ${
+                                            this.props.post.phone_number
+                                        }`}</Typography>
+                                        <Typography variant="body1">{`Email: ${this.props.post.email}`}</Typography>
+                                    </React.Fragment>
+                                )}
+                            </div>
+                        </Box>
+                    </Container>
+                </React.Fragment>
+            )
         );
     }
 }
@@ -182,7 +247,9 @@ const mapDispatchToProps = (dispatch) => ({
     startGetPost: (id) => dispatch(startGetPost(id)),
     startGetChannel: (id) => dispatch(startGetChannel(id)),
     startGetSubscriptions: () => dispatch(startGetSubscriptions()),
-    startUpdateSubscriptions: (id) => dispatch(startUpdateSubscriptions(id))
+    startUpdateSubscriptions: (id) => dispatch(startUpdateSubscriptions(id)),
+    deletePost: (id) => dispatch(deletePost(id)),
+    restorePost: (id) => dispatch(restorePost(id))
 });
 
 export default connect(

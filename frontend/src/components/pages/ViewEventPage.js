@@ -3,7 +3,14 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
-import { setEvents, startSetEvent, decrementCapacityStatus, incrementCapacityStatus } from "../../actions/events";
+import {
+    setEvents,
+    startSetEvent,
+    decrementCapacityStatus,
+    incrementCapacityStatus,
+    deleteEvent,
+    restoreEvent
+} from "../../actions/events";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 import { startGetAttendance, startAddAttendance, startDeleteAttendance } from "../../actions/attendance";
 import DateRangeTag from "../DateRangeTag";
@@ -13,15 +20,19 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import Moment from "moment";
+import moment from "moment";
+import { getCurrentUser } from "../../actions/auth";
 
 class ViewEventPage extends React.Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
         this.state = {
             openMessageModal: false,
-            error: ""
+            error: "",
+            isOwner: false
         };
     }
 
@@ -76,20 +87,41 @@ class ViewEventPage extends React.Component {
         }
     };
 
+    checkEventOwnerAgainstCurrentUser = (event_obj) => {
+        getCurrentUser()
+            .then((user_res) => {
+                const isOwner = user_res.data.username === event_obj.event_owner;
+
+                if (this._isMounted) {
+                    this.setState(() => ({
+                        isOwner
+                    }));
+                }
+
+                if (!isOwner) {
+                    if (event_obj.deleted_flag) {
+                        this.props.history.push("/");
+                    }
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+
     componentDidMount() {
+        this._isMounted = true;
+
         const event_id = parseInt(this.props.match.params.id);
 
         // check to see if event is provided
         if (!!this.props.event && this.props.event.event_id === event_id) {
             // pass
+            this.checkEventOwnerAgainstCurrentUser(this.props.event);
         } else {
             // get the event from API
             this.props
                 .startSetEvent(event_id)
                 .then((res) => {
-                    if (res.data.deleted_flag) {
-                        this.props.history.push("/");
-                    }
+                    this.checkEventOwnerAgainstCurrentUser(res.data);
                     this.checkPost(this.props.event.post, event_id);
                 })
                 .catch((error) => {
@@ -106,6 +138,10 @@ class ViewEventPage extends React.Component {
         if (!this.props.attendance) {
             this.props.startGetAttendance();
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     updateAttendance = () => {
@@ -130,6 +166,38 @@ class ViewEventPage extends React.Component {
 
     updateSubscriptions = () => {
         this.props.startUpdateSubscriptions(this.props.channel.channel_id);
+    };
+
+    deleteEvent = () => {
+        const event_id = this.props.event.event_id;
+        this.props
+            .deleteEvent(event_id)
+            .then(() => {
+                this.props
+                    .startSetEvent(event_id)
+                    .then(() => {})
+                    .catch((err) => console.log(JSON.stringify(err, null, 2)));
+            })
+            .catch((err) => console.log(JSON.stringify(err, null, 2)));
+    };
+
+    restoreEvent = () => {
+        const event_id = this.props.event.event_id;
+        this.props
+            .restoreEvent(event_id)
+            .then(() => {
+                this.props
+                    .startSetEvent(event_id)
+                    .then(() => {})
+                    .catch((err) => console.log(JSON.stringify(err, null, 2)));
+            })
+            .catch((err) => console.log(JSON.stringify(err, null, 2)));
+    };
+
+    editEvent = () => {
+        const post_id = this.props.event.post;
+        const event_id = this.props.event.event_id;
+        this.props.history.push(`/myPosts/${post_id}/events/${event_id}/edit`);
     };
 
     render() {
@@ -164,21 +232,59 @@ class ViewEventPage extends React.Component {
                                         <Typography variant="h2" color="primary">
                                             {this.props.event.event_title}
                                         </Typography>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={this.updateAttendance}
-                                            disabled={
-                                                (this.props.event.capacity_status === this.props.event.capacity &&
-                                                    !registered) ||
-                                                Moment(this.props.event.planned_end_date) < Moment()
-                                            }
-                                        >
-                                            {!!registered && registered ? "Unregister" : "Register"}
-                                        </Button>
+                                        <Box>
+                                            {this.state.isOwner &&
+                                                (this.props.event.deleted_flag ? (
+                                                    <React.Fragment>
+                                                        <Button
+                                                            color="primary"
+                                                            variant="contained"
+                                                            onClick={this.restoreEvent}
+                                                        >
+                                                            Restore Event
+                                                        </Button>
+                                                    </React.Fragment>
+                                                ) : (
+                                                    <React.Fragment>
+                                                        <Button
+                                                            color="primary"
+                                                            variant="contained"
+                                                            onClick={this.deleteEvent}
+                                                        >
+                                                            Delete Event
+                                                        </Button>{" "}
+                                                        <Button
+                                                            color="primary"
+                                                            variant="contained"
+                                                            onClick={this.editEvent}
+                                                        >
+                                                            Edit Event{" "}
+                                                        </Button>{" "}
+                                                    </React.Fragment>
+                                                ))}
+
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={this.updateAttendance}
+                                                disabled={
+                                                    (this.props.event.capacity_status === this.props.event.capacity &&
+                                                        !registered) ||
+                                                    moment(this.props.event.planned_end_date) < moment()
+                                                }
+                                            >
+                                                {!!registered && registered ? "Unregister" : "Register"}
+                                            </Button>
+                                        </Box>
                                     </Box>
+                                    {this.props.event.deleted_flag && (
+                                        <Typography variant="h3" color="error" gutterBottom>
+                                            Deletion Date:{" "}
+                                            {moment(this.props.event.deletion_date).format("MMMM Do YYYY")}
+                                        </Typography>
+                                    )}
                                     {(!!this.props.event &&
-                                        (Moment(this.props.event.planned_end_date) < Moment() && (
+                                        (moment(this.props.event.planned_end_date) < moment() && (
                                             <Typography color="error" variant="body1" gutterBottom>
                                                 The event has passed. You are no longer able to register.
                                             </Typography>
@@ -303,7 +409,9 @@ const mapDispatchToProps = (dispatch) => ({
     startAddAttendance: (event_id) => dispatch(startAddAttendance(event_id)),
     startDeleteAttendance: (event_id) => dispatch(startDeleteAttendance(event_id)),
     decrementCapacityStatus: (event) => dispatch(decrementCapacityStatus(event)),
-    incrementCapacityStatus: (event) => dispatch(incrementCapacityStatus(event))
+    incrementCapacityStatus: (event) => dispatch(incrementCapacityStatus(event)),
+    restoreEvent: (id) => dispatch(restoreEvent(id)),
+    deleteEvent: (id) => dispatch(deleteEvent(id))
 });
 
 export default connect(
