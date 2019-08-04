@@ -11,6 +11,7 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import { getCurrentUser } from "../../actions/auth";
 import moment from "moment";
+import CustomStepper from "../CustomStepper";
 
 class ViewPostPage extends React.Component {
     _isMounted = false;
@@ -19,7 +20,9 @@ class ViewPostPage extends React.Component {
         super(props);
 
         this.state = {
-            isOwner: false
+            isOwner: false,
+            steps: [],
+            activeStep: undefined
         };
     }
 
@@ -31,27 +34,43 @@ class ViewPostPage extends React.Component {
         this.props
             .startGetPost(post_id)
             .then((res) => {
-                this.props.startGetChannel(this.props.post.channel).catch((err) => {
-                    console.log("error in getting channel information", err);
-                });
-
-                getCurrentUser()
-                    .then((user_res) => {
-                        const isOwner = user_res.data.username === res.data[0].user;
-
-                        if (this._isMounted) {
-                            this.setState(() => ({
-                                isOwner
-                            }));
-                        }
-
-                        if (!isOwner) {
-                            if (res.data[0].deleted_flag) {
-                                this.props.history.push("/");
-                            }
-                        }
+                this.props
+                    .startGetChannel(this.props.post.channel)
+                    .catch((err) => {
+                        console.log("error in getting channel information", err);
                     })
-                    .catch((err) => console.log(err));
+                    .then(() => {
+                        getCurrentUser()
+                            .then((user_res) => {
+                                const isOwner = user_res.data.username === res.data[0].user;
+
+                                if (this._isMounted) {
+                                    this.setState(() => ({
+                                        isOwner
+                                    }));
+                                }
+
+                                if (!isOwner) {
+                                    if (res.data[0].deleted_flag) {
+                                        this.props.history.push("/");
+                                    }
+                                } else {
+                                    this.setState(() => ({
+                                        steps: [
+                                            { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                            {
+                                                label: `Bulletin Board: ${this.props.channel.channel_name}`,
+                                                onClick: this.moveToBulletinBoard
+                                            },
+                                            { label: `Post: ${this.props.post.post_title}`, onClick: null },
+                                            { label: "?", onClick: null }
+                                        ],
+                                        activeStep: 2
+                                    }));
+                                }
+                            })
+                            .catch((err) => console.log(err));
+                    });
             })
             .catch((err) => {
                 console.log("error in getting post information", JSON.stringify(err, null, 2));
@@ -84,7 +103,7 @@ class ViewPostPage extends React.Component {
         this.props
             .deletePost(id)
             .then(() => {
-                this.goToChannel();
+                this.moveToBulletinBoard();
             })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
@@ -103,6 +122,14 @@ class ViewPostPage extends React.Component {
             });
     };
 
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
+    moveToBulletinBoard = () => {
+        this.props.history.push(`/channel/${this.props.channel.channel_id}`);
+    };
+
     render() {
         const post = !!this.props.post && this.props.post;
 
@@ -112,6 +139,7 @@ class ViewPostPage extends React.Component {
                     <Box bgcolor="secondary.main" py={3}>
                         <Container fixed>
                             <Typography variant="h1">Post </Typography>
+                            <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                         </Container>
                     </Box>
                     <Container fixed>

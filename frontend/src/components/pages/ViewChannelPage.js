@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
+import CustomStepper from "../CustomStepper";
 
 export class ViewChannelPage extends React.Component {
     _isMounted = false;
@@ -20,7 +21,9 @@ export class ViewChannelPage extends React.Component {
         super(props);
 
         this.state = {
-            isOwner: false
+            isOwner: false,
+            steps: [],
+            activeStep: undefined
         };
     }
 
@@ -40,7 +43,13 @@ export class ViewChannelPage extends React.Component {
                         if (res.data.username === channel_res.data[0].user) {
                             if (this._isMounted) {
                                 this.setState(() => ({
-                                    isOwner: true
+                                    isOwner: true,
+                                    steps: [
+                                        { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                        { label: `Bulletin Board: ${this.props.channel.channel_name}`, onClick: null },
+                                        { label: "?", onClick: null }
+                                    ],
+                                    activeStep: 1
                                 }));
                             }
                         } else {
@@ -120,6 +129,10 @@ export class ViewChannelPage extends React.Component {
             });
     };
 
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
     render() {
         const posts = !!this.props.posts && this.props.posts;
         return (
@@ -127,7 +140,7 @@ export class ViewChannelPage extends React.Component {
                 <Box bgcolor="secondary.main" py={3}>
                     <Container fixed>
                         <Typography variant="h1" gutterBottom>
-                            Channel Page:{" "}
+                            Bulletin Board:{" "}
                             <Typography variant="inherit" display="inline" color="primary">
                                 {this.props.channel.channel_name}
                             </Typography>
@@ -150,17 +163,18 @@ export class ViewChannelPage extends React.Component {
                         {this.props.channel.deleted_flag && (
                             <Typography variant="h3" color="error" gutterBottom>
                                 Deletion Date: {moment(this.props.channel.deletion_date).format("MMMM Do YYYY")} -
-                                Restore the Channel To Add/Edit Posts
+                                Restore the Bulletin Board To Add/Edit Posts
                             </Typography>
                         )}
                         {this.state.isOwner && (
                             <React.Fragment>
                                 {this.props.channel.deleted_flag ? (
                                     <Button color="primary" variant="contained" onClick={this.restoreChannel}>
-                                        Restore Channel
+                                        Restore Bulletin Board
                                     </Button>
                                 ) : (
                                     <React.Fragment>
+                                        <CustomStepper activeStep={this.state.activeStep} steps={this.state.steps} />
                                         <Button color="primary" variant="contained" onClick={this.handleAddPost}>
                                             Add a new post
                                         </Button>{" "}
@@ -170,7 +184,7 @@ export class ViewChannelPage extends React.Component {
                                             variant="contained"
                                             onClick={this.handleEditChannel}
                                         >
-                                            Edit this channel
+                                            Edit this Bulletin Board
                                         </Button>{" "}
                                         <Button
                                             id={this.props.channel.channel_id}
@@ -178,7 +192,7 @@ export class ViewChannelPage extends React.Component {
                                             variant="contained"
                                             onClick={this.deleteChannel}
                                         >
-                                            Delete this Channel
+                                            Delete this Bulletin Board
                                         </Button>{" "}
                                         {!!posts && posts.length > 0 && (
                                             <Button

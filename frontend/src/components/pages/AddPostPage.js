@@ -8,13 +8,16 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import CustomStepper from "../CustomStepper";
 
 export class AddPostPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             step: "Post",
-            error: ""
+            error: "",
+            steps: [],
+            activeStep: undefined
         };
     }
 
@@ -27,6 +30,21 @@ export class AddPostPage extends React.Component {
                     .then((channel_res) => {
                         if (res.data.username !== channel_res.data[0].user) {
                             this.props.history.push("/myChannels");
+                        } else {
+                            this.setState(() => {
+                                return {
+                                    steps: [
+                                        { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                        {
+                                            label: `Bulletin Board: ${this.props.channel.channel_name}`,
+                                            onClick: this.handleReturn
+                                        },
+                                        { label: "Add Post", onClick: null },
+                                        { label: "?", onClick: null }
+                                    ],
+                                    activeStep: 2
+                                };
+                            });
                         }
                     })
                     .catch((err) => {
@@ -70,6 +88,10 @@ export class AddPostPage extends React.Component {
         this.submitButtonRef.click();
     };
 
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
     render() {
         const read_only = !!this.props.channel && this.props.channel.deleted_flag;
 
@@ -95,6 +117,7 @@ export class AddPostPage extends React.Component {
                                 </Box>
                             ) : (
                                 <Box>
+                                    <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                                     <Button color="primary" variant="contained" onClick={this.handleReturn}>
                                         Go Back
                                     </Button>
