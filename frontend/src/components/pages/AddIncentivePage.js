@@ -97,6 +97,7 @@ class AddIncentivePage extends React.Component {
                         post={this.props.match.params.id}
                         nextStep={"Save"}
                         read_only={read_only || existing_incentive}
+                        fromPost={true}
                     />
                     {!read_only && (
                         <Button variant="contained" color="primary" onClick={this.goBack}>

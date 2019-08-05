@@ -89,8 +89,8 @@ class Header extends React.Component {
                                 this.props.history.push("/myChannels");
                             }}
                         >
-                            <img className="header_mycontent_logo" src={CDNLink + "/dist/images/mycontent.png"} /> My
-                            Content
+                            <i className="material-icons">create</i>
+                            My Content
                         </WhiteButton>
                         <MyAccountMenu history={this.props.history} />
                         <WhiteButton variant="text" onClick={this.props.logout}>

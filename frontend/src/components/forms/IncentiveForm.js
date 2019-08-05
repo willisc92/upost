@@ -224,7 +224,8 @@ class IncentiveForm extends React.Component {
                         required
                         autoFocus
                         label="Incentive Description"
-                        placeholder="Description"
+                        placeholder={`Describe the incentive for your ${!!this.state.fromPost ? "post" : "event"}.`}
+                        multiline
                         value={this.state.ip_description}
                         onChange={this.onDescriptionChange}
                         disabled={this.props.read_only}

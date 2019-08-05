@@ -165,6 +165,8 @@ export class SearchResultsPage extends React.Component {
                                             arrowRight={ArrowRight}
                                             selected={this.state.selected}
                                             onSelect={this.onSelect}
+                                            hideArrows
+                                            hideSingleArrow
                                         />
                                     )}
                                 </Box>
@@ -183,6 +185,8 @@ export class SearchResultsPage extends React.Component {
                                             arrowRight={ArrowRight}
                                             selected={this.state.selected}
                                             onSelect={this.onSelect}
+                                            hideArrows
+                                            hideSingleArrow
                                         />
                                     )}
                                 </Box>
@@ -201,6 +205,8 @@ export class SearchResultsPage extends React.Component {
                                             arrowRight={ArrowRight}
                                             selected={this.state.selected}
                                             onSelect={this.onSelect}
+                                            hideArrows
+                                            hideSingleArrow
                                         />
                                     )}
                                 </Box>

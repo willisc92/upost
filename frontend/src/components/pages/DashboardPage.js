@@ -192,6 +192,8 @@ export class DashboardPage extends React.Component {
                                         arrowRight={ArrowRight}
                                         selected={this.state.selected}
                                         onSelect={this.onSelect}
+                                        hideArrows
+                                        hideSingleArrow
                                     />
                                 </Box>
                             )
@@ -207,6 +209,8 @@ export class DashboardPage extends React.Component {
                                 arrowRight={ArrowRight}
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
+                                hideArrows
+                                hideSingleArrow
                             />
                         </Box>
                     )}

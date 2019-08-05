@@ -178,11 +178,12 @@ export class EventForm extends React.Component {
                 </Box>
                 <Box>
                     <TextField
-                        label="Description"
-                        placeholder="Description"
+                        label="Event Description"
+                        placeholder="Describe your event for the reader"
                         value={this.state.event_description}
                         onChange={this.onDescriptionChange}
                         disabled={this.props.read_only}
+                        multiline
                     />
                 </Box>
                 <Box>
@@ -198,7 +199,7 @@ export class EventForm extends React.Component {
                     <Box paddingRight={2}>
                         <TextField
                             readOnly={this.props.read_only}
-                            label="Capacity"
+                            label="Capacity (Select 0 if not defined)"
                             type="number"
                             value={this.state.capacity}
                             onChange={this.onCapacityChange}

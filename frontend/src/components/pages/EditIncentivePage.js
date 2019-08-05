@@ -145,6 +145,7 @@ class EditIncentivePage extends React.Component {
                             incentivePackage={this.props.incentive}
                             read_only={post_read_only || incentive_read_only}
                             nextStep="Save"
+                            fromPost={true}
                         />
                     </Container>
                 </Box>
