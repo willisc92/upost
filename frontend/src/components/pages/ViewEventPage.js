@@ -209,11 +209,11 @@ class ViewEventPage extends React.Component {
         return (
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1">Event</Typography>
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     <Box display="flex">
                         <div className="content-container-twothirds">
                             {!!this.props.post && (

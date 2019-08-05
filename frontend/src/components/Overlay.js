@@ -192,7 +192,7 @@ export default (props) => {
                         <ListItemIcon>
                             <Icon>location_city</Icon>
                         </ListItemIcon>
-                        <ListItemText primary={"COMMUNITY POSTS"} />
+                        <ListItemText primary={"MY COMMUNITIES"} />
                     </ListItem>
 
                     <Divider />

@@ -65,7 +65,7 @@ class AddEventIncentivePage extends React.Component {
             !!this.props.event && (
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography gutterBottom variant="h2">
                                 Add an Incentive Package to Event:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
@@ -97,7 +97,7 @@ class AddEventIncentivePage extends React.Component {
                             </Box>
                         </Container>
                     </Box>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <IncentiveForm
                             onSubmit={this.onSubmit}
                             nextStep="Save"

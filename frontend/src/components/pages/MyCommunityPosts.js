@@ -28,14 +28,14 @@ export class MyCommunityPosts extends React.Component {
             posts && (
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
                                 Posts from your Communities
                             </Typography>
                             <PostFilterSelector />
                         </Container>
                     </Box>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Box display="flex" flexWrap="wrap" py={2}>
                             {posts.length > 0 ? (
                                 posts.map((post) => {

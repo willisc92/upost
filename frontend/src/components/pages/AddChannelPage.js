@@ -29,7 +29,7 @@ export class AddChannelPage extends React.Component {
         return (
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" color="primary" gutterBottom>
                             Add a Channel
                         </Typography>
@@ -38,7 +38,7 @@ export class AddChannelPage extends React.Component {
                         </Button>
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     <Box py={3}>
                         <ChannelForm onSubmit={this.onSubmit} />
                     </Box>

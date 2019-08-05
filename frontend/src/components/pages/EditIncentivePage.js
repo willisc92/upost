@@ -106,7 +106,7 @@ class EditIncentivePage extends React.Component {
             !!this.props.post && (
                 <Box>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
                                 Edit Incentive Package for Post:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
@@ -138,7 +138,7 @@ class EditIncentivePage extends React.Component {
                             </Button>
                         </Container>
                     </Box>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <IncentiveForm
                             onSubmit={this.onSubmit}
                             post={this.props.match.params.id}

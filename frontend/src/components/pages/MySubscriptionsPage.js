@@ -27,7 +27,7 @@ class MySubscriptionsPage extends React.Component {
         return (
             <div>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Your Subscriptions
                         </Typography>
@@ -35,7 +35,7 @@ class MySubscriptionsPage extends React.Component {
                     </Container>
                 </Box>
 
-                <Container fixed>
+                <Container maxWidth="xl">
                     {channels ? (
                         <Box display="flex" flexWrap="flex" py={2}>
                             {channels.length > 0 ? (

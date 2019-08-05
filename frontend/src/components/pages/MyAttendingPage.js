@@ -26,7 +26,7 @@ class MyAttendingPage extends React.Component {
         return (
             <div>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Events You are Registered to Attend
                         </Typography>
@@ -34,7 +34,7 @@ class MyAttendingPage extends React.Component {
                     </Container>
                 </Box>
 
-                <Container>
+                <Container maxWidth="xl">
                     {events ? (
                         <Box display="flex" flexWrap="flex" py={2}>
                             {events.length > 0 ? (

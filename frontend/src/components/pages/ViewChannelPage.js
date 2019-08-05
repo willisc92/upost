@@ -125,7 +125,7 @@ export class ViewChannelPage extends React.Component {
         return (
             <div>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Channel Page:{" "}
                             <Typography variant="inherit" display="inline" color="primary">
@@ -144,11 +144,14 @@ export class ViewChannelPage extends React.Component {
                                 Description: {this.props.channel.channel_description}
                             </Typography>
                         )}
-                        <Typography variant="h3" gutterBottom>
+                        <Typography variant="h4" gutterBottom>
                             Creation Date: {moment(this.props.channel.creation_date).format("MMMM Do YYYY")}
                         </Typography>
+                        <Typography variant="h4" gutterBottom>
+                            Last Updated: {moment(this.props.channel.last_updated).format("MMMM Do YYYY")}
+                        </Typography>
                         {this.props.channel.deleted_flag && (
-                            <Typography variant="h3" color="error" gutterBottom>
+                            <Typography variant="h4" color="error" gutterBottom>
                                 Deletion Date: {moment(this.props.channel.deletion_date).format("MMMM Do YYYY")} -
                                 Restore the Channel To Add/Edit Posts
                             </Typography>
@@ -201,7 +204,7 @@ export class ViewChannelPage extends React.Component {
                 </Box>
                 {posts !== [] && (
                     <Box paddingTop={2}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Box display="flex" flexWrap="wrap">
                                 {posts.length > 0 ? (
                                     posts.map((post) => {

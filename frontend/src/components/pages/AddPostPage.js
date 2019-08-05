@@ -76,7 +76,7 @@ export class AddPostPage extends React.Component {
         return (
             <div>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Box display="flex" flexDirection="column">
                             <Typography variant="h1" gutterBottom>
                                 Add Post to:{" "}
@@ -103,7 +103,7 @@ export class AddPostPage extends React.Component {
                         </Box>
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     <Box py={3}>
                         {!!this.state.error && (
                             <Typography gutterBottom variant="h3" color="error">

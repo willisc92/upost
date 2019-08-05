@@ -62,7 +62,7 @@ class AddIncentivePage extends React.Component {
         return (
             <div>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Add an Incentive Package to Post:{" "}
                             <Typography variant="inherit" display="inline" color="primary" gutterBottom>
@@ -91,7 +91,7 @@ class AddIncentivePage extends React.Component {
                         )}
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     <IncentiveForm
                         onSubmit={this.onSubmit}
                         post={this.props.match.params.id}

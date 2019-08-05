@@ -91,7 +91,7 @@ class DeletedContentPage extends React.Component {
         return (
             <div>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Your Recycle Bin
                         </Typography>
@@ -102,7 +102,7 @@ class DeletedContentPage extends React.Component {
                         )}
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     {!has_deleted_content && (
                         <Box py={2}>
                             <Typography variant="h2">No Deleted Content</Typography>
@@ -117,6 +117,9 @@ class DeletedContentPage extends React.Component {
                                 arrowRight={ArrowRight}
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
+                                hideArrows
+                                hideSingleArrow
+                                alignCenter={false}
                             />
                         </Box>
                     )}
@@ -129,6 +132,9 @@ class DeletedContentPage extends React.Component {
                                 arrowRight={ArrowRight}
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
+                                hideArrows
+                                hideSingleArrow
+                                alignCenter={false}
                             />
                         </Box>
                     )}
@@ -141,6 +147,9 @@ class DeletedContentPage extends React.Component {
                                 arrowRight={ArrowRight}
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
+                                hideArrows
+                                hideSingleArrow
+                                alignCenter={false}
                             />
                         </Box>
                     )}
@@ -153,6 +162,9 @@ class DeletedContentPage extends React.Component {
                                 arrowRight={ArrowRight}
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
+                                hideArrows
+                                hideSingleArrow
+                                alignCenter={false}
                             />
                         </Box>
                     )}

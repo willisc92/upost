@@ -96,7 +96,7 @@ export class SearchResultsPage extends React.Component {
         return (
             <Box>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Search Results for:{" "}
                             <Typography variant="inherit" display="inline" color="primary">
@@ -132,7 +132,7 @@ export class SearchResultsPage extends React.Component {
                         )}
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     {no_search_results ? (
                         <Box py={2}>
                             <Typography variant="h2">
@@ -167,6 +167,7 @@ export class SearchResultsPage extends React.Component {
                                             onSelect={this.onSelect}
                                             hideArrows
                                             hideSingleArrow
+                                            alignCenter={false}
                                         />
                                     )}
                                 </Box>
@@ -187,6 +188,7 @@ export class SearchResultsPage extends React.Component {
                                             onSelect={this.onSelect}
                                             hideArrows
                                             hideSingleArrow
+                                            alignCenter={false}
                                         />
                                     )}
                                 </Box>
@@ -207,6 +209,7 @@ export class SearchResultsPage extends React.Component {
                                             onSelect={this.onSelect}
                                             hideArrows
                                             hideSingleArrow
+                                            alignCenter={false}
                                         />
                                     )}
                                 </Box>

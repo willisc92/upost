@@ -28,8 +28,6 @@ export const ChannelListItem = ({ channel, selected, pathName, inHorizontalMenu 
                                 />
                             )}
                             <PolaroidBody body={channel.channel_description} />
-                            <PolaroidSubHeader subheader="Created:" />
-                            <PolaroidBody body={moment(channel.creation_date).format("MMMM Do YYYY")} />
                             <PolaroidSubHeader subheader="Updated:" />
                             <PolaroidBody body={moment(channel.last_updated).format("MMMM Do YYYY, h:mm a")} />
                         </CardContent>

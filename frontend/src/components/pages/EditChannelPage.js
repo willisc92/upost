@@ -63,7 +63,7 @@ export class EditChannelPage extends React.Component {
         return (
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Edit Channel:{" "}
                             <Typography variant="inherit" color="primary" display="inline">
@@ -80,7 +80,7 @@ export class EditChannelPage extends React.Component {
                         </Button>
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     <Box py={3}>
                         <ChannelForm onSubmit={this.onSubmit} channel={this.props.channel} read_only={read_only} />
                     </Box>

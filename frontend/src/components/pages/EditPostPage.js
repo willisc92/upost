@@ -99,7 +99,7 @@ export class EditPostPage extends React.Component {
             !!this.props.post && (
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
                                 Edit Post:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
@@ -145,7 +145,7 @@ export class EditPostPage extends React.Component {
                             )}
                         </Container>
                     </Box>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Box py={3}>
                             {!!this.props.post && (
                                 <PostForm

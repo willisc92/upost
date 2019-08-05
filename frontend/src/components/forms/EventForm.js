@@ -206,9 +206,11 @@ export class EventForm extends React.Component {
                             min="0"
                         />
                     </Box>
-                    <Typography>{`Currently there are ${
-                        this.state.capacity_status
-                    } attendee(s) registered for this event`}</Typography>
+                    {this.props.showAttendees && (
+                        <Typography>{`Currently there are ${
+                            this.state.capacity_status
+                        } attendee(s) registered for this event`}</Typography>
+                    )}
                 </Box>
                 <Box>
                     <TextField
