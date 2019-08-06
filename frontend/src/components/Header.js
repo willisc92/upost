@@ -80,9 +80,7 @@ class Header extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {!!this.props.token && (
-                    <SearchBar history={this.props.history} />
-                )}
+                {!!this.props.token && <SearchBar history={this.props.history} />}
                 {!!this.props.token ? (
                     <div>
                         <WhiteButton
@@ -91,11 +89,8 @@ class Header extends React.Component {
                                 this.props.history.push("/myChannels");
                             }}
                         >
-                            <img
-                                className="header_mycontent_logo"
-                                src={CDNLink + "/dist/images/mycontent.png"}
-                            />{" "}
-                            My Content
+                            <img className="header_mycontent_logo" src={CDNLink + "/dist/images/mycontent.png"} /> My
+                            Content
                         </WhiteButton>
                         <MyAccountMenu history={this.props.history} />
                         <WhiteButton variant="text" onClick={this.props.logout}>
@@ -104,16 +99,10 @@ class Header extends React.Component {
                     </div>
                 ) : (
                     <div>
-                        <WhiteButton
-                            variant="text"
-                            onClick={this.handleLoginModalOpen}
-                        >
+                        <WhiteButton variant="text" onClick={this.handleLoginModalOpen}>
                             <i className="material-icons">exit_to_app</i> Login
                         </WhiteButton>
-                        <WhiteButton
-                            variant="text"
-                            onClick={this.handleSignupModalOpen}
-                        >
+                        <WhiteButton variant="text" onClick={this.handleSignupModalOpen}>
                             <i className="material-icons">person_add</i> Signup
                         </WhiteButton>
                     </div>
