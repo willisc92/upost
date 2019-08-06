@@ -5,18 +5,20 @@ import EventForm from "../forms/EventForm";
 import { connect } from "react-redux";
 import { startSetEvent, clearEvents, deleteEvent, restoreEvent } from "../../actions/events";
 import MessageModal from "../modals/MessageModal";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import CustomStepper from "../CustomStepper";
 
 class EditEventPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             step: "Event",
-            openMessageModal: false
+            openMessageModal: false,
+            steps: [],
+            activeStep: undefined
         };
     }
 
@@ -30,6 +32,46 @@ class EditEventPage extends React.Component {
                     .then((event_res) => {
                         if (event_res.data.event_owner !== res.data.username) {
                             this.props.history.push(`/myChannels`);
+                        } else {
+                            if (!!this.props.event.event_incentive) {
+                                this.setState(() => ({
+                                    steps: [
+                                        { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                        {
+                                            label: `Bulletin Board`,
+                                            onClick: null
+                                        },
+                                        { label: `Post`, onClick: this.goToPost },
+                                        { label: "Events", onClick: this.moveToPostEventsPage },
+                                        {
+                                            label: `Event: ${this.props.event.event_title}`,
+                                            onClick: this.moveToEventPage
+                                        },
+                                        { label: `Edit Event`, onClick: null },
+                                        { label: `Edit Incentive`, onClick: this.editIncentive }
+                                    ],
+                                    activeStep: 5
+                                }));
+                            } else {
+                                this.setState(() => ({
+                                    steps: [
+                                        { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                        {
+                                            label: `Bulletin Board`,
+                                            onClick: null
+                                        },
+                                        { label: `Post`, onClick: this.goToPost },
+                                        { label: "Events", onClick: this.moveToPostEventsPage },
+                                        {
+                                            label: `Event: ${this.props.event.event_title}`,
+                                            onClick: this.moveToEventPage
+                                        },
+                                        { label: `Edit Event`, onClick: null },
+                                        { label: `Add Incentive`, onClick: this.addIncentive }
+                                    ],
+                                    activeStep: 5
+                                }));
+                            }
                         }
                     })
                     .catch((err) => {
@@ -54,7 +96,7 @@ class EditEventPage extends React.Component {
 
         this.props
             .editEvent(event_id, updates)
-            .then((res) => this.props.history.push(`/myPosts/${post_id}/events`))
+            .then((res) => this.props.history.push(`/post-events/${post_id}`))
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
                 // dispaly error message
@@ -66,12 +108,26 @@ class EditEventPage extends React.Component {
 
     goBack = () => {
         const post_id = this.props.match.params.id;
-        this.props.history.push(`/myPosts/${post_id}/events`);
+        this.props.history.push(`/post-events/${post_id}`);
     };
 
     goToPost = () => {
         const post_id = this.props.match.params.id;
         this.props.history.push(`/myPosts/${post_id}/edit`);
+    };
+
+    moveToPostEventsPage = () => {
+        const post_id = this.props.match.params.id;
+        this.props.history.push(`/myPost/${post_id}`);
+    };
+
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
+    moveToEventPage = () => {
+        const event_id = this.props.match.params.event_id;
+        this.props.history.push(`/event/${event_id}`);
     };
 
     editIncentive = () => {
@@ -119,13 +175,14 @@ class EditEventPage extends React.Component {
             !!event && (
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
                                 Edit Event:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {event && event.event_title}
                                 </Typography>
                             </Typography>
+                            <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                             {post_read_only ? (
                                 <Typography variant="h2" color="error" gutterBottom>
                                     The post containing this event is deleted. Restore it before editing this event.
@@ -171,13 +228,14 @@ class EditEventPage extends React.Component {
                             </Box>
                         </Container>
                     </Box>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <EventForm
                             read_only={read_only}
                             event={event}
                             onSubmit={this.onSubmit}
                             nextStep={"Save and Return"}
                             post={this.props.match.params.id}
+                            showAttendees={true}
                         />
                     </Container>
                     <MessageModal

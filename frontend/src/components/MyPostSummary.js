@@ -49,23 +49,9 @@ export const MyPostSummary = ({ post, pathName, selected, readOnly, inHorizontal
 
 export default MyPostSummary;
 
-export const MyPostMenu = (list, selected, readOnly) =>
-    list.map((el) => {
-        return (
-            <MyPostSummary
-                post={el}
-                pathName={`/myPosts/${el.post_id}/edit`}
-                key={el.post_id}
-                selected={selected}
-                readOnly={readOnly}
-                inHorizontalMenu
-            />
-        );
-    });
-
-export const BrowsePostMenu = (list, selected) =>
+export const BrowsePostMenu = (list, selected, deleted_flag) =>
     list
-        .filter((el) => !el.deleted_flag)
+        .filter((el) => el.deleted_flag === deleted_flag)
         .map((el) => {
             return (
                 <MyPostSummary

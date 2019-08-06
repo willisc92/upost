@@ -28,8 +28,6 @@ export const ChannelListItem = ({ channel, selected, pathName, inHorizontalMenu 
                                 />
                             )}
                             <PolaroidBody body={channel.channel_description} />
-                            <PolaroidSubHeader subheader="Created:" />
-                            <PolaroidBody body={moment(channel.creation_date).format("MMMM Do YYYY")} />
                             <PolaroidSubHeader subheader="Updated:" />
                             <PolaroidBody body={moment(channel.last_updated).format("MMMM Do YYYY, h:mm a")} />
                         </CardContent>
@@ -42,9 +40,9 @@ export const ChannelListItem = ({ channel, selected, pathName, inHorizontalMenu 
 
 export default ChannelListItem;
 
-export const BrowseChannelsMenu = (list, selected) =>
+export const BrowseChannelsMenu = (list, selected, deleted_flag) =>
     list
-        .filter((el) => !el.deleted_flag)
+        .filter((el) => el.deleted_flag === deleted_flag)
         .map((el) => {
             return (
                 <ChannelListItem
@@ -56,16 +54,3 @@ export const BrowseChannelsMenu = (list, selected) =>
                 />
             );
         });
-
-export const MyChannelsMenu = (list, selected) =>
-    list.map((el) => {
-        return (
-            <ChannelListItem
-                channel={el}
-                key={el.channel_id}
-                selected={selected}
-                pathName={`/myChannels/${el.channel_id}`}
-                inHorizontalMenu
-            />
-        );
-    });

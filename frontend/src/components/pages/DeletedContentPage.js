@@ -5,9 +5,9 @@ import { restorePost } from "../../actions/posts";
 import { restoreEvent } from "../../actions/events";
 import { restoreIncentivePackage } from "../../actions/incentivePackage";
 import { getDeletedContent } from "../../selectors/deletedContent";
-import { MyEventMenu } from "../MyEventSummary";
-import { MyChannelsMenu } from "../ChannelListItem";
-import { MyPostMenu } from "../MyPostSummary";
+import { BrowseEventMenu } from "../MyEventSummary";
+import { BrowseChannelsMenu } from "../ChannelListItem";
+import { BrowsePostMenu } from "../MyPostSummary";
 import { MyIncentiveMenu } from "../MyIncentiveSummary";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";
@@ -77,9 +77,9 @@ class DeletedContentPage extends React.Component {
         const deleted_events = deleted_content[2];
         const deleted_incentives = deleted_content[3];
 
-        const channelMenu = MyChannelsMenu(deleted_channels, this.state.selected);
-        const postMenu = MyPostMenu(deleted_posts, this.state.selected);
-        const eventMenu = MyEventMenu(deleted_events, this.state.selected, false);
+        const channelMenu = BrowseChannelsMenu(deleted_channels, this.state.selected, true);
+        const postMenu = BrowsePostMenu(deleted_posts, this.state.selected, true);
+        const eventMenu = BrowseEventMenu(deleted_events, this.state.selected, true);
         const incentiveMenu = MyIncentiveMenu(deleted_incentives, this.state.selected);
 
         const has_deleted_content =
@@ -91,7 +91,7 @@ class DeletedContentPage extends React.Component {
         return (
             <div>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Your Recycle Bin
                         </Typography>
@@ -102,7 +102,7 @@ class DeletedContentPage extends React.Component {
                         )}
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     {!has_deleted_content && (
                         <Box py={2}>
                             <Typography variant="h2">No Deleted Content</Typography>
@@ -117,6 +117,9 @@ class DeletedContentPage extends React.Component {
                                 arrowRight={ArrowRight}
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
+                                hideArrows
+                                hideSingleArrow
+                                alignCenter={false}
                             />
                         </Box>
                     )}
@@ -129,6 +132,9 @@ class DeletedContentPage extends React.Component {
                                 arrowRight={ArrowRight}
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
+                                hideArrows
+                                hideSingleArrow
+                                alignCenter={false}
                             />
                         </Box>
                     )}
@@ -141,6 +147,9 @@ class DeletedContentPage extends React.Component {
                                 arrowRight={ArrowRight}
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
+                                hideArrows
+                                hideSingleArrow
+                                alignCenter={false}
                             />
                         </Box>
                     )}
@@ -153,6 +162,9 @@ class DeletedContentPage extends React.Component {
                                 arrowRight={ArrowRight}
                                 selected={this.state.selected}
                                 onSelect={this.onSelect}
+                                hideArrows
+                                hideSingleArrow
+                                alignCenter={false}
                             />
                         </Box>
                     )}

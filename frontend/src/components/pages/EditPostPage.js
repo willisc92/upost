@@ -7,10 +7,16 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
+import CustomStepper from "../CustomStepper";
 
 export class EditPostPage extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            steps: [],
+            activeStep: undefined
+        };
     }
 
     componentDidMount() {
@@ -23,6 +29,20 @@ export class EditPostPage extends React.Component {
                     .then((post_res) => {
                         if (res.data.username !== post_res.data[0].user) {
                             this.props.history.push("/myChannels");
+                        } else {
+                            this.setState(() => ({
+                                steps: [
+                                    { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                    {
+                                        label: `Bulletin Board`,
+                                        onClick: this.goToChannel
+                                    },
+                                    { label: `Post: ${this.props.post.post_title}`, onClick: this.moveToPost },
+                                    { label: "Edit Post", onClick: null },
+                                    { label: "?", onClick: null }
+                                ],
+                                activeStep: 3
+                            }));
                         }
                     })
                     .catch((err) => {
@@ -40,9 +60,9 @@ export class EditPostPage extends React.Component {
             .editPost(post_id, post)
             .then((result) => {
                 if (post.toString() == "[object FormData]") {
-                    this.props.history.push(`/myChannels/${post.get("channel")}`);
+                    this.props.history.push(`/channels/${post.get("channel")}`);
                 } else {
-                    this.props.history.push(`/myChannels/${post.channel}`);
+                    this.props.history.push(`/channels/${post.channel}`);
                 }
             })
             .catch((err) => {
@@ -59,7 +79,7 @@ export class EditPostPage extends React.Component {
     };
 
     onEditEventsClick = () => {
-        this.props.history.push(`/myPosts/${this.props.match.params.id}/events`);
+        this.props.history.push(`/post-events/${this.props.match.params.id}`);
     };
 
     deletePost = () => {
@@ -88,7 +108,15 @@ export class EditPostPage extends React.Component {
 
     goToChannel = () => {
         const channel = this.props.post.channel;
-        this.props.history.push(`/myChannels/${channel}`);
+        this.props.history.push(`/channels/${channel}`);
+    };
+
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
+    moveToPost = () => {
+        this.props.history.push(`/post/${this.props.post.post_id}`);
     };
 
     render() {
@@ -99,7 +127,7 @@ export class EditPostPage extends React.Component {
             !!this.props.post && (
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
                                 Edit Post:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
@@ -126,6 +154,7 @@ export class EditPostPage extends React.Component {
                                 </Box>
                             ) : (
                                 <Box>
+                                    <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                                     <Button color="primary" variant="contained" onClick={this.onEditEventsClick}>
                                         Add/Edit Events
                                     </Button>{" "}
@@ -145,7 +174,7 @@ export class EditPostPage extends React.Component {
                             )}
                         </Container>
                     </Box>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Box py={3}>
                             {!!this.props.post && (
                                 <PostForm

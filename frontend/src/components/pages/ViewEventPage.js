@@ -3,7 +3,14 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetChannel } from "../../actions/channels";
-import { setEvents, startSetEvent, decrementCapacityStatus, incrementCapacityStatus } from "../../actions/events";
+import {
+    setEvents,
+    startSetEvent,
+    decrementCapacityStatus,
+    incrementCapacityStatus,
+    deleteEvent,
+    restoreEvent
+} from "../../actions/events";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 import { startGetAttendance, startAddAttendance, startDeleteAttendance } from "../../actions/attendance";
 import DateRangeTag from "../DateRangeTag";
@@ -13,15 +20,22 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
-import Moment from "moment";
+import moment from "moment";
+import { getCurrentUser } from "../../actions/auth";
+import CustomStepper from "../CustomStepper";
 
 class ViewEventPage extends React.Component {
+    _isMounted = false;
+
     constructor(props) {
         super(props);
 
         this.state = {
             openMessageModal: false,
-            error: ""
+            error: "",
+            isOwner: false,
+            steps: [],
+            activeStep: undefined
         };
     }
 
@@ -45,6 +59,7 @@ class ViewEventPage extends React.Component {
                 this.getPostFromAPI(post_id);
             } else {
                 this.checkChannel();
+                this.checkEventOwnerAgainstCurrentUser(this.props.event);
             }
         } else {
             // get post from API
@@ -61,6 +76,7 @@ class ViewEventPage extends React.Component {
             })
             .then(() => {
                 this.checkChannel();
+                this.checkEventOwnerAgainstCurrentUser(this.props.event);
             });
     };
 
@@ -76,20 +92,81 @@ class ViewEventPage extends React.Component {
         }
     };
 
+    addIncentive = () => {
+        this.props.history.push(`/myEvents/${this.props.event.event_id}/addIncentive`);
+    };
+
+    checkEventOwnerAgainstCurrentUser = (event_obj) => {
+        getCurrentUser()
+            .then((user_res) => {
+                const isOwner = user_res.data.username === event_obj.event_owner;
+
+                if (this._isMounted) {
+                    if (isOwner) {
+                        if (!!event_obj.event_incentive) {
+                            this.setState(() => ({
+                                isOwner,
+                                steps: [
+                                    { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                    {
+                                        label: `Bulletin Board`,
+                                        onClick: this.goToChannel
+                                    },
+                                    { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                                    { label: "Events", onClick: this.moveToPostEventsPage },
+                                    { label: `Event: ${this.props.event.event_title}`, onClick: null },
+                                    { label: "Edit Event", onClick: this.editEvent },
+                                    { label: "Edit Incentive", onClick: this.editIncentive }
+                                ],
+                                activeStep: 4
+                            }));
+                        } else {
+                            this.setState(() => ({
+                                isOwner,
+                                steps: [
+                                    { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                    {
+                                        label: `Bulletin Board`,
+                                        onClick: this.goToChannel
+                                    },
+                                    { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                                    { label: "Events", onClick: this.moveToPostEventsPage },
+                                    { label: `Event: ${this.props.event.event_title}`, onClick: null },
+                                    { label: "Edit Event", onClick: this.editEvent },
+                                    { label: "Add Incentive", onClick: this.addIncentive }
+                                ],
+                                activeStep: 4
+                            }));
+                        }
+                    } else {
+                        this.setState(() => ({
+                            isOwner
+                        }));
+                    }
+                }
+
+                if (!isOwner) {
+                    if (event_obj.deleted_flag) {
+                        this.props.history.push("/");
+                    }
+                }
+            })
+            .catch((err) => console.log(err));
+    };
+
     componentDidMount() {
+        this._isMounted = true;
+
         const event_id = parseInt(this.props.match.params.id);
 
         // check to see if event is provided
         if (!!this.props.event && this.props.event.event_id === event_id) {
-            // pass
+            this.checkPost(this.props.event.post, event_id);
         } else {
             // get the event from API
             this.props
                 .startSetEvent(event_id)
                 .then((res) => {
-                    if (res.data.deleted_flag) {
-                        this.props.history.push("/");
-                    }
                     this.checkPost(this.props.event.post, event_id);
                 })
                 .catch((error) => {
@@ -106,6 +183,10 @@ class ViewEventPage extends React.Component {
         if (!this.props.attendance) {
             this.props.startGetAttendance();
         }
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
     updateAttendance = () => {
@@ -132,6 +213,60 @@ class ViewEventPage extends React.Component {
         this.props.startUpdateSubscriptions(this.props.channel.channel_id);
     };
 
+    deleteEvent = () => {
+        const event_id = this.props.event.event_id;
+        this.props
+            .deleteEvent(event_id)
+            .then(() => {
+                this.props
+                    .startSetEvent(event_id)
+                    .then(() => {})
+                    .catch((err) => console.log(JSON.stringify(err, null, 2)));
+            })
+            .catch((err) => console.log(JSON.stringify(err, null, 2)));
+    };
+
+    restoreEvent = () => {
+        const event_id = this.props.event.event_id;
+        this.props
+            .restoreEvent(event_id)
+            .then(() => {
+                this.props
+                    .startSetEvent(event_id)
+                    .then(() => {})
+                    .catch((err) => console.log(JSON.stringify(err, null, 2)));
+            })
+            .catch((err) => console.log(JSON.stringify(err, null, 2)));
+    };
+
+    editEvent = () => {
+        const post_id = this.props.event.post;
+        const event_id = this.props.event.event_id;
+        this.props.history.push(`/myPosts/${post_id}/events/${event_id}/edit`);
+    };
+
+    editIncentive = () => {
+        const event_id = this.props.event.event_id;
+        this.props.history.push(`/myEvents/${event_id}/editIncentive`);
+    };
+
+    goToChannel = () => {
+        const channel = this.props.post.channel;
+        this.props.history.push(`/channels/${channel}`);
+    };
+
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
+    returnToPost = () => {
+        this.props.history.push(`/post/${this.props.post.post_id}`);
+    };
+
+    moveToPostEventsPage = () => {
+        this.props.history.push(`/post-events/${this.props.post.post_id}`);
+    };
+
     render() {
         const registered = !!this.props.event
             ? !!this.props.attendance
@@ -141,11 +276,12 @@ class ViewEventPage extends React.Component {
         return (
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1">Event</Typography>
+                        <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     <Box display="flex">
                         <div className="content-container-twothirds">
                             {!!this.props.post && (
@@ -164,25 +300,68 @@ class ViewEventPage extends React.Component {
                                         <Typography variant="h2" color="primary">
                                             {this.props.event.event_title}
                                         </Typography>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={this.updateAttendance}
-                                            disabled={
-                                                (this.props.event.capacity_status === this.props.event.capacity &&
-                                                    !registered) ||
-                                                Moment(this.props.event.planned_end_date) < Moment()
-                                            }
-                                        >
-                                            {!!registered && registered ? "Unregister" : "Register"}
-                                        </Button>
+                                        <Box>
+                                            {this.state.isOwner &&
+                                                (this.props.event.deleted_flag ? (
+                                                    <React.Fragment>
+                                                        <Button
+                                                            color="primary"
+                                                            variant="contained"
+                                                            onClick={this.restoreEvent}
+                                                        >
+                                                            Restore Event
+                                                        </Button>
+                                                    </React.Fragment>
+                                                ) : (
+                                                    <React.Fragment>
+                                                        <Button
+                                                            color="primary"
+                                                            variant="contained"
+                                                            onClick={this.deleteEvent}
+                                                        >
+                                                            Delete Event
+                                                        </Button>{" "}
+                                                        <Button
+                                                            color="primary"
+                                                            variant="contained"
+                                                            onClick={this.editEvent}
+                                                        >
+                                                            Edit Event{" "}
+                                                        </Button>{" "}
+                                                    </React.Fragment>
+                                                ))}
+
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={this.updateAttendance}
+                                                disabled={
+                                                    (this.props.event.capacity_status === this.props.event.capacity &&
+                                                        !registered) ||
+                                                    moment(this.props.event.planned_end_date) < moment()
+                                                }
+                                            >
+                                                {!!registered && registered ? "Unregister" : "Register"}
+                                            </Button>
+                                        </Box>
                                     </Box>
+                                    {this.props.event.deleted_flag && (
+                                        <Typography variant="h3" color="error" gutterBottom>
+                                            Deletion Date:{" "}
+                                            {moment(this.props.event.deletion_date).format("MMMM Do YYYY")}
+                                        </Typography>
+                                    )}
                                     {(!!this.props.event &&
+                                        (moment(this.props.event.planned_end_date) < moment() && (
+                                            <Typography color="error" variant="body1" gutterBottom>
+                                                The event has passed. You are no longer able to register.
+                                            </Typography>
+                                        ))) ||
                                         (this.props.event.capacity_status === this.props.event.capacity && (
                                             <Typography color="error" variant="body1" gutterBottom>
                                                 The event has filled. You are no longer able to register.
                                             </Typography>
-                                        ))) ||
+                                        )) ||
                                         (this.props.event.capacity_status >= this.props.event.capacity * 0.9 && (
                                             <Typography color="error" variant="body1" gutterBottom>
                                                 The event is nearing capacity. Please register soon.
@@ -207,7 +386,9 @@ class ViewEventPage extends React.Component {
                                         }}
                                     >
                                         <Box paddingTop={2}>
-                                            <Typography variant="h4">{this.props.channel.channel_name}</Typography>
+                                            <Typography color="primary" variant="h4">
+                                                {this.props.channel.channel_name}
+                                            </Typography>
                                         </Box>
                                     </Link>
                                     {!!this.props.subscriptions && (
@@ -298,7 +479,9 @@ const mapDispatchToProps = (dispatch) => ({
     startAddAttendance: (event_id) => dispatch(startAddAttendance(event_id)),
     startDeleteAttendance: (event_id) => dispatch(startDeleteAttendance(event_id)),
     decrementCapacityStatus: (event) => dispatch(decrementCapacityStatus(event)),
-    incrementCapacityStatus: (event) => dispatch(incrementCapacityStatus(event))
+    incrementCapacityStatus: (event) => dispatch(incrementCapacityStatus(event)),
+    restoreEvent: (id) => dispatch(restoreEvent(id)),
+    deleteEvent: (id) => dispatch(deleteEvent(id))
 });
 
 export default connect(

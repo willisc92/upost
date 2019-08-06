@@ -47,15 +47,15 @@ export class SearchBar extends React.Component {
                     closeMessageModal={this.closeMessageModal}
                     isOpen={this.state.message_rendered}
                 />
-                <Box bgcolor="white" pl={2} boxShadow={3}>
-                    <form onSubmit={this.onSubmit}>
+                <Box bgcolor="white" pl={2} boxShadow={3} display="flex" width={500} flexDirection="row">
+                    <form onSubmit={this.onSubmit} style={{ width: "100%", display: "flex", flexWrap: "nowrap" }}>
                         <Input
                             type="search"
                             placeholder="Search"
                             disableUnderline
                             value={this.state.text}
                             onChange={this.onTextChange}
-                            style={{ width: 500 }}
+                            style={{ flexGrow: 1 }}
                         />
                         <IconButton color="primary" type="submit">
                             <i className="material-icons">search</i>

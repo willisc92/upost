@@ -6,47 +6,47 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import CustomStepper from "../CustomStepper";
 
-export class AddChannelPage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    onSubmit = (channel) => {
-        this.props
+export const AddChannelPage = (props) => {
+    const onSubmit = (channel) => {
+        props
             .addChannel(channel)
-            .then(() => this.goBack())
+            .then(() => {
+                goBack();
+            })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
             });
     };
 
-    goBack = () => {
-        this.props.history.push("/myChannels");
+    const goBack = () => {
+        props.history.push("/myChannels");
     };
 
-    render() {
-        return (
-            <React.Fragment>
-                <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
-                        <Typography variant="h1" color="primary" gutterBottom>
-                            Add a Channel
-                        </Typography>
-                        <Button color="primary" variant="contained" onClick={this.goBack}>
-                            Go Back
-                        </Button>
-                    </Container>
-                </Box>
-                <Container fixed>
-                    <Box py={3}>
-                        <ChannelForm onSubmit={this.onSubmit} />
-                    </Box>
+    const steps = [{ label: "Bulletin Boards", onClick: goBack }, { label: "Create a Bulletin Board", onClick: null }];
+
+    return (
+        <React.Fragment>
+            <Box bgcolor="secondary.main" py={3}>
+                <Container maxWidth="xl">
+                    <Typography variant="h1" color="primary" gutterBottom>
+                        Create a Bulletin Board
+                    </Typography>
+                    <CustomStepper activeStep={1} steps={steps} />
+                    <Button color="primary" variant="contained" onClick={goBack}>
+                        Go Back
+                    </Button>
                 </Container>
-            </React.Fragment>
-        );
-    }
-}
+            </Box>
+            <Container maxWidth="xl">
+                <Box py={3}>
+                    <ChannelForm onSubmit={onSubmit} />
+                </Box>
+            </Container>
+        </React.Fragment>
+    );
+};
 
 const mapDispatchToProps = (dispatch) => ({
     addChannel: (channel) => dispatch(addChannel(channel))

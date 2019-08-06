@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         })
     },
     menuButton: {
-        marginRight: 36
+        marginRight: 15
     },
     hide: {
         display: "none"
@@ -192,7 +192,7 @@ export default (props) => {
                         <ListItemIcon>
                             <Icon>location_city</Icon>
                         </ListItemIcon>
-                        <ListItemText primary={"COMMUNITY POSTS"} />
+                        <ListItemText primary={"MY COMMUNITIES"} />
                     </ListItem>
 
                     <Divider />

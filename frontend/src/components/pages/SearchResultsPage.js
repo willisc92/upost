@@ -75,29 +75,28 @@ export class SearchResultsPage extends React.Component {
             this.props.channelFilters &&
             getVisibleChannels(this.props.channels, this.props.channelFilters, false);
 
-        const channels_menu = BrowseChannelsMenu(channels, this.state.selected);
+        const channels_menu = BrowseChannelsMenu(channels, this.state.selected, false);
 
         const posts =
             !!this.props.posts &&
             !!this.props.postFilters &&
             getVisiblePosts(this.props.posts, this.props.postFilters, false);
 
-        const post_menu = !!posts && BrowsePostMenu(posts, this.state.selected);
+        const post_menu = !!posts && BrowsePostMenu(posts, this.state.selected, false);
 
         const events =
             !!this.props.events &&
             !!this.props.eventFilters &&
             getVisibleEvents(this.props.events, this.props.eventFilters, false);
 
-        const events_menu = !!events && BrowseEventMenu(events, this.state.selected);
+        const events_menu = !!events && BrowseEventMenu(events, this.state.selected, false);
 
         const no_search_results = channels.length === 0 && posts.length === 0 && events.length === 0;
-        console.log(no_search_results);
 
         return (
             <Box>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Search Results for:{" "}
                             <Typography variant="inherit" display="inline" color="primary">
@@ -133,7 +132,7 @@ export class SearchResultsPage extends React.Component {
                         )}
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     {no_search_results ? (
                         <Box py={2}>
                             <Typography variant="h2">
@@ -166,6 +165,9 @@ export class SearchResultsPage extends React.Component {
                                             arrowRight={ArrowRight}
                                             selected={this.state.selected}
                                             onSelect={this.onSelect}
+                                            hideArrows
+                                            hideSingleArrow
+                                            alignCenter={false}
                                         />
                                     )}
                                 </Box>
@@ -184,6 +186,9 @@ export class SearchResultsPage extends React.Component {
                                             arrowRight={ArrowRight}
                                             selected={this.state.selected}
                                             onSelect={this.onSelect}
+                                            hideArrows
+                                            hideSingleArrow
+                                            alignCenter={false}
                                         />
                                     )}
                                 </Box>
@@ -202,11 +207,13 @@ export class SearchResultsPage extends React.Component {
                                             arrowRight={ArrowRight}
                                             selected={this.state.selected}
                                             onSelect={this.onSelect}
+                                            hideArrows
+                                            hideSingleArrow
+                                            alignCenter={false}
                                         />
                                     )}
                                 </Box>
                             )}
-                            )
                         </Box>
                     )}
                 </Container>

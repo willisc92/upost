@@ -1,14 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import Interest from "../Interest";
-import {
-    getAllInterests,
-    startSetUserInterests,
-    startEditUserInterests
-} from "../../actions/interests";
+import { getAllInterests, startSetUserInterests, startEditUserInterests } from "../../actions/interests";
 import { getMyCommunities } from "../../actions/communities";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 export class InterestsPage extends React.Component {
     _isMounted = false;
@@ -28,11 +26,7 @@ export class InterestsPage extends React.Component {
         });
 
         for (let i = 0; i < interestsWithSelected.length; i++) {
-            if (
-                this.props.userInterests.includes(
-                    interestsWithSelected[i].interest_tag
-                )
-            ) {
+            if (this.props.userInterests.includes(interestsWithSelected[i].interest_tag)) {
                 interestsWithSelected[i].isSelected = true;
             }
         }
@@ -113,39 +107,37 @@ export class InterestsPage extends React.Component {
                 }
             })
             .catch((error) => {
-                console.log(
-                    "An error has occured with updating interests",
-                    error
-                );
+                console.log("An error has occured with updating interests", error);
             });
     };
 
     render() {
         return (
-            <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <Typography variant="h1">
+            <React.Fragment>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container maxWidth="xl">
+                        <Typography variant="h1" gutterBottom>
                             Let's get to know you
                         </Typography>
-                        <Typography variant="body1">
-                            Please choose 1 or more Interests. When we know what
-                            you are passionate about we can find better events
-                            for you.
+                        <Typography variant="body1" gutterBottom>
+                            Please choose 1 or more Interests. When we know what you are passionate about we can find
+                            better events for you.
                         </Typography>
-                    </div>
-                </div>
-                <div className="content-container">
-                    {this.state.interests.map((interest) => {
-                        return (
-                            <Interest
-                                interest={interest}
-                                changeIsSelected={this.changeIsSelected}
-                                key={interest.interest_tag}
-                            />
-                        );
-                    })}
-                    <div className="clearfix" />
+                    </Container>
+                </Box>
+                <Container maxWidth="xl">
+                    <Box display="flex" flexWrap="wrap">
+                        {this.state.interests.map((interest) => {
+                            return (
+                                <Interest
+                                    interest={interest}
+                                    changeIsSelected={this.changeIsSelected}
+                                    key={interest.interest_tag}
+                                />
+                            );
+                        })}
+                    </Box>
+                    <br />
                     <Button
                         color="primary"
                         variant="contained"
@@ -154,8 +146,8 @@ export class InterestsPage extends React.Component {
                     >
                         Submit
                     </Button>
-                </div>
-            </div>
+                </Container>
+            </React.Fragment>
         );
     }
 }
@@ -172,8 +164,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getAllInterests: () => dispatch(getAllInterests()),
         startSetUserInterests: () => dispatch(startSetUserInterests()),
-        startEditUserInterests: (userInterests) =>
-            dispatch(startEditUserInterests(userInterests)),
+        startEditUserInterests: (userInterests) => dispatch(startEditUserInterests(userInterests)),
         getMyCommunities: () => dispatch(getMyCommunities())
     };
 };

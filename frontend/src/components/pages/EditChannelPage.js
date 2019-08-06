@@ -7,10 +7,16 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
+import CustomStepper from "../CustomStepper";
 
 export class EditChannelPage extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            steps: [],
+            activestep: undefined
+        };
     }
 
     componentDidMount() {
@@ -22,6 +28,20 @@ export class EditChannelPage extends React.Component {
                     .then((channel_res) => {
                         if (res.data.username !== channel_res.data[0].user) {
                             this.props.history.push("/myChannels");
+                        } else {
+                            this.setState(() => {
+                                return {
+                                    steps: [
+                                        { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                        {
+                                            label: `Bulletin Board: ${this.props.channel.channel_name}`,
+                                            onClick: this.moveToBulletinBoard
+                                        },
+                                        { label: "Edit", onClick: null }
+                                    ],
+                                    activeStep: 2
+                                };
+                            });
                         }
                     })
                     .catch((err) => {
@@ -42,7 +62,7 @@ export class EditChannelPage extends React.Component {
 
     goBack = () => {
         const channel = this.props.match.params.id;
-        this.props.history.push(`/myChannels/${channel}`);
+        this.props.history.push(`/channels/${channel}`);
     };
 
     restore = () => {
@@ -57,15 +77,23 @@ export class EditChannelPage extends React.Component {
         });
     };
 
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
+    moveToBulletinBoard = () => {
+        this.props.history.push(`/Channels/${this.props.channel.channel_id}`);
+    };
+
     render() {
         const read_only = this.props.channel && this.props.channel.deleted_flag;
 
         return (
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
-                            Edit Channel:{" "}
+                            Edit Bulletin Board:{" "}
                             <Typography variant="inherit" color="primary" display="inline">
                                 {!!this.props.channel && this.props.channel.channel_name}
                             </Typography>
@@ -75,12 +103,13 @@ export class EditChannelPage extends React.Component {
                                 You must restore this Channel before editing.
                             </Typography>
                         )}
+                        <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                         <Button color="primary" variant="contained" onClick={this.goBack}>
                             Go Back
                         </Button>
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     <Box py={3}>
                         <ChannelForm onSubmit={this.onSubmit} channel={this.props.channel} read_only={read_only} />
                     </Box>

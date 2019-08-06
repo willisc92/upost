@@ -9,10 +9,16 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import CustomStepper from "../CustomStepper";
 
 class AddIncentivePage extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            steps: [],
+            activeStep: undefined
+        };
     }
 
     componentWillMount() {
@@ -25,6 +31,20 @@ class AddIncentivePage extends React.Component {
                     .then((post_res) => {
                         if (res.data.username !== post_res.data[0].user) {
                             this.props.history.push(`/myChannels`);
+                        } else {
+                            this.setState(() => ({
+                                steps: [
+                                    { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                    {
+                                        label: `Bulletin Board`,
+                                        onClick: this.goToChannel
+                                    },
+                                    { label: `Post: ${this.props.post.post_title}`, onClick: this.moveToPost },
+                                    { label: "Edit Post", onClick: this.goBack },
+                                    { label: "Add Incentive", onClick: null }
+                                ],
+                                activeStep: 4
+                            }));
                         }
                     })
                     .catch((err) => {
@@ -39,7 +59,7 @@ class AddIncentivePage extends React.Component {
     onSubmit = (incentive) => {
         this.props
             .addIncentivePackage(incentive)
-            .then((res) => this.props.history.push(`/myChannels/${this.props.post.channel}`))
+            .then((res) => this.props.history.push(`/channels/${this.props.post.channel}`))
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
             });
@@ -55,6 +75,19 @@ class AddIncentivePage extends React.Component {
         this.props.history.push(`/myPosts/${post_id}/editIncentive`);
     };
 
+    moveToPost = () => {
+        this.props.history.push(`/post/${this.props.match.params.id}`);
+    };
+
+    goToChannel = () => {
+        const channel = this.props.post.channel;
+        this.props.history.push(`/channels/${channel}`);
+    };
+
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
     render() {
         const read_only = !!this.props.post && this.props.post.deleted_flag;
         const existing_incentive = !!this.props.post && !!this.props.post.post_incentive;
@@ -62,13 +95,14 @@ class AddIncentivePage extends React.Component {
         return (
             <div>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Add an Incentive Package to Post:{" "}
                             <Typography variant="inherit" display="inline" color="primary" gutterBottom>
                                 {this.props.post && this.props.post.post_title}
                             </Typography>
                         </Typography>
+                        <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                         {existing_incentive && (
                             <Box paddingBottom={2}>
                                 <Typography variant="h2" color="error" gutterBottom>
@@ -91,12 +125,13 @@ class AddIncentivePage extends React.Component {
                         )}
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     <IncentiveForm
                         onSubmit={this.onSubmit}
                         post={this.props.match.params.id}
                         nextStep={"Save"}
                         read_only={read_only || existing_incentive}
+                        fromPost={true}
                     />
                     {!read_only && (
                         <Button variant="contained" color="primary" onClick={this.goBack}>

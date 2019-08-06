@@ -251,6 +251,7 @@ class PostForm extends React.Component {
                         value={this.state.post_title}
                         onChange={this.onTitleChange}
                         disabled={this.props.read_only}
+                        placeholder="Title"
                     />
                 </Box>
                 <Box>
@@ -260,6 +261,7 @@ class PostForm extends React.Component {
                         value={this.state.poster_name}
                         onChange={this.onPosterNameChange}
                         disabled={this.props.read_only}
+                        placeholder="Contact Name"
                     />
                 </Box>
                 <Box>
@@ -269,6 +271,7 @@ class PostForm extends React.Component {
                         value={this.state.phone_number}
                         onChange={this.onPhoneNumberChange}
                         disabled={this.props.read_only}
+                        placeholder="Phone Number"
                     />
                 </Box>
                 <Box>
@@ -278,6 +281,7 @@ class PostForm extends React.Component {
                         value={this.state.email}
                         onChange={this.onEmailChange}
                         disabled={this.props.read_only}
+                        placeholder="Email"
                     />
                 </Box>
                 <Box>
@@ -287,6 +291,7 @@ class PostForm extends React.Component {
                         value={this.state.post_description}
                         onChange={this.onDescriptionChange}
                         disabled={this.props.read_only}
+                        placeholder="Describe your post"
                         multiline
                     />
                 </Box>

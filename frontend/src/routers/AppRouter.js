@@ -11,13 +11,12 @@ import NotFoundPage from "../components/pages/NotFoundPage";
 import AddChannelPage from "../components/pages/AddChannelPage";
 import InterestsPage from "../components/pages/InterestsPage";
 import CommunitiesPage from "../components/pages/CommunitiesPage";
-import MyChannelDetail from "../components/pages/MyChannelDetail";
+import ViewChannelPage from "../components/pages/ViewChannelPage";
 import EditChannelPage from "../components/pages/EditChannelPage";
 import AddPostPage from "../components/pages/AddPostPage";
 import EditPostPage from "../components/pages/EditPostPage";
 import ViewPostPage from "../components/pages/ViewPostPage";
 import ViewPostEventsPage from "../components/pages/ViewPostEventsPage";
-import EditEventsPage from "../components/pages/EditEventsPage";
 import ViewEventPage from "../components/pages/ViewEventPage";
 import AddEventPage from "../components/pages/AddEventPage";
 import EditEventPage from "../components/pages/EditEventPage";
@@ -25,7 +24,6 @@ import AddEventIncentivePage from "../components/pages/AddEventIncentivePage";
 import EditEventIncentivePage from "../components/pages/EditEventIncentivePage";
 import AddIncentivePage from "../components/pages/AddIncentivePage";
 import EditIncentivePage from "../components/pages/EditIncentivePage";
-import ViewChannelPage from "../components/pages/ViewChannelPage";
 import SearchResultsPage from "../components/pages/SearchResultsPage";
 import DeletedContentPage from "../components/pages/DeletedContentPage";
 import FreeFoodPage from "../components/pages/FreeFoodPage";
@@ -56,7 +54,7 @@ class AppRouter extends React.Component {
                             <Switch>
                                 <Route path="/" component={DashboardPage} exact={true} />
                                 <PrivateRoute path="/myChannels/" component={MyChannelsPage} exact={true} />
-                                <PrivateRoute path="/myChannels/:id" component={MyChannelDetail} exact={true} />
+                                <PrivateRoute path="/channels/:id" component={ViewChannelPage} exact={true} />
                                 <PrivateRoute path="/myChannels/:id/addPost" component={AddPostPage} exact={true} />
                                 <PrivateRoute path="/myPosts/:id/edit" component={EditPostPage} exact={true} />
                                 <PrivateRoute path="/post/:id" component={ViewPostPage} exact={true} />
@@ -67,7 +65,6 @@ class AppRouter extends React.Component {
                                 <PrivateRoute path="/interests" component={InterestsPage} exact={true} />
                                 />
                                 <PrivateRoute path="/communities" component={CommunitiesPage} exact={true} />
-                                <PrivateRoute path="/myPosts/:id/events" component={EditEventsPage} exact={true} />
                                 <PrivateRoute path="/myPosts/:id/addEvent" component={AddEventPage} exact={true} />
                                 <PrivateRoute path="/channel/:id/" component={ViewChannelPage} exact={true} />
                                 <PrivateRoute

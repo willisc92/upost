@@ -9,12 +9,15 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import { HelpToolTip } from "../HelpTooltip";
+import CustomStepper from "../CustomStepper";
 
 export class MyChannelsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected: 0
+            selected: 0,
+            steps: [{ label: "Bulletin Boards", onClick: null }, { label: "?", onClick: null }],
+            activeStep: 0
         };
     }
 
@@ -37,7 +40,7 @@ export class MyChannelsPage extends React.Component {
             channels && (
                 <React.Fragment>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" color="primary" gutterBottom>
                                 {localStorage.getItem("first_name")} -
                                 <Typography variant="inherit" display="inline" color="textPrimary">
@@ -59,7 +62,7 @@ export class MyChannelsPage extends React.Component {
                                     />
                                 </Typography>
                             </Typography>
-
+                            <CustomStepper steps={this.state.steps} activestep={this.state.activestep} />
                             <Box marginTop={2}>
                                 <MyChannelFilterSelector />
                                 <Button
@@ -74,7 +77,7 @@ export class MyChannelsPage extends React.Component {
                         </Container>
                     </Box>
                     <Box paddingTop={2}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Box display="flex" flexWrap="wrap">
                                 {channels.length > 0 ? (
                                     channels.map((channel) => {
@@ -82,7 +85,7 @@ export class MyChannelsPage extends React.Component {
                                             <ChannelListItem
                                                 channel={channel}
                                                 key={channel.channel_id}
-                                                pathName={`/myChannels/${channel.channel_id}`}
+                                                pathName={`/channels/${channel.channel_id}`}
                                                 inHorizontalMenu={false}
                                             />
                                         );

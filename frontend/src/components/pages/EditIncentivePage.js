@@ -15,10 +15,16 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import CustomStepper from "../CustomStepper";
 
 class EditIncentivePage extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            steps: [],
+            activeStep: undefined
+        };
     }
 
     componentWillMount() {
@@ -32,9 +38,23 @@ class EditIncentivePage extends React.Component {
                     .startGetPost(post_id)
                     .then((post_res) => {
                         if (res.data.username !== post_res.data[0].user || !post_res.data[0].post_incentive) {
-                            this.props.history.push(`/myPosts/${post_id}/incentives`);
+                            this.props.history.push("/");
                         } else {
                             this.props.startGetIncentivePackage(post_res.data[0].post_incentive.incentive_package_id);
+
+                            this.setState(() => ({
+                                steps: [
+                                    { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                    {
+                                        label: `Bulletin Board`,
+                                        onClick: this.goToChannel
+                                    },
+                                    { label: `Post: ${this.props.post.post_title}`, onClick: this.moveToPost },
+                                    { label: "Edit Post", onClick: this.goBack },
+                                    { label: "Edit Incentive", onClick: null }
+                                ],
+                                activeStep: 4
+                            }));
                         }
                     })
                     .catch((err) => {
@@ -97,6 +117,19 @@ class EditIncentivePage extends React.Component {
             });
     };
 
+    moveToPost = () => {
+        this.props.history.push(`/post/${this.props.match.params.id}`);
+    };
+
+    goToChannel = () => {
+        const channel = this.props.post.channel;
+        this.props.history.push(`/channels/${channel}`);
+    };
+
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
     render() {
         const post_read_only = !!this.props.post && this.props.post.deleted_flag;
         const incentive_read_only = !!this.props.incentive && this.props.incentive.deleted_flag;
@@ -106,7 +139,7 @@ class EditIncentivePage extends React.Component {
             !!this.props.post && (
                 <Box>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
                                 Edit Incentive Package for Post:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
@@ -128,9 +161,12 @@ class EditIncentivePage extends React.Component {
                                         </Button>
                                     </React.Fragment>
                                 ) : (
-                                    <Button variant="contained" color="primary" onClick={this.deleteIncentive}>
-                                        Delete Incentive
-                                    </Button>
+                                    <React.Fragment>
+                                        <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
+                                        <Button variant="contained" color="primary" onClick={this.deleteIncentive}>
+                                            Delete Incentive
+                                        </Button>
+                                    </React.Fragment>
                                 )}
                             </Box>
                             <Button variant="contained" color="primary" onClick={this.goBack}>
@@ -138,13 +174,14 @@ class EditIncentivePage extends React.Component {
                             </Button>
                         </Container>
                     </Box>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <IncentiveForm
                             onSubmit={this.onSubmit}
                             post={this.props.match.params.id}
                             incentivePackage={this.props.incentive}
                             read_only={post_read_only || incentive_read_only}
                             nextStep="Save"
+                            fromPost={true}
                         />
                     </Container>
                 </Box>
