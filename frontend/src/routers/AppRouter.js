@@ -34,6 +34,7 @@ import PasswordResetPage from "../components/pages/PasswordResetPage";
 import MyAttendingPage from "../components/pages/MyAttendingPage";
 import MySubscriptionsPage from "../components/pages/MySubscriptionsPage";
 import Overlay from "../components/Overlay";
+import Box from "@material-ui/core/Box";
 
 import { setAuthToken } from "../utils/API";
 
@@ -50,7 +51,7 @@ class AppRouter extends React.Component {
             <Router history={history}>
                 <div>
                     <Overlay history={history}>
-                        <div className="contentBody">
+                        <Box bgcolor="secondary.light" marginTop="60px">
                             <Switch>
                                 <Route path="/" component={DashboardPage} exact={true} />
                                 <PrivateRoute path="/myChannels/" component={MyChannelsPage} exact={true} />
@@ -107,7 +108,7 @@ class AppRouter extends React.Component {
                                 <PublicRoute path="/password_reset/:token" component={PasswordResetPage} exact={true} />
                                 <Route component={NotFoundPage} />
                             </Switch>
-                        </div>
+                        </Box>
                     </Overlay>
                 </div>
             </Router>

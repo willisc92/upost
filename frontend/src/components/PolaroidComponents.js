@@ -27,7 +27,7 @@ export const useStyles = makeStyles((theme) => ({
 }));
 
 export const PolaroidHeader = ({ header }) => {
-    return <Typography variant="h5">{header}</Typography>;
+    return <Typography variant="h6">{header}</Typography>;
 };
 
 export const PolaroidSubHeader = ({ subheader }) => {
@@ -35,7 +35,7 @@ export const PolaroidSubHeader = ({ subheader }) => {
 };
 
 export const PolaroidBody = ({ body }) => {
-    return <Typography variant="body1">{body}</Typography>;
+    return <Typography variant="body2">{body}</Typography>;
 };
 
 export const PolaroidImage = ({ image }) => {

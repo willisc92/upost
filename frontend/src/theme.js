@@ -1,36 +1,42 @@
 import { createMuiTheme, responsiveFontSizes } from "@material-ui/core/styles";
 import grey from "@material-ui/core/colors/grey";
 
+const baseSize = 3.5;
+const reductionConst = 0.9;
+
 let theme = createMuiTheme({
     palette: {
         primary: {
             main: "#ee0000"
         },
         secondary: {
-            main: grey[300]
+            main: grey[50],
+            light: "white"
         }
     },
     typography: {
         fontSize: 20,
         fontFamilty: "Helvetica, Arial, sans-serif",
         h1: {
-            fontSize: 5.75
+            fontSize: baseSize,
+            fontWeight: 400
         },
         h2: {
-            fontSize: 4.75
+            fontSize: baseSize * reductionConst,
+            fontWeight: 400
         },
         h3: {
-            fontSize: 4
+            fontSize: baseSize * Math.pow(reductionConst, 2)
         },
         h4: {
-            fontSize: 3.25
+            fontSize: baseSize * Math.pow(reductionConst, 3)
         },
         h5: {
-            fontSize: 2.3
+            fontSize: baseSize * Math.pow(reductionConst, 4)
         },
         h6: {
-            fontSize: 1.8,
-            fontWeight: 400
+            fontSize: baseSize * Math.pow(reductionConst, 5),
+            fontWeight: 450
         },
         body1: {
             fontSize: 1.57
