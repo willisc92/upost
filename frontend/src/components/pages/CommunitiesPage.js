@@ -97,26 +97,28 @@ export class CommunitiesPage extends React.Component {
         return (
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Let's choose some communities you want to be part of:
                         </Typography>
-                        <Typography variant="body1">
+                        <Typography variant="body1" gutterBottom>
                             Please choose 1 or more communities. Let us help you show you what is relevant to you.
                         </Typography>
                     </Container>
                 </Box>
-                <Container fixed>
-                    {this.state.communities.map((community) => {
-                        return (
-                            <CommunityCard
-                                community={community}
-                                changeIsSelected={this.changeIsSelected}
-                                key={community.community_name}
-                            />
-                        );
-                    })}
-                    <div className="clearfix" />
+                <Container maxWidth="xl">
+                    <Box display="flex" flexWrap="wrap">
+                        {this.state.communities.map((community) => {
+                            return (
+                                <CommunityCard
+                                    community={community}
+                                    changeIsSelected={this.changeIsSelected}
+                                    key={community.community_name}
+                                />
+                            );
+                        })}
+                    </Box>
+                    <br />
                     <Button
                         color="primary"
                         variant="contained"

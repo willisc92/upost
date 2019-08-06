@@ -55,13 +55,9 @@ export const MyEventSummary = ({ event, pathName, selected, inHorizontalMenu, se
                             )}
                             {hasIncentive && (
                                 <PolaroidBody
-                                    body={`Incentive Type(s) ${event.event_incentive.incentive_type.join(", ")}`}
+                                    body={`Incentive Type(s): ${event.event_incentive.incentive_type.join(", ")}`}
                                 />
                             )}
-                            <PolaroidSubHeader subheader="Created:" />
-                            <PolaroidBody body={moment(event.creation_date).format("MMMM Do YYYY")} />
-                            <PolaroidSubHeader subheader="Updated:" />
-                            <PolaroidBody body={moment(event.last_updated).format("MMMM Do YYYY, h:mm a")} />
                             <PolaroidSubHeader subheader="Capacity:" />
                             <PolaroidBody body={`${event.capacity_status}/${event.capacity}`} />
                         </CardContent>

@@ -38,7 +38,7 @@ export class FreeFoodPage extends React.Component {
             events && (
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
                                 Ongoing/Future Free Food Events in Your Communities
                             </Typography>
@@ -46,7 +46,7 @@ export class FreeFoodPage extends React.Component {
                         </Container>
                     </Box>
 
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Box display="flex" flexWrap="flex" py={2}>
                             {events.length > 0 ? (
                                 events.map((event) => {

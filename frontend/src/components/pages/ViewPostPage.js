@@ -137,12 +137,25 @@ class ViewPostPage extends React.Component {
             post && (
                 <React.Fragment>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
-                            <Typography variant="h1">Post </Typography>
+                        <Container maxWidth="xl">
+                            <Typography variant="h1">
+                                Post{" "}
+                                {!!this.props.location.state && !!this.props.location.state.fromRandom && (
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={() => {
+                                            this.props.history.push("/inspire_me");
+                                        }}
+                                    >
+                                        Inspire Me Again!
+                                    </Button>
+                                )}
+                            </Typography>
                             <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                         </Container>
                     </Box>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Box display="flex">
                             {!!this.props.post && (
                                 <div className="content-container-twothirds">

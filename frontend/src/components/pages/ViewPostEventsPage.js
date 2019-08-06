@@ -131,7 +131,7 @@ class ViewPostEventsPage extends React.Component {
         return (
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         {!!this.props.post && (
                             <React.Fragment>
                                 <Typography variant="h1" display="inline">
@@ -167,7 +167,7 @@ class ViewPostEventsPage extends React.Component {
                     </Container>
                 </Box>
                 <Box paddingTop={2}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Box display="flex" flexWrap="wrap">
                             {!!events &&
                                 events.map((event) => {

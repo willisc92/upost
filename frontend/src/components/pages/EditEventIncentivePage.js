@@ -143,7 +143,7 @@ class EditEventIncentivePage extends React.Component {
             !!incentive && (
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
                                 Edit the Incentive Package to Event:{" "}
                                 <Typography variant="h1" display="inline" color="primary" component="span">
@@ -180,7 +180,7 @@ class EditEventIncentivePage extends React.Component {
                             </Button>
                         </Container>
                     </Box>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <IncentiveForm
                             onSubmit={this.onSubmit}
                             nextStep="Save"

@@ -85,18 +85,14 @@ class AccountActivationPage extends React.Component {
         return (
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         {this.state.inProgress ? (
                             <Box paddingBottom={2}>
                                 {" "}
                                 <Typography variant="h1" gutterBottom>
                                     {" "}
                                     Your{" "}
-                                    <Typography
-                                        variant="inherit"
-                                        display="inline"
-                                        color="primary"
-                                    >
+                                    <Typography variant="inherit" display="inline" color="primary">
                                         UPost
                                     </Typography>{" "}
                                     account is currently being activated!{" "}
@@ -104,25 +100,14 @@ class AccountActivationPage extends React.Component {
                             </Box>
                         ) : this.state.isValid ? (
                             <Box paddingBottom={2}>
-                                <Typography variant="h3">
-                                    Thank you for your email confirmation.
-                                </Typography>
+                                <Typography variant="h3">Thank you for your email confirmation.</Typography>
                                 <Typography variant="h6" gutterBottom>
                                     {" "}
                                     Please{" "}
-                                    <Typography
-                                        variant="inherit"
-                                        display="inline"
-                                        color="primary"
-                                    >
-                                        <ButtonBase
-                                            onClick={this.handleLoginModalOpen}
-                                        >
-                                            LOGIN{" "}
-                                        </ButtonBase>
+                                    <Typography variant="inherit" display="inline" color="primary">
+                                        <ButtonBase onClick={this.handleLoginModalOpen}>LOGIN </ButtonBase>
                                     </Typography>{" "}
-                                    and select your interests and communities
-                                    you want to be part of to complete your
+                                    and select your interests and communities you want to be part of to complete your
                                     registration!{" "}
                                 </Typography>
                             </Box>

@@ -175,7 +175,7 @@ class EditEventPage extends React.Component {
             !!event && (
                 <div>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
                                 Edit Event:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
@@ -228,13 +228,14 @@ class EditEventPage extends React.Component {
                             </Box>
                         </Container>
                     </Box>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <EventForm
                             read_only={read_only}
                             event={event}
                             onSubmit={this.onSubmit}
                             nextStep={"Save and Return"}
                             post={this.props.match.params.id}
+                            showAttendees={true}
                         />
                     </Container>
                     <MessageModal

@@ -139,7 +139,7 @@ class EditIncentivePage extends React.Component {
             !!this.props.post && (
                 <Box>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
                                 Edit Incentive Package for Post:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
@@ -174,13 +174,14 @@ class EditIncentivePage extends React.Component {
                             </Button>
                         </Container>
                     </Box>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <IncentiveForm
                             onSubmit={this.onSubmit}
                             post={this.props.match.params.id}
                             incentivePackage={this.props.incentive}
                             read_only={post_read_only || incentive_read_only}
                             nextStep="Save"
+                            fromPost={true}
                         />
                     </Container>
                 </Box>

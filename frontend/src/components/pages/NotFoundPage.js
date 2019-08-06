@@ -6,7 +6,7 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 
 const NotFoundPage = (props) => (
     <Box bgcolor="secondary.main" py={3}>
-        <Container fixed>
+        <Container maxWidth="xl">
             <Typography variant="h1" color="error">
                 404 - Page Not Found -{" "}
                 <Typography variant="inherit">

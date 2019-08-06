@@ -87,7 +87,7 @@ class EditEventsPage extends React.Component {
             !!events && (
                 <Box>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
                                 Events for:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
@@ -131,7 +131,7 @@ class EditEventsPage extends React.Component {
                         </Container>
                     </Box>
                     <Box paddingTop={2}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Box display="flex" flexWrap="wrap">
                                 {events.length > 0 ? (
                                     events.map((event) => {

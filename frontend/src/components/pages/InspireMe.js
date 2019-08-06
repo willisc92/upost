@@ -11,7 +11,7 @@ export class InspireMe extends React.Component {
             .getRandomNonInterestPost()
             .then((res) => {
                 const post_id = res.data[0].post_id;
-                this.props.history.push(`/post/${post_id}`);
+                this.props.history.push({ pathname: `/post/${post_id}`, state: { fromRandom: true } });
             })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
@@ -22,7 +22,7 @@ export class InspireMe extends React.Component {
     render() {
         return (
             <Box bgcolor="secondary.main" py={3}>
-                <Container fixed>
+                <Container maxWidth="xl">
                     <Typography variant="h1">Getting a Post for you...</Typography>
                 </Container>
             </Box>

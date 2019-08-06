@@ -40,7 +40,7 @@ export class MyChannelsPage extends React.Component {
             channels && (
                 <React.Fragment>
                     <Box bgcolor="secondary.main" py={3}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Typography variant="h1" color="primary" gutterBottom>
                                 {localStorage.getItem("first_name")} -
                                 <Typography variant="inherit" display="inline" color="textPrimary">
@@ -77,7 +77,7 @@ export class MyChannelsPage extends React.Component {
                         </Container>
                     </Box>
                     <Box paddingTop={2}>
-                        <Container fixed>
+                        <Container maxWidth="xl">
                             <Box display="flex" flexWrap="wrap">
                                 {channels.length > 0 ? (
                                     channels.map((channel) => {

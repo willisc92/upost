@@ -115,27 +115,29 @@ export class InterestsPage extends React.Component {
         return (
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
                             Let's get to know you
                         </Typography>
-                        <Typography variant="body1">
+                        <Typography variant="body1" gutterBottom>
                             Please choose 1 or more Interests. When we know what you are passionate about we can find
                             better events for you.
                         </Typography>
                     </Container>
                 </Box>
-                <Container fixed>
-                    {this.state.interests.map((interest) => {
-                        return (
-                            <Interest
-                                interest={interest}
-                                changeIsSelected={this.changeIsSelected}
-                                key={interest.interest_tag}
-                            />
-                        );
-                    })}
-                    <div className="clearfix" />
+                <Container maxWidth="xl">
+                    <Box display="flex" flexWrap="wrap">
+                        {this.state.interests.map((interest) => {
+                            return (
+                                <Interest
+                                    interest={interest}
+                                    changeIsSelected={this.changeIsSelected}
+                                    key={interest.interest_tag}
+                                />
+                            );
+                        })}
+                    </Box>
+                    <br />
                     <Button
                         color="primary"
                         variant="contained"

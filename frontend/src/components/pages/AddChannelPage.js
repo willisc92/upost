@@ -29,7 +29,7 @@ export const AddChannelPage = (props) => {
     return (
         <React.Fragment>
             <Box bgcolor="secondary.main" py={3}>
-                <Container fixed>
+                <Container maxWidth="xl">
                     <Typography variant="h1" color="primary" gutterBottom>
                         Create a Bulletin Board
                     </Typography>
@@ -39,7 +39,7 @@ export const AddChannelPage = (props) => {
                     </Button>
                 </Container>
             </Box>
-            <Container fixed>
+            <Container maxWidth="xl">
                 <Box py={3}>
                     <ChannelForm onSubmit={onSubmit} />
                 </Box>

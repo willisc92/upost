@@ -493,7 +493,7 @@ class AddEventPage extends React.Component {
         return (
             <div>
                 <Box bgcolor="secondary.main" py={3}>
-                    <Container fixed>
+                    <Container maxWidth="xl">
                         {this.state.step === "Event" && (
                             <Typography variant="h1" gutterBottom>
                                 Add an Event to Post:{" "}
@@ -541,7 +541,7 @@ class AddEventPage extends React.Component {
                         )}
                     </Container>
                 </Box>
-                <Container fixed>
+                <Container maxWidth="xl">
                     <RecurringModal isOpen={this.state.recurringOpen} onSubmit={this.recurringSubmit} />
                     <MessageModal
                         isOpen={this.state.messageOpen}
@@ -612,6 +612,7 @@ class AddEventPage extends React.Component {
                             description={!!this.props.post ? this.props.post.post_description : ""}
                             onSubmit={this.onSubmit}
                             nextStep="Continue"
+                            showAttendees={false}
                         />
                     )}
                     {this.state.step === "Incentive" && (
