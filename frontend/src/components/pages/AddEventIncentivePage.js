@@ -9,10 +9,16 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import CustomStepper from "../CustomStepper";
 
 class AddEventIncentivePage extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            steps: [],
+            activeStep: undefined
+        };
     }
 
     componentWillMount() {
@@ -25,6 +31,25 @@ class AddEventIncentivePage extends React.Component {
                     .then((event_res) => {
                         if (res.data.username !== event_res.data.event_owner) {
                             this.props.history.push(`/myChannels`);
+                        } else {
+                            this.setState(() => ({
+                                steps: [
+                                    { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                    {
+                                        label: `Bulletin Board`,
+                                        onClick: null
+                                    },
+                                    { label: `Post`, onClick: this.goToPost },
+                                    { label: "Events", onClick: this.moveToPostEventsPage },
+                                    {
+                                        label: `Event: ${this.props.event.event_title}`,
+                                        onClick: this.moveToEventPage
+                                    },
+                                    { label: `Edit Event`, onClick: this.goBack },
+                                    { label: `Add Incentive`, onClick: null }
+                                ],
+                                activeStep: 6
+                            }));
                         }
                     })
                     .catch((err) => {
@@ -52,6 +77,23 @@ class AddEventIncentivePage extends React.Component {
         this.props.history.push(`/myPosts/${post_id}/events/${event_id}/edit`);
     };
 
+    goToPost = () => {
+        this.props.history.push(`/myPosts/${this.props.event.post}`);
+    };
+
+    moveToPostEventsPage = () => {
+        this.props.history.push(`/post/${this.props.event.post}`);
+    };
+
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
+    moveToEventPage = () => {
+        const event_id = this.props.match.params.id;
+        this.props.history.push(`/event/${event_id}`);
+    };
+
     goToIncentive = () => {
         const event_id = this.props.match.params.id;
         this.props.history.push(`/myEvents/${event_id}/editIncentive`);
@@ -72,7 +114,7 @@ class AddEventIncentivePage extends React.Component {
                                     {this.props.event && this.props.event.event_title}
                                 </Typography>
                             </Typography>
-
+                            <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                             {existing_incentive ? (
                                 <Box paddingBottom={2}>
                                     <Typography variant="h2" color="error" gutterBottom>

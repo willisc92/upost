@@ -22,6 +22,7 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import moment from "moment";
 import { getCurrentUser } from "../../actions/auth";
+import CustomStepper from "../CustomStepper";
 
 class ViewEventPage extends React.Component {
     _isMounted = false;
@@ -32,7 +33,9 @@ class ViewEventPage extends React.Component {
         this.state = {
             openMessageModal: false,
             error: "",
-            isOwner: false
+            isOwner: false,
+            steps: [],
+            activeStep: undefined
         };
     }
 
@@ -56,6 +59,7 @@ class ViewEventPage extends React.Component {
                 this.getPostFromAPI(post_id);
             } else {
                 this.checkChannel();
+                this.checkEventOwnerAgainstCurrentUser(this.props.event);
             }
         } else {
             // get post from API
@@ -72,6 +76,7 @@ class ViewEventPage extends React.Component {
             })
             .then(() => {
                 this.checkChannel();
+                this.checkEventOwnerAgainstCurrentUser(this.props.event);
             });
     };
 
@@ -87,15 +92,57 @@ class ViewEventPage extends React.Component {
         }
     };
 
+    addIncentive = () => {
+        this.props.history.push(`/myEvents/${this.props.event.event_id}/addIncentive`);
+    };
+
     checkEventOwnerAgainstCurrentUser = (event_obj) => {
         getCurrentUser()
             .then((user_res) => {
                 const isOwner = user_res.data.username === event_obj.event_owner;
 
                 if (this._isMounted) {
-                    this.setState(() => ({
-                        isOwner
-                    }));
+                    if (isOwner) {
+                        if (!!event_obj.event_incentive) {
+                            this.setState(() => ({
+                                isOwner,
+                                steps: [
+                                    { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                    {
+                                        label: `Bulletin Board`,
+                                        onClick: this.goToChannel
+                                    },
+                                    { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                                    { label: "Events", onClick: this.moveToPostEventsPage },
+                                    { label: `Event: ${this.props.event.event_title}`, onClick: null },
+                                    { label: "Edit Event", onClick: this.editEvent },
+                                    { label: "Edit Incentive", onClick: this.editIncentive }
+                                ],
+                                activeStep: 4
+                            }));
+                        } else {
+                            this.setState(() => ({
+                                isOwner,
+                                steps: [
+                                    { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                    {
+                                        label: `Bulletin Board`,
+                                        onClick: this.goToChannel
+                                    },
+                                    { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                                    { label: "Events", onClick: this.moveToPostEventsPage },
+                                    { label: `Event: ${this.props.event.event_title}`, onClick: null },
+                                    { label: "Edit Event", onClick: this.editEvent },
+                                    { label: "Add Incentive", onClick: this.addIncentive }
+                                ],
+                                activeStep: 4
+                            }));
+                        }
+                    } else {
+                        this.setState(() => ({
+                            isOwner
+                        }));
+                    }
                 }
 
                 if (!isOwner) {
@@ -114,14 +161,12 @@ class ViewEventPage extends React.Component {
 
         // check to see if event is provided
         if (!!this.props.event && this.props.event.event_id === event_id) {
-            // pass
-            this.checkEventOwnerAgainstCurrentUser(this.props.event);
+            this.checkPost(this.props.event.post, event_id);
         } else {
             // get the event from API
             this.props
                 .startSetEvent(event_id)
                 .then((res) => {
-                    this.checkEventOwnerAgainstCurrentUser(res.data);
                     this.checkPost(this.props.event.post, event_id);
                 })
                 .catch((error) => {
@@ -200,6 +245,28 @@ class ViewEventPage extends React.Component {
         this.props.history.push(`/myPosts/${post_id}/events/${event_id}/edit`);
     };
 
+    editIncentive = () => {
+        const event_id = this.props.event.event_id;
+        this.props.history.push(`/myEvents/${event_id}/editIncentive`);
+    };
+
+    goToChannel = () => {
+        const channel = this.props.post.channel;
+        this.props.history.push(`/channels/${channel}`);
+    };
+
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
+    returnToPost = () => {
+        this.props.history.push(`/post/${this.props.post.post_id}`);
+    };
+
+    moveToPostEventsPage = () => {
+        this.props.history.push(`/post-events/${this.props.post.post_id}`);
+    };
+
     render() {
         const registered = !!this.props.event
             ? !!this.props.attendance
@@ -211,6 +278,7 @@ class ViewEventPage extends React.Component {
                 <Box bgcolor="secondary.main" py={3}>
                     <Container fixed>
                         <Typography variant="h1">Event</Typography>
+                        <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                     </Container>
                 </Box>
                 <Container fixed>
@@ -318,7 +386,9 @@ class ViewEventPage extends React.Component {
                                         }}
                                     >
                                         <Box paddingTop={2}>
-                                            <Typography variant="h4">{this.props.channel.channel_name}</Typography>
+                                            <Typography color="primary" variant="h4">
+                                                {this.props.channel.channel_name}
+                                            </Typography>
                                         </Box>
                                     </Link>
                                     {!!this.props.subscriptions && (

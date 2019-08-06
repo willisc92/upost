@@ -9,12 +9,15 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import { HelpToolTip } from "../HelpTooltip";
+import CustomStepper from "../CustomStepper";
 
 export class MyChannelsPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            selected: 0
+            selected: 0,
+            steps: [{ label: "Bulletin Boards", onClick: null }, { label: "?", onClick: null }],
+            activeStep: 0
         };
     }
 
@@ -59,7 +62,7 @@ export class MyChannelsPage extends React.Component {
                                     />
                                 </Typography>
                             </Typography>
-
+                            <CustomStepper steps={this.state.steps} activestep={this.state.activestep} />
                             <Box marginTop={2}>
                                 <MyChannelFilterSelector />
                                 <Button

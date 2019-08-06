@@ -15,10 +15,16 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import CustomStepper from "../CustomStepper";
 
 class EditEventIncentivePage extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            steps: [],
+            activeStep: undefined
+        };
     }
 
     componentDidMount() {
@@ -37,6 +43,21 @@ class EditEventIncentivePage extends React.Component {
                             .startGetIncentivePackage(event_res.data.event_incentive.incentive_package_id)
                             .then(() => {})
                             .catch((err) => console.log(JSON.stringify(err, null, 2)));
+                        this.setState(() => ({
+                            steps: [
+                                { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                {
+                                    label: `Bulletin Board`,
+                                    onClick: null
+                                },
+                                { label: `Post`, onClick: this.moveToPostPage },
+                                { label: "Events", onClick: this.moveToPostEventsPage },
+                                { label: `Event: ${this.props.event.event_title}`, onClick: this.moveToEventPage },
+                                { label: `Edit Event`, onClick: this.goBack },
+                                { label: `Edit Incentive`, onClick: null }
+                            ],
+                            activeStep: 6
+                        }));
                     }
                 })
                 .catch((err) => {
@@ -62,6 +83,23 @@ class EditEventIncentivePage extends React.Component {
         const event_id = this.props.match.params.id;
         const post_id = this.props.event.post;
         this.props.history.push(`/myPosts/${post_id}/events/${event_id}/edit`);
+    };
+
+    moveToEventPage = () => {
+        const event_id = this.props.match.params.id;
+        this.props.history.push(`/event/${event_id}`);
+    };
+
+    moveToPostEventsPage = () => {
+        this.props.history.push(`/post-events/${this.props.event.post}`);
+    };
+
+    moveToPostPage = () => {
+        this.props.history.push(`/post/${this.props.event.post}`);
+    };
+
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
     };
 
     deleteIncentive = () => {
@@ -108,10 +146,11 @@ class EditEventIncentivePage extends React.Component {
                         <Container fixed>
                             <Typography variant="h1" gutterBottom>
                                 Edit the Incentive Package to Event:{" "}
-                                <Typography variant="h1" display="inline" color="primary">
+                                <Typography variant="h1" display="inline" color="primary" component="span">
                                     {this.props.event && this.props.event.event_title}
                                 </Typography>
                             </Typography>
+                            <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                             <Box paddingBottom={2}>
                                 {read_only_event ? (
                                     <Typography variant="h2" color="error" gutterBottom>

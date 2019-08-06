@@ -9,13 +9,16 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import CustomStepper from "../CustomStepper";
 
 class EditEventPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             step: "Event",
-            openMessageModal: false
+            openMessageModal: false,
+            steps: [],
+            activeStep: undefined
         };
     }
 
@@ -29,6 +32,46 @@ class EditEventPage extends React.Component {
                     .then((event_res) => {
                         if (event_res.data.event_owner !== res.data.username) {
                             this.props.history.push(`/myChannels`);
+                        } else {
+                            if (!!this.props.event.event_incentive) {
+                                this.setState(() => ({
+                                    steps: [
+                                        { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                        {
+                                            label: `Bulletin Board`,
+                                            onClick: null
+                                        },
+                                        { label: `Post`, onClick: this.goToPost },
+                                        { label: "Events", onClick: this.moveToPostEventsPage },
+                                        {
+                                            label: `Event: ${this.props.event.event_title}`,
+                                            onClick: this.moveToEventPage
+                                        },
+                                        { label: `Edit Event`, onClick: null },
+                                        { label: `Edit Incentive`, onClick: this.editIncentive }
+                                    ],
+                                    activeStep: 5
+                                }));
+                            } else {
+                                this.setState(() => ({
+                                    steps: [
+                                        { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                        {
+                                            label: `Bulletin Board`,
+                                            onClick: null
+                                        },
+                                        { label: `Post`, onClick: this.goToPost },
+                                        { label: "Events", onClick: this.moveToPostEventsPage },
+                                        {
+                                            label: `Event: ${this.props.event.event_title}`,
+                                            onClick: this.moveToEventPage
+                                        },
+                                        { label: `Edit Event`, onClick: null },
+                                        { label: `Add Incentive`, onClick: this.addIncentive }
+                                    ],
+                                    activeStep: 5
+                                }));
+                            }
                         }
                     })
                     .catch((err) => {
@@ -71,6 +114,20 @@ class EditEventPage extends React.Component {
     goToPost = () => {
         const post_id = this.props.match.params.id;
         this.props.history.push(`/myPosts/${post_id}/edit`);
+    };
+
+    moveToPostEventsPage = () => {
+        const post_id = this.props.match.params.id;
+        this.props.history.push(`/myPost/${post_id}`);
+    };
+
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
+    moveToEventPage = () => {
+        const event_id = this.props.match.params.event_id;
+        this.props.history.push(`/event/${event_id}`);
     };
 
     editIncentive = () => {
@@ -125,6 +182,7 @@ class EditEventPage extends React.Component {
                                     {event && event.event_title}
                                 </Typography>
                             </Typography>
+                            <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                             {post_read_only ? (
                                 <Typography variant="h2" color="error" gutterBottom>
                                     The post containing this event is deleted. Restore it before editing this event.

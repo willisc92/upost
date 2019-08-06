@@ -1,6 +1,10 @@
 import React from "react";
 import PasswordForm from "../forms/PasswordForm";
 import { passwordResetConfirm } from "../../actions/auth";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 class PasswordResetPage extends React.Component {
     constructor(props) {
@@ -45,40 +49,46 @@ class PasswordResetPage extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="page-header">
-                    <div className="content-container">
+            <React.Fragment>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
                         {this.state.inProgress ? (
-                            <h1 className="page-header__title">
-                                Enter a new password for your <span>UPost</span> Account.
-                            </h1>
+                            <Typography variant="h1" gutterBottom>
+                                Enter a new password for your{" "}
+                                <Typography variant="h1" component="span" color="primary">
+                                    UPost
+                                </Typography>{" "}
+                                Account.
+                            </Typography>
                         ) : this.state.isValid ? (
-                            <h1 className="page-header__title">
+                            <Typography variant="h1" gutterBottom>
                                 Your password has now been reset. You can now proceed to login.
-                            </h1>
+                            </Typography>
                         ) : (
-                            <h1 className="page-header__title">An invalid request was made.</h1>
+                            <Typography variant="h1" gutterBottom>
+                                An invalid request was made.
+                            </Typography>
                         )}
-                    </div>
-                </div>
-                <div className="content-container">
+                    </Container>
+                </Box>
+                <Container fixed>
                     {this.state.inProgress ? (
-                        <div>
+                        <React.Fragment>
                             <PasswordForm
                                 onSubmit={this.passwordFormSubmit}
                                 error={this.state.error}
                                 minPasswordLength={this.state.minPasswordLength}
                                 id="password"
                             />
-                            <button className="button" type="submit" form="password">
+                            <Button color="primary" variant="contained" type="submit" form="password">
                                 Submit
-                            </button>
-                        </div>
+                            </Button>
+                        </React.Fragment>
                     ) : (
                         <br />
                     )}
-                </div>
-            </div>
+                </Container>
+            </React.Fragment>
         );
     }
 }

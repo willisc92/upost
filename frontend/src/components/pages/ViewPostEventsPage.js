@@ -10,6 +10,7 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import { getCurrentUser } from "../../actions/auth";
 import Button from "@material-ui/core/Button";
+import CustomStepper from "../CustomStepper";
 
 class ViewPostEventsPage extends React.Component {
     _isMounted = false;
@@ -19,7 +20,9 @@ class ViewPostEventsPage extends React.Component {
 
         this.state = {
             selected: 0,
-            isOwner: false
+            isOwner: false,
+            steps: [],
+            activeStep: undefined
         };
     }
 
@@ -29,9 +32,26 @@ class ViewPostEventsPage extends React.Component {
                 const isOwner = user_res.data.username === post_obj.user;
 
                 if (this._isMounted) {
-                    this.setState(() => ({
-                        isOwner
-                    }));
+                    if (isOwner) {
+                        this.setState(() => ({
+                            isOwner,
+                            steps: [
+                                { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                {
+                                    label: `Bulletin Board`,
+                                    onClick: this.goToChannel
+                                },
+                                { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                                { label: "Events", onClick: null },
+                                { label: "?", onClick: null }
+                            ],
+                            activeStep: 3
+                        }));
+                    } else {
+                        this.setState(() => ({
+                            isOwner
+                        }));
+                    }
                 }
 
                 if (post_obj.deleted_flag) {
@@ -97,6 +117,15 @@ class ViewPostEventsPage extends React.Component {
         this.props.history.push(`/myPosts/${this.props.match.params.id}/addEvent`);
     };
 
+    goToChannel = () => {
+        const channel = this.props.post.channel;
+        this.props.history.push(`/channels/${channel}`);
+    };
+
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
     render() {
         const events = !!this.props.events && getVisibleEvents(this.props.events, this.props.filters, false);
         return (
@@ -114,6 +143,7 @@ class ViewPostEventsPage extends React.Component {
                                 </Typography>
                             </React.Fragment>
                         )}
+                        <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                         <Box marginTop={2}>
                             <EventFilterSelector />
                         </Box>

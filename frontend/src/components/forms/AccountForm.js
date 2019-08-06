@@ -45,12 +45,7 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.username &&
                     this.props.auth.error.username.map((error) => {
                         return (
-                            <Typography
-                                color="error"
-                                variant="body1"
-                                key={error}
-                                gutterBottom
-                            >
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
                             </Typography>
                         );
@@ -70,12 +65,7 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.email &&
                     this.props.auth.error.email.map((error) => {
                         return (
-                            <Typography
-                                color="error"
-                                variant="body1"
-                                key={error}
-                                gutterBottom
-                            >
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
                             </Typography>
                         );
@@ -85,7 +75,7 @@ export class AccountForm extends React.Component {
                         required
                         name="email"
                         required
-                        label="Email*"
+                        label="Email"
                         fullWidth={true}
                         color="primary"
                         variant="outlined"
@@ -95,12 +85,7 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.first_name &&
                     this.props.auth.error.first_name.map((error) => {
                         return (
-                            <Typography
-                                color="error"
-                                variant="body1"
-                                key={error}
-                                gutterBottom
-                            >
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
                             </Typography>
                         );
@@ -128,12 +113,7 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.last_name &&
                     this.props.auth.error.last_name.map((error) => {
                         return (
-                            <Typography
-                                color="error"
-                                variant="body1"
-                                key={error}
-                                gutterBottom
-                            >
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
                             </Typography>
                         );
@@ -152,12 +132,7 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.birth_date &&
                     this.props.auth.error.birth_date.map((error) => {
                         return (
-                            <Typography
-                                color="error"
-                                variant="body1"
-                                key={error}
-                                gutterBottom
-                            >
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
                             </Typography>
                         );
@@ -177,12 +152,7 @@ export class AccountForm extends React.Component {
                     !!this.props.auth.error.password &&
                     this.props.auth.error.password.map((error) => {
                         return (
-                            <Typography
-                                color="error"
-                                variant="body1"
-                                key={error}
-                                gutterBottom
-                            >
+                            <Typography color="error" variant="body1" key={error} gutterBottom>
                                 {error}
                             </Typography>
                         );
@@ -191,9 +161,7 @@ export class AccountForm extends React.Component {
                     <TextField
                         required
                         type="password"
-                        label={`Password (At least ${
-                            this.props.minPasswordLength
-                        }) characters)`}
+                        label={`Password (At least ${this.props.minPasswordLength} characters)`}
                         fullWidth={true}
                         color="primary"
                         variant="outlined"

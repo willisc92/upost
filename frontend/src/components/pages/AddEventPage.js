@@ -40,7 +40,9 @@ class AddEventPage extends React.Component {
             rrule_event_ends: null,
             rrule_incentive_starts: null,
             rrule_incentive_ends: null,
-            error: ""
+            error: "",
+            steps: [],
+            activeStep: undefined
         };
     }
 
@@ -54,6 +56,21 @@ class AddEventPage extends React.Component {
                     .then((post_res) => {
                         if (res.data.username !== post_res.data[0].user) {
                             this.props.history.push(`/myChannels`);
+                        } else {
+                            this.setState(() => ({
+                                steps: [
+                                    { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                                    {
+                                        label: `Bulletin Board`,
+                                        onClick: this.goToChannel
+                                    },
+                                    { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                                    { label: "Events", onClick: this.goBack },
+                                    { label: "Add Event", onClick: this.submitFormAndSwitch },
+                                    { label: "Add Incentive (Optional)", onClick: this.submitFormAndSwitch }
+                                ],
+                                activeStep: 4
+                            }));
                         }
                     })
                     .catch((err) => {
@@ -259,6 +276,16 @@ class AddEventPage extends React.Component {
         this.submitButtonRef.click();
     };
 
+    submitFormAndSwitch = () => {
+        const e = new Event("submit", { cancelable: true });
+
+        if (this.state.step === "Event") {
+            document.getElementById("Event").dispatchEvent(e);
+        } else {
+            document.getElementById("Incentive").dispatchEvent(e);
+        }
+    };
+
     mapRRulesToText = () => {
         let rrule_event_string = null;
         let rrule_incentive_string = null;
@@ -362,10 +389,11 @@ class AddEventPage extends React.Component {
             this.generateEventRule(this.state.rrule_payload);
 
             if (this.state.finished === false) {
-                this.setState(() => ({
+                this.setState((prevState) => ({
                     messageOpen: true,
                     message: "Event Draft Saved",
-                    step: "Incentive"
+                    step: "Incentive",
+                    activeStep: prevState.activeStep + 1
                 }));
             }
         } else if (this.state.step === "Incentive") {
@@ -375,10 +403,11 @@ class AddEventPage extends React.Component {
             this.generateIncentiveRule(this.state.rrule_payload);
 
             if (this.state.finished === false) {
-                this.setState(() => ({
+                this.setState((prevState) => ({
                     messageOpen: true,
                     message: "Incentive Draft Saved",
-                    step: "Event"
+                    step: "Event",
+                    activeStep: prevState.activeStep - 1
                 }));
             }
         }
@@ -445,6 +474,19 @@ class AddEventPage extends React.Component {
         }));
     };
 
+    goToChannel = () => {
+        const channel = this.props.post.channel;
+        this.props.history.push(`/channels/${channel}`);
+    };
+
+    moveToBulletinBoards = () => {
+        this.props.history.push("/myChannels");
+    };
+
+    returnToPost = () => {
+        this.props.history.push(`/post/${this.props.post.post_id}`);
+    };
+
     render() {
         const read_only = !!this.props.post && this.props.post.deleted_flag;
 
@@ -460,6 +502,7 @@ class AddEventPage extends React.Component {
                                 </Typography>
                             </Typography>
                         )}
+                        <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                         {this.state.step === "Incentive" && (
                             <Typography variant="h1" gutterBottom color="primary">
                                 (Optional){" "}

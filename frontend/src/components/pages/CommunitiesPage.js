@@ -1,13 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import CommunityCard from "../CommunityCard";
-import {
-    getMyCommunities,
-    startEditUserCommunities,
-    getAllCommunities
-} from "../../actions/communities";
+import { getMyCommunities, startEditUserCommunities, getAllCommunities } from "../../actions/communities";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
 
 export class CommunitiesPage extends React.Component {
     _isMounted = false;
@@ -21,19 +19,13 @@ export class CommunitiesPage extends React.Component {
     }
 
     markSelectedCommunities = () => {
-        let communitiesWithSelected = this.props.communities.map(
-            (community) => {
-                community.isSelected = false;
-                return community;
-            }
-        );
+        let communitiesWithSelected = this.props.communities.map((community) => {
+            community.isSelected = false;
+            return community;
+        });
 
         for (let i = 0; i < communitiesWithSelected.length; i++) {
-            if (
-                this.props.userCommunities.includes(
-                    communitiesWithSelected[i].community_name
-                )
-            ) {
+            if (this.props.userCommunities.includes(communitiesWithSelected[i].community_name)) {
                 communitiesWithSelected[i].isSelected = true;
             }
         }
@@ -97,29 +89,24 @@ export class CommunitiesPage extends React.Component {
                 this.props.history.push("/");
             })
             .catch((error) => {
-                console.log(
-                    "An error has occured with updating communities",
-                    error
-                );
+                console.log("An error has occured with updating communities", error);
             });
     };
 
     render() {
         return (
-            <div>
-                <div className="page-header">
-                    <div className="content-container">
-                        <Typography variant="h1">
-                            Let's choose some communities you want to be part
-                            of:
+            <React.Fragment>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container fixed>
+                        <Typography variant="h1" gutterBottom>
+                            Let's choose some communities you want to be part of:
                         </Typography>
                         <Typography variant="body1">
-                            Please choose 1 or more communities. Let us help you
-                            show you what is relevant to you.
+                            Please choose 1 or more communities. Let us help you show you what is relevant to you.
                         </Typography>
-                    </div>
-                </div>
-                <div className="content-container">
+                    </Container>
+                </Box>
+                <Container fixed>
                     {this.state.communities.map((community) => {
                         return (
                             <CommunityCard
@@ -138,8 +125,8 @@ export class CommunitiesPage extends React.Component {
                     >
                         Submit
                     </Button>
-                </div>
-            </div>
+                </Container>
+            </React.Fragment>
         );
     }
 }
@@ -155,8 +142,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getMyCommunities: () => dispatch(getMyCommunities()),
         getAllCommunities: () => dispatch(getAllCommunities()),
-        startEditUserCommunities: (userCommunities) =>
-            dispatch(startEditUserCommunities(userCommunities))
+        startEditUserCommunities: (userCommunities) => dispatch(startEditUserCommunities(userCommunities))
     };
 };
 
