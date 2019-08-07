@@ -12,6 +12,8 @@ import Box from "@material-ui/core/Box";
 import { getCurrentUser } from "../../actions/auth";
 import moment from "moment";
 import CustomStepper from "../CustomStepper";
+import { ShareGroup } from "../Share";
+import { baseURL } from "../../utils/baseURL";
 
 class ViewPostPage extends React.Component {
     _isMounted = false;
@@ -22,7 +24,8 @@ class ViewPostPage extends React.Component {
         this.state = {
             isOwner: false,
             steps: [],
-            activeStep: undefined
+            activeStep: undefined,
+            url: baseURL.concat(this.props.location.pathname)
         };
     }
 
@@ -115,7 +118,7 @@ class ViewPostPage extends React.Component {
         this.props
             .restorePost(id)
             .then(() => {
-                this.props.history.push(`/myPosts/${id}/edit`);
+                this.props.history.push(`/post/${id}`);
             })
             .catch((err) => {
                 console.log(JSON.stringify(err, null, 2));
@@ -168,9 +171,13 @@ class ViewPostPage extends React.Component {
                                         }
                                     />
                                     <Box display="flex" justifyContent="space-between" py={2}>
-                                        <Typography variant="h2" color="primary">
-                                            {this.props.post.post_title}
-                                        </Typography>
+                                        <Box width="50%">
+                                            <Box paddingRight={0.5}>
+                                                <Typography variant="h2" color="primary">
+                                                    {this.props.post.post_title}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
                                         <Box>
                                             {this.state.isOwner &&
                                                 (this.props.post.deleted_flag ? (
@@ -187,7 +194,7 @@ class ViewPostPage extends React.Component {
                                                             onClick={this.restorePost}
                                                         >
                                                             Restore Post
-                                                        </Button>
+                                                        </Button>{" "}
                                                     </React.Fragment>
                                                 ) : (
                                                     <React.Fragment>
@@ -219,7 +226,9 @@ class ViewPostPage extends React.Component {
                                             )}
                                         </Box>
                                     </Box>
-                                    <Typography variant="body1" gutterBottom>
+                                    <ShareGroup url={this.state.url} quote={this.props.post.post_title} />
+
+                                    <Typography variant="body1" gutterBottom noWrap>
                                         Description: {this.props.post.post_description}
                                     </Typography>
                                     {!!this.props.post.post_incentive && (
