@@ -143,7 +143,7 @@ export class ViewChannelPage extends React.Component {
                             Bulletin Board:{" "}
                             <Typography variant="inherit" display="inline" color="primary">
                                 {this.props.channel.channel_name}
-                            </Typography>
+                            </Typography>{" "}
                             {!!this.props.subscriptions && (
                                 <Button color="primary" variant="contained" onClick={this.updateSubscriptions}>
                                     {this.props.subscriptions.includes(this.props.channel.channel_id)

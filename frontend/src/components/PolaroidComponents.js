@@ -1,9 +1,10 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, lighten } from "@material-ui/core/styles";
 import CardMedia from "@material-ui/core/CardMedia";
 import SvgIcon from "@material-ui/core/SvgIcon";
 import zIndex from "@material-ui/core/styles/zIndex";
+import grey from "@material-ui/core/colors/grey";
 
 export const useStyles = makeStyles((theme) => ({
     media: {
@@ -12,7 +13,10 @@ export const useStyles = makeStyles((theme) => ({
     },
     card: {
         width: 250,
-        margin: 10
+        margin: 10,
+        "&:hover": {
+            background: grey[100]
+        }
     },
     cardActionArea: {
         padding: 7
@@ -26,16 +30,28 @@ export const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export const PolaroidHeader = ({ header }) => {
-    return <Typography variant="h6">{header}</Typography>;
+export const PolaroidHeader = ({ header, color }) => {
+    return (
+        <Typography variant="h6" noWrap color={color}>
+            {header}
+        </Typography>
+    );
 };
 
-export const PolaroidSubHeader = ({ subheader }) => {
-    return <Typography variant="h6">{subheader}</Typography>;
+export const PolaroidSubHeader = ({ subheader, color }) => {
+    return (
+        <Typography variant="h6" noWrap color={color}>
+            {subheader}
+        </Typography>
+    );
 };
 
-export const PolaroidBody = ({ body }) => {
-    return <Typography variant="body2">{body}</Typography>;
+export const PolaroidBody = ({ body, color }) => {
+    return (
+        <Typography variant="body2" noWrap color={color}>
+            {body}
+        </Typography>
+    );
 };
 
 export const PolaroidImage = ({ image }) => {

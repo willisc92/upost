@@ -11,6 +11,8 @@ class EventSerializer(serializers.ModelSerializer):
         read_only=True, source="post.user")
     post_deleted_flag = serializers.BooleanField(
         read_only=True, source="post.deleted_flag")
+    post_picture = serializers.ImageField(
+        read_only=True, source="post.picture")
     capacity_status = serializers.SerializerMethodField()
 
     class Meta:
@@ -32,7 +34,8 @@ class EventSerializer(serializers.ModelSerializer):
             'event_owner',
             'post_deleted_flag',
             'last_updated',
-            'capacity_status'
+            'capacity_status',
+            'post_picture'
         )
         model = PostEvent
 
