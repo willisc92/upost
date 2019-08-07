@@ -107,7 +107,8 @@ class ContentChannelSerializer(serializers.ModelSerializer):
             'deletion_date',
             'channel_description',
             'channel_posts',
-            'last_updated'
+            'last_updated',
+            'picture'
         )
         model = ContentChannel
 
@@ -115,3 +116,4 @@ class ContentChannelSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     channel_name = serializers.CharField(max_length=50, validators=[
         UniqueValidator(message="Channel name must be unique", queryset=ContentChannel.objects.all())])
+    extra_kwargs = {'picture': {'required': False}}

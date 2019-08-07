@@ -89,32 +89,34 @@ export class EditChannelPage extends React.Component {
         const read_only = this.props.channel && this.props.channel.deleted_flag;
 
         return (
-            <React.Fragment>
-                <Box bgcolor="secondary.main" py={3}>
-                    <Container maxWidth="xl">
-                        <Typography variant="h1" gutterBottom>
-                            Edit Bulletin Board:{" "}
-                            <Typography variant="inherit" color="primary" display="inline">
-                                {!!this.props.channel && this.props.channel.channel_name}
+            !!this.props.channel && (
+                <React.Fragment>
+                    <Box bgcolor="secondary.main" py={3}>
+                        <Container maxWidth="xl">
+                            <Typography variant="h1" gutterBottom>
+                                Edit Bulletin Board:{" "}
+                                <Typography variant="inherit" color="primary" display="inline">
+                                    {!!this.props.channel && this.props.channel.channel_name}
+                                </Typography>
                             </Typography>
-                        </Typography>
-                        {read_only && (
-                            <Typography variant="h2" color="error" gutterBottom>
-                                You must restore this Channel before editing.
-                            </Typography>
-                        )}
-                        <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
-                        <Button color="primary" variant="contained" onClick={this.goBack}>
-                            Go Back
-                        </Button>
-                    </Container>
-                </Box>
-                <Container maxWidth="xl">
-                    <Box py={3}>
-                        <ChannelForm onSubmit={this.onSubmit} channel={this.props.channel} read_only={read_only} />
+                            {read_only && (
+                                <Typography variant="h2" color="error" gutterBottom>
+                                    You must restore this Channel before editing.
+                                </Typography>
+                            )}
+                            <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
+                            <Button color="primary" variant="contained" onClick={this.goBack}>
+                                Go Back
+                            </Button>
+                        </Container>
                     </Box>
-                </Container>
-            </React.Fragment>
+                    <Container maxWidth="xl">
+                        <Box py={3}>
+                            <ChannelForm onSubmit={this.onSubmit} channel={this.props.channel} read_only={read_only} />
+                        </Box>
+                    </Container>
+                </React.Fragment>
+            )
         );
     }
 }

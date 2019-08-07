@@ -4,7 +4,13 @@ import moment from "moment";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import { PolaroidHeader, PolaroidBody, PolaroidSubHeader, useStyles } from "../components/PolaroidComponents";
+import {
+    PolaroidHeader,
+    PolaroidBody,
+    PolaroidSubHeader,
+    PolaroidImage,
+    useStyles
+} from "../components/PolaroidComponents";
 
 export const ChannelListItem = ({ channel, selected, pathName, inHorizontalMenu }) => {
     const classes = useStyles();
@@ -20,11 +26,13 @@ export const ChannelListItem = ({ channel, selected, pathName, inHorizontalMenu 
             >
                 <Card className={classes.card}>
                     <CardActionArea className={classes.cardActionArea}>
+                        <PolaroidImage image={channel.picture} />
                         <CardContent>
                             <PolaroidHeader header={channel.channel_name} />
                             {channel.deleted_flag && (
                                 <PolaroidSubHeader
-                                    subheader={`Deleted ${moment(channel.deletion_date).format("ddd, MMM D YYYY")}`}
+                                    color="primary"
+                                    subheader={`Deleted ${moment(channel.deletion_date).format("l")}`}
                                 />
                             )}
                             <PolaroidBody body={channel.channel_description} />

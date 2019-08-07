@@ -43,7 +43,8 @@ export const MyEventSummary = ({ event, pathName, selected, inHorizontalMenu, se
                             <PolaroidHeader header={event.event_title} />
                             {event.deleted_flag && (
                                 <PolaroidSubHeader
-                                    subheader={`(Deleted ${moment(event.deletion_date).format("ddd, MMM D YYYY")})`}
+                                    color="primary"
+                                    subheader={`(Deleted ${moment(event.deletion_date).format("l")})`}
                                 />
                             )}
                             <PolaroidBody body={event.event_description} />

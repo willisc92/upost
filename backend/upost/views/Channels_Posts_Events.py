@@ -15,6 +15,8 @@ from rest_framework import status
 
 
 class ContentChannel_View(viewsets.ModelViewSet):
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
+
     serializer_class = ContentChannelSerializer
     queryset = ContentChannel.objects.all()
     filterset_fields = ('user', 'channel_id', 'deleted_flag',)

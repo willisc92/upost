@@ -1,4 +1,4 @@
-import API from "../utils/API";
+import API, { setContentToForm, resetContentType } from "../utils/API";
 import { getCurrentUser } from "./auth";
 import moment from "moment";
 
@@ -89,13 +89,20 @@ export const startGetChannel = (id) => {
 export const addChannel = (channel) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
+            if (channel.toString() == "[object FormData]") {
+                setContentToForm();
+            }
             dispatch(channelStart());
             API.post(`channels/`, channel)
                 .then((result) => {
+                    if (channel.toString() == "[object FormData]") {
+                        resetContentType();
+                    }
                     dispatch(channelSuccess());
                     resolve(result);
                 })
                 .catch((err) => {
+                    resetContentType();
                     dispatch(channelFail(err));
                     reject(err);
                 });
@@ -113,13 +120,20 @@ export const addChannel = (channel) => {
 export const editChannel = (id, updates) => {
     return (dispatch) => {
         return new Promise((resolve, reject) => {
+            if (updates.toString() == "[object FormData]") {
+                setContentToForm();
+            }
             dispatch(channelStart());
-            API.put(`channels/${id}/`, updates)
+            API.patch(`channels/${id}/`, updates)
                 .then((result) => {
+                    if (updates.toString() == "[object FormData]") {
+                        resetContentType();
+                    }
                     dispatch(channelSuccess());
                     resolve(result);
                 })
                 .catch((err) => {
+                    resetContentType();
                     dispatch(channelFail(err));
                     reject(err);
                 });
