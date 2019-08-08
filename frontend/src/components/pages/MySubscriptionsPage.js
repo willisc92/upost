@@ -5,7 +5,7 @@ import { getVisibleChannels } from "../../selectors/myChannels";
 import { resetChannelFilters } from "../../actions/channel_filters";
 import ChannelSummary from "../ChannelListItem";
 import ChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
-
+import { HelpToolTip } from "../HelpTooltip";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -29,7 +29,16 @@ class MySubscriptionsPage extends React.Component {
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
-                            Your Subscriptions
+                            My Subscriptions
+                            <HelpToolTip
+                                jsx={
+                                    <React.Fragment>
+                                        <Typography variant="caption">
+                                            Here you can see all bulletin boards that you have subscribed to!
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
                         </Typography>
                         <ChannelFilterSelector />
                     </Container>

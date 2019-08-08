@@ -87,7 +87,7 @@ class IncentivePackage extends React.Component {
                         }
                     })}
                 </Box>
-                <Typography variant="body1">Perks description: {this.props.package.ip_description}</Typography>
+                <Typography variant="body1">Perk description: {this.props.package.ip_description}</Typography>
             </React.Fragment>
         );
     }

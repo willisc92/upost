@@ -25,7 +25,7 @@ export class ChannelForm extends React.Component {
         const channel_name = e.target.value;
         if (!!channel_name) {
             if (channel_name.length > 50) {
-                this.setState({ error: "Must have a channel name 50 characters or less" });
+                this.setState({ error: "Must have a bulletin board name of 50 character length or less" });
             } else {
                 this.setState(() => ({ channel_name }));
             }
@@ -38,7 +38,7 @@ export class ChannelForm extends React.Component {
         const channel_description = e.target.value;
         if (!!channel_description) {
             if (channel_description.length > 500) {
-                this.setState({ error: "Must have a channel description 500 characters or less" });
+                this.setState({ error: "Must have a bulletin board description 500 characters or less" });
             } else {
                 this.setState(() => ({ channel_description }));
             }
@@ -64,7 +64,7 @@ export class ChannelForm extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         if (!this.state.channel_name) {
-            this.setState(() => ({ error: "Please provide a channel name" }));
+            this.setState(() => ({ error: "Please provide a bulletin board name" }));
         } else {
             getCurrentUser().then((res) => {
                 this.setState(() => ({ error: "" }));

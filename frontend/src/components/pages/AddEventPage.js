@@ -67,7 +67,7 @@ class AddEventPage extends React.Component {
                                     { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
                                     { label: "Events", onClick: this.goBack },
                                     { label: "Add Event", onClick: this.submitFormAndSwitch },
-                                    { label: "Add Perks (Optional)", onClick: this.submitFormAndSwitch }
+                                    { label: "Add Perk (Optional)", onClick: this.submitFormAndSwitch }
                                 ],
                                 activeStep: 4
                             }));
@@ -233,7 +233,7 @@ class AddEventPage extends React.Component {
             if (this.state.base_incentive.planned_end_date > payload.endDate) {
                 this.setState(() => ({
                     incentive_error:
-                        "Error, cannot have a recurring end date before the perks end date.  Change either the recurring end date or the end date of the perks."
+                        "Error, cannot have a recurring end date before the perk end date.  Change either the recurring end date or the end date of the perk."
                 }));
                 return null;
             } else {
@@ -405,7 +405,7 @@ class AddEventPage extends React.Component {
             if (this.state.finished === false) {
                 this.setState((prevState) => ({
                     messageOpen: true,
-                    message: "Perk Package Draft Saved",
+                    message: "Perk Draft Saved",
                     step: "Event",
                     activeStep: prevState.activeStep - 1
                 }));
@@ -507,7 +507,7 @@ class AddEventPage extends React.Component {
                             <Typography variant="h1" gutterBottom color="primary">
                                 (Optional){" "}
                                 <Typography variant="inherit" display="inline" color="textPrimary">
-                                    Add Perks to the Event{" "}
+                                    Add a Perk to the Event{" "}
                                 </Typography>
                             </Typography>
                         )}
@@ -553,7 +553,7 @@ class AddEventPage extends React.Component {
                             {!!this.state.base_incentive && (
                                 <React.Fragment>
                                     <Button color="primary" variant="contained" onClick={this.clearBaseIncentive}>
-                                        Clear Perks
+                                        Clear Perk
                                     </Button>{" "}
                                 </React.Fragment>
                             )}
@@ -571,7 +571,7 @@ class AddEventPage extends React.Component {
                                         variant="contained"
                                         onClick={this.clearBaseEventandIncentive}
                                     >
-                                        Clear Event and Perks
+                                        Clear Event and Perk
                                     </Button>{" "}
                                 </React.Fragment>
                             )}
@@ -621,7 +621,7 @@ class AddEventPage extends React.Component {
                             description={!!this.props.post ? this.props.post.post_description : ""}
                             incentivePackage={this.state.base_incentive}
                             onSubmit={this.onSubmit}
-                            nextStep="Save Perks and Go Back"
+                            nextStep="Save Perk and Go Back"
                             event={this.state.base_event}
                             fromEvent={true}
                         />
@@ -638,7 +638,7 @@ class AddEventPage extends React.Component {
                     {this.state.step === "Incentive" && (
                         <React.Fragment>
                             <Button color="primary" variant="contained" onClick={this.submitWithoutSaving}>
-                                Skip Perks and Submit
+                                Skip Perk and Submit
                             </Button>
                         </React.Fragment>
                     )}

@@ -54,7 +54,7 @@ export class ChannelFilters extends React.Component {
                         <Input
                             type="text"
                             className="text-input"
-                            placeholder="Search Channels"
+                            placeholder="Search Bulletin Boards"
                             value={this.props.filters.text}
                             onChange={this.onTextChange}
                             style={{ width: 250 }}

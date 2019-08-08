@@ -118,7 +118,7 @@ class ViewEventPage extends React.Component {
                                     { label: "See Events", onClick: this.moveToPostEventsPage },
                                     { label: `Event: ${this.props.event.event_title}`, onClick: null },
                                     { label: "Edit Event", onClick: this.editEvent },
-                                    { label: "Edit Perks", onClick: this.editIncentive }
+                                    { label: "Edit Event Perk", onClick: this.editIncentive }
                                 ],
                                 activeStep: 4
                             }));
@@ -135,7 +135,7 @@ class ViewEventPage extends React.Component {
                                     { label: "See Events", onClick: this.moveToPostEventsPage },
                                     { label: `Event: ${this.props.event.event_title}`, onClick: null },
                                     { label: "Edit Event", onClick: this.editEvent },
-                                    { label: "Add Perks", onClick: this.addIncentive }
+                                    { label: "Add Event Perk", onClick: this.addIncentive }
                                 ],
                                 activeStep: 4
                             }));

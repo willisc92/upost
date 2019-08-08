@@ -11,7 +11,7 @@ import { BrowsePostMenu } from "../MyPostSummary";
 import { MyIncentiveMenu } from "../MyIncentiveSummary";
 import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";
-
+import { HelpToolTip } from "../HelpTooltip";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
@@ -93,7 +93,17 @@ class DeletedContentPage extends React.Component {
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
-                            Your Recycle Bin
+                            Recycle Bin
+                            <HelpToolTip
+                                jsx={
+                                    <React.Fragment>
+                                        <Typography variant="caption">
+                                            Here you can see all bulletin boards, posts, events, and perks that you have
+                                            deleted.
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
                         </Typography>
                         {has_deleted_content && (
                             <Button variant="contained" color="primary" onClick={this.restoreAll}>

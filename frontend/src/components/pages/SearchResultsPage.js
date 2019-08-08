@@ -116,7 +116,7 @@ export class SearchResultsPage extends React.Component {
                                         disableUnderline
                                     >
                                         <MenuItem value="all">Show All</MenuItem>
-                                        <MenuItem value="channels">Channels</MenuItem>
+                                        <MenuItem value="channels">Bulletin Boards</MenuItem>
                                         <MenuItem value="posts">Posts</MenuItem>
                                         <MenuItem value="events">Events</MenuItem>
                                     </Select>

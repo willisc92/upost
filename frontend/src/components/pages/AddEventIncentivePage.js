@@ -45,8 +45,8 @@ class AddEventIncentivePage extends React.Component {
                                         label: `Event: ${this.props.event.event_title}`,
                                         onClick: this.moveToEventPage
                                     },
-                                    { label: "Edit Event", onClick: this.goBack },
-                                    { label: "Add Perks", onClick: null }
+                                    { label: `Edit Event`, onClick: this.goBack },
+                                    { label: `Add Perk`, onClick: null }
                                 ],
                                 activeStep: 6
                             }));
@@ -113,7 +113,7 @@ class AddEventIncentivePage extends React.Component {
                     <Box bgcolor="secondary.main" py={3}>
                         <Container maxWidth="xl">
                             <Typography gutterBottom variant="h2">
-                                Add a Perk Package to Event:{" "}
+                                Add a Perk to Event:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.event && this.props.event.event_title}
                                 </Typography>
@@ -122,17 +122,16 @@ class AddEventIncentivePage extends React.Component {
                             {existing_incentive ? (
                                 <Box paddingBottom={2}>
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        There is already an existing perk package tied to this event.
+                                        There is already an existing perk tied to this event.
                                     </Typography>
                                     <Button variant="contained" color="primary" onClick={this.goToIncentive}>
-                                        Go to Incentive
+                                        Go to Perk
                                     </Button>
                                 </Box>
                             ) : (
                                 read_only && (
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        The event this perk package will be tied to is deleted. Restore it before adding
-                                        perks.
+                                        The event this perk will be tied to is deleted. Restore it before adding a perk.
                                     </Typography>
                                 )
                             )}

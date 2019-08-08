@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import EventSummary from "../MyEventSummary";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
-
+import { HelpToolTip } from "../HelpTooltip";
 import Box from "@material-ui/core/Box";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
@@ -40,7 +40,17 @@ export class FreeFoodPage extends React.Component {
                     <Box bgcolor="secondary.main" py={3}>
                         <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
-                                Ongoing/Future Free Food Events in Your Communities
+                                Food Mood
+                                <HelpToolTip
+                                    jsx={
+                                        <React.Fragment>
+                                            <Typography variant="caption">
+                                                Here you can see all ongoing or upcoming events with the free food perk
+                                                that are listed within your communities!
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
                             </Typography>
                             <EventFilterSelector foodSpecific={true} />
                         </Container>

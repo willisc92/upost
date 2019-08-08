@@ -189,14 +189,14 @@ export class EventFilters extends React.Component {
                             >
                                 <MenuItem value="all">Show All</MenuItem>
                                 <MenuItem value="hasIncentive">Has Perks</MenuItem>
-                                <MenuItem value="noIncentive">No Perks</MenuItem>
+                                <MenuItem value="noIncentive">No Perk</MenuItem>
                             </Select>
                         </Box>
                     </Box>
                 )}
                 {this.props.filters.hasIncentive === "hasIncentive" && !this.props.foodSpecific && (
                     <Box display="flex" flexDirection="column" paddingRight={1}>
-                        <Typography>Perk Type:</Typography>
+                        <Typography>Perk Tag:</Typography>
                         <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                             <Select
                                 className="select"

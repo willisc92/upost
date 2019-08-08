@@ -41,7 +41,7 @@ class AddIncentivePage extends React.Component {
                                     },
                                     { label: `Post: ${this.props.post.post_title}`, onClick: this.moveToPost },
                                     { label: "Edit Post", onClick: this.goBack },
-                                    { label: "Add Perks", onClick: null }
+                                    { label: "Add Perk", onClick: null }
                                 ],
                                 activeStep: 4
                             }));
@@ -97,7 +97,7 @@ class AddIncentivePage extends React.Component {
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
-                            Add a Perk Package to Post:{" "}
+                            Add a Perk to Post:{" "}
                             <Typography variant="inherit" display="inline" color="primary" gutterBottom>
                                 {this.props.post && this.props.post.post_title}
                             </Typography>
@@ -106,18 +106,17 @@ class AddIncentivePage extends React.Component {
                         {existing_incentive && (
                             <Box paddingBottom={2}>
                                 <Typography variant="h2" color="error" gutterBottom>
-                                    This post already has an existing perk package
+                                    This post already has an existing perk
                                 </Typography>
                                 <Button variant="contained" color="primary" onClick={this.goToIncentive}>
-                                    Go to Perk Package
+                                    Go to Perk
                                 </Button>
                             </Box>
                         )}
                         {read_only && (
                             <Box>
                                 <Typography variant="h2" color="error" gutterBottom>
-                                    The post that this perk package will be tied to is deleted and must be restored
-                                    first.
+                                    The post that this perk will be tied to is deleted and must be restored first.
                                 </Typography>
                                 <Button variant="contained" color="primary" onClick={this.goBack}>
                                     Go to Post

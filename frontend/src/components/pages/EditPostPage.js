@@ -140,7 +140,7 @@ export class EditPostPage extends React.Component {
                                         You must restore the bulletin board of this post before editing.
                                     </Typography>
                                     <Button color="primary" variant="contained" onClick={this.goToChannel}>
-                                        Go to Channel
+                                        Go to Bulletin Board
                                     </Button>
                                 </Box>
                             ) : read_only_post ? (
@@ -160,11 +160,11 @@ export class EditPostPage extends React.Component {
                                     </Button>{" "}
                                     {!!this.props.post.post_incentive ? (
                                         <Button color="primary" variant="contained" onClick={this.onEditIncentiveClick}>
-                                            Edit Perks
+                                            Edit Post Perk
                                         </Button>
                                     ) : (
                                         <Button color="primary" variant="contained" onClick={this.onAddIncentiveClick}>
-                                            Add Perks to Post
+                                            Add Perk to Post
                                         </Button>
                                     )}{" "}
                                     <Button color="primary" variant="contained" onClick={this.deletePost}>

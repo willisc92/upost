@@ -153,7 +153,7 @@ export class AddPostPage extends React.Component {
                                         variant="contained"
                                         onClick={this.onTriggerSaveAddIncentive}
                                     >
-                                        Save Post and Add Perks
+                                        Save Post and Add Perk
                                     </Button>
                                 </Box>
                             </Box>

@@ -113,7 +113,7 @@ class IncentiveForm extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         if (this.state.incentive_type.length === 0) {
-            this.setState(() => ({ error: "Please select at least one incentive type." }));
+            this.setState(() => ({ error: "Please select at least one perk type." }));
         } else if (!this.state.ip_description) {
             this.setState(() => ({ error: "Please enter a brief description." }));
         } else if (
@@ -223,8 +223,8 @@ class IncentiveForm extends React.Component {
                     <TextField
                         required
                         autoFocus
-                        label="Perk Package Description"
-                        placeholder={`Describe the perks for your ${!!this.state.fromPost ? "post" : "event"}.`}
+                        label="Perk Description"
+                        placeholder={`Describe the perk for your ${!!this.state.fromPost ? "post" : "event"}.`}
                         multiline
                         value={this.state.ip_description}
                         onChange={this.onDescriptionChange}
