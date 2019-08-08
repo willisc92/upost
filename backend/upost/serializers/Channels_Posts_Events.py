@@ -4,6 +4,27 @@ from rest_framework.validators import UniqueValidator
 from ..serializers import IncentiveSerializer
 
 
+class ContentChannelPathInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('channel_id', 'channel_name')
+        model = ContentChannel
+
+
+class PostPathInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = ('post_id', 'post_title')
+        model = Post
+
+
+class PostPathSerializer(serializers.Serializer):
+    channel = ContentChannelPathInfoSerializer(source='*')
+
+
+class EventPathSerializer(serializers.Serializer):
+    channel = ContentChannelPathInfoSerializer()
+    post = PostPathInfoSerializer(source='*')
+
+
 class EventSerializer(serializers.ModelSerializer):
     event_community = serializers.CharField(
         read_only=True, source="post.community.community_name")
@@ -35,6 +56,7 @@ class EventSerializer(serializers.ModelSerializer):
             'post_deleted_flag',
             'last_updated',
             'capacity_status',
+            'path',
             'post_picture'
         )
         model = PostEvent
@@ -42,6 +64,7 @@ class EventSerializer(serializers.ModelSerializer):
     post = serializers.PrimaryKeyRelatedField(
         read_only=False, many=False, queryset=Post.objects.all())
     event_incentive = IncentiveSerializer(many=False, required=False)
+    path = EventPathSerializer(source='post', many=False, read_only=True)
 
     def get_capacity_status(self, obj):
         return obj.event_to_attend.count()
@@ -70,7 +93,8 @@ class PostSerializer(serializers.ModelSerializer):
             'post_incentive',
             'deletion_date',
             'channel_deleted_flag',
-            'last_updated'
+            'last_updated',
+            'path'
         )
         model = Post
 
@@ -85,6 +109,7 @@ class PostSerializer(serializers.ModelSerializer):
         UniqueValidator(message="Post title must be unique", queryset=Post.objects.all())])
     community = serializers.PrimaryKeyRelatedField(
         many=False, queryset=Community.objects.all())
+    path = PostPathSerializer(source='channel', read_only=True, many=False)
     extra_kwargs = {'picture': {'required': False}}
 
     def put(self, request, pk, format=None):

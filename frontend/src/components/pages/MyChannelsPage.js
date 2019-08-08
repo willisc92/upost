@@ -16,7 +16,7 @@ export class MyChannelsPage extends React.Component {
         super(props);
         this.state = {
             selected: 0,
-            steps: [{ label: "Bulletin Boards", onClick: null }, { label: "?", onClick: null }],
+            steps: [{ label: "Bulletin Boards", onClick: null }, { label: null, onClick: null }],
             activeStep: 0
         };
     }

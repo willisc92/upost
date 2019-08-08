@@ -47,11 +47,14 @@ class EditEventIncentivePage extends React.Component {
                             steps: [
                                 { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                 {
-                                    label: `Bulletin Board`,
-                                    onClick: null
+                                    label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                    onClick: this.moveToBulletinBoard
                                 },
-                                { label: `Post`, onClick: this.moveToPostPage },
-                                { label: "Events", onClick: this.moveToPostEventsPage },
+                                {
+                                    label: `Post: ${this.props.event.path.post.post_title}`,
+                                    onClick: this.moveToPostPage
+                                },
+                                { label: "See Events", onClick: this.moveToPostEventsPage },
                                 { label: `Event: ${this.props.event.event_title}`, onClick: this.moveToEventPage },
                                 { label: `Edit Event`, onClick: this.goBack },
                                 { label: `Edit Event Perk`, onClick: null }
@@ -100,6 +103,10 @@ class EditEventIncentivePage extends React.Component {
 
     moveToBulletinBoards = () => {
         this.props.history.push("/myChannels");
+    };
+
+    moveToBulletinBoard = () => {
+        this.props.history.push(`/channels/${this.props.event.path.channel.channel_id}`);
     };
 
     deleteIncentive = () => {
