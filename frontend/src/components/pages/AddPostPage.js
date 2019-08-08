@@ -40,7 +40,7 @@ export class AddPostPage extends React.Component {
                                             onClick: this.handleReturn
                                         },
                                         { label: "Add Post", onClick: null },
-                                        { label: "?", onClick: null }
+                                        { label: null, onClick: null }
                                     ],
                                     activeStep: 2
                                 };

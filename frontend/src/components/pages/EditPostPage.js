@@ -34,12 +34,12 @@ export class EditPostPage extends React.Component {
                                 steps: [
                                     { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                     {
-                                        label: `Bulletin Board`,
+                                        label: `Bulletin Board: ${this.props.post.path.channel.channel_name}`,
                                         onClick: this.goToChannel
                                     },
                                     { label: `Post: ${this.props.post.post_title}`, onClick: this.moveToPost },
                                     { label: "Edit Post", onClick: null },
-                                    { label: "?", onClick: null }
+                                    { label: null, onClick: null }
                                 ],
                                 activeStep: 3
                             }));

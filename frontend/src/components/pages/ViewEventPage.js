@@ -109,11 +109,11 @@ class ViewEventPage extends React.Component {
                                 steps: [
                                     { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                     {
-                                        label: `Bulletin Board`,
+                                        label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
                                         onClick: this.goToChannel
                                     },
                                     { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
-                                    { label: "Events", onClick: this.moveToPostEventsPage },
+                                    { label: "See Events", onClick: this.moveToPostEventsPage },
                                     { label: `Event: ${this.props.event.event_title}`, onClick: null },
                                     { label: "Edit Event", onClick: this.editEvent },
                                     { label: "Edit Incentive", onClick: this.editIncentive }
@@ -126,11 +126,11 @@ class ViewEventPage extends React.Component {
                                 steps: [
                                     { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                     {
-                                        label: `Bulletin Board`,
+                                        label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
                                         onClick: this.goToChannel
                                     },
                                     { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
-                                    { label: "Events", onClick: this.moveToPostEventsPage },
+                                    { label: "See Events", onClick: this.moveToPostEventsPage },
                                     { label: `Event: ${this.props.event.event_title}`, onClick: null },
                                     { label: "Edit Event", onClick: this.editEvent },
                                     { label: "Add Incentive", onClick: this.addIncentive }
@@ -140,7 +140,17 @@ class ViewEventPage extends React.Component {
                         }
                     } else {
                         this.setState(() => ({
-                            isOwner
+                            isOwner,
+                            steps: [
+                                {
+                                    label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                    onClick: this.goToChannel
+                                },
+                                { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                                { label: "See Events", onClick: this.moveToPostEventsPage },
+                                { label: `Event: ${this.props.event.event_title}`, onClick: null }
+                            ],
+                            activeStep: 3
                         }));
                     }
                 }

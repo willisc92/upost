@@ -2,6 +2,7 @@ import React from "react";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
+import StepIcon from "@material-ui/core/StepIcon";
 import { makeStyles, withStyles } from "@material-ui/core";
 import StepConnector from "@material-ui/core/StepConnector";
 import Check from "@material-ui/icons/Check";
@@ -69,6 +70,10 @@ const QontoStepIcon = (props) => {
     );
 };
 
+const unknownSteps = () => {
+    return <i className="material-icons">more_horiz</i>;
+};
+
 const CustomStepper = (props) => {
     return (
         <Stepper
@@ -81,7 +86,11 @@ const CustomStepper = (props) => {
                 return (
                     <Tooltip title={`move to: ${step.label}`} style={{ cursor: "pointer" }} key={step.label}>
                         <Step onClick={step.onClick}>
-                            <StepLabel StepIconComponent={QontoStepIcon}>{step.label}</StepLabel>
+                            {!!step.label ? (
+                                <StepLabel StepIconComponent={QontoStepIcon}>{step.label}</StepLabel>
+                            ) : (
+                                <StepLabel StepIconComponent={unknownSteps} />
+                            )}
                         </Step>
                     </Tooltip>
                 );

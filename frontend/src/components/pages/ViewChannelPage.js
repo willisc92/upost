@@ -47,7 +47,7 @@ export class ViewChannelPage extends React.Component {
                                     steps: [
                                         { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                         { label: `Bulletin Board: ${this.props.channel.channel_name}`, onClick: null },
-                                        { label: "?", onClick: null }
+                                        { label: null, onClick: null }
                                     ],
                                     activeStep: 1
                                 }));

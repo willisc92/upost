@@ -53,6 +53,18 @@ class ViewPostPage extends React.Component {
                                 if (!isOwner) {
                                     if (res.data[0].deleted_flag) {
                                         this.props.history.push("/");
+                                    } else {
+                                        this.setState(() => ({
+                                            steps: [
+                                                {
+                                                    label: `Bulletin Board: ${this.props.channel.channel_name}`,
+                                                    onClick: this.moveToBulletinBoard
+                                                },
+                                                { label: `Post: ${this.props.post.post_title}`, onClick: null },
+                                                { label: "See Events", onClick: this.moveToPostEventsPage }
+                                            ],
+                                            activeStep: 1
+                                        }));
                                     }
                                 } else {
                                     this.setState(() => ({
@@ -63,7 +75,7 @@ class ViewPostPage extends React.Component {
                                                 onClick: this.moveToBulletinBoard
                                             },
                                             { label: `Post: ${this.props.post.post_title}`, onClick: null },
-                                            { label: "?", onClick: null }
+                                            { label: null, onClick: null }
                                         ],
                                         activeStep: 2
                                     }));

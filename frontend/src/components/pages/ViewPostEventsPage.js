@@ -38,18 +38,28 @@ class ViewPostEventsPage extends React.Component {
                             steps: [
                                 { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                 {
-                                    label: `Bulletin Board`,
+                                    label: `Bulletin Board: ${this.props.post.path.channel.channel_name}`,
                                     onClick: this.goToChannel
                                 },
                                 { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
-                                { label: "Events", onClick: null },
-                                { label: "?", onClick: null }
+                                { label: "See Events", onClick: null },
+                                { label: null, onClick: null }
                             ],
                             activeStep: 3
                         }));
                     } else {
                         this.setState(() => ({
-                            isOwner
+                            isOwner,
+                            steps: [
+                                {
+                                    label: `Bulletin Board`,
+                                    onClick: this.goToChannel
+                                },
+                                { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                                { label: "See Events", onClick: null },
+                                { label: null, onClick: null }
+                            ],
+                            activeStep: 2
                         }));
                     }
                 }
