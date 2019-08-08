@@ -175,7 +175,7 @@ class IncentiveForm extends React.Component {
                             disabled={this.props.read_only}
                             onChange={this.onIncentiveTypeChange}
                             value={this.state.incentive_type}
-                            label="Incentives"
+                            label="Perks"
                         >
                             {this.props.incentiveTypes.map((incentiveType) => {
                                 return (

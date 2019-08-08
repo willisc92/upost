@@ -37,8 +37,8 @@ class AddEventIncentivePage extends React.Component {
                                 steps: [
                                     { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                     {
-                                        label: `Bulletin Board`,
-                                        onClick: null
+                                        label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                        onClick: this.moveToBulletinBoard
                                     },
                                     { label: `Post`, onClick: this.goToPost },
                                     { label: "Events", onClick: this.moveToPostEventsPage },
@@ -88,6 +88,10 @@ class AddEventIncentivePage extends React.Component {
 
     moveToBulletinBoards = () => {
         this.props.history.push("/myChannels");
+    };
+
+    moveToBulletinBoard = () => {
+        this.props.history.push(`/channels/${this.props.event.path.channel.channel_id}`);
     };
 
     moveToEventPage = () => {

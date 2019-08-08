@@ -123,7 +123,7 @@ class AddEventPage extends React.Component {
             rrule_incentive_starts: null,
             rrule_incentive_ends: null,
             message_open: true,
-            message: "Incentive Cleared"
+            message: "Perks Cleared"
         }));
     };
 
@@ -148,7 +148,7 @@ class AddEventPage extends React.Component {
             rrule_incentive_starts: null,
             rrule_incentive_ends: null,
             message_open: true,
-            message: "Event and Incentive Cleared"
+            message: "Event and Perks Cleared"
         }));
     };
 

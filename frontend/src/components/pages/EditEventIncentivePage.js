@@ -180,7 +180,7 @@ class EditEventIncentivePage extends React.Component {
                                     </Typography>
                                 ) : (
                                     <Button variant="contained" color="primary" onClick={this.deleteIncentive}>
-                                        Delete Incentive
+                                        Delete Perk Package
                                     </Button>
                                 )}
                             </Box>
