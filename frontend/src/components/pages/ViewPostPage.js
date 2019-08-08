@@ -250,7 +250,7 @@ class ViewPostPage extends React.Component {
                             )}
                             <div className="content-container-onethirds">
                                 {!!this.props.channel && (
-                                    <div>
+                                    <React.Fragment>
                                         <Link
                                             className="post__link"
                                             to={{
@@ -276,7 +276,7 @@ class ViewPostPage extends React.Component {
                                                 </Button>
                                             </Box>
                                         )}
-                                    </div>
+                                    </React.Fragment>
                                 )}
                                 {!!this.props.post && (
                                     <React.Fragment>

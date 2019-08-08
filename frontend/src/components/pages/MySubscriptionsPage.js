@@ -52,7 +52,7 @@ class MySubscriptionsPage extends React.Component {
                             ) : this.props.channels.length === 0 ? (
                                 <Typography variant="h2">You have no subscriptions.</Typography>
                             ) : (
-                                <Typography variant="h2">No Matching Channels</Typography>
+                                <Typography variant="h2">No Matching Bulletin Boards</Typography>
                             )}
                         </Box>
                     ) : (

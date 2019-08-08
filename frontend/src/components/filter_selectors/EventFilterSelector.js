@@ -179,7 +179,7 @@ export class EventFilters extends React.Component {
                 )}
                 {!this.props.foodSpecific && (
                     <Box display="flex" flexDirection="column" paddingRight={1}>
-                        <Typography>Incentive:</Typography>
+                        <Typography>Perks:</Typography>
                         <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                             <Select
                                 className="select"
@@ -188,15 +188,15 @@ export class EventFilters extends React.Component {
                                 disableUnderline
                             >
                                 <MenuItem value="all">Show All</MenuItem>
-                                <MenuItem value="hasIncentive">Has Incentive</MenuItem>
-                                <MenuItem value="noIncentive">No Incentive</MenuItem>
+                                <MenuItem value="hasIncentive">Has Perks</MenuItem>
+                                <MenuItem value="noIncentive">No Perks</MenuItem>
                             </Select>
                         </Box>
                     </Box>
                 )}
                 {this.props.filters.hasIncentive === "hasIncentive" && !this.props.foodSpecific && (
                     <Box display="flex" flexDirection="column" paddingRight={1}>
-                        <Typography>Incentive Type:</Typography>
+                        <Typography>Perk Type:</Typography>
                         <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                             <Select
                                 className="select"

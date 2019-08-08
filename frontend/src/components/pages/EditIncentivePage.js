@@ -51,7 +51,7 @@ class EditIncentivePage extends React.Component {
                                     },
                                     { label: `Post: ${this.props.post.post_title}`, onClick: this.moveToPost },
                                     { label: "Edit Post", onClick: this.goBack },
-                                    { label: "Edit Incentive", onClick: null }
+                                    { label: "Edit Perks", onClick: null }
                                 ],
                                 activeStep: 4
                             }));
@@ -141,7 +141,7 @@ class EditIncentivePage extends React.Component {
                     <Box bgcolor="secondary.main" py={3}>
                         <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
-                                Edit Incentive Package for Post:{" "}
+                                Edit Perk Package for Post:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.post && this.props.post.post_title}
                                 </Typography>
@@ -149,12 +149,12 @@ class EditIncentivePage extends React.Component {
                             <Box paddingBottom={2}>
                                 {post_read_only ? (
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        You must restore the post linked to this incentive before editing.
+                                        You must restore the post linked to this perk package before editing.
                                     </Typography>
                                 ) : incentive_read_only ? (
                                     <React.Fragment>
                                         <Typography variant="h2" color="error" gutterBottom>
-                                            You must restore this incentive before editing.
+                                            You must restore this perk package before editing.
                                         </Typography>
                                         <Button variant="contained" color="primary" onClick={this.restoreIncentive}>
                                             Restore
@@ -164,7 +164,7 @@ class EditIncentivePage extends React.Component {
                                     <React.Fragment>
                                         <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                                         <Button variant="contained" color="primary" onClick={this.deleteIncentive}>
-                                            Delete Incentive
+                                            Delete Perk Package
                                         </Button>
                                     </React.Fragment>
                                 )}

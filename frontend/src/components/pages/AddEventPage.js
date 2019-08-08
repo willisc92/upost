@@ -67,7 +67,7 @@ class AddEventPage extends React.Component {
                                     { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
                                     { label: "Events", onClick: this.goBack },
                                     { label: "Add Event", onClick: this.submitFormAndSwitch },
-                                    { label: "Add Incentive (Optional)", onClick: this.submitFormAndSwitch }
+                                    { label: "Add Perks (Optional)", onClick: this.submitFormAndSwitch }
                                 ],
                                 activeStep: 4
                             }));
@@ -121,7 +121,7 @@ class AddEventPage extends React.Component {
             rrule_incentive_starts: null,
             rrule_incentive_ends: null,
             message_open: true,
-            message: "Incentive Cleared"
+            message: "Perks Cleared"
         }));
     };
 
@@ -146,7 +146,7 @@ class AddEventPage extends React.Component {
             rrule_incentive_starts: null,
             rrule_incentive_ends: null,
             message_open: true,
-            message: "Event and Incentive Cleared"
+            message: "Event and Perks Cleared"
         }));
     };
 
@@ -233,7 +233,7 @@ class AddEventPage extends React.Component {
             if (this.state.base_incentive.planned_end_date > payload.endDate) {
                 this.setState(() => ({
                     incentive_error:
-                        "Error, cannot have a recurring end date before the incentive end date.  Change either the recurring end date or the end date of the incentive."
+                        "Error, cannot have a recurring end date before the perks end date.  Change either the recurring end date or the end date of the perks."
                 }));
                 return null;
             } else {
@@ -301,13 +301,13 @@ class AddEventPage extends React.Component {
         }
 
         if (!!rrule_event_string && !!rrule_incentive_string && rrule_event_string === rrule_incentive_string) {
-            return "Events and incentives will reoccur ".concat(rrule_event_string);
+            return "Events and perks will reoccur ".concat(rrule_event_string);
         }
 
         if (!!rrule_event_string && !!rrule_incentive_string && rrule_event_string !== rrule_incentive_string) {
             return "Events will reoccur "
                 .concat(rrule_event_string)
-                .concat(".  Incentives will reoccur ")
+                .concat(".  Perks will reoccur ")
                 .concat(rrule_incentive_string);
         }
 
@@ -405,7 +405,7 @@ class AddEventPage extends React.Component {
             if (this.state.finished === false) {
                 this.setState((prevState) => ({
                     messageOpen: true,
-                    message: "Incentive Draft Saved",
+                    message: "Perk Package Draft Saved",
                     step: "Event",
                     activeStep: prevState.activeStep - 1
                 }));
@@ -507,7 +507,7 @@ class AddEventPage extends React.Component {
                             <Typography variant="h1" gutterBottom color="primary">
                                 (Optional){" "}
                                 <Typography variant="inherit" display="inline" color="textPrimary">
-                                    Add an Incentive to the Event{" "}
+                                    Add Perks to the Event{" "}
                                 </Typography>
                             </Typography>
                         )}
@@ -553,7 +553,7 @@ class AddEventPage extends React.Component {
                             {!!this.state.base_incentive && (
                                 <React.Fragment>
                                     <Button color="primary" variant="contained" onClick={this.clearBaseIncentive}>
-                                        Clear Incentive
+                                        Clear Perks
                                     </Button>{" "}
                                 </React.Fragment>
                             )}
@@ -571,7 +571,7 @@ class AddEventPage extends React.Component {
                                         variant="contained"
                                         onClick={this.clearBaseEventandIncentive}
                                     >
-                                        Clear Event and Incentive
+                                        Clear Event and Perks
                                     </Button>{" "}
                                 </React.Fragment>
                             )}
@@ -621,7 +621,7 @@ class AddEventPage extends React.Component {
                             description={!!this.props.post ? this.props.post.post_description : ""}
                             incentivePackage={this.state.base_incentive}
                             onSubmit={this.onSubmit}
-                            nextStep="Save Incentive and Go Back"
+                            nextStep="Save Perks and Go Back"
                             event={this.state.base_event}
                             fromEvent={true}
                         />
@@ -638,7 +638,7 @@ class AddEventPage extends React.Component {
                     {this.state.step === "Incentive" && (
                         <React.Fragment>
                             <Button color="primary" variant="contained" onClick={this.submitWithoutSaving}>
-                                Skip Incentive and Submit
+                                Skip Perks and Submit
                             </Button>
                         </React.Fragment>
                     )}

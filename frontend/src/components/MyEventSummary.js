@@ -49,12 +49,12 @@ export const MyEventSummary = ({ event, pathName, selected, inHorizontalMenu, se
                             )}
                             <PolaroidBody body={event.event_description} />
                             {hasIncentive && !hasDifferentIncentiveTimes ? (
-                                <PolaroidSubHeader subheader="Event and Incentive From:" />
+                                <PolaroidSubHeader subheader="Event and Perks From:" />
                             ) : (
                                 <PolaroidSubHeader subheader="Event From:" />
                             )}
                             <DateRangeTag startDate={event.planned_start_date} endDate={event.planned_end_date} />
-                            {hasDifferentIncentiveTimes && <PolaroidSubHeader subheader="Incentives Valid from:" />}
+                            {hasDifferentIncentiveTimes && <PolaroidSubHeader subheader="Perks Valid From:" />}
                             {hasDifferentIncentiveTimes && (
                                 <DateRangeTag
                                     startDate={event.event_incentive.planned_start_date}

@@ -109,7 +109,7 @@ export class AddPostPage extends React.Component {
                             {read_only ? (
                                 <Box>
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        You must restore the Channel of this post before adding.
+                                        You must restore the bulletin board of this post before adding.
                                     </Typography>
                                     <Button color="primary" variant="contained" onClick={this.handleReturn}>
                                         Go to Channel
@@ -153,7 +153,7 @@ export class AddPostPage extends React.Component {
                                         variant="contained"
                                         onClick={this.onTriggerSaveAddIncentive}
                                     >
-                                        Save Post and Add Incentive
+                                        Save Post and Add Perks
                                     </Button>
                                 </Box>
                             </Box>

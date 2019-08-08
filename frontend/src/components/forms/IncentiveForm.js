@@ -168,14 +168,14 @@ class IncentiveForm extends React.Component {
                 {!!this.props.incentiveTypes && (
                     <Box display="flex">
                         <Box paddingRight={2}>
-                            <Typography>Incentive Types:</Typography>
+                            <Typography>Perk Types:</Typography>
                         </Box>
                         <MultiSelect
                             required
                             disabled={this.props.read_only}
                             onChange={this.onIncentiveTypeChange}
                             value={this.state.incentive_type}
-                            label="Incentives"
+                            label="Perks"
                         >
                             {this.props.incentiveTypes.map((incentiveType) => {
                                 return (
@@ -223,8 +223,8 @@ class IncentiveForm extends React.Component {
                     <TextField
                         required
                         autoFocus
-                        label="Incentive Description"
-                        placeholder={`Describe the incentive for your ${!!this.state.fromPost ? "post" : "event"}.`}
+                        label="Perk Package Description"
+                        placeholder={`Describe the perks for your ${!!this.state.fromPost ? "post" : "event"}.`}
                         multiline
                         value={this.state.ip_description}
                         onChange={this.onDescriptionChange}

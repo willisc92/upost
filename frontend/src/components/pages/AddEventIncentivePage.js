@@ -36,8 +36,8 @@ class AddEventIncentivePage extends React.Component {
                                 steps: [
                                     { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                     {
-                                        label: `Bulletin Board`,
-                                        onClick: null
+                                        label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                        onClick: this.moveToBulletinBoard
                                     },
                                     { label: `Post`, onClick: this.goToPost },
                                     { label: "Events", onClick: this.moveToPostEventsPage },
@@ -45,8 +45,8 @@ class AddEventIncentivePage extends React.Component {
                                         label: `Event: ${this.props.event.event_title}`,
                                         onClick: this.moveToEventPage
                                     },
-                                    { label: `Edit Event`, onClick: this.goBack },
-                                    { label: `Add Incentive`, onClick: null }
+                                    { label: "Edit Event", onClick: this.goBack },
+                                    { label: "Add Perks", onClick: null }
                                 ],
                                 activeStep: 6
                             }));
@@ -89,6 +89,10 @@ class AddEventIncentivePage extends React.Component {
         this.props.history.push("/myChannels");
     };
 
+    moveToBulletinBoard = () => {
+        this.props.history.push(`/channels/${this.props.event.path.channel.channel_id}`);
+    };
+
     moveToEventPage = () => {
         const event_id = this.props.match.params.id;
         this.props.history.push(`/event/${event_id}`);
@@ -109,7 +113,7 @@ class AddEventIncentivePage extends React.Component {
                     <Box bgcolor="secondary.main" py={3}>
                         <Container maxWidth="xl">
                             <Typography gutterBottom variant="h2">
-                                Add an Incentive Package to Event:{" "}
+                                Add a Perk Package to Event:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.event && this.props.event.event_title}
                                 </Typography>
@@ -118,7 +122,7 @@ class AddEventIncentivePage extends React.Component {
                             {existing_incentive ? (
                                 <Box paddingBottom={2}>
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        There is already an existing incentive tied to this event.
+                                        There is already an existing perk package tied to this event.
                                     </Typography>
                                     <Button variant="contained" color="primary" onClick={this.goToIncentive}>
                                         Go to Incentive
@@ -127,8 +131,8 @@ class AddEventIncentivePage extends React.Component {
                             ) : (
                                 read_only && (
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        The event this incentive will be tied to is deleted. Restore it before adding an
-                                        incentive.
+                                        The event this perk package will be tied to is deleted. Restore it before adding
+                                        perks.
                                     </Typography>
                                 )
                             )}

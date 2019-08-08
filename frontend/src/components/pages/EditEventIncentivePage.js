@@ -57,7 +57,7 @@ class EditEventIncentivePage extends React.Component {
                                 { label: "See Events", onClick: this.moveToPostEventsPage },
                                 { label: `Event: ${this.props.event.event_title}`, onClick: this.moveToEventPage },
                                 { label: `Edit Event`, onClick: this.goBack },
-                                { label: `Edit Incentive`, onClick: null }
+                                { label: `Edit Perks`, onClick: null }
                             ],
                             activeStep: 6
                         }));
@@ -152,7 +152,7 @@ class EditEventIncentivePage extends React.Component {
                     <Box bgcolor="secondary.main" py={3}>
                         <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
-                                Edit the Incentive Package to Event:{" "}
+                                Edit the Perk Package to Event:{" "}
                                 <Typography variant="h1" display="inline" color="primary" component="span">
                                     {this.props.event && this.props.event.event_title}
                                 </Typography>
@@ -161,24 +161,24 @@ class EditEventIncentivePage extends React.Component {
                             <Box paddingBottom={2}>
                                 {read_only_event ? (
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        The event this incentive is tied to is deleted. Restore it to edit.
+                                        The event this perk package is tied to is deleted. Restore it to edit.
                                     </Typography>
                                 ) : read_only_incentive ? (
                                     <React.Fragment>
                                         <Typography variant="h2" color="error" gutterBottom>
-                                            This incentive is deleted. Restore it to edit.
+                                            This perk package is deleted. Restore it to edit.
                                         </Typography>
                                         <Button variant="contained" color="primary" onClick={this.restoreIncentive}>
-                                            Restore Incentive
+                                            Restore Perk Package
                                         </Button>
                                     </React.Fragment>
                                 ) : read_only_incentive_end ? (
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        Cannot edit a past incentive.
+                                        Cannot edit a past perk package.
                                     </Typography>
                                 ) : (
                                     <Button variant="contained" color="primary" onClick={this.deleteIncentive}>
-                                        Delete Incentive
+                                        Delete Perk Package
                                     </Button>
                                 )}
                             </Box>

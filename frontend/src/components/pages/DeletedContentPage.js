@@ -110,7 +110,7 @@ class DeletedContentPage extends React.Component {
                     )}
                     {deleted_channels.length > 0 && (
                         <Box py={2}>
-                            {MenuHeader("Deleted Channels")}
+                            {MenuHeader("Deleted Bulletin Boards")}
                             <ScrollMenu
                                 data={channelMenu}
                                 arrowLeft={ArrowLeft}
@@ -155,7 +155,7 @@ class DeletedContentPage extends React.Component {
                     )}
                     {deleted_incentives.length > 0 && (
                         <Box py={2}>
-                            {MenuHeader("Deleted Incentives")}
+                            {MenuHeader("Deleted Perks")}
                             <ScrollMenu
                                 data={incentiveMenu}
                                 arrowLeft={ArrowLeft}
