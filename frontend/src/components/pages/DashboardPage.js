@@ -163,14 +163,14 @@ export class DashboardPage extends React.Component {
                                         jsx={
                                             <React.Fragment>
                                                 <Typography variant="caption">
-                                                    This is your homepage!
-                                                    <br />
-                                                    <br />
-                                                    Here you can see posts that are relevant to your interests within
-                                                    your communities!
-                                                    <br />
-                                                    <br />
-                                                    Posts are separated by your given interests.
+                                                    This is your dashboard page!
+                                                    <ul>
+                                                        <li>
+                                                            Here you can see posts that are relevant to your interests
+                                                            within your communities!
+                                                        </li>
+                                                        <li> Posts are separated by your given interests.</li>
+                                                    </ul>
                                                 </Typography>
                                             </React.Fragment>
                                         }

@@ -8,6 +8,8 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { PostDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 export class EditPostPage extends React.Component {
     constructor(props) {
@@ -133,6 +135,7 @@ export class EditPostPage extends React.Component {
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.post && this.props.post.post_title}
                                 </Typography>
+                                <HelpToolTip jsx={<Typography variant="caption">{PostDescription}</Typography>} />
                             </Typography>
                             {read_only_channel ? (
                                 <Box>

@@ -4,12 +4,13 @@ import { getCurrentUser } from "../../actions/auth";
 import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { PerkDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 class AddIncentivePage extends React.Component {
     constructor(props) {
@@ -101,6 +102,7 @@ class AddIncentivePage extends React.Component {
                             <Typography variant="inherit" display="inline" color="primary" gutterBottom>
                                 {this.props.post && this.props.post.post_title}
                             </Typography>
+                            <HelpToolTip jsx={<Typography variant="caption">{PerkDescription}</Typography>} />
                         </Typography>
                         <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                         {existing_incentive && (

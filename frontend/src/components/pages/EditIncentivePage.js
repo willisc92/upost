@@ -10,12 +10,13 @@ import { getCurrentUser } from "../../actions/auth";
 import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { PerkDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 class EditIncentivePage extends React.Component {
     constructor(props) {
@@ -145,12 +146,15 @@ class EditIncentivePage extends React.Component {
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.post && this.props.post.post_title}
                                 </Typography>
+                                <HelpToolTip jsx={<Typography variant="caption">{PerkDescription}</Typography>} />
                             </Typography>
                             <Box paddingBottom={2}>
                                 {post_read_only ? (
-                                    <Typography variant="h2" color="error" gutterBottom>
-                                        You must restore the post linked to this perk before editing.
-                                    </Typography>
+                                    <React.Fragment>
+                                        <Typography variant="h2" color="error" gutterBottom>
+                                            You must restore the post linked to this perk before editing.
+                                        </Typography>{" "}
+                                    </React.Fragment>
                                 ) : incentive_read_only ? (
                                     <React.Fragment>
                                         <Typography variant="h2" color="error" gutterBottom>
@@ -158,20 +162,20 @@ class EditIncentivePage extends React.Component {
                                         </Typography>
                                         <Button variant="contained" color="primary" onClick={this.restoreIncentive}>
                                             Restore Perk
-                                        </Button>
+                                        </Button>{" "}
                                     </React.Fragment>
                                 ) : (
                                     <React.Fragment>
                                         <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                                         <Button variant="contained" color="primary" onClick={this.deleteIncentive}>
                                             Delete Perk
-                                        </Button>
+                                        </Button>{" "}
                                     </React.Fragment>
                                 )}
+                                <Button variant="contained" color="primary" onClick={this.moveToPost}>
+                                    Go To Post
+                                </Button>
                             </Box>
-                            <Button variant="contained" color="primary" onClick={this.goBack}>
-                                Go To Post
-                            </Button>
                         </Container>
                     </Box>
                     <Container maxWidth="xl">
