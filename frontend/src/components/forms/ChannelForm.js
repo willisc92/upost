@@ -5,6 +5,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import Input from "@material-ui/core/Input";
 
 export class ChannelForm extends React.Component {
     constructor(props) {
@@ -13,7 +14,10 @@ export class ChannelForm extends React.Component {
         this.state = {
             channel_name: this.props.channel ? this.props.channel.channel_name : "",
             channel_description: this.props.channel ? this.props.channel.channel_description : "",
-            error: ""
+            error: "",
+            picture: this.props.channel ? this.props.channel.picture : null,
+            orig_picture: this.props.channel ? this.props.channel.picture : null,
+            picture_preview: this.props.channel ? this.props.channel.picture : null
         };
     }
 
@@ -43,6 +47,20 @@ export class ChannelForm extends React.Component {
         }
     };
 
+    handleImageChange = async (e) => {
+        await this.setState({
+            picture: e.target.files[0],
+            picture_preview: URL.createObjectURL(e.target.files[0])
+        });
+    };
+
+    clearPicture = () => {
+        this.setState({
+            picture: null,
+            picture_preview: null
+        });
+    };
+
     onSubmit = (e) => {
         e.preventDefault();
         if (!this.state.channel_name) {
@@ -50,11 +68,33 @@ export class ChannelForm extends React.Component {
         } else {
             getCurrentUser().then((res) => {
                 this.setState(() => ({ error: "" }));
-                this.props.onSubmit({
-                    channel_name: this.state.channel_name,
-                    channel_description: this.state.channel_description,
-                    user: res.data.username
-                });
+                // Checks if the picture was changed on load (for edit requests).
+                const picture_changed = this.state.orig_picture !== this.state.picture;
+                // If there is a picture...
+                if (!!this.state.picture) {
+                    let form_data = new FormData();
+                    // If the picture changed from the existing one - submit as form data.
+                    if (picture_changed) {
+                        form_data.append("picture", this.state.picture);
+                        form_data.append("user", res.data.username);
+                        form_data.append("channel_name", this.state.channel_name);
+                        form_data.append("channel_description", this.state.channel_description);
+                        this.props.onSubmit(form_data);
+                    } else {
+                        let payload = {
+                            user: res.data.username,
+                            channel_name: this.state.channel_name,
+                            channel_description: this.state.channel_description
+                        };
+                        this.props.onSubmit(payload);
+                    }
+                } else {
+                    this.props.onSubmit({
+                        user: res.data.username,
+                        channel_name: this.state.channel_name,
+                        channel_description: this.state.channel_description
+                    });
+                }
             });
         }
     };
@@ -78,7 +118,7 @@ export class ChannelForm extends React.Component {
                         </Box>
                     )}
 
-                    <Box py={2}>
+                    <Box>
                         <TextField
                             label="Name"
                             type="text"
@@ -89,7 +129,7 @@ export class ChannelForm extends React.Component {
                             required
                         />
                     </Box>
-                    <Box py={2}>
+                    <Box>
                         <TextField
                             label="Description"
                             className="text-input"
@@ -99,6 +139,40 @@ export class ChannelForm extends React.Component {
                             onChange={this.onDescriptionChange}
                             disabled={this.props.read_only}
                             multiline
+                        />
+                    </Box>
+                    <Box>
+                        <Box paddingRight={2}>
+                            <Typography display="inline">Image upload: </Typography>
+                            {!this.state.picture_preview && (
+                                <Typography display="inline" color="error">
+                                    No image uploaded
+                                </Typography>
+                            )}
+                        </Box>
+                        {!!this.state.picture_preview && (
+                            <React.Fragment>
+                                <Box>
+                                    <img className="post_image" src={this.state.picture_preview} />
+                                </Box>
+                                <Button
+                                    onClick={this.clearPicture}
+                                    disabled={this.props.read_only}
+                                    color="primary"
+                                    variant="contained"
+                                >
+                                    Clear Picture
+                                </Button>
+                            </React.Fragment>
+                        )}
+                    </Box>
+                    <Box>
+                        <Input
+                            type="file"
+                            id="image"
+                            accept="image/png, image/jpeg"
+                            onChange={this.handleImageChange}
+                            disableUnderline
                         />
                     </Box>
                     {!this.props.read_only && (

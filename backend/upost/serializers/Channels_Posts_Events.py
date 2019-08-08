@@ -32,6 +32,8 @@ class EventSerializer(serializers.ModelSerializer):
         read_only=True, source="post.user")
     post_deleted_flag = serializers.BooleanField(
         read_only=True, source="post.deleted_flag")
+    post_picture = serializers.ImageField(
+        read_only=True, source="post.picture")
     capacity_status = serializers.SerializerMethodField()
 
     class Meta:
@@ -54,7 +56,8 @@ class EventSerializer(serializers.ModelSerializer):
             'post_deleted_flag',
             'last_updated',
             'capacity_status',
-            'path'
+            'path',
+            'post_picture'
         )
         model = PostEvent
 
@@ -129,7 +132,8 @@ class ContentChannelSerializer(serializers.ModelSerializer):
             'deletion_date',
             'channel_description',
             'channel_posts',
-            'last_updated'
+            'last_updated',
+            'picture'
         )
         model = ContentChannel
 
@@ -137,3 +141,4 @@ class ContentChannelSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
     channel_name = serializers.CharField(max_length=50, validators=[
         UniqueValidator(message="Channel name must be unique", queryset=ContentChannel.objects.all())])
+    extra_kwargs = {'picture': {'required': False}}

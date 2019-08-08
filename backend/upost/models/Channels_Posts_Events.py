@@ -28,6 +28,8 @@ class ContentChannel(models.Model):
     channel_description = models.CharField(
         db_column='Channel_Description', max_length=500, blank=True, null=True, default="")
     last_updated = models.DateTimeField(auto_now=True)
+    picture = models.ImageField(
+        null=True, blank=True, upload_to="channel_images/")
 
     def publish(self):
         self.creation_date = timezone.now()

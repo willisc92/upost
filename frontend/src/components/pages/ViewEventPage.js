@@ -23,10 +23,11 @@ import Box from "@material-ui/core/Box";
 import moment from "moment";
 import { getCurrentUser } from "../../actions/auth";
 import CustomStepper from "../CustomStepper";
+import { ShareGroup } from "../Share";
+import { baseURL } from "../../utils/baseURL";
 
 class ViewEventPage extends React.Component {
     _isMounted = false;
-
     constructor(props) {
         super(props);
 
@@ -35,7 +36,8 @@ class ViewEventPage extends React.Component {
             error: "",
             isOwner: false,
             steps: [],
-            activeStep: undefined
+            activeStep: undefined,
+            url: baseURL.concat(this.props.location.pathname)
         };
     }
 
@@ -307,9 +309,13 @@ class ViewEventPage extends React.Component {
                             {!!this.props.event && (
                                 <React.Fragment>
                                     <Box display="flex" justifyContent="space-between" py={2}>
-                                        <Typography variant="h2" color="primary">
-                                            {this.props.event.event_title}
-                                        </Typography>
+                                        <Box maxWidth="50%" display="flex">
+                                            <Box paddingRight={0.5}>
+                                                <Typography variant="h2" color="primary">
+                                                    {this.props.event.event_title}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
                                         <Box>
                                             {this.state.isOwner &&
                                                 (this.props.event.deleted_flag ? (
@@ -355,6 +361,7 @@ class ViewEventPage extends React.Component {
                                             </Button>
                                         </Box>
                                     </Box>
+                                    <ShareGroup url={this.state.url} quote={this.props.event.event_title} />
                                     {this.props.event.deleted_flag && (
                                         <Typography variant="h3" color="error" gutterBottom>
                                             Deletion Date:{" "}

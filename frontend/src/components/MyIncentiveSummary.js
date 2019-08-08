@@ -25,8 +25,15 @@ export const MyIncentiveSummary = ({ incentive, pathName, selected }) => {
                             <PolaroidHeader header={incentive.ip_description} />
                             {incentive.deleted_flag && (
                                 <PolaroidSubHeader
-                                    subheader={`(Deleted ${moment(incentive.deletion_date).format("ddd, MMM D YYYY")})`}
+                                    subheader={`(Deleted ${moment(incentive.deletion_date).format("l")})`}
+                                    color="primary"
                                 />
+                            )}
+                            {!!incentive.post_title && (
+                                <PolaroidSubHeader subheader={`Post: ${incentive.post_title}`} />
+                            )}
+                            {!!incentive.event_title && (
+                                <PolaroidSubHeader subheader={`Event: ${incentive.event_title}`} />
                             )}
                             <PolaroidBody body={`Type: ${incentive.incentive_type}`} />
                             {!!incentive.planned_start_date && !!incentive.planned_end_date && (

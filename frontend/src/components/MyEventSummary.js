@@ -7,7 +7,13 @@ import moment from "moment";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import { PolaroidHeader, PolaroidBody, PolaroidSubHeader, useStyles } from "../components/PolaroidComponents";
+import {
+    PolaroidHeader,
+    PolaroidBody,
+    PolaroidSubHeader,
+    PolaroidImage,
+    useStyles
+} from "../components/PolaroidComponents";
 
 export const MyEventSummary = ({ event, pathName, selected, inHorizontalMenu, setEvents }) => {
     const onClick = () => {
@@ -32,11 +38,13 @@ export const MyEventSummary = ({ event, pathName, selected, inHorizontalMenu, se
             >
                 <Card className={classes.card} style={{ boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)" }}>
                     <CardActionArea>
+                        <PolaroidImage image={event.post_picture} />
                         <CardContent>
                             <PolaroidHeader header={event.event_title} />
                             {event.deleted_flag && (
                                 <PolaroidSubHeader
-                                    subheader={`(Deleted ${moment(event.deletion_date).format("ddd, MMM D YYYY")})`}
+                                    color="primary"
+                                    subheader={`(Deleted ${moment(event.deletion_date).format("l")})`}
                                 />
                             )}
                             <PolaroidBody body={event.event_description} />
