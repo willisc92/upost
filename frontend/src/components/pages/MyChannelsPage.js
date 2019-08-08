@@ -47,7 +47,7 @@ export class MyChannelsPage extends React.Component {
                                     {" "}
                                     Bulletin Boards
                                     <HelpToolTip
-                                        html={
+                                        jsx={
                                             <React.Fragment>
                                                 <Typography variant="caption">
                                                     Bulletin Boards are a place where you can store related posts.

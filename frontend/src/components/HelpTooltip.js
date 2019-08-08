@@ -10,7 +10,7 @@ export class HelpToolTip extends React.Component {
 
     render() {
         return (
-            <Tooltip title={this.props.html} placement="right">
+            <Tooltip title={this.props.jsx} placement="right">
                 <IconButton color="primary">
                     <HelpIcon />
                 </IconButton>

@@ -61,11 +61,11 @@ class Random_Post_view(viewsets.ModelViewSet):
         interest_param = self.request.query_params.get('interest')
         if interest_param is not None:
             if communities is None:
-                queryset = queryset.filter(tags__interest_tag=interest_param).order_by('?')[
-                    :4]  # get 4 objects
+                queryset = queryset.filter(
+                    tags__interest_tag=interest_param).order_by('?')
             else:
-                queryset = queryset.filter(tags__interest_tag=interest_param, community__in=communities.all()).order_by('?')[
-                    :4]  # get 4 objects
+                queryset = queryset.filter(
+                    tags__interest_tag=interest_param, community__in=communities.all()).order_by('?')
         return queryset
 
 

@@ -116,7 +116,7 @@ export class SearchResultsPage extends React.Component {
                                         disableUnderline
                                     >
                                         <MenuItem value="all">Show All</MenuItem>
-                                        <MenuItem value="channels">Channels</MenuItem>
+                                        <MenuItem value="channels">Bulletin Boards</MenuItem>
                                         <MenuItem value="posts">Posts</MenuItem>
                                         <MenuItem value="events">Events</MenuItem>
                                     </Select>
@@ -153,10 +153,10 @@ export class SearchResultsPage extends React.Component {
                         <Box>
                             {(this.state.show === "all" || this.state.show === "channels") && (
                                 <Box py={2}>
-                                    {MenuHeader("Channels")}
+                                    {MenuHeader("Bulletin Boards")}
                                     {!!channels_menu && channels_menu.length === 0 ? (
                                         <Box py={2} fontWeight="fontWeightMedium">
-                                            <Typography>No Matching Channels</Typography>
+                                            <Typography>No Matching Bulletin Boards</Typography>
                                         </Box>
                                     ) : (
                                         <ScrollMenu

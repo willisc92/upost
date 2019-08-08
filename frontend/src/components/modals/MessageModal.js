@@ -1,5 +1,7 @@
 import React from "react";
 import Modal from "react-modal";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 
 class MessageModal extends React.Component {
     constructor(props) {
@@ -15,14 +17,12 @@ class MessageModal extends React.Component {
             <Modal className="modal" isOpen={this.props.isOpen} contentLabel="Message" closeTimeoutMS={200}>
                 <div className="modal__header">
                     <img className="modal__logo" src={CDNLink + "/dist/images/logo.png"} />
-                    <div>
-                        <p className="modal__header__label">{this.props.message}</p>
-                    </div>
+                    <Typography variant="h5">{this.props.message}</Typography>
                 </div>
                 <div className="modal__buttons">
-                    <button className="button modal__button" type="button" onClick={this.props.closeMessageModal}>
+                    <Button variant="contained" color="primary" onClick={this.props.closeMessageModal}>
                         Ok
-                    </button>
+                    </Button>
                 </div>
             </Modal>
         );

@@ -7,12 +7,12 @@ import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 import SignupModal from "../modals/SignupModal";
 import LoginModal from "../modals/LoginModal";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import MenuHeader from "../menus/MenuHeader";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import { HelpToolTip } from "../HelpTooltip";
 
 export class DashboardPage extends React.Component {
     constructor(props) {
@@ -159,6 +159,22 @@ export class DashboardPage extends React.Component {
                                         display="inline"
                                         color="primary"
                                     >{`${localStorage.getItem("first_name")}!`}</Typography>
+                                    <HelpToolTip
+                                        jsx={
+                                            <React.Fragment>
+                                                <Typography variant="caption">
+                                                    This is your homepage!
+                                                    <br />
+                                                    <br />
+                                                    Here you can see posts that are relevant to your interests within
+                                                    your communities!
+                                                    <br />
+                                                    <br />
+                                                    Posts are separated by your given interests.
+                                                </Typography>
+                                            </React.Fragment>
+                                        }
+                                    />
                                 </Typography>
                             </Box>
                         )}

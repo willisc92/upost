@@ -101,7 +101,7 @@ export class EditChannelPage extends React.Component {
                             </Typography>
                             {read_only && (
                                 <Typography variant="h2" color="error" gutterBottom>
-                                    You must restore this Channel before editing.
+                                    You must restore this bulletin board before editing.
                                 </Typography>
                             )}
                             <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />

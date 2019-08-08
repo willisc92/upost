@@ -48,7 +48,7 @@ class EditEventPage extends React.Component {
                                             onClick: this.moveToEventPage
                                         },
                                         { label: `Edit Event`, onClick: null },
-                                        { label: `Edit Incentive`, onClick: this.editIncentive }
+                                        { label: `Edit Event Perk`, onClick: this.editIncentive }
                                     ],
                                     activeStep: 5
                                 }));
@@ -67,7 +67,7 @@ class EditEventPage extends React.Component {
                                             onClick: this.moveToEventPage
                                         },
                                         { label: `Edit Event`, onClick: null },
-                                        { label: `Add Incentive`, onClick: this.addIncentive }
+                                        { label: `Add Event Perk`, onClick: this.addIncentive }
                                     ],
                                     activeStep: 5
                                 }));
@@ -208,11 +208,11 @@ class EditEventPage extends React.Component {
                                         </Button>{" "}
                                         {!!event.event_incentive ? (
                                             <Button variant="contained" color="primary" onClick={this.editIncentive}>
-                                                Edit Incentive
+                                                Edit Event Perk
                                             </Button>
                                         ) : (
                                             <Button variant="contained" color="primary" onClick={this.addIncentive}>
-                                                Add Incentive
+                                                Add Event Perk
                                             </Button>
                                         )}
                                     </span>

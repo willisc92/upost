@@ -5,7 +5,7 @@ import MyPostSummary from "../MyPostSummary";
 import { Link } from "react-router-dom";
 import PostFilterSelector from "../filter_selectors/PostFilterSelector";
 import { getVisiblePosts } from "../../selectors/myPosts";
-
+import { HelpToolTip } from "../HelpTooltip";
 import Box from "@material-ui/core/Box";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Typography from "@material-ui/core/Typography";
@@ -30,7 +30,20 @@ export class MyCommunityPosts extends React.Component {
                     <Box bgcolor="secondary.main" py={3}>
                         <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
-                                Posts from your Communities
+                                My Communities
+                                <HelpToolTip
+                                    jsx={
+                                        <React.Fragment>
+                                            <Typography variant="caption">
+                                                Here you can see all posts that are linked to communities that you have
+                                                selected!
+                                                <br />
+                                                <br />
+                                                All posts that appear here may or may not be relevant to your interests!
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
                             </Typography>
                             <PostFilterSelector />
                         </Container>

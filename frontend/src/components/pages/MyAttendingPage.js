@@ -8,6 +8,7 @@ import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import { HelpToolTip } from "../HelpTooltip";
 
 class MyAttendingPage extends React.Component {
     componentWillMount() {
@@ -28,7 +29,16 @@ class MyAttendingPage extends React.Component {
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
-                            Events You are Registered to Attend
+                            Events I'm Attending
+                            <HelpToolTip
+                                jsx={
+                                    <React.Fragment>
+                                        <Typography variant="caption">
+                                            Here you can see all events you have registered to attend!
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
                         </Typography>
                         <EventFilterSelector foodSpecific={false} />
                     </Container>
