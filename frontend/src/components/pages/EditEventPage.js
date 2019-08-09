@@ -10,6 +10,8 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { EventDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 class EditEventPage extends React.Component {
     constructor(props) {
@@ -119,12 +121,12 @@ class EditEventPage extends React.Component {
 
     goToPost = () => {
         const post_id = this.props.match.params.id;
-        this.props.history.push(`/myPosts/${post_id}/edit`);
+        this.props.history.push(`/post/${post_id}`);
     };
 
     moveToPostEventsPage = () => {
         const post_id = this.props.match.params.id;
-        this.props.history.push(`/myPost/${post_id}`);
+        this.props.history.push(`/post-events/${post_id}`);
     };
 
     moveToBulletinBoards = () => {
@@ -191,6 +193,7 @@ class EditEventPage extends React.Component {
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {event && event.event_title}
                                 </Typography>
+                                <HelpToolTip jsx={<Typography variant="caption">{EventDescription}</Typography>} />
                             </Typography>
                             <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                             {post_read_only ? (

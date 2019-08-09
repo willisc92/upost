@@ -8,6 +8,8 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { HelpToolTip } from "../HelpTooltip";
+import { BulletinBoardDescription } from "../tooltip_descriptions/Descriptions";
 
 export class EditChannelPage extends React.Component {
     constructor(props) {
@@ -98,6 +100,9 @@ export class EditChannelPage extends React.Component {
                                 <Typography variant="inherit" color="primary" display="inline">
                                     {!!this.props.channel && this.props.channel.channel_name}
                                 </Typography>
+                                <HelpToolTip
+                                    jsx={<Typography variant="caption">{BulletinBoardDescription}</Typography>}
+                                />
                             </Typography>
                             {read_only && (
                                 <Typography variant="h2" color="error" gutterBottom>

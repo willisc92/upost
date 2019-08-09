@@ -7,6 +7,8 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { HelpToolTip } from "../HelpTooltip";
+import { BulletinBoardDescription } from "../tooltip_descriptions/Descriptions";
 
 export const AddChannelPage = (props) => {
     const onSubmit = (channel) => {
@@ -32,6 +34,7 @@ export const AddChannelPage = (props) => {
                 <Container maxWidth="xl">
                     <Typography variant="h1" color="primary" gutterBottom>
                         Create a Bulletin Board
+                        <HelpToolTip jsx={<Typography variant="caption">{BulletinBoardDescription}</Typography>} />
                     </Typography>
                     <CustomStepper activeStep={1} steps={steps} />
                     <Button color="primary" variant="contained" onClick={goBack}>

@@ -13,6 +13,8 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 import CustomStepper from "../CustomStepper";
+import { HelpToolTip } from "../HelpTooltip";
+import { BulletinBoardDescription } from "../tooltip_descriptions/Descriptions";
 
 export class ViewChannelPage extends React.Component {
     _isMounted = false;
@@ -143,7 +145,37 @@ export class ViewChannelPage extends React.Component {
                             Bulletin Board:{" "}
                             <Typography variant="inherit" display="inline" color="primary">
                                 {this.props.channel.channel_name}
-                            </Typography>{" "}
+                            </Typography>
+                            <HelpToolTip
+                                jsx={
+                                    <React.Fragment>
+                                        <Typography variant="caption">
+                                            {BulletinBoardDescription}
+                                            <br />
+                                            <br />
+                                            From here you can:
+                                            <ul>
+                                                <li>See all posts that are listed under the given bulletin board</li>
+                                                <li>Click on a post to see more indepth post details</li>
+                                                <li>
+                                                    Subscribe to the bulletin board to quickly access this page later
+                                                    from "My Subscriptions" in the sidebar
+                                                </li>
+                                                {this.state.isOwner && (
+                                                    <React.Fragment>
+                                                        <li>Add a new post</li>
+                                                        <li>Edit, delete, or restore this bulletin board</li>
+                                                        <li>
+                                                            Delete all posts matching the filters shown on this bulletin
+                                                            board
+                                                        </li>
+                                                    </React.Fragment>
+                                                )}
+                                            </ul>
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
                             {!!this.props.subscriptions && (
                                 <Button color="primary" variant="contained" onClick={this.updateSubscriptions}>
                                     {this.props.subscriptions.includes(this.props.channel.channel_id)

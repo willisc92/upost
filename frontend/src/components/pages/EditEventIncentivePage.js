@@ -10,12 +10,13 @@ import {
     deleteIncentivePackage,
     restoreIncentivePackage
 } from "../../actions/incentivePackage";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { PerkDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 class EditEventIncentivePage extends React.Component {
     constructor(props) {
@@ -156,6 +157,7 @@ class EditEventIncentivePage extends React.Component {
                                 <Typography variant="h1" display="inline" color="primary" component="span">
                                     {this.props.event && this.props.event.event_title}
                                 </Typography>
+                                <HelpToolTip jsx={<Typography variant="caption">{PerkDescription}</Typography>} />
                             </Typography>
                             <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                             <Box paddingBottom={2}>

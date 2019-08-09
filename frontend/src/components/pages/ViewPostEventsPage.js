@@ -11,6 +11,8 @@ import Box from "@material-ui/core/Box";
 import { getCurrentUser } from "../../actions/auth";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { HelpToolTip } from "../HelpTooltip";
+import { EventDescription } from "../tooltip_descriptions/Descriptions";
 
 class ViewPostEventsPage extends React.Component {
     _isMounted = false;
@@ -144,12 +146,35 @@ class ViewPostEventsPage extends React.Component {
                     <Container maxWidth="xl">
                         {!!this.props.post && (
                             <React.Fragment>
-                                <Typography variant="h1" display="inline">
+                                <Typography variant="h1" gutterBottom>
                                     Events for
-                                </Typography>
-                                <Typography variant="h1" color="primary" display="inline">
-                                    {" "}
-                                    {this.props.post.post_title}
+                                    <Typography variant="h1" color="primary" display="inline">
+                                        {" "}
+                                        {this.props.post.post_title}
+                                    </Typography>
+                                    <HelpToolTip
+                                        jsx={
+                                            <React.Fragment>
+                                                <Typography variant="caption">
+                                                    {EventDescription}
+                                                    <br />
+                                                    <br />
+                                                    From here you can:
+                                                    <ul>
+                                                        <li>See all events tied to the given post</li>
+                                                        <li>Click on a specific event to get more details</li>
+                                                        <li>Return to the post that contains these events</li>
+                                                        {this.state.isOwner && (
+                                                            <React.Fragment>
+                                                                <li>Add an event</li>
+                                                                <li>Delete all events matching the current filters</li>
+                                                            </React.Fragment>
+                                                        )}
+                                                    </ul>
+                                                </Typography>
+                                            </React.Fragment>
+                                        }
+                                    />
                                 </Typography>
                             </React.Fragment>
                         )}
@@ -178,18 +203,22 @@ class ViewPostEventsPage extends React.Component {
                 </Box>
                 <Box paddingTop={2}>
                     <Container maxWidth="xl">
-                        <Box display="flex" flexWrap="wrap">
-                            {!!events &&
-                                events.map((event) => {
-                                    return (
-                                        <EventSummary
-                                            key={event.event_id}
-                                            event={event}
-                                            pathName={`/event/${event.event_id}`}
-                                        />
-                                    );
-                                })}
-                        </Box>
+                        {!!events && events.length === 0 ? (
+                            <Typography>No Events to Show.</Typography>
+                        ) : (
+                            <Box display="flex" flexWrap="wrap">
+                                {!!events &&
+                                    events.map((event) => {
+                                        return (
+                                            <EventSummary
+                                                key={event.event_id}
+                                                event={event}
+                                                pathName={`/event/${event.event_id}`}
+                                            />
+                                        );
+                                    })}
+                            </Box>
+                        )}
                     </Container>
                 </Box>
             </React.Fragment>

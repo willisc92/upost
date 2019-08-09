@@ -16,6 +16,8 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { PerkDescription, EventDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 class AddEventPage extends React.Component {
     constructor(props) {
@@ -500,6 +502,16 @@ class AddEventPage extends React.Component {
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.post && this.props.post.post_title}
                                 </Typography>
+                                <HelpToolTip
+                                    jsx={
+                                        <React.Fragment>
+                                            <Typography variant="caption">{EventDescription}</Typography>
+                                            <br />
+                                            <br />
+                                            <Typography variant="caption">{PerkDescription}</Typography>
+                                        </React.Fragment>
+                                    }
+                                />
                             </Typography>
                         )}
                         <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />

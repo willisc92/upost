@@ -10,6 +10,7 @@ import Container from "@material-ui/core/Container";
 import Box from "@material-ui/core/Box";
 import { HelpToolTip } from "../HelpTooltip";
 import CustomStepper from "../CustomStepper";
+import { BulletinBoardDescription } from "../tooltip_descriptions/Descriptions";
 
 export class MyChannelsPage extends React.Component {
     constructor(props) {
@@ -50,12 +51,14 @@ export class MyChannelsPage extends React.Component {
                                         jsx={
                                             <React.Fragment>
                                                 <Typography variant="caption">
-                                                    Bulletin Boards are a place where you can store related posts.
+                                                    {BulletinBoardDescription}
                                                     <br />
                                                     <br />
-                                                    For example, you could make a bulletin board for related posts for
-                                                    your club that you run at your University and another bulletin board
-                                                    for an unrelated club!
+                                                    From here you can:
+                                                    <ul>
+                                                        <li>Click on a bulletin board to see its posts and details</li>
+                                                        <li>Create a new bulletin board</li>
+                                                    </ul>
                                                 </Typography>
                                             </React.Fragment>
                                         }

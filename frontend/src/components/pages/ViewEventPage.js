@@ -25,6 +25,8 @@ import { getCurrentUser } from "../../actions/auth";
 import CustomStepper from "../CustomStepper";
 import { ShareGroup } from "../Share";
 import { baseURL } from "../../utils/baseURL";
+import { HelpToolTip } from "../HelpTooltip";
+import { EventDescription } from "../tooltip_descriptions/Descriptions";
 
 class ViewEventPage extends React.Component {
     _isMounted = false;
@@ -289,7 +291,37 @@ class ViewEventPage extends React.Component {
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
-                        <Typography variant="h1">Event</Typography>
+                        <Typography variant="h1">
+                            Event
+                            <HelpToolTip
+                                jsx={
+                                    <React.Fragment>
+                                        <Typography variant="caption">
+                                            {EventDescription}
+                                            <br />
+                                            <br />
+                                            From here you can:
+                                            <ul>
+                                                <li>See all specific event details</li>
+                                                <li>
+                                                    Subscribe/unsubscribe to the bulletin board containing this event
+                                                </li>
+                                                <li>See any perks that are tied to this event.</li>
+                                                <li>Share the link to this event on Twitter, Facebook, or E-mail</li>
+                                                <li>Return to the post that contains these events</li>
+                                                <li>Register or unregister to the event</li>
+                                                {this.state.isOwner && (
+                                                    <React.Fragment>
+                                                        <li>Delete or restore this event</li>
+                                                        <li>Edit this event</li>
+                                                    </React.Fragment>
+                                                )}
+                                            </ul>
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
+                        </Typography>
                         <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                     </Container>
                 </Box>

@@ -4,12 +4,13 @@ import { getCurrentUser } from "../../actions/auth";
 import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { startSetEvent, clearEvents } from "../../actions/events";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { PerkDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 class AddEventIncentivePage extends React.Component {
     constructor(props) {
@@ -78,7 +79,7 @@ class AddEventIncentivePage extends React.Component {
     };
 
     goToPost = () => {
-        this.props.history.push(`/myPosts/${this.props.event.post}`);
+        this.props.history.push(`/post/${this.props.event.post}`);
     };
 
     moveToPostEventsPage = () => {
@@ -117,6 +118,7 @@ class AddEventIncentivePage extends React.Component {
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.event && this.props.event.event_title}
                                 </Typography>
+                                <HelpToolTip jsx={<Typography variant="caption">{PerkDescription}</Typography>} />
                             </Typography>
                             <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                             {existing_incentive ? (
@@ -136,7 +138,7 @@ class AddEventIncentivePage extends React.Component {
                                 )
                             )}
                             <Box>
-                                <Button variant="contained" color="primary" onClick={this.goBack}>
+                                <Button variant="contained" color="primary" onClick={this.moveToEventPage}>
                                     Go to Event
                                 </Button>
                             </Box>

@@ -14,6 +14,8 @@ import moment from "moment";
 import CustomStepper from "../CustomStepper";
 import { ShareGroup } from "../Share";
 import { baseURL } from "../../utils/baseURL";
+import { HelpToolTip } from "../HelpTooltip";
+import { PostDescription } from "../tooltip_descriptions/Descriptions";
 
 class ViewPostPage extends React.Component {
     _isMounted = false;
@@ -154,7 +156,34 @@ class ViewPostPage extends React.Component {
                     <Box bgcolor="secondary.main" py={3}>
                         <Container maxWidth="xl">
                             <Typography variant="h1">
-                                Post{" "}
+                                Post
+                                <HelpToolTip
+                                    jsx={
+                                        <React.Fragment>
+                                            <Typography variant="caption">
+                                                {PostDescription}
+                                                <br />
+                                                <br />
+                                                From here you can:
+                                                <ul>
+                                                    <li>See all specific post details. </li>
+                                                    <li>
+                                                        Subscribe/unsubscribe to the bulletin board containing this post
+                                                    </li>
+                                                    <li>See any perks that are tied to this post.</li>
+                                                    <li>Share the link to this post on Twitter, Facebook, or E-mail</li>
+                                                    <li>See all the events that are tied to this post.</li>
+                                                    {this.state.isOwner && (
+                                                        <React.Fragment>
+                                                            <li>Delete or restore this post</li>
+                                                            <li>Edit this post</li>
+                                                        </React.Fragment>
+                                                    )}
+                                                </ul>
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
                                 {!!this.props.location.state && !!this.props.location.state.fromRandom && (
                                     <Button
                                         variant="contained"
@@ -227,7 +256,8 @@ class ViewPostPage extends React.Component {
                                                     </React.Fragment>
                                                 ))}
 
-                                            {this.props.post.post_events.length > 0 && (
+                                            {(this.state.isOwner ||
+                                                (!this.state.isOwner && this.props.post.post_events.length > 0)) && (
                                                 <Button
                                                     variant="contained"
                                                     color="primary"
