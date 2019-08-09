@@ -5,6 +5,7 @@ import AppRouter, { history } from "./routers/AppRouter";
 import configureStore from "./store/configureStore";
 import LoadingPage from "./components/pages/LoadingPage";
 import "normalize.css/normalize.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./styles/styles.scss";
 import "react-dates/lib/css/_datepicker.css";
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";

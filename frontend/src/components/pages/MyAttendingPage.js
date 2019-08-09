@@ -9,8 +9,19 @@ import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { HelpToolTip } from "../HelpTooltip";
+import { MyCalendar } from "../Calendar";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import ToggleButton from "@material-ui/lab/ToggleButton";
 
 class MyAttendingPage extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            view: "list"
+        };
+    }
+
     componentWillMount() {
         this.props.clearEvents();
         this.props.resetEventFilters();
@@ -21,8 +32,29 @@ class MyAttendingPage extends React.Component {
             .catch((err) => console.log(err));
     }
 
+    onSelectEvent = (e) => {
+        this.props.history.push(`/event/${e.id}`);
+    };
+
+    onViewChange = (e, value) => {
+        this.props.resetEventFilters();
+
+        this.setState(() => ({
+            view: value
+        }));
+    };
+
     render() {
         const events = !!this.props.events && getVisibleEvents(this.props.events, this.props.filters, false);
+        const calendarEvents =
+            !!events &&
+            events.map((event) => ({
+                id: event.event_id,
+                title: event.event_title,
+                start: new Date(event.planned_start_date),
+                end: new Date(event.planned_end_date),
+                allDay: false
+            }));
 
         return (
             <div>
@@ -39,25 +71,42 @@ class MyAttendingPage extends React.Component {
                                     </React.Fragment>
                                 }
                             />
+                            <ToggleButtonGroup exclusive onChange={this.onViewChange}>
+                                <ToggleButton key={0} value={"calendar"}>
+                                    Calendar View
+                                </ToggleButton>
+                                <ToggleButton key={1} value={"list"}>
+                                    List View
+                                </ToggleButton>
+                            </ToggleButtonGroup>
                         </Typography>
-                        <EventFilterSelector foodSpecific={false} />
+                        <EventFilterSelector foodSpecific={false} listView={this.state.view === "list"} />
                     </Container>
                 </Box>
 
                 <Container maxWidth="xl">
                     {events ? (
-                        <Box display="flex" flexWrap="flex" py={2}>
+                        <Box>
                             {events.length > 0 ? (
-                                events.map((event) => {
-                                    return (
-                                        <EventSummary
-                                            key={event.event_id}
-                                            event={event}
-                                            pathName={`/event/${event.event_id}`}
-                                            inHorizontalMenu={false}
-                                        />
-                                    );
-                                })
+                                <React.Fragment>
+                                    {this.state.view === "list" && (
+                                        <Box display="flex" flexWrap="wrap" py={2}>
+                                            {events.map((event) => {
+                                                return (
+                                                    <EventSummary
+                                                        key={event.event_id}
+                                                        event={event}
+                                                        pathName={`/event/${event.event_id}`}
+                                                        inHorizontalMenu={false}
+                                                    />
+                                                );
+                                            })}
+                                        </Box>
+                                    )}
+                                    {this.state.view === "calendar" && (
+                                        <MyCalendar events={calendarEvents} onSelectEvent={this.onSelectEvent} />
+                                    )}
+                                </React.Fragment>
                             ) : this.props.events.length === 0 ? (
                                 <Typography variant="h2">You are not registered to any events.</Typography>
                             ) : (

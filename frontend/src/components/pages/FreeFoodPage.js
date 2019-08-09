@@ -57,7 +57,7 @@ export class FreeFoodPage extends React.Component {
                     </Box>
 
                     <Container maxWidth="xl">
-                        <Box display="flex" flexWrap="flex" py={2}>
+                        <Box display="flex" flexWrap="wrap" py={2}>
                             {events.length > 0 ? (
                                 events.map((event) => {
                                     return (

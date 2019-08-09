@@ -46,7 +46,7 @@ class MySubscriptionsPage extends React.Component {
 
                 <Container maxWidth="xl">
                     {channels ? (
-                        <Box display="flex" flexWrap="flex" py={2}>
+                        <Box display="flex" flexWrap="wrap" py={2}>
                             {channels.length > 0 ? (
                                 channels.map((channel) => {
                                     return (
