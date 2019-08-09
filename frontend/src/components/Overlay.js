@@ -18,8 +18,12 @@ import Header from "./Header";
 import Icon from "@material-ui/core/Icon";
 import Box from "@material-ui/core/Box";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const drawerWidth = 240;
+const appBarHeight = 64;
+const footerHeight = 125;
+const footerMargin = 30;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
         transition: theme.transitions.create(["width", "margin"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
-        })
+        }),
+        height: appBarHeight
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -39,6 +44,13 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen
         })
+    },
+    footer: {
+        marginTop: footerMargin,
+        bottom: 0,
+        height: footerHeight,
+        display: "flex",
+        flexDirection: "column"
     },
     menuButton: {
         marginRight: 15
@@ -79,7 +91,16 @@ const useStyles = makeStyles((theme) => ({
     content: {
         flexGrow: 1,
         padding: 0,
-        minWidth: 150
+        margin: 0,
+        minWidth: 150,
+        backgroundColor: "white"
+    },
+    main: {
+        minHeight: `calc(100vh - ${appBarHeight + footerHeight + footerMargin}px)`, //idk why scrolling still happens
+        margin: 0,
+        padding: 0,
+        marginTop: appBarHeight,
+        backgroundColor: "white"
     }
 }));
 
@@ -234,7 +255,10 @@ export default (props) => {
                     </ListItem>
                 </List>
             </Drawer>
-            <main className={classes.content}>{props.children}</main>
+            <Box className={classes.content}>
+                <main className={classes.main}>{props.children}</main>
+                <Footer className={classes.footer} />
+            </Box>
         </div>
     );
 };
