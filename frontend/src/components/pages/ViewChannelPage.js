@@ -140,7 +140,7 @@ export class ViewChannelPage extends React.Component {
     render() {
         const posts = !!this.props.posts && this.props.posts;
         return (
-            <div>
+            <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
@@ -275,7 +275,7 @@ export class ViewChannelPage extends React.Component {
                         </Container>
                     </Box>
                 )}
-            </div>
+            </React.Fragment>
         );
     }
 }
