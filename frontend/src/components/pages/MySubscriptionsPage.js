@@ -9,6 +9,7 @@ import { HelpToolTip } from "../HelpTooltip";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import Loading from "./LoadingPage";
 
 class MySubscriptionsPage extends React.Component {
     componentWillMount() {
@@ -45,28 +46,32 @@ class MySubscriptionsPage extends React.Component {
                 </Box>
 
                 <Container maxWidth="xl">
-                    {channels ? (
-                        <Box display="flex" flexWrap="wrap" py={2}>
-                            {channels.length > 0 ? (
-                                channels.map((channel) => {
-                                    return (
-                                        <ChannelSummary
-                                            key={channel.channel_id}
-                                            channel={channel}
-                                            pathName={`/channel/${channel.channel_id}`}
-                                            inHorizontalMenu={false}
-                                        />
-                                    );
-                                })
+                    <Box py={2}>
+                        {channels ? (
+                            channels.length > 0 ? (
+                                <Box display="flex" flexWrap="wrap">
+                                    {channels.map((channel) => {
+                                        return (
+                                            <ChannelSummary
+                                                key={channel.channel_id}
+                                                channel={channel}
+                                                pathName={`/channel/${channel.channel_id}`}
+                                                inHorizontalMenu={false}
+                                            />
+                                        );
+                                    })}
+                                </Box>
                             ) : this.props.channels.length === 0 ? (
                                 <Typography variant="h2">You have no subscriptions.</Typography>
                             ) : (
                                 <Typography variant="h2">No Matching Bulletin Boards</Typography>
-                            )}
-                        </Box>
-                    ) : (
-                        <Typography> Loading... </Typography>
-                    )}
+                            )
+                        ) : (
+                            <Box py={2}>
+                                <Loading />
+                            </Box>
+                        )}
+                    </Box>
                 </Container>
             </div>
         );

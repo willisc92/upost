@@ -15,6 +15,7 @@ import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/s
 import CustomStepper from "../CustomStepper";
 import { HelpToolTip } from "../HelpTooltip";
 import { BulletinBoardDescription } from "../tooltip_descriptions/Descriptions";
+import { resetPostFilters } from "../../actions/post_filters";
 
 export class ViewChannelPage extends React.Component {
     _isMounted = false;
@@ -35,6 +36,7 @@ export class ViewChannelPage extends React.Component {
 
     componentDidMount() {
         this._isMounted = true;
+        this.props.resetPostFilters();
 
         const channel_id = this.props.match.params.id;
         getCurrentUser()
@@ -249,7 +251,7 @@ export class ViewChannelPage extends React.Component {
                     </Container>
                 </Box>
                 {posts !== [] && (
-                    <Box paddingTop={2}>
+                    <Box py={2}>
                         <Container maxWidth="xl">
                             <Box display="flex" flexWrap="wrap">
                                 {posts.length > 0 ? (
@@ -301,7 +303,8 @@ const mapDispatchToProps = (dispatch) => ({
     restoreChannel: (id) => dispatch(restoreChannel(id)),
     deletePost: (id) => dispatch(deletePost(id)),
     startGetSubscriptions: () => dispatch(startGetSubscriptions()),
-    startUpdateSubscriptions: (id) => dispatch(startUpdateSubscriptions(id))
+    startUpdateSubscriptions: (id) => dispatch(startUpdateSubscriptions(id)),
+    resetPostFilters: () => dispatch(resetPostFilters())
 });
 
 export default connect(

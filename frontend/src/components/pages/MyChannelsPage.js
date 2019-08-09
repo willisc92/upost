@@ -3,7 +3,7 @@ import { getVisibleChannels } from "../../selectors/myChannels";
 import { connect } from "react-redux";
 import { startSetChannels } from "../../actions/channels";
 import MyChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
-import ChannelListItem from "../ChannelListItem";
+import ChannelSummary from "../ChannelListItem";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
@@ -11,6 +11,8 @@ import Box from "@material-ui/core/Box";
 import { HelpToolTip } from "../HelpTooltip";
 import CustomStepper from "../CustomStepper";
 import { BulletinBoardDescription } from "../tooltip_descriptions/Descriptions";
+import Loading from "./LoadingPage";
+import { resetChannelFilters } from "../../actions/channel_filters";
 
 export class MyChannelsPage extends React.Component {
     constructor(props) {
@@ -23,6 +25,7 @@ export class MyChannelsPage extends React.Component {
     }
 
     componentDidMount() {
+        this.props.resetChannelFilters();
         this.props.startSetChannels();
     }
 
@@ -35,87 +38,87 @@ export class MyChannelsPage extends React.Component {
     };
 
     render() {
-        const channels = !!this.props.channels && this.props.channels;
+        const channels = !!this.props.channels && getVisibleChannels(this.props.channels, this.props.filters, false);
 
         return (
-            channels && (
-                <React.Fragment>
-                    <Box bgcolor="secondary.main" py={3}>
-                        <Container maxWidth="xl">
-                            <Typography variant="h1" color="primary" gutterBottom>
-                                {localStorage.getItem("first_name")} -
-                                <Typography variant="inherit" display="inline" color="textPrimary">
-                                    {" "}
-                                    Bulletin Boards
-                                    <HelpToolTip
-                                        jsx={
-                                            <React.Fragment>
-                                                <Typography variant="caption">
-                                                    {BulletinBoardDescription}
-                                                    <br />
-                                                    <br />
-                                                    From here you can:
-                                                    <ul>
-                                                        <li>Click on a bulletin board to see its posts and details</li>
-                                                        <li>Create a new bulletin board</li>
-                                                    </ul>
-                                                </Typography>
-                                            </React.Fragment>
-                                        }
-                                    />
-                                </Typography>
+            <React.Fragment>
+                <Box bgcolor="secondary.main" py={3}>
+                    <Container maxWidth="xl">
+                        <Typography variant="h1" color="primary" gutterBottom>
+                            {localStorage.getItem("first_name")} -
+                            <Typography variant="inherit" display="inline" color="textPrimary">
+                                {" "}
+                                Bulletin Boards
+                                <HelpToolTip
+                                    jsx={
+                                        <React.Fragment>
+                                            <Typography variant="caption">
+                                                {BulletinBoardDescription}
+                                                <br />
+                                                <br />
+                                                From here you can:
+                                                <ul>
+                                                    <li>Click on a bulletin board to see its posts and details</li>
+                                                    <li>Create a new bulletin board</li>
+                                                </ul>
+                                            </Typography>
+                                        </React.Fragment>
+                                    }
+                                />
                             </Typography>
-                            <CustomStepper steps={this.state.steps} activestep={this.state.activestep} />
-                            <Box marginTop={2}>
-                                <MyChannelFilterSelector />
-                                <Button
-                                    color="primary"
-                                    size="large"
-                                    variant="contained"
-                                    onClick={this.handleAddChannel}
-                                >
-                                    Create a Bulletin Board
-                                </Button>
-                            </Box>
-                        </Container>
-                    </Box>
-                    <Box paddingTop={2}>
-                        <Container maxWidth="xl">
-                            <Box display="flex" flexWrap="wrap">
-                                {channels.length > 0 ? (
-                                    channels.map((channel) => {
+                        </Typography>
+                        <CustomStepper steps={this.state.steps} activestep={this.state.activestep} />
+                        <Box marginTop={2}>
+                            <MyChannelFilterSelector />
+                            <Button color="primary" size="large" variant="contained" onClick={this.handleAddChannel}>
+                                Create a Bulletin Board
+                            </Button>
+                        </Box>
+                    </Container>
+                </Box>
+                <Container maxWidth="xl">
+                    <Box py={2}>
+                        {channels ? (
+                            channels.length > 0 ? (
+                                <Box display="flex" flexWrap="wrap">
+                                    {channels.map((channel) => {
                                         return (
-                                            <ChannelListItem
-                                                channel={channel}
+                                            <ChannelSummary
                                                 key={channel.channel_id}
-                                                pathName={`/channels/${channel.channel_id}`}
+                                                channel={channel}
+                                                pathName={`/channel/${channel.channel_id}`}
                                                 inHorizontalMenu={false}
                                             />
                                         );
-                                    })
-                                ) : (
-                                    <Typography color="error" variant="h4">
-                                        No Bulletin Boards
-                                    </Typography>
-                                )}
+                                    })}
+                                </Box>
+                            ) : this.props.channels.length === 0 ? (
+                                <Typography variant="h2">You have no Bulletin Boards.</Typography>
+                            ) : (
+                                <Typography variant="h2">No Matching Bulletin Boards</Typography>
+                            )
+                        ) : (
+                            <Box py={2}>
+                                <Loading />
                             </Box>
-                        </Container>
+                        )}
                     </Box>
-                </React.Fragment>
-            )
+                </Container>
+            </React.Fragment>
         );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        channels: getVisibleChannels(state.channels.channels, state.channelFilters, false),
-        loading: state.channels.loading
+        channels: state.channels.channels,
+        filters: state.channelFilters
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    startSetChannels: () => dispatch(startSetChannels())
+    startSetChannels: () => dispatch(startSetChannels()),
+    resetChannelFilters: () => dispatch(resetChannelFilters())
 });
 
 export default connect(

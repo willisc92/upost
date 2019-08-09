@@ -12,6 +12,7 @@ import { HelpToolTip } from "../HelpTooltip";
 import { MyCalendar } from "../Calendar";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
+import Loading from "./LoadingPage";
 
 class MyAttendingPage extends React.Component {
     constructor(props) {
@@ -86,11 +87,11 @@ class MyAttendingPage extends React.Component {
 
                 <Container maxWidth="xl">
                     {events ? (
-                        <Box>
+                        <Box py={2}>
                             {events.length > 0 ? (
                                 <React.Fragment>
                                     {this.state.view === "list" && (
-                                        <Box display="flex" flexWrap="wrap" py={2}>
+                                        <Box display="flex" flexWrap="wrap">
                                             {events.map((event) => {
                                                 return (
                                                     <EventSummary
@@ -114,7 +115,9 @@ class MyAttendingPage extends React.Component {
                             )}
                         </Box>
                     ) : (
-                        <Typography> Loading... </Typography>
+                        <Box py={2}>
+                            <Loading />
+                        </Box>
                     )}
                 </Container>
             </div>
