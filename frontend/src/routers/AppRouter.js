@@ -33,6 +33,8 @@ import AccountActivationPage from "../components/pages/AccountActivationPage";
 import PasswordResetPage from "../components/pages/PasswordResetPage";
 import MyAttendingPage from "../components/pages/MyAttendingPage";
 import MySubscriptionsPage from "../components/pages/MySubscriptionsPage";
+import ContactUsPage from "../components/pages/ContactUsPage";
+import PrivacyPolicyPage from "../components/pages/PrivacyPolicyPage";
 import Overlay from "../components/Overlay";
 import Box from "@material-ui/core/Box";
 
@@ -53,6 +55,8 @@ class AppRouter extends React.Component {
                     <Box>
                         <Switch>
                             <Route path="/" component={DashboardPage} exact={true} />
+                            <Route path="/contact-us" component={ContactUsPage} exact={true} />
+                            <Route path="/privacy-policy" component={PrivacyPolicyPage} exact={true} />
                             <PrivateRoute path="/myChannels/" component={MyChannelsPage} exact={true} />
                             <PrivateRoute path="/channels/:id" component={ViewChannelPage} exact={true} />
                             <PrivateRoute path="/myChannels/:id/addPost" component={AddPostPage} exact={true} />

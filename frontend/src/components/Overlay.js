@@ -253,11 +253,23 @@ export default (props) => {
                         </ListItemIcon>
                         <ListItemText primary={"RECYCLE BIN"} />
                     </ListItem>
+                    <ListItem
+                        button
+                        onClick={() => {
+                            props.history.push("/contact-us");
+                            handleDrawerClose();
+                        }}
+                    >
+                        <ListItemIcon>
+                            <Icon>feedback</Icon>
+                        </ListItemIcon>
+                        <ListItemText primary={"CONTACT US"} />
+                    </ListItem>
                 </List>
             </Drawer>
             <Box className={classes.content}>
                 <main className={classes.main}>{props.children}</main>
-                <Footer className={classes.footer} />
+                <Footer className={classes.footer} history={props.history} />
             </Box>
         </div>
     );

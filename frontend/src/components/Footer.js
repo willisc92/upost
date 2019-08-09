@@ -2,7 +2,6 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
-import { FacebookIcon, EmailIcon, TwitterIcon } from "react-share";
 import { SocialIcon } from "react-social-icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +40,14 @@ const iconStyles = {
 const Footer = (props) => {
     const classes = useStyles();
 
+    const moveToContactUs = () => {
+        props.history.push("/contact-us");
+    };
+
+    const moveToPrivacyPolicy = () => {
+        props.history.push("/privacy-policy");
+    };
+
     return (
         <Box {...props}>
             <Box className={classes.contact}>
@@ -62,11 +69,15 @@ const Footer = (props) => {
             <Box className={classes.privacy}>
                 <Box className={classes.row}>
                     <Box className={classes.spacing}>
-                        <Typography variant="body1">Privacy Policy</Typography>
+                        <Typography variant="body1" onClick={moveToPrivacyPolicy} style={{ cursor: "pointer" }}>
+                            Privacy Policy
+                        </Typography>
                     </Box>
                     <Typography variant="body1">|</Typography>
                     <Box className={classes.spacing}>
-                        <Typography variant="body1">Contact Us</Typography>
+                        <Typography variant="body1" onClick={moveToContactUs} style={{ cursor: "pointer" }}>
+                            Contact Us
+                        </Typography>
                     </Box>
                 </Box>
             </Box>
