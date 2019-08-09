@@ -25,7 +25,7 @@ export class ShareGroup extends React.Component {
                     <ButtonBase>
                         <FacebookShareButton quote={quote} url={url}>
                             <Box display="flex" flexDirection="column" alignItems="center">
-                                <FacebookIcon size={30} round />
+                                <FacebookIcon iconBgStyle={{ fill: "#ee0000" }} size={30} round />
                                 <FacebookShareCount url={url}>
                                     {(shareCount) => <span className="myShareCountWrapper">{shareCount}</span>}
                                 </FacebookShareCount>
@@ -36,14 +36,14 @@ export class ShareGroup extends React.Component {
                 <Box paddingRight={0.5}>
                     <ButtonBase>
                         <TwitterShareButton quote={quote} url={url}>
-                            <TwitterIcon size={30} round />
+                            <TwitterIcon iconBgStyle={{ fill: "#ee0000" }} size={30} round />
                         </TwitterShareButton>
                     </ButtonBase>
                 </Box>
                 <Box paddingRight={0.5}>
                     <ButtonBase>
                         <EmailShareButton quote={quote} url={url}>
-                            <EmailIcon size={30} round />
+                            <EmailIcon iconBgStyle={{ fill: "#ee0000" }} size={30} round />
                         </EmailShareButton>
                     </ButtonBase>
                 </Box>

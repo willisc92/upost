@@ -18,6 +18,7 @@ import Container from "@material-ui/core/Container";
 import { MyCalendar } from "../Calendar";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import ToggleButton from "@material-ui/lab/ToggleButton";
+import Loading from "./LoadingPage";
 
 export class FreeFoodPage extends React.Component {
     constructor(props) {
@@ -71,41 +72,41 @@ export class FreeFoodPage extends React.Component {
             }));
 
         return (
-            events && (
-                <div>
-                    <Box bgcolor="secondary.main" py={3}>
-                        <Container maxWidth="xl">
-                            <Typography variant="h1" gutterBottom>
-                                Food Mood
-                                <HelpToolTip
-                                    jsx={
-                                        <React.Fragment>
-                                            <Typography variant="caption">
-                                                Here you can see all ongoing or upcoming events with the free food perk
-                                                that are listed within your communities!
-                                            </Typography>
-                                        </React.Fragment>
-                                    }
-                                />
-                                <ToggleButtonGroup exclusive onChange={this.onViewChange}>
-                                    <ToggleButton key={0} value={"calendar"}>
-                                        Calendar View
-                                    </ToggleButton>
-                                    <ToggleButton key={1} value={"list"}>
-                                        List View
-                                    </ToggleButton>
-                                </ToggleButtonGroup>
-                            </Typography>
-                            <EventFilterSelector foodSpecific={true} listView={this.state.view === "list"} />
-                        </Container>
-                    </Box>
-
+            <div>
+                <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
-                        <Box>
+                        <Typography variant="h1" gutterBottom>
+                            Food Mood
+                            <HelpToolTip
+                                jsx={
+                                    <React.Fragment>
+                                        <Typography variant="caption">
+                                            Here you can see all ongoing or upcoming events with the free food perk that
+                                            are listed within your communities!
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
+                            <ToggleButtonGroup exclusive onChange={this.onViewChange}>
+                                <ToggleButton key={0} value={"calendar"}>
+                                    Calendar View
+                                </ToggleButton>
+                                <ToggleButton key={1} value={"list"}>
+                                    List View
+                                </ToggleButton>
+                            </ToggleButtonGroup>
+                        </Typography>
+                        <EventFilterSelector foodSpecific={true} listView={this.state.view === "list"} />
+                    </Container>
+                </Box>
+
+                <Container maxWidth="xl">
+                    {events ? (
+                        <Box py={2}>
                             {events.length > 0 ? (
                                 <React.Fragment>
                                     {this.state.view === "list" && (
-                                        <Box display="flex" flexWrap="wrap" py={2}>
+                                        <Box display="flex" flexWrap="wrap">
                                             {events.map((event) => {
                                                 return (
                                                     <EventSummary
@@ -138,9 +139,13 @@ export class FreeFoodPage extends React.Component {
                                 </Typography>
                             )}
                         </Box>
-                    </Container>
-                </div>
-            )
+                    ) : (
+                        <Box py={2}>
+                            <Loading />
+                        </Box>
+                    )}
+                </Container>
+            </div>
         );
     }
 }
