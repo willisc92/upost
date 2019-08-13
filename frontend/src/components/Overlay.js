@@ -126,7 +126,7 @@ export default (props) => {
                     [classes.appBarShift]: open
                 })}
             >
-                <Box alignItems="center" display="flex" justifyContent="space-between">
+                <Box alignItems="center" display="flex" justifyContent="space-between" paddingRight={0.5}>
                     <Toolbar>
                         <IconButton
                             color="inherit"

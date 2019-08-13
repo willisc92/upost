@@ -60,8 +60,8 @@ export class DashboardPage extends React.Component {
         this.handleLoginModalOpen();
     };
 
-    handleSuccessfulLogin = () => {
-        this.handleLoginModalClose();
+    handleSuccessfulLogin = async () => {
+        await this.handleLoginModalClose();
         this.props.history.push("/");
     };
 
@@ -133,7 +133,7 @@ export class DashboardPage extends React.Component {
                             loginOpen={this.state.loginOpen}
                             handleLoginClose={this.handleLoginModalClose}
                             closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
-                            handleSuccessfulLogin={this.handleSuccessfulLogin}
+                            handleSucessfulLogin={this.handleSuccessfulLogin}
                         />
 
                         {!this.props.isAuthenticated ? (

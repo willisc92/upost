@@ -1,9 +1,8 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from ..serializers.User_Account import (UserAccountSerializer, UserAccountSubscriptionsSerializer, UserDetailSerializer,
                                         UserAccountAttendsSerializer, send_activation_email)
 from ..models.User_Account import CustomUser
 from rest_framework.response import Response
-from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from ..permissions import IsAuthenticatedOrCreate
@@ -15,7 +14,6 @@ from django.http import JsonResponse
 from django.views import View
 
 
-# Create your views here.
 class UserAccountView(viewsets.ModelViewSet):
     serializer_class = UserAccountSerializer
     queryset = CustomUser.objects.all()

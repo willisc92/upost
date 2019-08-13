@@ -53,6 +53,7 @@
         "react-dates": "12.7.0",
         "react-datetime-picker": "^2.4.0",
         "react-dom": "^16.8.4",
+        "react-google-login": "^5.0.5",
         "react-horizontal-scrolling-menu": "^0.6.12",
         "react-icons": "^3.7.0",
         "react-modal": "^3.8.1",
