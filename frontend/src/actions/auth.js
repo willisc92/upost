@@ -8,6 +8,41 @@ export const authStart = () => ({
     type: AUTH_START
 });
 
+export const exchangeGoogleToken = (googleToken) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            localStorage.setItem("googleToken", googleToken);
+            dispatch(authStart());
+            API.post("auth/convert-token/", {
+                client_id,
+                grant_type: "convert_token",
+                backend: "google-oauth2",
+                token: googleToken
+            })
+                .then((res) => {
+                    const token = res.data.access_token;
+                    const expirationDate = moment() + res.data.expires_in * 1000;
+                    localStorage.setItem("token", token);
+                    localStorage.setItem("expirationDate", expirationDate);
+                    setAuthToken(token);
+                    getCurrentUser()
+                        .then(() => {
+                            dispatch(authSuccess(token));
+                            dispatch(checkAuthTimeout(3600));
+                            resolve(true);
+                        })
+                        .catch((err) => {
+                            reject(err);
+                        });
+                })
+                .catch((err) => {
+                    dispatch(authFail({ error: err.response.data.error_description }));
+                    reject(err);
+                });
+        });
+    };
+};
+
 export const authSuccess = (token) => ({
     type: AUTH_SUCCESS,
     token

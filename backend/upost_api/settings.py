@@ -91,8 +91,8 @@ REST_FRAMEWORK = {
 AUTHENTICATION_BACKENDS = (
     'rest_framework_social_oauth2.backends.DjangoOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
 )
-
 
 if 'IS_CLOUD_DEPLOYMENT' in os.environ:
     MIDDLEWARE = [
