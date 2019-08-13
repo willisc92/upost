@@ -177,7 +177,7 @@ class ViewPostEventsPage extends React.Component {
                             <React.Fragment>
                                 <Typography variant="h1" gutterBottom>
                                     Events for
-                                    <Typography variant="h1" color="primary" display="inline">
+                                    <Typography variant="h1" color="primary" display="inline" component="span">
                                         {" "}
                                         {this.props.post.post_title}
                                     </Typography>
