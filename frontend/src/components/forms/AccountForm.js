@@ -13,7 +13,7 @@ export class AccountForm extends React.Component {
         this.state = {
             maxDate: moment(),
             minDate: moment().subtract(110, "year"),
-            birthDate: moment().subtract(25, "year"),
+            birthDate: null,
             error: undefined
         };
     }

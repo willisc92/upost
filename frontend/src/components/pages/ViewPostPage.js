@@ -16,6 +16,7 @@ import { ShareGroup } from "../Share";
 import { baseURL } from "../../utils/baseURL";
 import { HelpToolTip } from "../HelpTooltip";
 import { PostDescription } from "../tooltip_descriptions/Descriptions";
+import Icon from "@material-ui/core/Icon";
 
 class ViewPostPage extends React.Component {
     _isMounted = false;
@@ -287,7 +288,10 @@ class ViewPostPage extends React.Component {
                                                 pathname: `/channel/${this.props.channel.channel_id}`
                                             }}
                                         >
-                                            <Box paddingTop={2}>
+                                            <Box display="flex" flexWrap="nowrap" alignItems="center" paddingTop={2}>
+                                                <Icon fontSize="large" style={{ marginRight: 5 }}>
+                                                    account_circle
+                                                </Icon>
                                                 <Typography variant="h3" color="primary">
                                                     {this.props.channel.channel_name}
                                                 </Typography>
