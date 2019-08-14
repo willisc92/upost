@@ -22,7 +22,8 @@ export class DashboardPage extends React.Component {
             selected: 0,
             loginOpen: false,
             signupOpen: false,
-            error: undefined
+            error: undefined,
+            loading: true
         };
     }
 
@@ -68,20 +69,28 @@ export class DashboardPage extends React.Component {
     componentDidMount() {
         if (this.props.isAuthenticated) {
             this.props.startSetUserInterests().then(() => {
-                this.props.startSetInterestRandomPosts(this.props.userInterests);
+                this.props.startSetInterestRandomPosts(this.props.userInterests).then(() => {
+                    this.setState(() => ({ loading: false }));
+                });
             });
 
             this.props
                 .getNonInterestPosts()
-                .then(() => {})
+                .then(() => {
+                    this.setState(() => ({ loading: false }));
+                })
                 .catch((err) => console.log(JSON.stringify(err, null, 2)));
         } else {
             if (this.props.interests.length === 0) {
                 this.props.getAllInterests().then(() => {
-                    this.props.startSetInterestRandomPosts(this.props.interests);
+                    this.props.startSetInterestRandomPosts(this.props.interests).then(() => {
+                        this.setState(() => ({ loading: false }));
+                    });
                 });
             } else {
-                this.props.startSetInterestRandomPosts(this.props.interests);
+                this.props.startSetInterestRandomPosts(this.props.interests).then(() => {
+                    this.setState(() => ({ loading: false }));
+                });
             }
         }
     }
@@ -90,14 +99,20 @@ export class DashboardPage extends React.Component {
         if (newProps.isAuthenticated !== this.props.isAuthenticated) {
             if (newProps.isAuthenticated) {
                 this.props.startSetUserInterests().then(() => {
-                    this.props.startSetInterestRandomPosts(this.props.userInterests);
+                    this.props.startSetInterestRandomPosts(this.props.userInterests).then(() => {
+                        this.setState(() => ({ loading: false }));
+                    });
                 });
             } else if (this.props.interests.length === 0) {
                 this.props.getAllInterests().then(() => {
-                    this.props.startSetInterestRandomPosts(this.props.interests);
+                    this.props.startSetInterestRandomPosts(this.props.interests).then(() => {
+                        this.setState(() => ({ loading: false }));
+                    });
                 });
             } else {
-                this.props.startSetInterestRandomPosts(this.props.interests);
+                this.props.startSetInterestRandomPosts(this.props.interests).then(() => {
+                    this.setState(() => ({ loading: false }));
+                });
             }
         }
     }
@@ -111,7 +126,6 @@ export class DashboardPage extends React.Component {
     };
 
     render() {
-        const loading = this.props.interestRandomPosts.length === 0 && this.props.nonInterestPosts.length === 0;
         const menus = [];
         this.props.interestRandomPosts.forEach((element, i) => {
             menus.push(BrowsePostMenu(element.posts, this.state.selected, false));
@@ -196,7 +210,7 @@ export class DashboardPage extends React.Component {
                     </Container>
                 </Box>
                 <Container maxWidth="xl">
-                    {!loading ? (
+                    {!this.state.loading ? (
                         <Box>
                             {this.props.isAuthenticated && menus.length === 0 && (
                                 <Box py={2}>
