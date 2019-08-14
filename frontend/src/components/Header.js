@@ -6,12 +6,8 @@ import LoginModal from "./modals/LoginModal";
 import { SearchBar } from "./SearchBar";
 import { MyAccountMenu } from "./MyAccountMenu";
 import { WhiteButton } from "../components/Buttons";
-/*import {
-    getAllInterests,
-    startSetUserInterests,
-    startEditUserInterests
-} from "../../actions/interests";
-import { getMyCommunities } from "../../actions/communities";*/
+import { startSetUserInterests } from "../actions/interests";
+import { getMyCommunities } from "../actions/communities";
 import Box from "@material-ui/core/Box";
 
 class Header extends React.Component {
@@ -66,15 +62,15 @@ class Header extends React.Component {
 
     handleSucessfulLogin = () => {
         this.handleLoginModalClose();
-        this.props.history.push("/");
-        /* if (
-            this.props.userCommunities.length === 0 &&
-            this.props.userInterests.length === 0
-        ) {
-            this.props.history.push("/interests");
-        } else {
-            this.props.history.push("/");
-        }*/
+        this.props.getMyCommunities().then(
+            this.props.startSetUserInterests().then(() => {
+                if (this.props.userCommunities.length === 0 && this.props.userInterests.length === 0) {
+                    this.props.history.push("/interests");
+                } else {
+                    this.props.history.push("/");
+                }
+            })
+        );
     };
 
     render() {
@@ -125,11 +121,15 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-    token: !!state.auth.token
+    token: !!state.auth.token,
+    userInterests: state.interests.userInterests,
+    userCommunities: state.communities.userCommunities.community
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
+    startSetUserInterests: () => dispatch(startSetUserInterests()),
+    getMyCommunities: () => dispatch(getMyCommunities())
 });
 
 export default connect(
