@@ -13,7 +13,7 @@ export class AccountForm extends React.Component {
         this.state = {
             maxDate: moment(),
             minDate: moment().subtract(110, "year"),
-            birthDate: moment().subtract(25, "year"),
+            birthDate: null,
             error: undefined
         };
     }
@@ -137,17 +137,19 @@ export class AccountForm extends React.Component {
                             </Typography>
                         );
                     })}
-                <div>
-                    <span className="modal__label">Birth Date</span>
+                <Box bgcolor="white" display="inline-flex">
                     <KeyboardDatePicker
-                        value={this.state.birthDate.format("YYYY-MM-DD")}
-                        placeholder="YYYY-MM-DD"
+                        value={this.state.birthDate}
+                        label="Birth Date (YYYY/MM/DD)"
                         onChange={this.onDateChange}
                         maxDate={this.state.maxDate}
                         minDate={this.state.minDate}
-                        format="YYYY-MM-DD"
+                        format="YYYY/MM/DD"
+                        required
+                        fullWidth={true}
+                        inputVariant="outlined"
                     />
-                </div>
+                </Box>
                 {!!this.props.auth.error &&
                     !!this.props.auth.error.password &&
                     this.props.auth.error.password.map((error) => {

@@ -7,12 +7,13 @@ import ScrollMenu from "react-horizontal-scrolling-menu";
 import { ArrowRight, ArrowLeft } from "../menus/Arrow";
 import SignupModal from "../modals/SignupModal";
 import LoginModal from "../modals/LoginModal";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import MenuHeader from "../menus/MenuHeader";
 import ButtonBase from "@material-ui/core/ButtonBase";
+import { HelpToolTip } from "../HelpTooltip";
+import Loading from "./LoadingPage";
 
 export class DashboardPage extends React.Component {
     constructor(props) {
@@ -21,7 +22,8 @@ export class DashboardPage extends React.Component {
             selected: 0,
             loginOpen: false,
             signupOpen: false,
-            error: undefined
+            error: undefined,
+            loading: true
         };
     }
 
@@ -59,28 +61,36 @@ export class DashboardPage extends React.Component {
         this.handleLoginModalOpen();
     };
 
-    handleSuccessfulLogin = () => {
-        this.handleLoginModalClose();
+    handleSuccessfulLogin = async () => {
+        await this.handleLoginModalClose();
         this.props.history.push("/");
     };
 
     componentDidMount() {
         if (this.props.isAuthenticated) {
             this.props.startSetUserInterests().then(() => {
-                this.props.startSetInterestRandomPosts(this.props.userInterests);
+                this.props.startSetInterestRandomPosts(this.props.userInterests).then(() => {
+                    this.setState(() => ({ loading: false }));
+                });
             });
 
             this.props
                 .getNonInterestPosts()
-                .then(() => {})
+                .then(() => {
+                    this.setState(() => ({ loading: false }));
+                })
                 .catch((err) => console.log(JSON.stringify(err, null, 2)));
         } else {
             if (this.props.interests.length === 0) {
                 this.props.getAllInterests().then(() => {
-                    this.props.startSetInterestRandomPosts(this.props.interests);
+                    this.props.startSetInterestRandomPosts(this.props.interests).then(() => {
+                        this.setState(() => ({ loading: false }));
+                    });
                 });
             } else {
-                this.props.startSetInterestRandomPosts(this.props.interests);
+                this.props.startSetInterestRandomPosts(this.props.interests).then(() => {
+                    this.setState(() => ({ loading: false }));
+                });
             }
         }
     }
@@ -89,14 +99,20 @@ export class DashboardPage extends React.Component {
         if (newProps.isAuthenticated !== this.props.isAuthenticated) {
             if (newProps.isAuthenticated) {
                 this.props.startSetUserInterests().then(() => {
-                    this.props.startSetInterestRandomPosts(this.props.userInterests);
+                    this.props.startSetInterestRandomPosts(this.props.userInterests).then(() => {
+                        this.setState(() => ({ loading: false }));
+                    });
                 });
             } else if (this.props.interests.length === 0) {
                 this.props.getAllInterests().then(() => {
-                    this.props.startSetInterestRandomPosts(this.props.interests);
+                    this.props.startSetInterestRandomPosts(this.props.interests).then(() => {
+                        this.setState(() => ({ loading: false }));
+                    });
                 });
             } else {
-                this.props.startSetInterestRandomPosts(this.props.interests);
+                this.props.startSetInterestRandomPosts(this.props.interests).then(() => {
+                    this.setState(() => ({ loading: false }));
+                });
             }
         }
     }
@@ -121,6 +137,19 @@ export class DashboardPage extends React.Component {
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
+                        <SignupModal
+                            signupOpen={this.state.signupOpen}
+                            handleSignupClose={this.handleSignupModalClose}
+                            pageMove={this.moveToInterestPage}
+                            closeSignupOpenLoginModal={this.closeSignupOpenLoginModal}
+                        />
+                        <LoginModal
+                            loginOpen={this.state.loginOpen}
+                            handleLoginClose={this.handleLoginModalClose}
+                            closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
+                            handleSucessfulLogin={this.handleSuccessfulLogin}
+                        />
+
                         {!this.props.isAuthenticated ? (
                             <Box paddingBottom={2}>
                                 <Typography variant="h1" gutterBottom>
@@ -159,35 +188,72 @@ export class DashboardPage extends React.Component {
                                         display="inline"
                                         color="primary"
                                     >{`${localStorage.getItem("first_name")}!`}</Typography>
+                                    <HelpToolTip
+                                        jsx={
+                                            <React.Fragment>
+                                                <Typography variant="caption">
+                                                    This is your dashboard page!
+                                                    <ul>
+                                                        <li>
+                                                            Here you can see posts that are relevant to your interests
+                                                            within your communities!
+                                                        </li>
+                                                        <li> Posts are separated by your given interests.</li>
+                                                    </ul>
+                                                </Typography>
+                                            </React.Fragment>
+                                        }
+                                    />
                                 </Typography>
                             </Box>
                         )}
                     </Container>
                 </Box>
                 <Container maxWidth="xl">
-                    {this.props.isAuthenticated && menus.length === 0 && (
-                        <Box py={2}>
-                            <Typography variant="h3">
-                                There are currently no posts matching your interests for your given communities.{"  "}
-                                <Typography variant="inherit" display="inline" color="primary">
-                                    <ButtonBase
-                                        onClick={() => {
-                                            this.props.history.push("/interests");
-                                        }}
-                                    >
-                                        Click Here to Edit.
-                                    </ButtonBase>
-                                </Typography>
-                            </Typography>
-                        </Box>
-                    )}
-                    {this.props.interestRandomPosts.map((interestPosts, index) => {
-                        return (
-                            menus[index].length > 0 && (
-                                <Box py={2} key={interestPosts.tag}>
-                                    {MenuHeader(interestPosts.tag)}
+                    {!this.state.loading ? (
+                        <Box>
+                            {this.props.isAuthenticated && menus.length === 0 && (
+                                <Box py={2}>
+                                    <Typography variant="h3">
+                                        There are currently no posts matching your interests for your given communities.
+                                        {"  "}
+                                        <Typography variant="inherit" display="inline" color="primary">
+                                            <ButtonBase
+                                                onClick={() => {
+                                                    this.props.history.push("/interests");
+                                                }}
+                                            >
+                                                Click Here to Edit.
+                                            </ButtonBase>
+                                        </Typography>
+                                    </Typography>
+                                </Box>
+                            )}
+                            {this.props.interestRandomPosts.map((interestPosts, index) => {
+                                return (
+                                    menus[index].length > 0 && (
+                                        <Box py={2} key={interestPosts.tag}>
+                                            {MenuHeader(interestPosts.tag)}
+                                            <ScrollMenu
+                                                data={menus[index]}
+                                                arrowLeft={ArrowLeft}
+                                                arrowRight={ArrowRight}
+                                                selected={this.state.selected}
+                                                onSelect={this.onSelect}
+                                                hideArrows
+                                                hideSingleArrow
+                                                alignCenter={false}
+                                            />
+                                        </Box>
+                                    )
+                                );
+                            })}
+
+                            {nonInterestMenu.length > 0 && (
+                                <Box py={2}>
+                                    {MenuHeader("Other posts in your Communities")}
                                     <ScrollMenu
-                                        data={menus[index]}
+                                        data={nonInterestMenu}
                                         arrowLeft={ArrowLeft}
                                         arrowRight={ArrowRight}
                                         selected={this.state.selected}
@@ -197,38 +263,13 @@ export class DashboardPage extends React.Component {
                                         alignCenter={false}
                                     />
                                 </Box>
-                            )
-                        );
-                    })}
-
-                    {nonInterestMenu.length > 0 && (
+                            )}
+                        </Box>
+                    ) : (
                         <Box py={2}>
-                            {MenuHeader("Other posts in your Communities")}
-                            <ScrollMenu
-                                data={nonInterestMenu}
-                                arrowLeft={ArrowLeft}
-                                arrowRight={ArrowRight}
-                                selected={this.state.selected}
-                                onSelect={this.onSelect}
-                                hideArrows
-                                hideSingleArrow
-                                alignCenter={false}
-                            />
+                            <Loading />
                         </Box>
                     )}
-
-                    <SignupModal
-                        signupOpen={this.state.signupOpen}
-                        handleSignupClose={this.handleSignupModalClose}
-                        pageMove={this.moveToInterestPage}
-                        closeSignupOpenLoginModal={this.closeSignupOpenLoginModal}
-                    />
-                    <LoginModal
-                        loginOpen={this.state.loginOpen}
-                        handleLoginClose={this.handleLoginModalClose}
-                        closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
-                        handleSuccessfulLogin={this.handleSuccessfulLogin}
-                    />
                 </Container>
             </React.Fragment>
         );

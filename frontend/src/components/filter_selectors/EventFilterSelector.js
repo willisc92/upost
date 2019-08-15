@@ -112,21 +112,23 @@ export class EventFilters extends React.Component {
                         />
                     </Box>
                 </Box>
-                <Box display="flex" flexDirection="column" paddingRight={1}>
-                    <Typography>Sort By:</Typography>
-                    <Box bgcolor="white" border={0.1} borderColor="#cacccd">
-                        <Select
-                            className="select"
-                            value={this.props.filters.sortBy}
-                            onChange={this.onSortChange}
-                            disableUnderline
-                        >
-                            <MenuItem value="name">Name</MenuItem>
-                            <MenuItem value="date">Creation Date</MenuItem>
-                            <MenuItem value="last_updated">Last Updated</MenuItem>
-                        </Select>
+                {this.props.listView && (
+                    <Box display="flex" flexDirection="column" paddingRight={1}>
+                        <Typography>Sort By:</Typography>
+                        <Box bgcolor="white" border={0.1} borderColor="#cacccd">
+                            <Select
+                                className="select"
+                                value={this.props.filters.sortBy}
+                                onChange={this.onSortChange}
+                                disableUnderline
+                            >
+                                <MenuItem value="name">Name</MenuItem>
+                                <MenuItem value="date">Creation Date</MenuItem>
+                                <MenuItem value="last_updated">Last Updated</MenuItem>
+                            </Select>
+                        </Box>
                     </Box>
-                </Box>
+                )}
                 <Box display="flex" flexDirection="column" paddingRight={1}>
                     <Typography>Community:</Typography>
                     <Box bgcolor="white" border={0.1} borderColor="#cacccd">
@@ -147,22 +149,24 @@ export class EventFilters extends React.Component {
                         </Select>
                     </Box>
                 </Box>
-                <Box display="flex" flexDirection="column" paddingRight={1}>
-                    <Typography>Occuring:</Typography>
-                    <Box bgcolor="white" border={0.1} borderColor="#cacccd">
-                        <Select
-                            className="select"
-                            value={this.props.filters.dayFilter}
-                            onChange={this.onDayFilterChange}
-                            disableUnderline
-                        >
-                            <MenuItem value="all">All Days</MenuItem>
-                            <MenuItem value="today">Today</MenuItem>
-                            <MenuItem value="tomorrow">Tomorrow</MenuItem>
-                        </Select>
+                {this.props.listView && (
+                    <Box display="flex" flexDirection="column" paddingRight={1}>
+                        <Typography>Occuring:</Typography>
+                        <Box bgcolor="white" border={0.1} borderColor="#cacccd">
+                            <Select
+                                className="select"
+                                value={this.props.filters.dayFilter}
+                                onChange={this.onDayFilterChange}
+                                disableUnderline
+                            >
+                                <MenuItem value="all">All Days</MenuItem>
+                                <MenuItem value="today">Today</MenuItem>
+                                <MenuItem value="tomorrow">Tomorrow</MenuItem>
+                            </Select>
+                        </Box>
                     </Box>
-                </Box>
-                {this.props.filters.dayFilter === "all" && (
+                )}
+                {this.props.filters.dayFilter === "all" && this.props.listView && (
                     <Box display="flex" flexDirection="column" paddingRight={1}>
                         <Typography>Date Range:</Typography>
                         <DateRangePicker
@@ -179,7 +183,7 @@ export class EventFilters extends React.Component {
                 )}
                 {!this.props.foodSpecific && (
                     <Box display="flex" flexDirection="column" paddingRight={1}>
-                        <Typography>Incentive:</Typography>
+                        <Typography>Perks:</Typography>
                         <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                             <Select
                                 className="select"
@@ -188,15 +192,15 @@ export class EventFilters extends React.Component {
                                 disableUnderline
                             >
                                 <MenuItem value="all">Show All</MenuItem>
-                                <MenuItem value="hasIncentive">Has Incentive</MenuItem>
-                                <MenuItem value="noIncentive">No Incentive</MenuItem>
+                                <MenuItem value="hasIncentive">Has Perks</MenuItem>
+                                <MenuItem value="noIncentive">No Perk</MenuItem>
                             </Select>
                         </Box>
                     </Box>
                 )}
                 {this.props.filters.hasIncentive === "hasIncentive" && !this.props.foodSpecific && (
                     <Box display="flex" flexDirection="column" paddingRight={1}>
-                        <Typography>Incentive Type:</Typography>
+                        <Typography>Perk Tag:</Typography>
                         <Box bgcolor="white" border={0.1} borderColor="#cacccd">
                             <Select
                                 className="select"

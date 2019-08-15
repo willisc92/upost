@@ -13,6 +13,9 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import { startGetSubscriptions, startUpdateSubscriptions } from "../../actions/subscriptions";
 import CustomStepper from "../CustomStepper";
+import { HelpToolTip } from "../HelpTooltip";
+import { BulletinBoardDescription } from "../tooltip_descriptions/Descriptions";
+import { resetPostFilters } from "../../actions/post_filters";
 
 export class ViewChannelPage extends React.Component {
     _isMounted = false;
@@ -33,6 +36,7 @@ export class ViewChannelPage extends React.Component {
 
     componentDidMount() {
         this._isMounted = true;
+        this.props.resetPostFilters();
 
         const channel_id = this.props.match.params.id;
         getCurrentUser()
@@ -47,7 +51,7 @@ export class ViewChannelPage extends React.Component {
                                     steps: [
                                         { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                         { label: `Bulletin Board: ${this.props.channel.channel_name}`, onClick: null },
-                                        { label: "?", onClick: null }
+                                        { label: null, onClick: null }
                                     ],
                                     activeStep: 1
                                 }));
@@ -136,7 +140,7 @@ export class ViewChannelPage extends React.Component {
     render() {
         const posts = !!this.props.posts && this.props.posts;
         return (
-            <div>
+            <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
@@ -144,6 +148,36 @@ export class ViewChannelPage extends React.Component {
                             <Typography variant="inherit" display="inline" color="primary">
                                 {this.props.channel.channel_name}
                             </Typography>
+                            <HelpToolTip
+                                jsx={
+                                    <React.Fragment>
+                                        <Typography variant="caption">
+                                            {BulletinBoardDescription}
+                                            <br />
+                                            <br />
+                                            From here you can:
+                                            <ul>
+                                                <li>See all posts that are listed under the given bulletin board</li>
+                                                <li>Click on a post to see more indepth post details</li>
+                                                <li>
+                                                    Subscribe to the bulletin board to quickly access this page later
+                                                    from "My Subscriptions" in the sidebar
+                                                </li>
+                                                {this.state.isOwner && (
+                                                    <React.Fragment>
+                                                        <li>Add a new post</li>
+                                                        <li>Edit, delete, or restore this bulletin board</li>
+                                                        <li>
+                                                            Delete all posts matching the filters shown on this bulletin
+                                                            board
+                                                        </li>
+                                                    </React.Fragment>
+                                                )}
+                                            </ul>
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
                             {!!this.props.subscriptions && (
                                 <Button color="primary" variant="contained" onClick={this.updateSubscriptions}>
                                     {this.props.subscriptions.includes(this.props.channel.channel_id)
@@ -217,7 +251,7 @@ export class ViewChannelPage extends React.Component {
                     </Container>
                 </Box>
                 {posts !== [] && (
-                    <Box paddingTop={2}>
+                    <Box py={2}>
                         <Container maxWidth="xl">
                             <Box display="flex" flexWrap="wrap">
                                 {posts.length > 0 ? (
@@ -241,7 +275,7 @@ export class ViewChannelPage extends React.Component {
                         </Container>
                     </Box>
                 )}
-            </div>
+            </React.Fragment>
         );
     }
 }
@@ -269,7 +303,8 @@ const mapDispatchToProps = (dispatch) => ({
     restoreChannel: (id) => dispatch(restoreChannel(id)),
     deletePost: (id) => dispatch(deletePost(id)),
     startGetSubscriptions: () => dispatch(startGetSubscriptions()),
-    startUpdateSubscriptions: (id) => dispatch(startUpdateSubscriptions(id))
+    startUpdateSubscriptions: (id) => dispatch(startUpdateSubscriptions(id)),
+    resetPostFilters: () => dispatch(resetPostFilters())
 });
 
 export default connect(

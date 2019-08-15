@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { DateTimePicker } from "@material-ui/pickers";
+import { KeyboardDateTimePicker } from "@material-ui/pickers";
 
 export class EventForm extends React.Component {
     constructor(props) {
@@ -141,7 +141,6 @@ export class EventForm extends React.Component {
                         event_description: this.state.event_description
                     };
                     this.props.onSubmit(payload);
-                    console.log(payload);
                 })
                 .catch((err) => {
                     console.log(JSON.stringify(err, null, 2));
@@ -222,22 +221,32 @@ export class EventForm extends React.Component {
                         disabled={this.props.read_only}
                     />
                 </Box>
-                <Box>
-                    <DateTimePicker
+                <Box width={250}>
+                    <KeyboardDateTimePicker
+                        label="Start Date (YYYY/MM/DD HH:MM)"
                         value={this.state.startDate}
                         onChange={this.onStartDateChange}
-                        label="Start Date"
                         disabled={this.props.read_only}
                         required
+                        format="YYYY/MM/DD hh:mm a"
+                        fullWidth={true}
+                        minDate={moment()}
+                        maxDate={moment().add(5, "years")}
+                        minDateMessage="Date should not be in the past"
                     />
                 </Box>
-                <Box>
-                    <DateTimePicker
+                <Box width={250}>
+                    <KeyboardDateTimePicker
+                        label="End Date (YYYY/MM/DD HH:MM)"
                         value={this.state.endDate}
                         onChange={this.onEndDateChange}
-                        label="End Date"
                         disabled={this.props.read_only}
                         required
+                        format="YYYY/MM/DD hh:mm a"
+                        fullWidth={true}
+                        minDate={moment()}
+                        maxDate={moment().add(5, "years")}
+                        minDateMessage="Date should not be in the past"
                     />
                 </Box>
                 <div>

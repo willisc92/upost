@@ -89,37 +89,40 @@ export const addInterestRandomPosts = (interestPosts) => {
  */
 export const startSetInterestRandomPosts = (interests) => {
     return (dispatch) => {
-        dispatch(postStart());
-        dispatch(setInterestRandomPosts());
-        // if we have a list of interest objects
-        if (interests.length > 0 && !!interests[0].interest_tag) {
-            for (let i = 0; i < interests.length; i++) {
-                API.get("random-posts/", {
-                    params: {
-                        interest: interests[i].interest_tag
-                    }
-                }).then((result) => {
-                    if (result.data.length > 0) {
-                        dispatch(addInterestRandomPosts({ tag: interests[i].interest_tag, posts: result.data }));
-                    }
-                });
+        return new Promise((resolve, reject) => {
+            dispatch(postStart());
+            dispatch(setInterestRandomPosts());
+            // if we have a list of interest objects
+            if (interests.length > 0 && !!interests[0].interest_tag) {
+                for (let i = 0; i < interests.length; i++) {
+                    API.get("random-posts/", {
+                        params: {
+                            interest: interests[i].interest_tag
+                        }
+                    }).then((result) => {
+                        if (result.data.length > 0) {
+                            dispatch(addInterestRandomPosts({ tag: interests[i].interest_tag, posts: result.data }));
+                        }
+                    });
+                }
             }
-        }
-        // if we have a list of interest tags
-        else {
-            for (let i = 0; i < interests.length; i++) {
-                API.get("random-posts/", {
-                    params: {
-                        interest: interests[i]
-                    }
-                }).then((result) => {
-                    if (result.data.length > 0) {
-                        dispatch(addInterestRandomPosts({ tag: interests[i], posts: result.data }));
-                    }
-                });
+            // if we have a list of interest tags
+            else {
+                for (let i = 0; i < interests.length; i++) {
+                    API.get("random-posts/", {
+                        params: {
+                            interest: interests[i]
+                        }
+                    }).then((result) => {
+                        if (result.data.length > 0) {
+                            dispatch(addInterestRandomPosts({ tag: interests[i], posts: result.data }));
+                        }
+                    });
+                }
             }
-        }
-        dispatch(postSuccess());
+            dispatch(postSuccess());
+            resolve(true);
+        });
     };
 };
 

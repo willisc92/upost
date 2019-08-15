@@ -66,7 +66,8 @@ class UserAccountSubscriptionsSerializer(serializers.ModelSerializer):
     subscriptions = serializers.SerializerMethodField('get_subscription')
 
     def get_subscription(self, user):
-        qs = Subscribe.objects.filter(community_member=user, unsubscribe_date=None)
+        qs = Subscribe.objects.filter(
+            community_member=user, unsubscribe_date=None)
         serializer = SubscribeSerializerIdOnly(instance=qs, many=True)
         return map(lambda x: x['channel'], serializer.data)
 
@@ -86,14 +87,16 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
 def send_activation_email(user):
     context = {
-            'domain': DOMAIN_NAME,
-            'url': 'activate',
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': account_activation_token.make_token(user)
-        }
-    email_html_message = render_to_string('email/acc_active_email.html', context)
-    email_plaintext_message = render_to_string('email/acc_active_email.txt', context)
+        'domain': DOMAIN_NAME,
+        'url': 'activate',
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': account_activation_token.make_token(user)
+    }
+    email_html_message = render_to_string(
+        'email/acc_active_email.html', context)
+    email_plaintext_message = render_to_string(
+        'email/acc_active_email.txt', context)
     msg = EmailMultiAlternatives('Activate your UPost Account', email_plaintext_message,
-        'UPost team <noreply@upostwebsite.com>', to=[user.email, ])
+                                 'UPost team <noreply@upostwebsite.com>', to=[user.email, ])
     msg.attach_alternative(email_html_message, 'text/html')
     msg.send()

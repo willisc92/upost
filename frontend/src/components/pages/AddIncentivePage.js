@@ -4,12 +4,13 @@ import { getCurrentUser } from "../../actions/auth";
 import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { PerkDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 class AddIncentivePage extends React.Component {
     constructor(props) {
@@ -41,7 +42,7 @@ class AddIncentivePage extends React.Component {
                                     },
                                     { label: `Post: ${this.props.post.post_title}`, onClick: this.moveToPost },
                                     { label: "Edit Post", onClick: this.goBack },
-                                    { label: "Add Incentive", onClick: null }
+                                    { label: "Add Perk", onClick: null }
                                 ],
                                 activeStep: 4
                             }));
@@ -97,26 +98,27 @@ class AddIncentivePage extends React.Component {
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
-                            Add an Incentive Package to Post:{" "}
+                            Add a Perk to Post:{" "}
                             <Typography variant="inherit" display="inline" color="primary" gutterBottom>
                                 {this.props.post && this.props.post.post_title}
                             </Typography>
+                            <HelpToolTip jsx={<Typography variant="caption">{PerkDescription}</Typography>} />
                         </Typography>
                         <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                         {existing_incentive && (
                             <Box paddingBottom={2}>
                                 <Typography variant="h2" color="error" gutterBottom>
-                                    This post already has an existing incentive
+                                    This post already has an existing perk
                                 </Typography>
                                 <Button variant="contained" color="primary" onClick={this.goToIncentive}>
-                                    Go to Incentive
+                                    Go to Perk
                                 </Button>
                             </Box>
                         )}
                         {read_only && (
                             <Box>
                                 <Typography variant="h2" color="error" gutterBottom>
-                                    The post that this incentive will be tied to is deleted and must be restored first.
+                                    The post that this perk will be tied to is deleted and must be restored first.
                                 </Typography>
                                 <Button variant="contained" color="primary" onClick={this.goBack}>
                                     Go to Post

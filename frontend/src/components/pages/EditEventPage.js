@@ -10,6 +10,8 @@ import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { EventDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 class EditEventPage extends React.Component {
     constructor(props) {
@@ -38,17 +40,20 @@ class EditEventPage extends React.Component {
                                     steps: [
                                         { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                         {
-                                            label: `Bulletin Board`,
-                                            onClick: null
+                                            label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                            onClick: this.moveToBulletinBoard
                                         },
-                                        { label: `Post`, onClick: this.goToPost },
-                                        { label: "Events", onClick: this.moveToPostEventsPage },
+                                        {
+                                            label: `Post: ${this.props.event.path.post.post_title}`,
+                                            onClick: this.goToPost
+                                        },
+                                        { label: "See Events", onClick: this.moveToPostEventsPage },
                                         {
                                             label: `Event: ${this.props.event.event_title}`,
                                             onClick: this.moveToEventPage
                                         },
                                         { label: `Edit Event`, onClick: null },
-                                        { label: `Edit Incentive`, onClick: this.editIncentive }
+                                        { label: `Edit Event Perk`, onClick: this.editIncentive }
                                     ],
                                     activeStep: 5
                                 }));
@@ -57,17 +62,20 @@ class EditEventPage extends React.Component {
                                     steps: [
                                         { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                         {
-                                            label: `Bulletin Board`,
-                                            onClick: null
+                                            label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                            onClick: this.moveToBulletinBoard
                                         },
-                                        { label: `Post`, onClick: this.goToPost },
-                                        { label: "Events", onClick: this.moveToPostEventsPage },
+                                        {
+                                            label: `Post: ${this.props.event.path.post.post_title}`,
+                                            onClick: this.goToPost
+                                        },
+                                        { label: "See Events", onClick: this.moveToPostEventsPage },
                                         {
                                             label: `Event: ${this.props.event.event_title}`,
                                             onClick: this.moveToEventPage
                                         },
                                         { label: `Edit Event`, onClick: null },
-                                        { label: `Add Incentive`, onClick: this.addIncentive }
+                                        { label: `Add Event Perk`, onClick: this.addIncentive }
                                     ],
                                     activeStep: 5
                                 }));
@@ -113,16 +121,20 @@ class EditEventPage extends React.Component {
 
     goToPost = () => {
         const post_id = this.props.match.params.id;
-        this.props.history.push(`/myPosts/${post_id}/edit`);
+        this.props.history.push(`/post/${post_id}`);
     };
 
     moveToPostEventsPage = () => {
         const post_id = this.props.match.params.id;
-        this.props.history.push(`/myPost/${post_id}`);
+        this.props.history.push(`/post-events/${post_id}`);
     };
 
     moveToBulletinBoards = () => {
         this.props.history.push("/myChannels");
+    };
+
+    moveToBulletinBoard = () => {
+        this.props.history.push(`/channels/${this.props.event.path.channel.channel_id}`);
     };
 
     moveToEventPage = () => {
@@ -181,6 +193,7 @@ class EditEventPage extends React.Component {
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {event && event.event_title}
                                 </Typography>
+                                <HelpToolTip jsx={<Typography variant="caption">{EventDescription}</Typography>} />
                             </Typography>
                             <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                             {post_read_only ? (
@@ -208,11 +221,11 @@ class EditEventPage extends React.Component {
                                         </Button>{" "}
                                         {!!event.event_incentive ? (
                                             <Button variant="contained" color="primary" onClick={this.editIncentive}>
-                                                Edit Incentive
+                                                Edit Event Perk
                                             </Button>
                                         ) : (
                                             <Button variant="contained" color="primary" onClick={this.addIncentive}>
-                                                Add Incentive
+                                                Add Event Perk
                                             </Button>
                                         )}
                                     </span>

@@ -10,12 +10,13 @@ import {
     deleteIncentivePackage,
     restoreIncentivePackage
 } from "../../actions/incentivePackage";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { PerkDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 class EditEventIncentivePage extends React.Component {
     constructor(props) {
@@ -47,14 +48,17 @@ class EditEventIncentivePage extends React.Component {
                             steps: [
                                 { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                 {
-                                    label: `Bulletin Board`,
-                                    onClick: null
+                                    label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                    onClick: this.moveToBulletinBoard
                                 },
-                                { label: `Post`, onClick: this.moveToPostPage },
-                                { label: "Events", onClick: this.moveToPostEventsPage },
+                                {
+                                    label: `Post: ${this.props.event.path.post.post_title}`,
+                                    onClick: this.moveToPostPage
+                                },
+                                { label: "See Events", onClick: this.moveToPostEventsPage },
                                 { label: `Event: ${this.props.event.event_title}`, onClick: this.moveToEventPage },
                                 { label: `Edit Event`, onClick: this.goBack },
-                                { label: `Edit Incentive`, onClick: null }
+                                { label: `Edit Event Perk`, onClick: null }
                             ],
                             activeStep: 6
                         }));
@@ -102,6 +106,10 @@ class EditEventIncentivePage extends React.Component {
         this.props.history.push("/myChannels");
     };
 
+    moveToBulletinBoard = () => {
+        this.props.history.push(`/channels/${this.props.event.path.channel.channel_id}`);
+    };
+
     deleteIncentive = () => {
         const incentive_id = this.props.incentive.incentive_package_id;
         this.props.deleteIncentivePackage(incentive_id).then(() => {
@@ -145,33 +153,34 @@ class EditEventIncentivePage extends React.Component {
                     <Box bgcolor="secondary.main" py={3}>
                         <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
-                                Edit the Incentive Package to Event:{" "}
+                                Edit the Perk to Event:{" "}
                                 <Typography variant="h1" display="inline" color="primary" component="span">
                                     {this.props.event && this.props.event.event_title}
                                 </Typography>
+                                <HelpToolTip jsx={<Typography variant="caption">{PerkDescription}</Typography>} />
                             </Typography>
                             <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                             <Box paddingBottom={2}>
                                 {read_only_event ? (
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        The event this incentive is tied to is deleted. Restore it to edit.
+                                        The event this perk is tied to is deleted. Restore it to edit.
                                     </Typography>
                                 ) : read_only_incentive ? (
                                     <React.Fragment>
                                         <Typography variant="h2" color="error" gutterBottom>
-                                            This incentive is deleted. Restore it to edit.
+                                            This perk is deleted. Restore it to edit.
                                         </Typography>
                                         <Button variant="contained" color="primary" onClick={this.restoreIncentive}>
-                                            Restore Incentive
+                                            Restore Perk
                                         </Button>
                                     </React.Fragment>
                                 ) : read_only_incentive_end ? (
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        Cannot edit a past incentive.
+                                        Cannot edit a past event perk.
                                     </Typography>
                                 ) : (
                                     <Button variant="contained" color="primary" onClick={this.deleteIncentive}>
-                                        Delete Incentive
+                                        Delete Perk Package
                                     </Button>
                                 )}
                             </Box>

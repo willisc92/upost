@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
 import { startGetEvent, setEvents } from "../../actions/events";
+import { resetEventFilters } from "../../actions/event_filters";
 import EventFilterSelector from "../filter_selectors/EventFilterSelector";
 import { getVisibleEvents } from "../../selectors/myEvents";
 import EventSummary from "../MyEventSummary";
@@ -11,6 +12,12 @@ import Box from "@material-ui/core/Box";
 import { getCurrentUser } from "../../actions/auth";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { HelpToolTip } from "../HelpTooltip";
+import { EventDescription } from "../tooltip_descriptions/Descriptions";
+import { MyCalendar } from "../Calendar";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import Loading from "./LoadingPage";
 
 class ViewPostEventsPage extends React.Component {
     _isMounted = false;
@@ -22,9 +29,22 @@ class ViewPostEventsPage extends React.Component {
             selected: 0,
             isOwner: false,
             steps: [],
-            activeStep: undefined
+            activeStep: undefined,
+            view: "list"
         };
     }
+
+    onSelectEvent = (e) => {
+        this.props.history.push(`/event/${e.id}`);
+    };
+
+    onViewChange = (e, value) => {
+        this.props.resetEventFilters();
+
+        this.setState(() => ({
+            view: value
+        }));
+    };
 
     checkPostAgainstCurrentUser = (post_obj) => {
         getCurrentUser()
@@ -38,18 +58,28 @@ class ViewPostEventsPage extends React.Component {
                             steps: [
                                 { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                 {
-                                    label: `Bulletin Board`,
+                                    label: `Bulletin Board: ${this.props.post.path.channel.channel_name}`,
                                     onClick: this.goToChannel
                                 },
                                 { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
-                                { label: "Events", onClick: null },
-                                { label: "?", onClick: null }
+                                { label: "See Events", onClick: null },
+                                { label: null, onClick: null }
                             ],
                             activeStep: 3
                         }));
                     } else {
                         this.setState(() => ({
-                            isOwner
+                            isOwner,
+                            steps: [
+                                {
+                                    label: `Bulletin Board`,
+                                    onClick: this.goToChannel
+                                },
+                                { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                                { label: "See Events", onClick: null },
+                                { label: null, onClick: null }
+                            ],
+                            activeStep: 2
                         }));
                     }
                 }
@@ -62,6 +92,7 @@ class ViewPostEventsPage extends React.Component {
     };
 
     componentDidMount() {
+        this.props.resetEventFilters();
         this._isMounted = true;
 
         const post_id = parseInt(this.props.match.params.id);
@@ -128,24 +159,65 @@ class ViewPostEventsPage extends React.Component {
 
     render() {
         const events = !!this.props.events && getVisibleEvents(this.props.events, this.props.filters, false);
+        const calendarEvents =
+            !!events &&
+            events.map((event) => ({
+                id: event.event_id,
+                title: event.event_title,
+                start: new Date(event.planned_start_date),
+                end: new Date(event.planned_end_date),
+                allDay: false
+            }));
+
         return (
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
                         {!!this.props.post && (
                             <React.Fragment>
-                                <Typography variant="h1" display="inline">
+                                <Typography variant="h1" gutterBottom>
                                     Events for
-                                </Typography>
-                                <Typography variant="h1" color="primary" display="inline">
-                                    {" "}
-                                    {this.props.post.post_title}
+                                    <Typography variant="h1" color="primary" display="inline" component="span">
+                                        {" "}
+                                        {this.props.post.post_title}
+                                    </Typography>
+                                    <HelpToolTip
+                                        jsx={
+                                            <React.Fragment>
+                                                <Typography variant="caption">
+                                                    {EventDescription}
+                                                    <br />
+                                                    <br />
+                                                    From here you can:
+                                                    <ul>
+                                                        <li>See all events tied to the given post</li>
+                                                        <li>Click on a specific event to get more details</li>
+                                                        <li>Return to the post that contains these events</li>
+                                                        {this.state.isOwner && (
+                                                            <React.Fragment>
+                                                                <li>Add an event</li>
+                                                                <li>Delete all events matching the current filters</li>
+                                                            </React.Fragment>
+                                                        )}
+                                                    </ul>
+                                                </Typography>
+                                            </React.Fragment>
+                                        }
+                                    />
+                                    <ToggleButtonGroup exclusive onChange={this.onViewChange}>
+                                        <ToggleButton key={0} value={"calendar"}>
+                                            Calendar View
+                                        </ToggleButton>
+                                        <ToggleButton key={1} value={"list"}>
+                                            List View
+                                        </ToggleButton>
+                                    </ToggleButtonGroup>
                                 </Typography>
                             </React.Fragment>
                         )}
                         <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                         <Box marginTop={2}>
-                            <EventFilterSelector />
+                            <EventFilterSelector foodSpecific={false} listView={this.state.view === "list"} />
                         </Box>
                         {this.state.isOwner && (
                             <React.Fragment>
@@ -166,22 +238,41 @@ class ViewPostEventsPage extends React.Component {
                         </Button>
                     </Container>
                 </Box>
-                <Box paddingTop={2}>
-                    <Container maxWidth="xl">
-                        <Box display="flex" flexWrap="wrap">
-                            {!!events &&
-                                events.map((event) => {
-                                    return (
-                                        <EventSummary
-                                            key={event.event_id}
-                                            event={event}
-                                            pathName={`/event/${event.event_id}`}
-                                        />
-                                    );
-                                })}
-                        </Box>
-                    </Container>
-                </Box>
+                <Container maxWidth="xl">
+                    <Box py={2}>
+                        {events ? (
+                            events.length > 0 ? (
+                                <React.Fragment>
+                                    {this.state.view === "list" && (
+                                        <Box display="flex" flexWrap="wrap">
+                                            {events.map((event) => {
+                                                return (
+                                                    <EventSummary
+                                                        key={event.event_id}
+                                                        event={event}
+                                                        pathName={`/event/${event.event_id}`}
+                                                        inHorizontalMenu={false}
+                                                    />
+                                                );
+                                            })}
+                                        </Box>
+                                    )}
+                                    {this.state.view === "calendar" && (
+                                        <MyCalendar events={calendarEvents} onSelectEvent={this.onSelectEvent} />
+                                    )}
+                                </React.Fragment>
+                            ) : this.props.events.length === 0 ? (
+                                <Typography variant="h2">No Events.</Typography>
+                            ) : (
+                                <Typography variant="h2">No Matching Events</Typography>
+                            )
+                        ) : (
+                            <Box py={2}>
+                                <Loading />
+                            </Box>
+                        )}
+                    </Box>
+                </Container>
             </React.Fragment>
         );
     }
@@ -197,7 +288,8 @@ const mapDispatchToProps = (dispatch) => ({
     clearPosts: () => dispatch(clearPosts()),
     startGetPost: (id) => dispatch(startGetPost(id)),
     startGetEvent: (id) => dispatch(startGetEvent(id)),
-    setEvents: (events) => dispatch(setEvents(events))
+    setEvents: (events) => dispatch(setEvents(events)),
+    resetEventFilters: () => dispatch(resetEventFilters())
 });
 
 export default connect(

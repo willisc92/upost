@@ -92,7 +92,7 @@ export class RecurringModal extends React.Component {
             <Modal className="modal" isOpen={this.props.isOpen} contentLabel="Recurring" closeTimeoutMS={200}>
                 <Box display="flex" justifyContent="center" alignItems="center">
                     <img className="modal__logo" src={CDNLink + "/dist/images/logo.png"} />
-                    <Typography variant="h6">Save Recurring Event/Incentive Details</Typography>
+                    <Typography variant="h6">Save Recurring Event/Perk Details</Typography>
                 </Box>
                 <RecurringForm onSubmit={this.onSubmit} id="recurring" lastSelection={this.state} />
                 <Box display="flex" justifyContent="center">

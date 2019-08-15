@@ -10,12 +10,13 @@ import { getCurrentUser } from "../../actions/auth";
 import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { startGetPost, clearPosts } from "../../actions/posts";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { PerkDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 class EditIncentivePage extends React.Component {
     constructor(props) {
@@ -51,7 +52,7 @@ class EditIncentivePage extends React.Component {
                                     },
                                     { label: `Post: ${this.props.post.post_title}`, onClick: this.moveToPost },
                                     { label: "Edit Post", onClick: this.goBack },
-                                    { label: "Edit Incentive", onClick: null }
+                                    { label: "Edit Perk", onClick: null }
                                 ],
                                 activeStep: 4
                             }));
@@ -141,37 +142,40 @@ class EditIncentivePage extends React.Component {
                     <Box bgcolor="secondary.main" py={3}>
                         <Container maxWidth="xl">
                             <Typography variant="h1" gutterBottom>
-                                Edit Incentive Package for Post:{" "}
+                                Edit Perk for Post:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.post && this.props.post.post_title}
                                 </Typography>
+                                <HelpToolTip jsx={<Typography variant="caption">{PerkDescription}</Typography>} />
                             </Typography>
                             <Box paddingBottom={2}>
                                 {post_read_only ? (
-                                    <Typography variant="h2" color="error" gutterBottom>
-                                        You must restore the post linked to this incentive before editing.
-                                    </Typography>
+                                    <React.Fragment>
+                                        <Typography variant="h2" color="error" gutterBottom>
+                                            You must restore the post linked to this perk before editing.
+                                        </Typography>{" "}
+                                    </React.Fragment>
                                 ) : incentive_read_only ? (
                                     <React.Fragment>
                                         <Typography variant="h2" color="error" gutterBottom>
-                                            You must restore this incentive before editing.
+                                            You must restore this perk before editing.
                                         </Typography>
                                         <Button variant="contained" color="primary" onClick={this.restoreIncentive}>
-                                            Restore
-                                        </Button>
+                                            Restore Perk
+                                        </Button>{" "}
                                     </React.Fragment>
                                 ) : (
                                     <React.Fragment>
                                         <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                                         <Button variant="contained" color="primary" onClick={this.deleteIncentive}>
-                                            Delete Incentive
-                                        </Button>
+                                            Delete Perk
+                                        </Button>{" "}
                                     </React.Fragment>
                                 )}
+                                <Button variant="contained" color="primary" onClick={this.moveToPost}>
+                                    Go To Post
+                                </Button>
                             </Box>
-                            <Button variant="contained" color="primary" onClick={this.goBack}>
-                                Go To Post
-                            </Button>
                         </Container>
                     </Box>
                     <Container maxWidth="xl">

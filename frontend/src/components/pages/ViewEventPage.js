@@ -23,10 +23,14 @@ import Box from "@material-ui/core/Box";
 import moment from "moment";
 import { getCurrentUser } from "../../actions/auth";
 import CustomStepper from "../CustomStepper";
+import { ShareGroup } from "../Share";
+import { baseURL } from "../../utils/baseURL";
+import { HelpToolTip } from "../HelpTooltip";
+import { EventDescription } from "../tooltip_descriptions/Descriptions";
+import Icon from "@material-ui/core/Icon";
 
 class ViewEventPage extends React.Component {
     _isMounted = false;
-
     constructor(props) {
         super(props);
 
@@ -35,7 +39,8 @@ class ViewEventPage extends React.Component {
             error: "",
             isOwner: false,
             steps: [],
-            activeStep: undefined
+            activeStep: undefined,
+            url: baseURL.concat(this.props.location.pathname)
         };
     }
 
@@ -102,47 +107,10 @@ class ViewEventPage extends React.Component {
                 const isOwner = user_res.data.username === event_obj.event_owner;
 
                 if (this._isMounted) {
-                    if (isOwner) {
-                        if (!!event_obj.event_incentive) {
-                            this.setState(() => ({
-                                isOwner,
-                                steps: [
-                                    { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
-                                    {
-                                        label: `Bulletin Board`,
-                                        onClick: this.goToChannel
-                                    },
-                                    { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
-                                    { label: "Events", onClick: this.moveToPostEventsPage },
-                                    { label: `Event: ${this.props.event.event_title}`, onClick: null },
-                                    { label: "Edit Event", onClick: this.editEvent },
-                                    { label: "Edit Incentive", onClick: this.editIncentive }
-                                ],
-                                activeStep: 4
-                            }));
-                        } else {
-                            this.setState(() => ({
-                                isOwner,
-                                steps: [
-                                    { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
-                                    {
-                                        label: `Bulletin Board`,
-                                        onClick: this.goToChannel
-                                    },
-                                    { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
-                                    { label: "Events", onClick: this.moveToPostEventsPage },
-                                    { label: `Event: ${this.props.event.event_title}`, onClick: null },
-                                    { label: "Edit Event", onClick: this.editEvent },
-                                    { label: "Add Incentive", onClick: this.addIncentive }
-                                ],
-                                activeStep: 4
-                            }));
-                        }
-                    } else {
-                        this.setState(() => ({
-                            isOwner
-                        }));
-                    }
+                    this.setState(() => ({
+                        isOwner
+                    }));
+                    this.setSteps(isOwner);
                 }
 
                 if (!isOwner) {
@@ -189,6 +157,89 @@ class ViewEventPage extends React.Component {
         this._isMounted = false;
     }
 
+    setSteps = (isOwner = this.state.isOwner) => {
+        if (isOwner) {
+            if (!!this.props.event.event_incentive) {
+                if (moment(this.props.event.planned_end_date) < moment() || this.props.event.deleted_flag) {
+                    this.setState(() => ({
+                        steps: [
+                            { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                            {
+                                label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                onClick: this.goToChannel
+                            },
+                            { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                            { label: "See Events", onClick: this.moveToPostEventsPage },
+                            { label: `Event: ${this.props.event.event_title}`, onClick: null }
+                        ],
+                        activeStep: 4
+                    }));
+                } else {
+                    this.setState(() => ({
+                        steps: [
+                            { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                            {
+                                label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                onClick: this.goToChannel
+                            },
+                            { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                            { label: "See Events", onClick: this.moveToPostEventsPage },
+                            { label: `Event: ${this.props.event.event_title}`, onClick: null },
+                            { label: "Edit Event", onClick: this.editEvent },
+                            { label: "Edit Event Perk", onClick: this.editIncentive }
+                        ],
+                        activeStep: 4
+                    }));
+                }
+            } else {
+                if (moment(this.props.event.planned_end_date) < moment() || this.props.event.deleted_flag) {
+                    this.setState(() => ({
+                        steps: [
+                            { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                            {
+                                label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                onClick: this.goToChannel
+                            },
+                            { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                            { label: "See Events", onClick: this.moveToPostEventsPage },
+                            { label: `Event: ${this.props.event.event_title}`, onClick: null }
+                        ],
+                        activeStep: 4
+                    }));
+                } else {
+                    this.setState(() => ({
+                        steps: [
+                            { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
+                            {
+                                label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                onClick: this.goToChannel
+                            },
+                            { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                            { label: "See Events", onClick: this.moveToPostEventsPage },
+                            { label: `Event: ${this.props.event.event_title}`, onClick: null },
+                            { label: "Edit Event", onClick: this.editEvent },
+                            { label: "Add Event Perk", onClick: this.addIncentive }
+                        ],
+                        activeStep: 4
+                    }));
+                }
+            }
+        } else {
+            this.setState(() => ({
+                steps: [
+                    {
+                        label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                        onClick: this.goToChannel
+                    },
+                    { label: `Post: ${this.props.post.post_title}`, onClick: this.returnToPost },
+                    { label: "See Events", onClick: this.moveToPostEventsPage },
+                    { label: `Event: ${this.props.event.event_title}`, onClick: null }
+                ],
+                activeStep: 3
+            }));
+        }
+    };
+
     updateAttendance = () => {
         if (this.props.attendance.includes(this.props.event.event_id)) {
             this.props.startDeleteAttendance(this.props.event.event_id).then(() => {
@@ -220,7 +271,9 @@ class ViewEventPage extends React.Component {
             .then(() => {
                 this.props
                     .startSetEvent(event_id)
-                    .then(() => {})
+                    .then(() => {
+                        this.setSteps();
+                    })
                     .catch((err) => console.log(JSON.stringify(err, null, 2)));
             })
             .catch((err) => console.log(JSON.stringify(err, null, 2)));
@@ -233,7 +286,9 @@ class ViewEventPage extends React.Component {
             .then(() => {
                 this.props
                     .startSetEvent(event_id)
-                    .then(() => {})
+                    .then(() => {
+                        this.setSteps();
+                    })
                     .catch((err) => console.log(JSON.stringify(err, null, 2)));
             })
             .catch((err) => console.log(JSON.stringify(err, null, 2)));
@@ -277,7 +332,37 @@ class ViewEventPage extends React.Component {
             <React.Fragment>
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
-                        <Typography variant="h1">Event</Typography>
+                        <Typography variant="h1">
+                            Event
+                            <HelpToolTip
+                                jsx={
+                                    <React.Fragment>
+                                        <Typography variant="caption">
+                                            {EventDescription}
+                                            <br />
+                                            <br />
+                                            From here you can:
+                                            <ul>
+                                                <li>See all specific event details</li>
+                                                <li>
+                                                    Subscribe/unsubscribe to the bulletin board containing this event
+                                                </li>
+                                                <li>See any perks that are tied to this event.</li>
+                                                <li>Share the link to this event on Twitter, Facebook, or E-mail</li>
+                                                <li>Return to the post that contains these events</li>
+                                                <li>Register or unregister to the event</li>
+                                                {this.state.isOwner && (
+                                                    <React.Fragment>
+                                                        <li>Delete or restore this event</li>
+                                                        <li>Edit this event</li>
+                                                    </React.Fragment>
+                                                )}
+                                            </ul>
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
+                        </Typography>
                         <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                     </Container>
                 </Box>
@@ -297,9 +382,13 @@ class ViewEventPage extends React.Component {
                             {!!this.props.event && (
                                 <React.Fragment>
                                     <Box display="flex" justifyContent="space-between" py={2}>
-                                        <Typography variant="h2" color="primary">
-                                            {this.props.event.event_title}
-                                        </Typography>
+                                        <Box maxWidth="50%" display="flex">
+                                            <Box paddingRight={0.5}>
+                                                <Typography variant="h2" color="primary">
+                                                    {this.props.event.event_title}
+                                                </Typography>
+                                            </Box>
+                                        </Box>
                                         <Box>
                                             {this.state.isOwner &&
                                                 (this.props.event.deleted_flag ? (
@@ -310,7 +399,7 @@ class ViewEventPage extends React.Component {
                                                             onClick={this.restoreEvent}
                                                         >
                                                             Restore Event
-                                                        </Button>
+                                                        </Button>{" "}
                                                     </React.Fragment>
                                                 ) : (
                                                     <React.Fragment>
@@ -325,8 +414,11 @@ class ViewEventPage extends React.Component {
                                                             color="primary"
                                                             variant="contained"
                                                             onClick={this.editEvent}
+                                                            disabled={
+                                                                moment(this.props.event.planned_end_date) < moment()
+                                                            }
                                                         >
-                                                            Edit Event{" "}
+                                                            Edit Event
                                                         </Button>{" "}
                                                     </React.Fragment>
                                                 ))}
@@ -345,6 +437,7 @@ class ViewEventPage extends React.Component {
                                             </Button>
                                         </Box>
                                     </Box>
+                                    <ShareGroup url={this.state.url} quote={this.props.event.event_title} />
                                     {this.props.event.deleted_flag && (
                                         <Typography variant="h3" color="error" gutterBottom>
                                             Deletion Date:{" "}
@@ -367,6 +460,19 @@ class ViewEventPage extends React.Component {
                                                 The event is nearing capacity. Please register soon.
                                             </Typography>
                                         ))}
+                                    {!!this.props.event &&
+                                    this.state.isOwner &&
+                                    moment(this.props.event.planned_end_date) < moment() ? (
+                                        <Typography color="error" variant="body1" gutterBottom>
+                                            The event has passed. You are no longer able to edit.
+                                        </Typography>
+                                    ) : this.props.event.deleted_flag ? (
+                                        <Typography color="error" variant="body1" gutterBottom>
+                                            Please restore the event to edit.
+                                        </Typography>
+                                    ) : (
+                                        <React.Fragment />
+                                    )}
                                     <Typography variant="body1" gutterBottom>
                                         Description: {this.props.event.event_description}
                                     </Typography>
@@ -385,8 +491,11 @@ class ViewEventPage extends React.Component {
                                             pathname: `/channel/${this.props.channel.channel_id}`
                                         }}
                                     >
-                                        <Box paddingTop={2}>
-                                            <Typography color="primary" variant="h4">
+                                        <Box display="flex" flexWrap="nowrap" alignItems="center" paddingTop={2}>
+                                            <Icon fontSize="large" style={{ marginRight: 5 }}>
+                                                account_circle
+                                            </Icon>
+                                            <Typography color="primary" variant="h3">
                                                 {this.props.channel.channel_name}
                                             </Typography>
                                         </Box>

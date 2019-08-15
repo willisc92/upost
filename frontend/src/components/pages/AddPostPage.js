@@ -9,6 +9,8 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { PostDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 export class AddPostPage extends React.Component {
     constructor(props) {
@@ -40,7 +42,7 @@ export class AddPostPage extends React.Component {
                                             onClick: this.handleReturn
                                         },
                                         { label: "Add Post", onClick: null },
-                                        { label: "?", onClick: null }
+                                        { label: null, onClick: null }
                                     ],
                                     activeStep: 2
                                 };
@@ -105,11 +107,12 @@ export class AddPostPage extends React.Component {
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.channel && this.props.channel.channel_name}
                                 </Typography>
+                                <HelpToolTip jsx={<Typography variant="caption">{PostDescription}</Typography>} />
                             </Typography>
                             {read_only ? (
                                 <Box>
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        You must restore the Channel of this post before adding.
+                                        You must restore the bulletin board of this post before adding.
                                     </Typography>
                                     <Button color="primary" variant="contained" onClick={this.handleReturn}>
                                         Go to Channel
@@ -153,7 +156,7 @@ export class AddPostPage extends React.Component {
                                         variant="contained"
                                         onClick={this.onTriggerSaveAddIncentive}
                                     >
-                                        Save Post and Add Incentive
+                                        Save Post and Add Perk
                                     </Button>
                                 </Box>
                             </Box>

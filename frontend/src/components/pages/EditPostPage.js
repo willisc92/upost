@@ -8,6 +8,8 @@ import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { PostDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 export class EditPostPage extends React.Component {
     constructor(props) {
@@ -34,12 +36,12 @@ export class EditPostPage extends React.Component {
                                 steps: [
                                     { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                     {
-                                        label: `Bulletin Board`,
+                                        label: `Bulletin Board: ${this.props.post.path.channel.channel_name}`,
                                         onClick: this.goToChannel
                                     },
                                     { label: `Post: ${this.props.post.post_title}`, onClick: this.moveToPost },
                                     { label: "Edit Post", onClick: null },
-                                    { label: "?", onClick: null }
+                                    { label: null, onClick: null }
                                 ],
                                 activeStep: 3
                             }));
@@ -133,14 +135,15 @@ export class EditPostPage extends React.Component {
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.post && this.props.post.post_title}
                                 </Typography>
+                                <HelpToolTip jsx={<Typography variant="caption">{PostDescription}</Typography>} />
                             </Typography>
                             {read_only_channel ? (
                                 <Box>
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        You must restore the Channel of this post before editing.
+                                        You must restore the bulletin board of this post before editing.
                                     </Typography>
                                     <Button color="primary" variant="contained" onClick={this.goToChannel}>
-                                        Go to Channel
+                                        Go to Bulletin Board
                                     </Button>
                                 </Box>
                             ) : read_only_post ? (
@@ -160,11 +163,11 @@ export class EditPostPage extends React.Component {
                                     </Button>{" "}
                                     {!!this.props.post.post_incentive ? (
                                         <Button color="primary" variant="contained" onClick={this.onEditIncentiveClick}>
-                                            Edit Post Incentive
+                                            Edit Post Perk
                                         </Button>
                                     ) : (
                                         <Button color="primary" variant="contained" onClick={this.onAddIncentiveClick}>
-                                            Add Incentive to Post
+                                            Add Perk to Post
                                         </Button>
                                     )}{" "}
                                     <Button color="primary" variant="contained" onClick={this.deletePost}>

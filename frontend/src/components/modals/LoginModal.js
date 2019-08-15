@@ -34,7 +34,7 @@ class LoginModal extends React.Component {
                     this.props.handleSucessfulLogin();
                 })
                 .catch((error) => {
-                    console.log(JSON.stringify(error, null, 2));
+                    console.log(error);
                 });
         }
     };

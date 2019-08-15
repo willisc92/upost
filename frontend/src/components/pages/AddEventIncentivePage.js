@@ -4,12 +4,13 @@ import { getCurrentUser } from "../../actions/auth";
 import IncentiveForm from "../forms/IncentiveForm";
 import { connect } from "react-redux";
 import { startSetEvent, clearEvents } from "../../actions/events";
-
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import CustomStepper from "../CustomStepper";
+import { PerkDescription } from "../tooltip_descriptions/Descriptions";
+import { HelpToolTip } from "../HelpTooltip";
 
 class AddEventIncentivePage extends React.Component {
     constructor(props) {
@@ -36,8 +37,8 @@ class AddEventIncentivePage extends React.Component {
                                 steps: [
                                     { label: "Bulletin Boards", onClick: this.moveToBulletinBoards },
                                     {
-                                        label: `Bulletin Board`,
-                                        onClick: null
+                                        label: `Bulletin Board: ${this.props.event.path.channel.channel_name}`,
+                                        onClick: this.moveToBulletinBoard
                                     },
                                     { label: `Post`, onClick: this.goToPost },
                                     { label: "Events", onClick: this.moveToPostEventsPage },
@@ -46,7 +47,7 @@ class AddEventIncentivePage extends React.Component {
                                         onClick: this.moveToEventPage
                                     },
                                     { label: `Edit Event`, onClick: this.goBack },
-                                    { label: `Add Incentive`, onClick: null }
+                                    { label: `Add Perk`, onClick: null }
                                 ],
                                 activeStep: 6
                             }));
@@ -78,7 +79,7 @@ class AddEventIncentivePage extends React.Component {
     };
 
     goToPost = () => {
-        this.props.history.push(`/myPosts/${this.props.event.post}`);
+        this.props.history.push(`/post/${this.props.event.post}`);
     };
 
     moveToPostEventsPage = () => {
@@ -87,6 +88,10 @@ class AddEventIncentivePage extends React.Component {
 
     moveToBulletinBoards = () => {
         this.props.history.push("/myChannels");
+    };
+
+    moveToBulletinBoard = () => {
+        this.props.history.push(`/channels/${this.props.event.path.channel.channel_id}`);
     };
 
     moveToEventPage = () => {
@@ -109,31 +114,31 @@ class AddEventIncentivePage extends React.Component {
                     <Box bgcolor="secondary.main" py={3}>
                         <Container maxWidth="xl">
                             <Typography gutterBottom variant="h2">
-                                Add an Incentive Package to Event:{" "}
+                                Add a Perk to Event:{" "}
                                 <Typography variant="inherit" display="inline" color="primary">
                                     {this.props.event && this.props.event.event_title}
                                 </Typography>
+                                <HelpToolTip jsx={<Typography variant="caption">{PerkDescription}</Typography>} />
                             </Typography>
                             <CustomStepper steps={this.state.steps} activeStep={this.state.activeStep} />
                             {existing_incentive ? (
                                 <Box paddingBottom={2}>
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        There is already an existing incentive tied to this event.
+                                        There is already an existing perk tied to this event.
                                     </Typography>
                                     <Button variant="contained" color="primary" onClick={this.goToIncentive}>
-                                        Go to Incentive
+                                        Go to Perk
                                     </Button>
                                 </Box>
                             ) : (
                                 read_only && (
                                     <Typography variant="h2" color="error" gutterBottom>
-                                        The event this incentive will be tied to is deleted. Restore it before adding an
-                                        incentive.
+                                        The event this perk will be tied to is deleted. Restore it before adding a perk.
                                     </Typography>
                                 )
                             )}
                             <Box>
-                                <Button variant="contained" color="primary" onClick={this.goBack}>
+                                <Button variant="contained" color="primary" onClick={this.moveToEventPage}>
                                     Go to Event
                                 </Button>
                             </Box>

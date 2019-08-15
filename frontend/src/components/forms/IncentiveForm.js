@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
-import { DateTimePicker } from "@material-ui/pickers";
+import { DateTimePicker, KeyboardDateTimePicker } from "@material-ui/pickers";
 import MenuItem from "@material-ui/core/MenuItem";
 import Checkbox from "@material-ui/core/Checkbox";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -45,7 +45,7 @@ class IncentiveForm extends React.Component {
                     : !!this.props.event && !!this.props.event.planned_start_date
                     ? moment(this.props.event.planned_start_date)
                     : !!this.props.fromEvent
-                    ? moment()
+                    ? moment().add(1, "hours")
                     : null,
             planned_end_date:
                 !!this.props.incentivePackage && !!this.props.incentivePackage.planned_end_date
@@ -53,7 +53,7 @@ class IncentiveForm extends React.Component {
                     : !!this.props.event && !!this.props.event.planned_end_date
                     ? moment(this.props.event.planned_end_date)
                     : !!this.props.fromEvent
-                    ? moment().add(1, "hours")
+                    ? moment().add(2, "hours")
                     : null
         };
     }
@@ -113,7 +113,7 @@ class IncentiveForm extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
         if (this.state.incentive_type.length === 0) {
-            this.setState(() => ({ error: "Please select at least one incentive type." }));
+            this.setState(() => ({ error: "Please select at least one perk type." }));
         } else if (!this.state.ip_description) {
             this.setState(() => ({ error: "Please enter a brief description." }));
         } else if (
@@ -168,14 +168,14 @@ class IncentiveForm extends React.Component {
                 {!!this.props.incentiveTypes && (
                     <Box display="flex">
                         <Box paddingRight={2}>
-                            <Typography>Incentive Types:</Typography>
+                            <Typography>Perk Types:</Typography>
                         </Box>
                         <MultiSelect
                             required
                             disabled={this.props.read_only}
                             onChange={this.onIncentiveTypeChange}
                             value={this.state.incentive_type}
-                            label="Incentives"
+                            label="Perks"
                         >
                             {this.props.incentiveTypes.map((incentiveType) => {
                                 return (
@@ -223,8 +223,8 @@ class IncentiveForm extends React.Component {
                     <TextField
                         required
                         autoFocus
-                        label="Incentive Description"
-                        placeholder={`Describe the incentive for your ${!!this.state.fromPost ? "post" : "event"}.`}
+                        label="Perk Description"
+                        placeholder={`Describe the perk for your ${!!this.state.fromPost ? "post" : "event"}.`}
                         multiline
                         value={this.state.ip_description}
                         onChange={this.onDescriptionChange}
@@ -233,22 +233,32 @@ class IncentiveForm extends React.Component {
                 </Box>
                 {!!this.state.fromEvent && (
                     <React.Fragment>
-                        <Box>
-                            <DateTimePicker
+                        <Box width={250}>
+                            <KeyboardDateTimePicker
+                                label="Start Date (YYYY/MM/DD HH:MM)"
                                 value={this.state.planned_start_date}
                                 onChange={this.onStartDateChange}
-                                label="Start Date"
                                 disabled={this.props.read_only}
                                 required
+                                format="YYYY/MM/DD hh:mm a"
+                                fullWidth={true}
+                                minDate={moment()}
+                                maxDate={moment().add(5, "years")}
+                                minDateMessage="Date should not be in the past"
                             />
                         </Box>
-                        <Box>
-                            <DateTimePicker
+                        <Box width={250}>
+                            <KeyboardDateTimePicker
+                                label="End Date (YYYY/MM/DD HH:MM)"
                                 value={this.state.planned_end_date}
                                 onChange={this.onEndDateChange}
-                                label="End Date"
                                 disabled={this.props.read_only}
                                 required
+                                format="YYYY/MM/DD hh:mm a"
+                                fullWidth={true}
+                                minDate={moment()}
+                                maxDate={moment().add(5, "years")}
+                                minDateMessage="Date should not be in the past"
                             />
                         </Box>
                     </React.Fragment>

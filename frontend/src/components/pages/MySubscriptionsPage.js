@@ -5,10 +5,11 @@ import { getVisibleChannels } from "../../selectors/myChannels";
 import { resetChannelFilters } from "../../actions/channel_filters";
 import ChannelSummary from "../ChannelListItem";
 import ChannelFilterSelector from "../filter_selectors/ChannelFilterSelector";
-
+import { HelpToolTip } from "../HelpTooltip";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
+import Loading from "./LoadingPage";
 
 class MySubscriptionsPage extends React.Component {
     componentWillMount() {
@@ -29,35 +30,48 @@ class MySubscriptionsPage extends React.Component {
                 <Box bgcolor="secondary.main" py={3}>
                     <Container maxWidth="xl">
                         <Typography variant="h1" gutterBottom>
-                            Your Subscriptions
+                            My Subscriptions
+                            <HelpToolTip
+                                jsx={
+                                    <React.Fragment>
+                                        <Typography variant="caption">
+                                            Here you can see all bulletin boards that you have subscribed to!
+                                        </Typography>
+                                    </React.Fragment>
+                                }
+                            />
                         </Typography>
                         <ChannelFilterSelector />
                     </Container>
                 </Box>
 
                 <Container maxWidth="xl">
-                    {channels ? (
-                        <Box display="flex" flexWrap="flex" py={2}>
-                            {channels.length > 0 ? (
-                                channels.map((channel) => {
-                                    return (
-                                        <ChannelSummary
-                                            key={channel.channel_id}
-                                            channel={channel}
-                                            pathName={`/channel/${channel.channel_id}`}
-                                            inHorizontalMenu={false}
-                                        />
-                                    );
-                                })
+                    <Box py={2}>
+                        {channels ? (
+                            channels.length > 0 ? (
+                                <Box display="flex" flexWrap="wrap">
+                                    {channels.map((channel) => {
+                                        return (
+                                            <ChannelSummary
+                                                key={channel.channel_id}
+                                                channel={channel}
+                                                pathName={`/channel/${channel.channel_id}`}
+                                                inHorizontalMenu={false}
+                                            />
+                                        );
+                                    })}
+                                </Box>
                             ) : this.props.channels.length === 0 ? (
                                 <Typography variant="h2">You have no subscriptions.</Typography>
                             ) : (
-                                <Typography variant="h2">No Matching Channels</Typography>
-                            )}
-                        </Box>
-                    ) : (
-                        <Typography> Loading... </Typography>
-                    )}
+                                <Typography variant="h2">No Matching Bulletin Boards</Typography>
+                            )
+                        ) : (
+                            <Box py={2}>
+                                <Loading />
+                            </Box>
+                        )}
+                    </Box>
                 </Container>
             </div>
         );

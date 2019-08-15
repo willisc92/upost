@@ -18,8 +18,12 @@ import Header from "./Header";
 import Icon from "@material-ui/core/Icon";
 import Box from "@material-ui/core/Box";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const drawerWidth = 240;
+const appBarHeight = 64;
+const footerHeight = 125;
+const footerMargin = 30;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,7 +34,8 @@ const useStyles = makeStyles((theme) => ({
         transition: theme.transitions.create(["width", "margin"], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
-        })
+        }),
+        height: appBarHeight
     },
     appBarShift: {
         marginLeft: drawerWidth,
@@ -39,6 +44,13 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.enteringScreen
         })
+    },
+    footer: {
+        marginTop: footerMargin,
+        bottom: 0,
+        height: footerHeight,
+        display: "flex",
+        flexDirection: "column"
     },
     menuButton: {
         marginRight: 15
@@ -79,7 +91,16 @@ const useStyles = makeStyles((theme) => ({
     content: {
         flexGrow: 1,
         padding: 0,
-        minWidth: 150
+        margin: 0,
+        minWidth: 150,
+        backgroundColor: "white"
+    },
+    main: {
+        minHeight: `calc(100vh - ${appBarHeight + footerHeight + footerMargin}px)`, //idk why scrolling still happens
+        margin: 0,
+        padding: 0,
+        marginTop: appBarHeight,
+        backgroundColor: "white"
     }
 }));
 
@@ -105,7 +126,7 @@ export default (props) => {
                     [classes.appBarShift]: open
                 })}
             >
-                <Box alignItems="center" display="flex" justifyContent="space-between">
+                <Box alignItems="center" display="flex" justifyContent="space-between" paddingRight={0.5}>
                     <Toolbar>
                         <IconButton
                             color="inherit"
@@ -232,9 +253,24 @@ export default (props) => {
                         </ListItemIcon>
                         <ListItemText primary={"RECYCLE BIN"} />
                     </ListItem>
+                    <ListItem
+                        button
+                        onClick={() => {
+                            props.history.push("/contact-us");
+                            handleDrawerClose();
+                        }}
+                    >
+                        <ListItemIcon>
+                            <Icon>feedback</Icon>
+                        </ListItemIcon>
+                        <ListItemText primary={"CONTACT US"} />
+                    </ListItem>
                 </List>
             </Drawer>
-            <main className={classes.content}>{props.children}</main>
+            <Box className={classes.content}>
+                <main className={classes.main}>{props.children}</main>
+                <Footer className={classes.footer} history={props.history} />
+            </Box>
         </div>
     );
 };

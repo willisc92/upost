@@ -31,7 +31,8 @@ export const MyPostSummary = ({ post, pathName, selected, readOnly, inHorizontal
                             <PolaroidHeader header={post.post_title} />
                             {post.deleted_flag && (
                                 <PolaroidSubHeader
-                                    subheader={`(Deleted ${moment(post.deletion_date).format("ddd, MMM D YYYY")})`}
+                                    color="primary"
+                                    subheader={`(Deleted ${moment(post.deletion_date).format("l")})`}
                                 />
                             )}
                             <PolaroidBody body={post.post_description} />
