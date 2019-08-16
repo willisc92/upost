@@ -14,6 +14,7 @@ import MenuHeader from "../menus/MenuHeader";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import { HelpToolTip } from "../HelpTooltip";
 import Loading from "./LoadingPage";
+import { getMyCommunities } from "../../actions/communities";
 
 export class DashboardPage extends React.Component {
     constructor(props) {
@@ -63,7 +64,18 @@ export class DashboardPage extends React.Component {
 
     handleSuccessfulLogin = async () => {
         await this.handleLoginModalClose();
-        this.props.history.push("/");
+        // this.props.history.push("/");
+
+        this.handleLoginModalClose();
+        this.props.getMyCommunities().then(
+            this.props.startSetUserInterests().then(() => {
+                if (this.props.userCommunities.length === 0 && this.props.userInterests.length === 0) {
+                    this.props.history.push("/interests");
+                } else {
+                    this.props.history.push("/");
+                }
+            })
+        );
     };
 
     componentDidMount() {
@@ -282,7 +294,8 @@ const mapStateToProps = (state) => {
         interests: state.interests.interests,
         userInterests: state.interests.userInterests,
         interestRandomPosts: state.posts.interestRandomPosts,
-        nonInterestPosts: state.posts.nonInterestPosts
+        nonInterestPosts: state.posts.nonInterestPosts,
+        userCommunities: state.communities.userCommunities.community
     };
 };
 
@@ -291,7 +304,8 @@ const mapDispatchToProps = (dispatch) => {
         getAllInterests: () => dispatch(getAllInterests()),
         startSetInterestRandomPosts: (interests) => dispatch(startSetInterestRandomPosts(interests)),
         startSetUserInterests: () => dispatch(startSetUserInterests()),
-        getNonInterestPosts: () => dispatch(getNonInterestPosts())
+        getNonInterestPosts: () => dispatch(getNonInterestPosts()),
+        getMyCommunities: () => dispatch(getMyCommunities())
     };
 };
 
