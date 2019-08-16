@@ -3,10 +3,13 @@ import Modal from "react-modal";
 import LoginForm from "../forms/LoginForm";
 import RecoveryForm from "../forms/RecoveryForm";
 import { connect } from "react-redux";
-import { authFail, authLogin, passwordResetRequest } from "../../actions/auth";
+import { authFail, authLogin, passwordResetRequest, exchangeGoogleToken } from "../../actions/auth";
 import emailValidator from "email-validator";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { GoogleLogin } from "react-google-login";
+import { googleClientID } from "../../utils/localAPIConfig";
+import Box from "@material-ui/core/Box";
 
 class LoginModal extends React.Component {
     constructor(props) {
@@ -63,6 +66,17 @@ class LoginModal extends React.Component {
 
     resendEmail = () => {
         passwordResetRequest(localStorage.getItem("email"));
+    };
+
+    responseGoogle = (response) => {
+        this.props
+            .exchangeGoogleToken(response.accessToken)
+            .then(() => {
+                this.props.handleLoginClose();
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     render() {
@@ -126,25 +140,37 @@ class LoginModal extends React.Component {
                         <Typography variant="body1" onClick={this.changePasswordRecovery} gutterBottom>
                             Forgot Password?
                         </Typography>
-                        <div className="modal__buttons">
-                            <Button
-                                color="primary"
-                                variant="contained"
-                                style={{ margin: 5 }}
-                                type="submit"
-                                form="login"
-                            >
-                                Login
-                            </Button>
-                            <Button
-                                color="primary"
-                                variant="contained"
-                                style={{ margin: 5 }}
-                                onClick={this.props.closeLoginOpenSignupModal}
-                            >
-                                Create Account
-                            </Button>
-                        </div>
+                        <Box paddingBottom={1}>
+                            <div className="modal__buttons">
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    style={{ margin: 5 }}
+                                    type="submit"
+                                    form="login"
+                                >
+                                    Login
+                                </Button>
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    style={{ margin: 5 }}
+                                    onClick={this.props.closeLoginOpenSignupModal}
+                                >
+                                    Create Account
+                                </Button>
+                            </div>
+                        </Box>
+                        <GoogleLogin
+                            className="customGoogleButton"
+                            clientId={googleClientID}
+                            buttonText="LOGIN WITH GOOGLE"
+                            onSuccess={this.responseGoogle}
+                            onFailure={() => {
+                                this.props.history.push("/");
+                            }}
+                            cookiePolicy={"single_host_origin"}
+                        />
                     </React.Fragment>
                 )}
             </Modal>
@@ -159,7 +185,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
     return {
         authFail: (error) => dispatch(authFail(error)),
-        authLogin: (username, password) => dispatch(authLogin(username, password))
+        authLogin: (username, password) => dispatch(authLogin(username, password)),
+        exchangeGoogleToken: (googleToken) => dispatch(exchangeGoogleToken(googleToken))
     };
 };
 

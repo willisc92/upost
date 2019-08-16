@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { logout, exchangeGoogleToken } from "../actions/auth";
+import { logout } from "../actions/auth";
 import SignupModal from "./modals/SignupModal";
 import LoginModal from "./modals/LoginModal";
 import { SearchBar } from "./SearchBar";
@@ -9,7 +9,7 @@ import { WhiteButton } from "../components/Buttons";
 import { startSetUserInterests } from "../actions/interests";
 import { getMyCommunities } from "../actions/communities";
 import Box from "@material-ui/core/Box";
-import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { GoogleLogout } from "react-google-login";
 import { googleClientID } from "../utils/localAPIConfig";
 
 class Header extends React.Component {
@@ -75,17 +75,6 @@ class Header extends React.Component {
         );
     };
 
-    responseGoogle = (response) => {
-        this.props
-            .exchangeGoogleToken(response.accessToken)
-            .then(() => {
-                this.handleSucessfulLogin();
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
-
     redirectHome = () => {
         this.props.history.push("/");
     };
@@ -128,14 +117,6 @@ class Header extends React.Component {
                         <WhiteButton variant="text" onClick={this.handleLoginModalOpen}>
                             <i className="material-icons">exit_to_app</i> Login
                         </WhiteButton>
-                        <GoogleLogin
-                            className="customGoogleButton"
-                            clientId={googleClientID}
-                            buttonText="LOGIN WITH GOOGLE"
-                            onSuccess={this.responseGoogle}
-                            onFailure={this.redirectHome}
-                            cookiePolicy={"single_host_origin"}
-                        />
                     </Box>
                 )}
                 <SignupModal
@@ -164,8 +145,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     logout: () => dispatch(logout()),
     startSetUserInterests: () => dispatch(startSetUserInterests()),
-    getMyCommunities: () => dispatch(getMyCommunities()),
-    exchangeGoogleToken: (googleToken) => dispatch(exchangeGoogleToken(googleToken))
+    getMyCommunities: () => dispatch(getMyCommunities())
 });
 
 export default connect(
