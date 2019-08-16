@@ -24,7 +24,7 @@ export const MyPostSummary = ({ post, pathName, selected, readOnly, inHorizontal
                     state: { post }
                 }}
             >
-                <Card className={classes.card} style={{ boxShadow: "0px 0px 5px rgba(0, 0, 0, 0.5)" }}>
+                <Card className={classes.card}>
                     <CardActionArea className={classes.cardActionArea}>
                         <PolaroidImage image={post.picture} />
                         <CardContent>
