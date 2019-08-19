@@ -101,89 +101,86 @@ export class ChannelForm extends React.Component {
 
     render() {
         return (
-            <div>
-                <form className="form" onSubmit={this.onSubmit}>
-                    {!!this.props.error && !!this.props.error.channel_name && (
-                        <Box paddingBottom={3}>
-                            <Typography color="error" variant="h2">
-                                {this.props.error.channel_name[0]}
-                            </Typography>
-                        </Box>
-                    )}
-                    {this.state.error && (
-                        <Box paddingBottom={3}>
-                            <Typography color="error" variant="h2">
-                                {this.state.error}
-                            </Typography>
-                        </Box>
-                    )}
+            <form className="form" onSubmit={this.onSubmit}>
+                {!!this.props.error && !!this.props.error.channel_name && (
+                    <Box paddingBottom={3}>
+                        <Typography color="error" variant="h2">
+                            {this.props.error.channel_name[0]}
+                        </Typography>
+                    </Box>
+                )}
+                {this.state.error && (
+                    <Box paddingBottom={3}>
+                        <Typography color="error" variant="h2">
+                            {this.state.error}
+                        </Typography>
+                    </Box>
+                )}
 
-                    <Box>
-                        <TextField
-                            label="Name"
-                            type="text"
-                            placeholder="Name"
-                            value={this.state.channel_name}
-                            onChange={this.onNameChange}
-                            disabled={this.props.read_only}
-                            required
-                        />
-                    </Box>
-                    <Box>
-                        <TextField
-                            label="Description"
-                            className="text-input"
-                            type="text"
-                            placeholder="Description"
-                            value={this.state.channel_description}
-                            onChange={this.onDescriptionChange}
-                            disabled={this.props.read_only}
-                            multiline
-                        />
-                    </Box>
-                    <Box>
-                        <Box paddingRight={2}>
-                            <Typography display="inline">Image upload: </Typography>
-                            {!this.state.picture_preview && (
-                                <Typography display="inline" color="error">
-                                    No image uploaded
-                                </Typography>
-                            )}
-                        </Box>
-                        {!!this.state.picture_preview && (
-                            <React.Fragment>
-                                <Box>
-                                    <img className="post_image" src={this.state.picture_preview} />
-                                </Box>
-                                <Button
-                                    onClick={this.clearPicture}
-                                    disabled={this.props.read_only}
-                                    color="primary"
-                                    variant="contained"
-                                >
-                                    Clear Picture
-                                </Button>
-                            </React.Fragment>
+                <Box>
+                    <TextField
+                        label="Name"
+                        type="text"
+                        placeholder="Name"
+                        value={this.state.channel_name}
+                        onChange={this.onNameChange}
+                        disabled={this.props.read_only}
+                        required
+                    />
+                </Box>
+                <Box>
+                    <TextField
+                        label="Description"
+                        type="text"
+                        placeholder="Description"
+                        value={this.state.channel_description}
+                        onChange={this.onDescriptionChange}
+                        disabled={this.props.read_only}
+                        multiline
+                    />
+                </Box>
+                <Box>
+                    <Box paddingRight={2}>
+                        <Typography display="inline">Image upload: </Typography>
+                        {!this.state.picture_preview && (
+                            <Typography display="inline" color="error">
+                                No image uploaded
+                            </Typography>
                         )}
                     </Box>
-                    <Box>
-                        <Input
-                            type="file"
-                            id="image"
-                            accept="image/png, image/jpeg"
-                            onChange={this.handleImageChange}
-                            disableUnderline
-                        />
-                    </Box>
-                    {!this.props.read_only && (
-                        <Box>
-                            <Button color="primary" variant="contained" type="submit">
-                                Submit
+                    {!!this.state.picture_preview && (
+                        <React.Fragment>
+                            <Box>
+                                <img className="post_image" src={this.state.picture_preview} />
+                            </Box>
+                            <Button
+                                onClick={this.clearPicture}
+                                disabled={this.props.read_only}
+                                color="primary"
+                                variant="contained"
+                            >
+                                Clear Picture
                             </Button>
-                        </Box>
+                        </React.Fragment>
                     )}
-                </form>
-            </div>
+                </Box>
+                <Box>
+                    <Input
+                        type="file"
+                        id="image"
+                        accept="image/png, image/jpeg"
+                        onChange={this.handleImageChange}
+                        disableUnderline
+                    />
+                </Box>
+                {!this.props.read_only && (
+                    <Box>
+                        <Button color="primary" variant="contained" type="submit">
+                            Submit
+                        </Button>
+                    </Box>
+                )}
+            </form>
         );
     }
 }

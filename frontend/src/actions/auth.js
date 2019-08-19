@@ -36,7 +36,8 @@ export const exchangeGoogleToken = (googleToken) => {
                         });
                 })
                 .catch((err) => {
-                    dispatch(authFail({ error: err.response.data.error_description }));
+                    console.log(err);
+                    dispatch(authFail({ error: err }));
                     reject(err);
                 });
         });
