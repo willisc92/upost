@@ -160,6 +160,7 @@ export class DashboardPage extends React.Component {
                             handleLoginClose={this.handleLoginModalClose}
                             closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
                             handleSucessfulLogin={this.handleSuccessfulLogin}
+                            history={this.props.history}
                         />
 
                         {!this.props.isAuthenticated ? (

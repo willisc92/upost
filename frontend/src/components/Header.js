@@ -130,6 +130,7 @@ class Header extends React.Component {
                     handleLoginClose={this.handleLoginModalClose}
                     closeLoginOpenSignupModal={this.closeLoginOpenSignupModal}
                     handleSucessfulLogin={this.handleSucessfulLogin}
+                    history={this.props.history}
                 />
             </React.Fragment>
         );

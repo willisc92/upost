@@ -10,6 +10,12 @@ import Button from "@material-ui/core/Button";
 import { GoogleLogin } from "react-google-login";
 import { googleClientID } from "../../utils/localAPIConfig";
 import Box from "@material-ui/core/Box";
+import { SocialIcon } from "react-social-icons";
+
+const iconStyles = {
+    bgColor: "#ee0000",
+    fgColor: "white"
+};
 
 class LoginModal extends React.Component {
     constructor(props) {
@@ -69,6 +75,7 @@ class LoginModal extends React.Component {
     };
 
     responseGoogle = (response) => {
+        console.log(response);
         this.props
             .exchangeGoogleToken(response.accessToken)
             .then(() => {
@@ -162,12 +169,27 @@ class LoginModal extends React.Component {
                             </div>
                         </Box>
                         <GoogleLogin
-                            className="customGoogleButton"
                             clientId={googleClientID}
-                            buttonText="LOGIN WITH GOOGLE"
+                            render={(renderProps) => (
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    onClick={renderProps.onClick}
+                                    disabled={renderProps.disabled}
+                                >
+                                    <SocialIcon
+                                        url="https://www.google.com/"
+                                        network="google"
+                                        {...iconStyles}
+                                        style={{ height: 30, width: 30 }}
+                                    />
+                                    Login With Google
+                                </Button>
+                            )}
                             onSuccess={this.responseGoogle}
-                            onFailure={() => {
-                                this.props.history.push("/");
+                            onFailure={(err, details) => {
+                                console.log(err, details);
+                                // this.props.history.push("/");
                             }}
                             cookiePolicy={"single_host_origin"}
                         />
