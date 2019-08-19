@@ -540,7 +540,12 @@ class ViewEventPage extends React.Component {
                                         <Typography variant="h4" gutterBottom>
                                             Cost:
                                         </Typography>
-                                        <Typography variant="body1">{this.props.event.cost}</Typography>
+                                        <Typography variant="body1">
+                                            {(this.props.event.cost / 100).toLocaleString("en-US", {
+                                                style: "currency",
+                                                currency: "USD"
+                                            })}
+                                        </Typography>
                                     </Box>
                                 </React.Fragment>
                             )}

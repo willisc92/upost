@@ -99,8 +99,12 @@ class ViewPostEventsPage extends React.Component {
 
         // check to see if current post in store matches given id
         if (!!this.props.post && this.props.post.post_id === post_id) {
-            this.props.setEvents(this.props.post.post_events);
-            this.checkPostAgainstCurrentUser(this.props.post);
+            this.props
+                .startGetEvent(post_id)
+                .then(() => {
+                    this.checkPostAgainstCurrentUser(this.props.post);
+                })
+                .catch((err) => console.log(err));
         } else {
             // load post from API
             this.props.clearPosts();
