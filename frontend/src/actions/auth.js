@@ -37,7 +37,7 @@ export const exchangeGoogleToken = (googleToken) => {
                 })
                 .catch((err) => {
                     console.log(err);
-                    dispatch(authFail({ error: err }));
+                    dispatch(authFail({ error: "Error in token exchange, try again later." }));
                     reject(err);
                 });
         });
