@@ -97,9 +97,16 @@ class Header extends React.Component {
                         <MyAccountMenu history={this.props.history} />
                         {!!localStorage.getItem("googleToken") ? (
                             <GoogleLogout
-                                className="customGoogleButton"
                                 clientId={googleClientID}
-                                buttonText="LOGOUT"
+                                render={(renderProps) => (
+                                    <WhiteButton
+                                        variant="text"
+                                        onClick={renderProps.onClick}
+                                        disabled={renderProps.disabled}
+                                    >
+                                        <i className="material-icons">exit_to_app</i> Logout
+                                    </WhiteButton>
+                                )}
                                 onLogoutSuccess={this.props.logout}
                             />
                         ) : (

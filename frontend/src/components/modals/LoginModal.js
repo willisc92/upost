@@ -75,7 +75,6 @@ class LoginModal extends React.Component {
     };
 
     responseGoogle = (response) => {
-        console.log(response);
         this.props
             .exchangeGoogleToken(response.accessToken)
             .then(() => {
