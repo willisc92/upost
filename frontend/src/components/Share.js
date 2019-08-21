@@ -2,7 +2,6 @@ import React from "react";
 import {
     FacebookShareButton,
     FacebookIcon,
-    FacebookShareCount,
     EmailShareButton,
     EmailIcon,
     TwitterIcon,
@@ -26,9 +25,6 @@ export class ShareGroup extends React.Component {
                         <FacebookShareButton quote={quote} url={url}>
                             <Box display="flex" flexDirection="column" alignItems="center">
                                 <FacebookIcon iconBgStyle={{ fill: "#ee0000" }} size={30} round />
-                                <FacebookShareCount url={url}>
-                                    {(shareCount) => <span className="myShareCountWrapper">{shareCount}</span>}
-                                </FacebookShareCount>
                             </Box>
                         </FacebookShareButton>
                     </ButtonBase>
