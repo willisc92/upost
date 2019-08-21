@@ -12,11 +12,10 @@ export const getVisibleEvents = (
                 const event_endDate = moment(event.planned_end_date);
                 const startDateMatch = startDate ? startDate.isSameOrBefore(event_startDate, "day") : true;
                 const endDateMatch = endDate ? endDate.isSameOrAfter(event_endDate, "day") : true;
-                const todayMatch = moment().date() === moment(event.planned_start_date).date();
-                const tomorrowMatch =
-                    moment()
-                        .add(1, "days")
-                        .date() === moment(event.planned_start_date).date();
+                const todayMatch = moment().isSame(moment(event.planned_start_date), "day");
+                const tomorrowMatch = moment()
+                    .add(1, "days")
+                    .isSame(moment(event.planned_start_date), "day");
                 const dateRangeMatch = startDateMatch && endDateMatch;
 
                 var dayMatch;
@@ -29,6 +28,7 @@ export const getVisibleEvents = (
                         break;
                     case "tomorrow":
                         dayMatch = tomorrowMatch;
+                        break;
                     default:
                         dayMatch = true;
                 }
