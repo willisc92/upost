@@ -50,27 +50,27 @@ class ViewEventPage extends React.Component {
         });
     };
 
-    checkPost = (post_id, event_id) => {
-        // check to see if post is provided
-        if (!!this.props.post) {
-            // check if the post contains the event
-            const match = this.props.post.post_events.filter((event) => {
-                return event.event_id === event_id;
-            });
+    // checkPost = (post_id, event_id) => {
+    //     // check to see if post is provided
+    //     if (!!this.props.post) {
+    //         // check if the post contains the event
+    //         const match = this.props.post.post_events.filter((event) => {
+    //             return event.event_id === event_id;
+    //         });
 
-            // if post doesn't contain the event
-            if (match.length === 0) {
-                // get post from API
-                this.getPostFromAPI(post_id);
-            } else {
-                this.checkChannel();
-                this.checkEventOwnerAgainstCurrentUser(this.props.event);
-            }
-        } else {
-            // get post from API
-            this.getPostFromAPI(post_id);
-        }
-    };
+    //         // if post doesn't contain the event
+    //         if (match.length === 0) {
+    //             // get post from API
+    //             this.getPostFromAPI(post_id);
+    //         } else {
+    //             this.checkChannel();
+    //             this.checkEventOwnerAgainstCurrentUser(this.props.event);
+    //         }
+    //     } else {
+    //         // get post from API
+    //         this.getPostFromAPI(post_id);
+    //     }
+    // };
 
     getPostFromAPI = (post_id) => {
         this.props.clearPosts();
@@ -127,20 +127,24 @@ class ViewEventPage extends React.Component {
 
         const event_id = parseInt(this.props.match.params.id);
 
-        // check to see if event is provided
-        if (!!this.props.event && this.props.event.event_id === event_id) {
-            this.checkPost(this.props.event.post, event_id);
-        } else {
-            // get the event from API
-            this.props
-                .startSetEvent(event_id)
-                .then((res) => {
-                    this.checkPost(this.props.event.post, event_id);
-                })
-                .catch((error) => {
-                    console.log("error in getting event information", JSON.stringify(error, null, 2));
-                });
-        }
+        // // check to see if event is provided
+        // if (!!this.props.event && this.props.event.event_id === event_id) {
+        //     this.checkPost(this.props.event.post, event_id);
+        // } else {
+        //     // get the event from API
+        //     this.props
+        //         .startSetEvent(event_id)
+        //         .then((res) => {
+        //             this.checkPost(this.props.event.post, event_id);
+        //         })
+        //         .catch((error) => {
+        //             console.log("error in getting event information", JSON.stringify(error, null, 2));
+        //         });
+        // }
+
+        this.props.startSetEvent(event_id).then((res) => {
+            this.getPostFromAPI(res.data.post);
+        });
 
         // check to see if subscriptions is provided
         if (!this.props.subscriptions) {
@@ -373,8 +377,8 @@ class ViewEventPage extends React.Component {
                                 <img
                                     className="post-image"
                                     src={
-                                        !!this.props.post.picture
-                                            ? this.props.post.picture
+                                        !!this.props.event.post_picture
+                                            ? this.props.event.post_picture
                                             : CDNLink + "/dist/images/polaroid_default.png"
                                     }
                                 />
