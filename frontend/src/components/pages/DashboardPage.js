@@ -138,9 +138,15 @@ export class DashboardPage extends React.Component {
     };
 
     render() {
-        const menus = [];
+        let menus = [];
         this.props.interestRandomPosts.forEach((element, i) => {
             menus.push(BrowsePostMenu(element.posts, this.state.selected, false));
+        });
+
+        menus = menus.sort(function(a, b) {
+            // ASC  -> a.length - b.length
+            // DESC -> b.length - a.length
+            return b.length - a.length;
         });
 
         const nonInterestMenu = BrowsePostMenu(this.props.nonInterestPosts, this.state.selected, false);
