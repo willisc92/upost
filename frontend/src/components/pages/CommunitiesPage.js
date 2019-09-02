@@ -34,27 +34,26 @@ export class CommunitiesPage extends React.Component {
         }
     };
 
-    getUserCommunities = () => {
-        this.props.getMyCommunities().then(() => {
-            this.markSelectedCommunities();
-        });
-    };
-
     componentDidMount() {
         this._isMounted = true;
         if (this.props.communities.length === 0) {
-            this.props.getAllCommunities().then(
-                () => {
-                    this.getUserCommunities();
-                },
-                (error) => {
+            const promises = [];
+            promises.push(this.props.getAllCommunities());
+            promises.push(this.props.getMyCommunities());
+
+            Promise.all(promises)
+                .then(() => {
+                    this.markSelectedCommunities();
+                })
+                .catch((error) => {
                     if (this._isMounted) {
                         this.setState({ isLoaded: true, error });
                     }
-                }
-            );
+                });
         } else {
-            this.getUserCommunities();
+            this.props.getMyCommunities().then(() => {
+                this.markSelectedCommunities();
+            });
         }
     }
 

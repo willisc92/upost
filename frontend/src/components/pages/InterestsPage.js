@@ -36,27 +36,24 @@ export class InterestsPage extends React.Component {
         }
     };
 
-    getUserInterests = () => {
-        this.props.startSetUserInterests().then(() => {
-            this.markSelectedInterests();
-        });
-    };
-
     componentDidMount() {
         this._isMounted = true;
 
         this.props.getMyCommunities();
 
         if (this.props.interests.length === 0) {
-            this.props
-                .getAllInterests()
+            const promises = [];
+            promises.push(this.props.getAllInterests());
+            promises.push(this.props.startSetUserInterests());
+
+            Promise.all(promises)
                 .then(() => {
                     if (this._isMounted) {
                         this.setState(() => ({
                             isLoaded: true
                         }));
                     }
-                    this.getUserInterests();
+                    this.markSelectedInterests();
                 })
                 .catch((error) => {
                     if (this._isMounted) {
@@ -67,7 +64,9 @@ export class InterestsPage extends React.Component {
                     }
                 });
         } else {
-            this.getUserInterests();
+            this.props.startSetUserInterests().then(() => {
+                this.markSelectedInterests();
+            });
         }
     }
 
