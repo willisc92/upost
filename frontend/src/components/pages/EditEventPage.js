@@ -53,7 +53,7 @@ class EditEventPage extends React.Component {
                                             onClick: this.moveToEventPage
                                         },
                                         { label: `Edit Event`, onClick: null },
-                                        { label: `Edit Event Perk`, onClick: this.editIncentive }
+                                        { label: `Edit Event Perk`, onClick: this.moveToEditEventPerkPage }
                                     ],
                                     activeStep: 5
                                 }));
@@ -75,7 +75,7 @@ class EditEventPage extends React.Component {
                                             onClick: this.moveToEventPage
                                         },
                                         { label: `Edit Event`, onClick: null },
-                                        { label: `Add Event Perk`, onClick: this.addIncentive }
+                                        { label: `Add Event Perk`, onClick: this.moveToAddEventPerkPage }
                                     ],
                                     activeStep: 5
                                 }));
@@ -142,12 +142,12 @@ class EditEventPage extends React.Component {
         this.props.history.push(`/event/${event_id}`);
     };
 
-    editIncentive = () => {
-        this.props.history.push(`/myEvents/${this.props.event.event_id}/editIncentive`);
+    moveToEditEventPerkPage = () => {
+        this.props.history.push(`/myEvents/${this.props.event.event_id}/editPerk`);
     };
 
-    addIncentive = () => {
-        this.props.history.push(`/myEvents/${this.props.event.event_id}/addIncentive`);
+    moveToAddEventPerkPage = () => {
+        this.props.history.push(`/myEvents/${this.props.event.event_id}/addPerk`);
     };
 
     restoreEvent = () => {
@@ -220,11 +220,11 @@ class EditEventPage extends React.Component {
                                             Delete Event
                                         </Button>{" "}
                                         {!!event.event_incentive ? (
-                                            <Button variant="contained" color="primary" onClick={this.editIncentive}>
+                                            <Button variant="contained" color="primary" onClick={this.moveToEditEventPerkPage}>
                                                 Edit Event Perk
                                             </Button>
                                         ) : (
-                                            <Button variant="contained" color="primary" onClick={this.addIncentive}>
+                                            <Button variant="contained" color="primary" onClick={this.moveToAddEventPerkPage}>
                                                 Add Event Perk
                                             </Button>
                                         )}

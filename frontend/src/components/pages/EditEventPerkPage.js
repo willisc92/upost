@@ -18,7 +18,7 @@ import CustomStepper from "../CustomStepper";
 import { PerkDescription } from "../tooltip_descriptions/Descriptions";
 import { HelpToolTip } from "../HelpTooltip";
 
-class EditEventIncentivePage extends React.Component {
+class EditEventPerkPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -222,4 +222,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(EditEventIncentivePage);
+)(EditEventPerkPage);

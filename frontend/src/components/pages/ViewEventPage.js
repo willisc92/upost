@@ -97,8 +97,8 @@ class ViewEventPage extends React.Component {
         }
     };
 
-    addIncentive = () => {
-        this.props.history.push(`/myEvents/${this.props.event.event_id}/addIncentive`);
+    moveToAddEventPerkPage = () => {
+        this.props.history.push(`/myEvents/${this.props.event.event_id}/addPerk`);
     };
 
     checkEventOwnerAgainstCurrentUser = (event_obj) => {
@@ -190,7 +190,7 @@ class ViewEventPage extends React.Component {
                             { label: "See Events", onClick: this.moveToPostEventsPage },
                             { label: `Event: ${this.props.event.event_title}`, onClick: null },
                             { label: "Edit Event", onClick: this.editEvent },
-                            { label: "Edit Event Perk", onClick: this.editIncentive }
+                            { label: "Edit Event Perk", onClick: this.moveToEditEventPerkPage }
                         ],
                         activeStep: 4
                     }));
@@ -304,9 +304,9 @@ class ViewEventPage extends React.Component {
         this.props.history.push(`/myPosts/${post_id}/events/${event_id}/edit`);
     };
 
-    editIncentive = () => {
+    moveToEditEventPerkPage = () => {
         const event_id = this.props.event.event_id;
-        this.props.history.push(`/myEvents/${event_id}/editIncentive`);
+        this.props.history.push(`/myEvents/${event_id}/editPerk`);
     };
 
     goToChannel = () => {

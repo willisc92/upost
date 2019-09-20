@@ -12,7 +12,7 @@ import CustomStepper from "../CustomStepper";
 import { PerkDescription } from "../tooltip_descriptions/Descriptions";
 import { HelpToolTip } from "../HelpTooltip";
 
-class AddEventIncentivePage extends React.Component {
+class AddEventPerkPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -99,9 +99,9 @@ class AddEventIncentivePage extends React.Component {
         this.props.history.push(`/event/${event_id}`);
     };
 
-    goToIncentive = () => {
+    moveToEditEventPerkPage = () => {
         const event_id = this.props.match.params.id;
-        this.props.history.push(`/myEvents/${event_id}/editIncentive`);
+        this.props.history.push(`/myEvents/${event_id}/editPerk`);
     };
 
     render() {
@@ -126,7 +126,7 @@ class AddEventIncentivePage extends React.Component {
                                     <Typography variant="h2" color="error" gutterBottom>
                                         There is already an existing perk tied to this event.
                                     </Typography>
-                                    <Button variant="contained" color="primary" onClick={this.goToIncentive}>
+                                    <Button variant="contained" color="primary" onClick={this.moveToEditEventPerkPage}>
                                         Go to Perk
                                     </Button>
                                 </Box>
@@ -172,4 +172,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(AddEventIncentivePage);
+)(AddEventPerkPage);
