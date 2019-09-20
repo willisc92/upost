@@ -59,7 +59,7 @@ export const MyIncentiveMenu = (list, selected) =>
         if (!!el.post) {
             pathName = `/myPosts/${el.post}/editIncentive`;
         } else if (!!el.event) {
-            pathName = `/myEvents/${el.event}/editIncentive`;
+            pathName = `/myEvents/${el.event}/editPerk`;
         }
 
         return (

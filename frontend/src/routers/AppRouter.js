@@ -20,8 +20,8 @@ import ViewPostEventsPage from "../components/pages/ViewPostEventsPage";
 import ViewEventPage from "../components/pages/ViewEventPage";
 import AddEventPage from "../components/pages/AddEventPage";
 import EditEventPage from "../components/pages/EditEventPage";
-import AddEventIncentivePage from "../components/pages/AddEventIncentivePage";
-import EditEventIncentivePage from "../components/pages/EditEventIncentivePage";
+import AddEventPerkPage from "../components/pages/AddEventPerkPage";
+import EditEventPerkPage from "../components/pages/EditEventPerkPage";
 import AddIncentivePage from "../components/pages/AddIncentivePage";
 import EditIncentivePage from "../components/pages/EditIncentivePage";
 import SearchResultsPage from "../components/pages/SearchResultsPage";
@@ -77,13 +77,13 @@ class AppRouter extends React.Component {
                                 exact={true}
                             />
                             <PrivateRoute
-                                path="/myEvents/:id/addIncentive"
-                                component={AddEventIncentivePage}
+                                path="/myEvents/:id/addPerk"
+                                component={AddEventPerkPage}
                                 exact={true}
                             />
                             <PrivateRoute
-                                path="/myEvents/:id/editIncentive"
-                                component={EditEventIncentivePage}
+                                path="/myEvents/:id/editPerk"
+                                component={EditEventPerkPage}
                                 exact={true}
                             />
                             <PrivateRoute path="/myPosts/:id/addIncentive" component={AddIncentivePage} exact={true} />
